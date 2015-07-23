@@ -30,7 +30,7 @@
 		$APP->set('DATABASE_USERNAME','root');
 		$APP->set('DATABASE_PASSWORD','root');
 		$APP->set('CONSTRUCTR_USER_SALT','$2y$10$1511077744210398874732865404$');
-		$APP->set('CONSTRUCTR_BASE_URL','http://localhost:8888/localmamp/ConstructrCMS-3-master/CONSTRUCTR-CMS-2.0');
+		$APP->set('CONSTRUCTR_BASE_URL','http://localhost:8888/localmamp/ConstructrCMS-3-master/CONSTRUCTR-CMS-3.0');
 		$APP->set('CONSTRUCTR_REPLACE_BASE_URL','http://localhost:8888/localmamp/ConstructrCMS-3-master/CONSTRUCTR-CMS-3.0/');
 	/*
 	 * 
@@ -214,11 +214,10 @@
 		}
 
 		$APP->set('DEBUG',3);
-	    $APP->set('CACHE',true);
-		$APP->set('CACHE','folder='.__DIR__.'/CONSTRUCTR-CMS/CACHE/');
-		$APP->set('BACKEND_CACHE',__DIR__.'/tmp/');
+	    //$APP->set('CACHE',true);
+		//$APP->set('CACHE','folder='.__DIR__.'/CONSTRUCTR-CMS/CACHE/');
+		//$APP->set('BACKEND_CACHE',__DIR__.'/tmp/');
 		$APP->set('UPLOADS',__DIR__.'/UPLOADS/');
-		$APP->set('CONSTRUCTR_USER_SALT','1511077744210398874732865404');
 		$APP->set('CONSTRUCTR_LOG', $CONSTRUCTR_LOG = new \Log('CONSTRUCTR-CMS/LOGFILES/'.date('Y-m-d').'-constructr.txt'));	
 
 		require_once __DIR__.'/CONSTRUCTR-CMS/USER_RIGHTS/user_rights.php';
