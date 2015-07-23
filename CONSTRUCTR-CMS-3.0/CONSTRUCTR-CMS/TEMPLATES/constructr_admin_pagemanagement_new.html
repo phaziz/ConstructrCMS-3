@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Constructr Administration</title>
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/css/constructr.css">
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex.css">
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-wireframe.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-wrapper light-green lighten-1">
+            <a href="#" data-activates="mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+            <ul class="left hide-on-med-and-down">
+                <li>&#160;&#160;&#160;</li>
+                <li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Dashboard" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/admin"><i class="mdi-device-dvr"></i></a></li>
+                <li class="active"><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Seitenverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement"><i class="mdi-action-dashboard"></i></a></li>
+                <li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Uploads" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads"><i class="mdi-file-cloud"></i></a></li>
+                <li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Benutzerverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement"><i class="mdi-communication-contacts"></i></a></li>
+            </ul>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Logout?" id="logout" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/logout"><i class="mdi-action-exit-to-app right"></i>{{ @SESSION.username }}</a></li>
+            </ul>
+            <ul class="side-nav" id="mobile">
+                <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Dashboard" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/admin"><i class="mdi-device-dvr"></i></a></li>
+                <li class="active"><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Seitenverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement"><i class="mdi-action-dashboard"></i></a></li>
+                <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Uploads" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads"><i class="mdi-file-cloud"></i></a></li>
+                <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Benutzerverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement"><i class="mdi-communication-contacts"></i></a></li>
+                <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Logout?" id="logout" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/logout"><i class="mdi-action-exit-to-app right"></i>{{ @SESSION.username }}</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="row">
+        <div class="col s12">
+            <p><strong>Neue Seite erstellen</strong></p>
+        </div>
+    </div>
+
+    <div class="row">
+        <form name="new_page" id="new_page" action="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/new" method="post" enctype="application/x-www-form-urlencoded" class="col s12">
+            <input type="hidden" name="csrf" value="{{ @CSRF }}">
+            <input type="hidden" name="csrf_additive" value="{{ @ADDITIVE }}">
+            <input type="hidden" name="csrf_tripple_additive" value="{{ @TRIPPLE_ADDITIVE }}">
+            <input type="hidden" name="page_countr" value="{{ @PAGE_COUNTR }}">
+            <div class="input-field col s12">
+                <input type="text" id="page_name" name="page_name" value="" placeholder="Name der Seite" required="required" autofocus="autofocus">
+                <label for="page_name">Name der Seite:</label>
+            </div>
+            <check if="{{ count(@PAGES) != 0 }}">
+                <true>
+                    <div class="input-field col s6">
+                        <label for="page_order">Einordnung der neuen Seite:</label>
+                        <select name="page_order" id="page_order" required="required">
+                            <option value="" selected="selected">Bitte w&auml;hlen:</option>
+                            <option value="1">vor Seite</option>
+                            <option value="2">als Unterseite von</option>
+                            <option value="3">nach Seite</option>
+                        </select>
+                    </div>
+                    <div class="input-field col s6">
+                        <label for="page_order">&#160;</label>
+                        <select name="page_order_page_id" id="page_order_page_id" required="required">
+                            <option value="" selected="selected">Bitte w&auml;hlen:</option>
+                            <repeat group="{{ @PAGES }}" value="{{ @PAGE }}"><option value="{{ @PAGE.constructr_pages_id }}"><check if="{{ @PAGE.constructr_pages_level }} > 1"><true>{{ @levelIndicator(@PAGE.constructr_pages_level) }}</true></check>{{ @PAGE.constructr_pages_name }}</option></repeat>
+                        </select>
+                    </div>
+                </true>
+                <false>
+                    <input type="hidden" name="page_order" id="page_order" value="">
+                    <input type="hidden" name="page_order_page_id" id="page_order_page_id" value="0">
+                </false>
+            </check>
+            <check if="{{ count(@PAGES) == 0 }}">
+            	<true>
+		            <div class="input-field col s12">
+		                <input type="text" id="page_url" name="page_url" value="" placeholder="URL der Seite" maxlength="100" onblur="javascript:cleanUpMess();">
+		                <label for="page_url">URL der Seite:</label>
+		            </div>
+				</true>
+				<false>
+		            <div class="input-field col s12">
+		                <input type="text" id="page_url" name="page_url" value="" placeholder="URL der Seite" required="required" maxlength="100" onblur="javascript:cleanUpMess();">
+		                <label for="page_url">URL der Seite:</label>
+		            </div>
+				</false>
+            </check>
+            <check if="{{ count(@TEMPLATES) != 0 }}">
+                <true>
+                    <div class="input-field col s12">
+                        <label for="page_template">Template der neuen Seite:</label>
+                        <select name="page_template" id="page_template" required="required">
+                            <option value="">Bitte w&auml;hlen:</option>
+                            <repeat group="{{ @TEMPLATES }}" value="{{ @TEMPLATE }}"><option value="{{ @TEMPLATE }}">{{ @TEMPLATE }}</option></repeat>
+                        </select>
+                    </div>
+                </true>
+                <false>
+                    <input type="hidden" name="page_template" id="page_template" value="index.php">
+                </false>
+            </check>
+            <div class="input-field col s12">
+                <label for="page_nav_visible">Sichtbarkeit in Navigation der neuen Seite:</label>
+                <select name="page_nav_visible" id="page_nav_visible" required="required">
+                    <option value="">Bitte w&auml;hlen:</option>
+                    <option value="1" selected="selected">Seite ist sichtbar in Navigation</option>
+                    <option value="0">Seite ist unsichtbar in Navigation</option>
+                </select>
+            </div>
+            <div class="input-field col s12">
+                <input type="text" id="page_title" name="page_title" value="" placeholder="Titel der Seite" required="required">
+                <label for="page_title">Titel der Seite:</label>
+            </div>
+            <div class="input-field col s12">
+                <input type="text" id="page_description" name="page_description" value="" placeholder="Beschreibung der Seite" required="required">
+                <label for="page_description">Beschreibung der Seite:</label>
+            </div>
+            <div class="input-field col s12">
+                <input type="text" id="page_keywords" name="page_keywords" value="" placeholder="Schlagworte/Keywords der Seite" required="required">
+                <label for="page_keywords">Schlagworte/Keywords der Seite:</label>
+            </div>
+            <div class="input-field col s12">
+                <textarea id="page_css" name="page_css" class="materialize-textarea"></textarea>
+                <label for="page_css">Seitenspezifisches zus&auml;tzliches CSS:</label>
+            </div>
+            <div class="input-field col s12">
+                <textarea id="page_js" name="page_js" class="materialize-textarea"></textarea>
+                <label for="page_js">Seitenspezifisches zus&auml;tzliches Javascript:</label>
+            </div>
+            <div class="input-field col s12">
+                <button class="btn waves-effect waves-light" type="submit" name="action">Neue Seite speichern</button>
+                <p><small>Taste <strong>''ESC''</strong> zum abbrechen dr&uuml;cken</small></p>
+            </div>
+        </form>
+    </div>
+
+	<div class="row"><div class="col s12 center-align"><p><small><a href="http://phaziz.com" target="_blank">ConstructrCMS Version {{ @CONSTRUCTR_VERSION }}</small></a></p></div></div>
+
+    <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/jquery/jquery-2.1.4.min.js"></script>
+    <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/js/materialize.min.js"></script>
+    <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/js/vex.combined.min.js"></script>
+    <script>
+        $(function() {
+			$(document).keyup(function(e) {
+			    if (e.which === 27) javascript:history.back();
+			});
+            $('select').material_select();
+            $(".button-collapse").sideNav();
+			$('#logout').click(function(e) {
+				e.preventDefault();
+	            var U = $(this).attr('href');
+	            vex.dialog.buttons.YES.text = 'Ja';
+	            vex.dialog.buttons.NO.text = 'Abbrechen';
+	            vex.dialog.confirm({
+	                className: 'vex-theme-wireframe',
+	                message: 'Möchten Sie sich wirklich abmelden und ausloggen?',
+	                callback: function(value){
+	                    if(value == true){
+	                        $(location).attr('href',U);
+	                    } else {
+	                        return false;
+	                    }
+	                }
+	            });
+			});
+            function autoBlinder(){
+                $('.card-panel').fadeOut();
+            }
+            setInterval(autoBlinder,4500);
+            cleanUpMess = function() {
+                var URL = $('#page_url').val().toLowerCase();
+                var CLEAN_URL = '';
+                for (i = 0; i < URL.length; i++) {
+                    var ACT_CHAR = URL.charAt(i);
+                    if (ACT_CHAR == ' ') {
+                        ACT_CHAR = '-';
+                    }
+                    if (ACT_CHAR == 'ä' || ACT_CHAR == 'Ä') {
+                        ACT_CHAR = 'ae';
+                    }
+                    if (ACT_CHAR == 'ü' || ACT_CHAR == 'Ü') {
+                        ACT_CHAR = 'ue';
+                    }
+                    if (ACT_CHAR == 'ö' || ACT_CHAR == 'Ö') {
+                        ACT_CHAR = 'oe';
+                    }
+                    if (ACT_CHAR == 'ß') {
+                        ACT_CHAR = 'ss';
+                    }
+                    if (ACT_CHAR == '!' || ACT_CHAR == '"'  || ACT_CHAR == "'" || ACT_CHAR == '§' || ACT_CHAR == '%' || ACT_CHAR == '$' || ACT_CHAR == '&' || ACT_CHAR == '(' || ACT_CHAR == ')' || ACT_CHAR == '=' || ACT_CHAR == '?' || ACT_CHAR == '`' || ACT_CHAR == '*' || ACT_CHAR == '+' || ACT_CHAR == '#' || ACT_CHAR == ',' || ACT_CHAR == '.' || ACT_CHAR == ';' || ACT_CHAR == ':' || ACT_CHAR == '<' || ACT_CHAR == '>' || ACT_CHAR == '@') {
+                        ACT_CHAR = '-';
+                    }
+                    ACT_CHAR = ACT_CHAR.toLowerCase();
+                    CLEAN_URL += ACT_CHAR;
+                }
+                $('#page_url').val(CLEAN_URL);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+h1 {font-size: 3em !important;}
+.form-row {margin-top: 50px;}
+td.content,td.pages,td.users{cursor:pointer;}
+#imagelightbox{position: fixed;z-index: 9999;-ms-touch-action: none;touch-action: none;}
+nav{margin-bottom: 50px;}

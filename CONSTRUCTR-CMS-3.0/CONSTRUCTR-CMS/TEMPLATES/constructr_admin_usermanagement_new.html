@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Constructr Administration</title>
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/css/constructr.css">
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex.css">
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-wireframe.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-wrapper light-green lighten-1">
+            <a href="#" data-activates="mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+            <ul class="left hide-on-med-and-down">
+                <li>&#160;&#160;&#160;</li>
+                <li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Dashboard" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/admin"><i class="mdi-device-dvr"></i></a></li>
+                <li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Seitenverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement"><i class="mdi-action-dashboard"></i></a></li>
+                <li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Uploads" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads"><i class="mdi-file-cloud"></i></a></li>
+                <li class="active"><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Benutzerverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement"><i class="mdi-communication-contacts"></i></a></li>
+            </ul>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Logout?" id="logout" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/logout"><i class="mdi-action-exit-to-app right"></i>{{ @SESSION.username }}</a></li>
+            </ul>
+            <ul class="side-nav" id="mobile">
+                <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Dashboard" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/admin"><i class="mdi-device-dvr"></i></a></li>
+                <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Seitenverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement"><i class="mdi-action-dashboard"></i></a></li>
+                <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Uploads" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads"><i class="mdi-file-cloud"></i></a></li>
+                <li class="active"><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Benutzerverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement"><i class="mdi-communication-contacts"></i></a></li>
+                <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Logout?" id="logout" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/logout"><i class="mdi-action-exit-to-app right"></i>{{ @SESSION.username }}</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="row">
+        <div class="col s12">
+            <p><strong>Neuen Benutzer erstellen</strong></p>
+        </div>
+    </div>
+
+    <div class="row">
+        <form name="new_user" id="new_user" action="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/new" method="post" enctype="application/x-www-form-urlencoded" class="col s12">
+            <input type="hidden" name="csrf" value="{{ @CSRF }}">
+            <input type="hidden" name="csrf_additive" value="{{ @ADDITIVE }}">
+            <input type="hidden" name="csrf_tripple_additive" value="{{ @TRIPPLE_ADDITIVE }}">
+            <div class="input-field col s12">
+                <input type="text" id="user_name" name="user_name" value="" placeholder="Name des Benutzers" required="required" autofocus="autofocus">
+                <label for="user_name">Name des Benutzers:</label>
+            </div>
+            <div class="input-field col s12">
+                <input type="email" id="user_email" name="user_email" value="" placeholder="eMail des Benutzers" required="required">
+                <label for="user_email">eMail des Benutzers:</label>
+            </div>
+            <div class="input-field col s12">
+                <input type="password" pattern=".{8,}" minlength="8" id="user_password" name="user_password" value="" placeholder="Passwort - mindestens 8 Zeichen:" required="required">
+                <label for="user_password">Passwort - mindestens 8 Zeichen:</label>
+            </div>
+            <div class="input-field col s12">
+                <input type="password" pattern=".{8,}" minlength="8" id="user_password_retype" name="user_password_retype" value="" placeholder="Passwort Wiederholung:" required="required">
+                <label for="user_password_retype">Passwort Wiederholung:</label>
+            </div>
+            <div class="input-field col s12">
+                <button class="btn waves-effect waves-light" type="submit" name="action">Neuen Benutzer speichern</button>
+                <p><small>Taste <strong>''ESC''</strong> zum abbrechen dr&uuml;cken</small></p>
+            </div>
+        </form>
+    </div>
+
+	<div class="row"><div class="col s12 center-align"><p><small><a href="http://phaziz.com" target="_blank">ConstructrCMS Version {{ @CONSTRUCTR_VERSION }}</small></a></p></div></div>
+
+    <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/jquery/jquery-2.1.4.min.js"></script>
+    <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/js/materialize.min.js"></script>
+    <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/js/vex.combined.min.js"></script>
+    <script>
+        $(function() {
+			$(document).keyup(function(e) {
+			    if (e.which === 27) javascript:history.back();
+			});
+            $('select').material_select();
+            $(".button-collapse").sideNav();
+			$('#logout').click(function(e) {
+				e.preventDefault();
+	            var U = $(this).attr('href');
+	            vex.dialog.buttons.YES.text = 'Ja';
+	            vex.dialog.buttons.NO.text = 'Abbrechen';
+	            vex.dialog.confirm({
+	                className: 'vex-theme-wireframe',
+	                message: 'Möchten Sie sich wirklich abmelden und ausloggen?',
+	                callback: function(value){
+	                    if(value == true){
+	                        $(location).attr('href',U);
+	                    } else {
+	                        return false;
+	                    }
+	                }
+	            });
+			});
+            function autoBlinder(){
+                $('.card-panel').fadeOut();
+            }
+            setInterval(autoBlinder,4500);
+            $('#new_user').bind('submit', function() {
+            	var USERNAME = $('#user_name').val();
+            	var USEREMAIL= $('#user_email').val();
+            	var PASSWORD = $('#user_password').val();
+            	var PASSWORD_RETYPE = $('#user_password_retype').val();
+            	if(USERNAME != '' && USEREMAIL != '' && PASSWORD != '' && PASSWORD_RETYPE != '' && PASSWORD == PASSWORD_RETYPE) {
+            		return true;
+            	} else {
+            		if(USERNAME == '' || USEREMAIL == '' || PASSWORD == '' || PASSWORD_RETYPE == '') {
+            			$('#user_name').focus();
+			            vex.dialog.buttons.YES.text = 'OK';
+			            vex.dialog.alert({
+			                className: 'vex-theme-wireframe',
+			                message: 'Bitte das Formular vorllständig ausfüllen!',
+			            });
+            			return false;
+            		}
+            		if(PASSWORD != PASSWORD_RETYPE) {
+            			$('#user_password').focus();
+			            vex.dialog.buttons.YES.text = 'OK';
+			            vex.dialog.alert({
+			                className: 'vex-theme-wireframe',
+			                message: 'Das Passwort und die Passwort-Wiederholung stimmen nicht überein!',
+			            });
+            			return false;
+            		}
+            	}
+            });
+        });
+    </script>
+</body>
+</html>

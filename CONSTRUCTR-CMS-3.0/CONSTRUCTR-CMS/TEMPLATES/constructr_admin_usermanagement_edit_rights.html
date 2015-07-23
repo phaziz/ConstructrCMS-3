@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Constructr Administration</title>
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/css/constructr.css">
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex.css">
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-wireframe.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-wrapper light-green lighten-1">
+            <a href="#" data-activates="mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+            <ul class="left hide-on-med-and-down">
+                <li>&#160;&#160;&#160;</li>
+                <li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Dashboard" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/admin"><i class="mdi-device-dvr"></i></a></li>
+                <li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Seitenverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement"><i class="mdi-action-dashboard"></i></a></li>
+                <li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Uploads" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads"><i class="mdi-file-cloud"></i></a></li>
+                <li class="active"><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Benutzerverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement"><i class="mdi-communication-contacts"></i></a></li>
+            </ul>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Logout?" id="logout" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/logout"><i class="mdi-action-exit-to-app right"></i>{{ @SESSION.username }}</a></li>
+            </ul>
+            <ul class="side-nav" id="mobile">
+                <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Dashboard" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/admin"><i class="mdi-device-dvr"></i></a></li>
+                <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Seitenverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement"><i class="mdi-action-dashboard"></i></a></li>
+                <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Uploads" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads"><i class="mdi-file-cloud"></i></a></li>
+                <li class="active"><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Benutzerverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement"><i class="mdi-communication-contacts"></i></a></li>
+                <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Logout?" id="logout" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/logout"><i class="mdi-action-exit-to-app right"></i>{{ @SESSION.username }}</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="row">
+        <div class="col s12">
+            <check if="{{ @USER_RIGHTS_COUNTR != 0 }}">
+                <true>
+                    <p><strong>{{ @USER_RIGHTS_COUNTR }} Rechte für Benutzer {{ @USER_ID}} vorhanden</strong></p>
+                    <table class="bordered responsive-table hoverable">
+                        <thead>
+                            <tr>
+                            <th data-field="Recht">Recht</th>
+                            <th data-field="Aktionen" class="center-align">Aktionen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <repeat group="{{ @THIS_USER_RIGHTS }}" value="{{ @THIS_USER_RIGHT }}">
+                            <tr>
+                                <td>{{ @THIS_USER_RIGHT.bezeichnung }}</td>
+                                <td class="center-align">
+                                	<check if="{{ @THIS_USER_RIGHT.recht }} == 1">
+                                		<true>
+											<div class="switch">
+												<label>
+													Nein
+														<input class="checker" id="right_id_{{ @THIS_USER_RIGHT.id }}@user_id_{{ @THIS_USER_RIGHT.benutzer }}@right_{{ @THIS_USER_RIGHT.recht_key }}" type="checkbox" checked="checked">
+														<span class="lever" id="right_id_{{ @THIS_USER_RIGHT.id }}@user_id_{{ @THIS_USER_RIGHT.benutzer }}@right_{{ @THIS_USER_RIGHT.recht_key }}"></span>
+													Ja
+												</label>
+											</div>
+                                		</true>
+                                		<false>
+											<div class="switch">
+												<label>
+													Nein
+														<input class="checker" id="right_id_{{ @THIS_USER_RIGHT.id }}@user_id_{{ @THIS_USER_RIGHT.benutzer }}@right_{{ @THIS_USER_RIGHT.recht_key }}" type="checkbox">
+														<span class="lever" id="right_id_{{ @THIS_USER_RIGHT.id }}@user_id_{{ @THIS_USER_RIGHT.benutzer }}@right_{{ @THIS_USER_RIGHT.recht_key }}"></span>
+													Ja
+												</label>
+											</div>
+                                		</false>
+                                	</check>
+                                </td>
+                            </tr>
+                        </repeat>
+                        </tbody>
+                    </table>
+                </true>
+                <false>
+                    <p><strong>Keine Benutzerrechte vorhanden</strong></p>
+                </false>
+            </check>
+        </div>
+    </div>
+
+	<div class="row"><div class="col s12 center-align"><p><small><a href="http://phaziz.com" target="_blank">ConstructrCMS Version {{ @CONSTRUCTR_VERSION }}</small></a></p></div></div>
+
+    <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/jquery/jquery-2.1.4.min.js"></script>
+    <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/js/materialize.min.js"></script>
+    <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/js/vex.combined.min.js"></script>
+    <script>
+        $(function() {
+        	$('.lever').bind('click', function(e) {
+        		e.preventDefault();
+        		var ID = $(this).attr('id');
+	            if(ID != '') {
+	                $.post("{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/update-rights", { id:ID })
+	                  	.done(function( data ) {
+	                        if(data == 'true') {
+								$(location).attr('href',$(location).attr('href'));
+								
+	                        } else {
+					            vex.dialog.buttons.YES.text = 'OK';
+					            vex.dialog.alert({
+					                className: 'vex-theme-wireframe',
+					                message: 'Ups... Es ist ein Fehler aufgetreten... Bitte abmelden...!',
+					            });
+								return false;	                        	
+	                        }
+						});
+	            }
+        	});
+        	$(document).keyup(function(e) {
+			    if (e.which === 27) javascript:history.back();
+			});
+            $(".button-collapse").sideNav();
+            function autoBlinder(){
+                $('.card-panel').fadeOut();
+            }
+            setInterval(autoBlinder,4500);
+			$('#logout').click(function(e) {
+				e.preventDefault();
+	            var U = $(this).attr('href');
+	            vex.dialog.buttons.YES.text = 'Ja';
+	            vex.dialog.buttons.NO.text = 'Abbrechen';
+	            vex.dialog.confirm({
+	                className: 'vex-theme-wireframe',
+	                message: 'Möchten Sie sich wirklich abmelden und ausloggen?',
+	                callback: function(value){
+	                    if(value == true){
+	                        $(location).attr('href',U);
+	                    } else {
+	                        return false;
+	                    }
+	                }
+	            });
+			});
+        });
+    </script>
+</body>
+</html>

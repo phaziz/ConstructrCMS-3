@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Constructr Administration</title>
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/css/constructr.css">
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex.css">
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-wireframe.css">
+</head>
+<body>
+
+	<nav>
+		<div class="nav-wrapper light-green lighten-1">
+			<a href="#" data-activates="mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+			<ul class="left hide-on-med-and-down">
+				<li>&#160;&#160;&#160;</li>
+				<li class="active"><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Dashboard" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/admin"><i class="mdi-device-dvr"></i></a></li>
+				<li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Seitenverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement"><i class="mdi-action-dashboard"></i></a></li>
+				<li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Uploads" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads"><i class="mdi-file-cloud"></i></a></li>
+				<li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Benutzerverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement"><i class="mdi-communication-contacts"></i></a></li>
+			</ul>
+			<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Logout?" id="logout" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/logout"><i class="mdi-action-exit-to-app right"></i>{{ @SESSION.username }}</a></li>
+			</ul>
+			<ul class="side-nav" id="mobile">
+				<li class="active"><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Dashboard" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/admin"><i class="mdi-device-dvr"></i></a></li>
+				<li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Seitenverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement"><i class="mdi-action-dashboard"></i></a></li>
+				<li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Uploads" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads"><i class="mdi-file-cloud"></i></a></li>
+				<li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Benutzerverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement"><i class="mdi-communication-contacts"></i></a></li>
+				<li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Systemverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/systemmanagement"><i class="mdi-hardware-security"></i></a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<ul class="collection">
+		<a href="{{ @CONSTRUCTR_BASE_URL }}/constructr/pagemanagement" class="collection-item tooltipped" data-position="top" data-delay="25" data-tooltip="Seitenverwaltung">Seiten<span class="badge">{{ @PAGE_COUNTR }}</span></a>
+		<a href="{{ @CONSTRUCTR_BASE_URL }}/constructr/pagemanagement" class="collection-item tooltipped" data-position="top" data-delay="25" data-tooltip="Seitenverwaltung">Inhalte<span class="badge">{{ @CONTENT_COUNTR }}</span></a>
+		<a href="{{ @CONSTRUCTR_BASE_URL }}/constructr/uploads" class="collection-item tooltipped" data-position="top" data-delay="25" data-tooltip="Uploads">Uploads<span class="badge">{{ @FILE_COUNTR }}</span></a>
+		<a href="{{ @CONSTRUCTR_BASE_URL }}/constructr/usermanagement" class="collection-item tooltipped" data-position="top" data-delay="25" data-tooltip="Benutzerverwaltung">Benutzer<span class="badge">{{ @USER_COUNTR }}</span></a>
+		<a href="{{ @CONSTRUCTR_BASE_URL }}/constructr/clear-backend-cache" class="collection-item tooltipped" data-position="top" data-delay="25" data-tooltip="BackendCacheFiles l&ouml;schen">Backend CacheFiles<span class="badge">{{ @CACHE_FILES_COUNTR }}</span></a>
+	</ul>
+
+	<div class="row">
+		<div class="col s12" style="max-height: 300px;overflow:auto;">
+			<p><strong>Constructr Logfile vom {{ date('d.m.Y') }}</strong></p>
+			<p><small>{{ str_replace("\n",'<br>',@LOG_CONSTRUCTR_TXT) }}</small></p>
+		</div>
+	</div>
+
+    <div class="row"><div class="col s12 center-align"><p><small><a href="http://phaziz.com" target="_blank">ConstructrCMS Version {{ @CONSTRUCTR_VERSION }}</small></a></p></div></div>
+
+	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/jquery/jquery-2.1.4.min.js"></script>
+	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/js/materialize.min.js"></script>
+	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/js/vex.combined.min.js"></script>
+	<script>
+		$(function() {
+			$(".button-collapse").sideNav();
+            function autoBlinder(){
+                $('.card-panel').fadeOut();
+            }
+            $(document).keyup(function(e) {
+			    if (e.which === 27) javascript:history.back();
+			});
+            setInterval(autoBlinder,4500);
+			$('#logout').click(function(e) {
+				e.preventDefault();
+	            var U = $(this).attr('href');
+	            vex.dialog.buttons.YES.text = 'Ja';
+	            vex.dialog.buttons.NO.text = 'Abbrechen';
+	            vex.dialog.confirm({
+	                className: 'vex-theme-wireframe',
+	                message: 'Möchten Sie sich wirklich abmelden und ausloggen?',
+	                callback: function(value){
+	                    if(value == true){
+	                        $(location).attr('href',U);
+	                    } else {
+	                        return false;
+	                    }
+	                }
+	            });
+			});
+		});
+	</script>
+</body>
+</html>
