@@ -10,11 +10,14 @@
     $APP->route('GET  /constructr/logout [sync]', 'ConstructrBase->logout');
     $APP->route('GET  /constructr/retrieve-password/@username [sync]', 'ConstructrBase->retrieve_password');
     $APP->route('GET  /constructr/updated-user-credentials [sync]', 'ConstructrBase->updated_user_credentials');
+
     $APP->route('GET  /constructr/uploads [sync]', 'ConstructrUploads->uploads_init');
     $APP->route('GET  /constructr/uploads/new [sync]', 'ConstructrUploads->uploads_new');
     $APP->route('POST /constructr/uploads/new [sync]', 'ConstructrUploads->uploads_new_verify');
     $APP->route('GET  /constructr/uploads/delete/@file [sync]', 'ConstructrUploads->uploads_delete_file');
+
     $APP->route('GET  /constructr/admin [sync]', 'ConstructrCMS->admin_init');
+
     $APP->route('GET  /constructr/pagemanagement [sync]', 'ConstructrCMS->page_management');
     $APP->route('GET  /constructr/pagemanagement/new [sync]', 'ConstructrCMS->page_management_new');
     $APP->route('POST /constructr/pagemanagement/new [sync]', 'ConstructrCMS->page_management_new_verify');
@@ -25,6 +28,7 @@
     $APP->route('GET  /constructr/pagemanagement/move-down/@page_id [sync]', 'ConstructrCMS->page_management_move_down');
     $APP->route('GET  /constructr/pagemanagement/content/@page_id [sync]', 'ConstructrCMS->page_management_move_down');
 	$APP->route('GET  /constructr/pagemanagement/visibility/@what/@page_id [sync]', 'ConstructrCMS->page_management_change_visibility');
+
     $APP->route('GET  /constructr/content/@page_id [sync]', 'ConstructrContent->content_init');
     $APP->route('GET  /constructr/content/@page_id/new [sync]', 'ConstructrContent->content_new');
     $APP->route('POST /constructr/content/@page_id/new [sync]', 'ConstructrContent->content_new_verify');
@@ -34,6 +38,7 @@
     $APP->route('GET  /constructr/content/@page_id/reorder/@method/@content_id [sync]', 'ConstructrContent->content_reorder');
 	$APP->route('POST /constructr/content/live-preview/ [ajax]', 'ConstructrContent->preparse_content_live_preview');
 	$APP->route('GET  /constructr/content/@page_id/visibility/@what/@content_id [sync]', 'ConstructrContent->content_change_visibility');
+
     $APP->route('GET  /constructr/usermanagement [sync]', 'ConstructrUser->user_management');
     $APP->route('GET  /constructr/usermanagement/new [sync]', 'ConstructrUser->user_management_new');
     $APP->route('POST /constructr/usermanagement/new [sync]', 'ConstructrUser->user_management_new_verify');

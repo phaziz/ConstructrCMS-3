@@ -7,7 +7,7 @@
 	- After SQL-Installation:
 		- ADMIN-LOGIN via http://installation.tld/constructr
 		- Admin Username: Benutzername
-		- Admin Password: Password
+		- Admin Password: Passwort
 	- UPDATE YOUR USER-PREFERENCES
 	*/
 

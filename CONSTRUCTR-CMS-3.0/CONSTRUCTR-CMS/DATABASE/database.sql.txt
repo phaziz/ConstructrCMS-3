@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `constructr_backenduser` (
 ) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 INSERT INTO `constructr_backenduser` (`constructr_user_id`, `constructr_user_username`, `constructr_user_password`, `constructr_user_factor`, `constructr_user_email`, `constructr_user_last_login`, `constructr_user_active`) VALUES
-(1, 'Benutzername', '$2y$10$151107774421039887473u/r1jyWaDrn7etLyWJInCX8/vN3ckfJK', '', 'test@test.nix', '2015-03-20 11:45:40', 1);
+(1, 'Benutzername', '$2y$10$151107774421039887473unt60Ikp8NqUiGCyusLItcgxt8eXWidu', '', 'test@test.nix', '2015-03-20 11:45:40', 1);
 
 DROP TABLE IF EXISTS `constructr_content`;
 CREATE TABLE IF NOT EXISTS `constructr_content` (

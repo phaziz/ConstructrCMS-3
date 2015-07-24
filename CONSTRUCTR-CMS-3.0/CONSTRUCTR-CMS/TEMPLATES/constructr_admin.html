@@ -30,25 +30,17 @@
 				<li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Seitenverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement"><i class="mdi-action-dashboard"></i></a></li>
 				<li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Uploads" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads"><i class="mdi-file-cloud"></i></a></li>
 				<li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Benutzerverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement"><i class="mdi-communication-contacts"></i></a></li>
-				<li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Systemverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/systemmanagement"><i class="mdi-hardware-security"></i></a></li>
 			</ul>
 		</div>
 	</nav>
 
 	<ul class="collection">
+		<a href="{{ @CONSTRUCTR_BASE_URL }}/" class="collection-item tooltipped" data-position="top" data-delay="25" data-tooltip="Webseite" target="_blank">Webseite</a>
 		<a href="{{ @CONSTRUCTR_BASE_URL }}/constructr/pagemanagement" class="collection-item tooltipped" data-position="top" data-delay="25" data-tooltip="Seitenverwaltung">Seiten<span class="badge">{{ @PAGE_COUNTR }}</span></a>
 		<a href="{{ @CONSTRUCTR_BASE_URL }}/constructr/pagemanagement" class="collection-item tooltipped" data-position="top" data-delay="25" data-tooltip="Seitenverwaltung">Inhalte<span class="badge">{{ @CONTENT_COUNTR }}</span></a>
 		<a href="{{ @CONSTRUCTR_BASE_URL }}/constructr/uploads" class="collection-item tooltipped" data-position="top" data-delay="25" data-tooltip="Uploads">Uploads<span class="badge">{{ @FILE_COUNTR }}</span></a>
 		<a href="{{ @CONSTRUCTR_BASE_URL }}/constructr/usermanagement" class="collection-item tooltipped" data-position="top" data-delay="25" data-tooltip="Benutzerverwaltung">Benutzer<span class="badge">{{ @USER_COUNTR }}</span></a>
-		<a href="{{ @CONSTRUCTR_BASE_URL }}/constructr/clear-backend-cache" class="collection-item tooltipped" data-position="top" data-delay="25" data-tooltip="BackendCacheFiles l&ouml;schen">Backend CacheFiles<span class="badge">{{ @CACHE_FILES_COUNTR }}</span></a>
 	</ul>
-
-	<div class="row">
-		<div class="col s12" style="max-height: 300px;overflow:auto;">
-			<p><strong>Constructr Logfile vom {{ date('d.m.Y') }}</strong></p>
-			<p><small>{{ str_replace("\n",'<br>',@LOG_CONSTRUCTR_TXT) }}</small></p>
-		</div>
-	</div>
 
     <div class="row"><div class="col s12 center-align"><p><small><a href="http://phaziz.com" target="_blank">ConstructrCMS Version {{ @CONSTRUCTR_VERSION }}</small></a></p></div></div>
 

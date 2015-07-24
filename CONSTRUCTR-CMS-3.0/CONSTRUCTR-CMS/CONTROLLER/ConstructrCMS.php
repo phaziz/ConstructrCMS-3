@@ -148,35 +148,6 @@
             $APP->set('FILE_COUNTR', 0);
             $APP->set('FILE_COUNTR', $i);
 
-            $H = opendir($APP->get('BACKEND_CACHE'));
-
-            $CACHE_FILES = array();
-            $i = 0;
-
-            while ($FILE = readdir($H)) {
-                if ($FILE != '.' && $FILE != '..') {
-                    $i++;
-                }
-            }
-
-            closedir($H);
-
-            $APP->set('CACHE_FILES_COUNTR', 0);
-            $APP->set('CACHE_FILES_COUNTR', $i);
-
-			$LOGFILES_CONSTRUCTR='';
-			$H = @fopen($APP->get('CONSTRUCTR_BASE_URL').'/CONSTRUCTR-CMS/LOGFILES/'.date('Y-m-d').'-constructr.txt', "r");
-
-			if($H != false) {
-				while (!feof($H)) {
-				    $B = fgets($H);
-				    $LOGFILES_CONSTRUCTR.=$B;
-				}
-				@fclose ($H);
-			}
-
-			$APP->set('LOG_CONSTRUCTR_TXT',$LOGFILES_CONSTRUCTR);
-
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin.html', 'text/html');
         }
 
