@@ -4,8 +4,6 @@
     {
         public function beforeRoute($APP)
         {
-            $APP->get('CONSTRUCTR_LOG')->write('ADMIN LOGIN CHECKER - User '.$APP->get('SESSION.username'));
-
             if ($APP->get('SESSION.username') != '' && $APP->get('SESSION.password') != '') {
                 $APP->set('LOGIN_USER', $APP->get('DBCON')->exec(
                         array(
@@ -78,7 +76,6 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->get('CONSTRUCTR_LOG')->write('CONTENT_INIT: '.$APP->get('SESSION.username'));
             $APP->set('SESSION.login', $APP->get('SESSION.login'));
 
             $PAGE_ID = filter_var($APP->get('PARAMS.page_id'), FILTER_SANITIZE_NUMBER_INT);
@@ -148,7 +145,6 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->get('CONSTRUCTR_LOG')->write('CONTENT_NEW: '.$APP->get('SESSION.username'));
             $APP->set('SESSION.login', $APP->get('SESSION.login'));
 
             $PAGE_ID = filter_var($APP->get('PARAMS.page_id'), FILTER_SANITIZE_NUMBER_INT);
@@ -221,7 +217,6 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->get('CONSTRUCTR_LOG')->write('CONTENT_NEW_VERIFY: '.$APP->get('SESSION.username'));
             $APP->set('SESSION.login', $APP->get('SESSION.login'));
 
             $PAGE_ID = filter_var($APP->get('PARAMS.page_id'), FILTER_SANITIZE_NUMBER_INT);
@@ -308,7 +303,6 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->get('CONSTRUCTR_LOG')->write('CONTENT_EDIT: '.$APP->get('SESSION.username'));
             $APP->set('SESSION.login', $APP->get('SESSION.login'));
 
             $PAGE_ID = filter_var($APP->get('PARAMS.page_id'), FILTER_SANITIZE_NUMBER_INT);
@@ -390,7 +384,6 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->get('CONSTRUCTR_LOG')->write('CONTENT_EDIT_VERIFY: '.$APP->get('SESSION.username'));
             $APP->set('SESSION.login', $APP->get('SESSION.login'));
 
             $POST_CSRF = $APP->get('POST.csrf');
@@ -466,7 +459,6 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->get('CONSTRUCTR_LOG')->write('CONTENT_MANAGEMENT_CHANGE_VISIBILITY: '.$APP->get('SESSION.username'));
             $APP->set('SESSION.login', $APP->get('SESSION.login'));
 
 			$WHAT = filter_var($APP->get('PARAMS.what'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -521,7 +513,6 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->get('CONSTRUCTR_LOG')->write('CONTENT_DELETE: '.$APP->get('SESSION.username'));
             $APP->set('SESSION.login', $APP->get('SESSION.login'));
 
             $PAGE_ID = filter_var($APP->get('PARAMS.page_id'), FILTER_SANITIZE_NUMBER_INT);
@@ -598,7 +589,6 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->get('CONSTRUCTR_LOG')->write('CONTENT_REORDER: '.$APP->get('SESSION.username'));
             $APP->set('SESSION.login', $APP->get('SESSION.login'));
 
             $PAGE_ID = filter_var($APP->get('PARAMS.page_id'), FILTER_SANITIZE_NUMBER_INT);

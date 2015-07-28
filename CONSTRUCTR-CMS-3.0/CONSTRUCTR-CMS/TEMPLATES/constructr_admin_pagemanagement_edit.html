@@ -68,7 +68,6 @@
             <check if="{{ count(@TEMPLATES) != 0 }}">
                 <true>
                     <div class="input-field col s12">
-                        <label for="page_template">Template der neuen Seite:</label>
                         <select name="page_template" id="page_template" required="required">
                             <option value="">Bitte w&auml;hlen:</option>
                             <repeat group="{{ @TEMPLATES }}" value="{{ @TEMPLATE }}">
@@ -82,6 +81,7 @@
                         		</check>
                         	</repeat>
                         </select>
+                        <label for="page_template">Template der neuen Seite:</label>
                     </div>
                 </true>
                 <false>
@@ -89,7 +89,6 @@
                 </false>
             </check>
             <div class="input-field col s12">
-                <label for="page_nav_visible">Sichtbarkeit in Navigation der neuen Seite:</label>
                 <select name="page_nav_visible" id="page_nav_visible" required="required">
                     <option value="">Bitte w&auml;hlen:</option>
                 	<check if="{{ @PAGE.0.constructr_pages_nav_visible }} == 1">
@@ -104,6 +103,7 @@
                     <option value="1">Seite ist sichtbar in Navigation</option>
                     <option value="0">Seite ist unsichtbar in Navigation</option>
                 </select>
+                <label for="page_nav_visible">Sichtbarkeit in Navigation der neuen Seite:</label>
             </div>
             <div class="input-field col s12">
                 <input type="text" id="page_title" name="page_title" value="{{ @PAGE.0.constructr_pages_title }}" placeholder="Titel der Seite" required="required">

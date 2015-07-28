@@ -4,8 +4,6 @@
     {
         public function beforeRoute($APP)
         {
-            $APP->get('CONSTRUCTR_LOG')->write('ADMIN LOGIN CHECKER - User '.$APP->get('SESSION.username'));
-
             if ($APP->get('SESSION.username') != '' && $APP->get('SESSION.password') != '') {
                 $APP->set('LOGIN_USER', $APP->get('DBCON')->exec(
                         array(
@@ -78,7 +76,6 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->get('CONSTRUCTR_LOG')->write('UPLOADS_INIT: '.$APP->get('SESSION.username'));
             $APP->set('SESSION.login', $APP->get('SESSION.login'));
 
             if (isset($_GET['edit'])) {
@@ -137,7 +134,6 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->get('CONSTRUCTR_LOG')->write('UPLOADS_DELETE_FILE: '.$APP->get('SESSION.username'));
             $APP->set('SESSION.login', $APP->get('SESSION.login'));
 
             $DELETE_FILE = $APP->get('PARAMS.file');
@@ -162,7 +158,6 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->get('CONSTRUCTR_LOG')->write('UPLOADS_NEW: '.$APP->get('SESSION.username'));
             $APP->set('SESSION.login', $APP->get('SESSION.login'));
 
             $CSRF = parent::csrf();
@@ -188,7 +183,6 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->get('CONSTRUCTR_LOG')->write('UPLOADS_NEW_VERIFY: '.$APP->get('SESSION.username'));
             $APP->set('SESSION.login', $APP->get('SESSION.login'));
 
             $POST_CSRF = $APP->get('POST.csrf');

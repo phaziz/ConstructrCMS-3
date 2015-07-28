@@ -4,8 +4,6 @@
     {
         public function beforeRoute($APP)
         {
-            $APP->get('CONSTRUCTR_LOG')->write('ADMIN LOGIN CHECKER - User '.$APP->get('SESSION.username'));
-
             if ($APP->get('SESSION.username') != '' && $APP->get('SESSION.password') != '') {
                 $APP->set('LOGIN_USER', $APP->get('DBCON')->exec(
                         array(
@@ -78,7 +76,6 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->get('CONSTRUCTR_LOG')->write('USER_MANAGEMENT: '.$APP->get('SESSION.username'));
             $APP->set('SESSION.login', $APP->get('SESSION.login'));
             $CSRF = parent::csrf();
             $APP->set('CSRF', $CSRF);
@@ -135,7 +132,6 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->get('CONSTRUCTR_LOG')->write('USER_MANAGEMENT_EDIT_RIGHTS: '.$APP->get('SESSION.username'));
             $APP->set('SESSION.login', $APP->get('SESSION.login'));
             $USER_ID = filter_var($APP->get('PARAMS.user_id'), FILTER_SANITIZE_NUMBER_INT);
 			$APP->set('USER_ID',$USER_ID);
@@ -178,7 +174,6 @@
             $RAW_ID = $APP->get('POST.id');
 
 			if($RAW_ID != '') {
-				$APP->get('CONSTRUCTR_LOG')->write('USER_MANAGEMENT_UPDATE_RIGHTS: '.$APP->get('SESSION.username'));
 				$RAW_ID_PARTS = explode('@',$RAW_ID);
 				$RAW_RIGHT_ID = filter_var(str_replace('right_id_','',$RAW_ID_PARTS[0]), FILTER_SANITIZE_NUMBER_INT);
 				$RAW_USER_ID = filter_var(str_replace('user_id_','',$RAW_ID_PARTS[0]), FILTER_SANITIZE_NUMBER_INT);
@@ -242,7 +237,6 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->get('CONSTRUCTR_LOG')->write('USER_MANAGEMENT_NEW: '.$APP->get('SESSION.username'));
             $APP->set('SESSION.login', $APP->get('SESSION.login'));
             $CSRF = parent::csrf();
             $APP->set('CSRF', $CSRF);
@@ -267,7 +261,6 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->get('CONSTRUCTR_LOG')->write('USER_MANAGEMENT_NEW_VERIFY: '.$APP->get('SESSION.username'));
             $APP->set('SESSION.login', $APP->get('SESSION.login'));
 
             $POST_CSRF = $APP->get('POST.csrf');
@@ -384,7 +377,6 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->get('CONSTRUCTR_LOG')->write('USER_MANAGEMENT_DELETE: '.$APP->get('SESSION.username'));
             $APP->set('SESSION.login', $APP->get('SESSION.login'));
 
             $DELETE_USER_ID = filter_var($APP->get('PARAMS.user_id'), FILTER_SANITIZE_NUMBER_INT);
@@ -426,7 +418,6 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->get('CONSTRUCTR_LOG')->write('USER_MANAGEMENT_EDIT: '.$APP->get('SESSION.username'));
             $APP->set('SESSION.login', $APP->get('SESSION.login'));
 
             $USER_ID = filter_var($APP->get('PARAMS.user_id'), FILTER_SANITIZE_NUMBER_INT);

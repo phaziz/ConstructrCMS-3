@@ -62,6 +62,12 @@
                     <check if="{{ @DELETE=='no-success' }}">
 						<div class="card-panel red darken-3 white-text">Die Seite konnte leider nicht gel&ouml;scht werden!</div>
                     </check>
+                    <check if="{{ @DELETE=='no-success-content-available' }}">
+						<div class="card-panel red darken-3 white-text">Die Seite konnte leider nicht gel&ouml;scht werden - Es sind noch Inhalte vorhanden!</div>
+                    </check>
+                    <check if="{{ @DELETE=='no-success-is-homepage' }}">
+						<div class="card-panel red darken-3 white-text">Die Seite konnte leider nicht gel&ouml;scht werden - Es ist die Startseite!</div>
+                    </check>
                     <check if="{{ @MOVE=='success' }}">
 						<div class="card-panel green darken-3 white-text">Die Seite wurde erfolgreich verschoben!</div>
                     </check>

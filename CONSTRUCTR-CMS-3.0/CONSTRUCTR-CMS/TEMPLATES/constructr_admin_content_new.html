@@ -47,13 +47,14 @@
             <input type="hidden" name="csrf_additive" value="{{ @ADDITIVE }}">
             <input type="hidden" name="csrf_tripple_additive" value="{{ @TRIPPLE_ADDITIVE }}">
 		    <input type="hidden" name="new_position" value="{{ @NEW_POSITION }}">
-	        <div class="input-field col s6" style="max-height: 500px; overflow: auto;">
+	        <div class="input-field col s6" style="max-height: 500px;overflow:auto;padding: 10px 10px 10px 10px;">
 	            <textarea id="new_content_raw" name="new_content_raw" class="materialize-textarea" autofocus required="required" style="max-height: 500px; overflow: auto;"></textarea>
 	            <label for="new_content_raw">Inhalt (Markdown):</label>
 	        </div>
-	        <div class="input-field col s6" id="live-preview" style="max-height:500px;overflow:auto;"></div>
+	        <div class="input-field col s6" id="live-preview" style="max-height:500px;overflow:auto;padding: 10px 10px 10px 10px;"></div>
             <div class="input-field col s12">
                 <button class="btn waves-effect waves-light" type="submit" name="action">Neuen Inhalt speichern</button>
+                <p><small>[Zeichen: <span id='character-counter' class='counter'></span> | W&ouml;rter: <span id='word-counter' class='counter'></span> | Abs&auml;tze: <span id='paragraph-counter' class='counter'></span>]</small>
                 <p><small>Taste <strong>''ESC''</strong> zum abbrechen dr&uuml;cken</small></p>
                 <p><small>Der eingegebene Text wird beim speichern von <a href="http://en.wikipedia.org/wiki/Markdown" target="_blank">Markdown</a>-Syntax in HTML umgewandelt!</small></p>
             </div>
@@ -69,7 +70,7 @@
 			            <thead>
 			                <tr>
 			                <th data-field="Dateiname">Dateiname</th>
-			                <th data-field="URL">URL</th>
+			                <th data-field="URL">Markdown-Code</th>
 			                </tr>
 			            </thead>
 			            <tbody>
@@ -80,7 +81,6 @@
 			                    </td>
 			                    <td>
 			                    	![{{ @FILE }}]({{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @FILE }} "{{ @FILE }}")
-			                    	
 			                    </td>
 			                </tr>
 			            </repeat>
@@ -105,8 +105,15 @@
 	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/js/materialize.min.js"></script>
 	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/imagelightbox/imagelightbox.min.js"></script>
 	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/js/vex.combined.min.js"></script>
+	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/countable/countable.js"></script>
     <script>
         $(function() {
+			var area = document.getElementById('new_content_raw')
+			Countable.live(area, function (counter) {
+				document.getElementById('character-counter').innerHTML = counter.characters
+				document.getElementById('word-counter').innerHTML = counter.words
+				document.getElementById('paragraph-counter').innerHTML = counter.paragraphs
+			});
 			$('.lightbox').imageLightbox({
 			    selector:'id="imagelightbox"',
 			    allowedTypes:'png|jpg|jpeg|gif',

@@ -22,7 +22,6 @@
 
         public function init($APP)
         {
-            $APP->get('CONSTRUCTR_LOG')->write('INIT');
             $APP->set('SESSION.login', $APP->get('SESSION.login'));
 
             $CSRF = self::csrf();
@@ -114,8 +113,6 @@
                     $APP->set('SESSION.login', 'true');
                     $APP->set('SESSION.username', $POST_USERNAME);
                     $APP->set('SESSION.password', $POST_PASSWORD);
-
-                    $APP->get('CONSTRUCTR_LOG')->write('LOGIN USER CREDENTIALS MATCH - USERNAME: '.$APP->get('SESSION.username'));
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement');
                 } else {
                     $APP->set('SESSION.login', 'false');
@@ -187,7 +184,6 @@
 
         public function logout($APP)
         {
-            $APP->get('CONSTRUCTR_LOG')->write('LOGOUT USER: '.$APP->get('SESSION.username'));
             $APP->clear('SESSION.username');
             $APP->clear('SESSION.password');
             $APP->clear('SESSION.login');
@@ -217,7 +213,6 @@
         public function retrieve_password($APP)
         {
             $USERNAME = filter_var($APP->get('PARAMS.username'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $APP->get('CONSTRUCTR_LOG')->write('RETRIEVE_PASSWORD - USERNAME: '.$USERNAME);
 
             if ($USERNAME != '') {
                 $APP->set('USER_BASE_DATA', $APP->get('DBCON')->exec(
@@ -270,7 +265,6 @@
 
         public function updated_user_credentials($APP)
         {
-            $APP->get('CONSTRUCTR_LOG')->write('UPDATED_USER_CREDENTIALS');
             $APP->set('SESSION.login', $APP->get('SESSION.login'));
             $CSRF = self::csrf();
             $APP->set('CSRF', $CSRF);

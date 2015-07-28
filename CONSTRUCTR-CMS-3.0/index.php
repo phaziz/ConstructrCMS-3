@@ -1,45 +1,20 @@
 <?php
-	
-	/*
-	INSTALLATION:
-	- Perform SQL in File CONSTRUCTR-CMS/DATABASE/database.sql (Maybe update your Database Information)
-	- Configure Your Installation in ROOT/index.php-File
-	- After SQL-Installation:
-		- ADMIN-LOGIN via http://installation.tld/constructr
-		- Admin Username: Benutzername
-		- Admin Password: Passwort
-	- UPDATE YOUR USER-PREFERENCES
-	*/
 
 	session_start();
 
     $APP = require_once __DIR__.'/vendor/base.php';
-
-	/*
-	 * 
-	 * 
-	 * CONFIGURE YOUR INSTALLATION HERE
-	 * 
-	 * 
-	 */
-	 	$APP->set('CONSTRUCTR_VERSION','3.0 / 2015-07-23');
-		$APP->set('ENCODING','utf-8');
-		$APP->set('DATABASE_HOSTNAME','localhost');
-		$APP->set('DATABASE_DATABASE','CONSTRUCTRCMS');
-		$APP->set('DATABASE_PORT','3306');
-		$APP->set('DATABASE_USERNAME','root');
-		$APP->set('DATABASE_PASSWORD','root');
-		$APP->set('CONSTRUCTR_USER_SALT','$2y$10$1511077744210398874732865404$');
-		$APP->set('CONSTRUCTR_BASE_URL','http://localhost:8888/localmamp/ConstructrCMS-3-master/CONSTRUCTR-CMS-3.0');
-		$APP->set('CONSTRUCTR_REPLACE_BASE_URL','http://localhost:8888/localmamp/ConstructrCMS-3-master/CONSTRUCTR-CMS-3.0/');
-	/*
-	 * 
-	 * 
-	 * CONFIGURE YOUR INSTALLATION HERE
-	 * 
-	 * 
-	 */
-
+	$CONSTRUCTR_CONFIG = file_get_contents(__DIR__.'/CONSTRUCTR-CMS/CONFIG/constructr_config.json');
+	$CONSTRUCTR_CONFIG = json_decode($CONSTRUCTR_CONFIG, true);
+	$APP->set('DATABASE_HOSTNAME',$CONSTRUCTR_CONFIG['DATABASE_HOSTNAME']);
+	$APP->set('DATABASE_DATABASE',$CONSTRUCTR_CONFIG['DATABASE_DATABASE']);
+	$APP->set('DATABASE_PORT',$CONSTRUCTR_CONFIG['DATABASE_PORT']);
+	$APP->set('DATABASE_USERNAME',$CONSTRUCTR_CONFIG['DATABASE_USERNAME']);
+	$APP->set('DATABASE_PASSWORD',$CONSTRUCTR_CONFIG['DATABASE_PASSWORD']);
+ 	$APP->set('CONSTRUCTR_VERSION',$CONSTRUCTR_CONFIG['CONSTRUCTR_VERSION']);
+	$APP->set('CONSTRUCTR_USER_SALT',$CONSTRUCTR_CONFIG['CONSTRUCTR_USER_SALT']);
+	$APP->set('CONSTRUCTR_BASE_URL',$CONSTRUCTR_CONFIG['CONSTRUCTR_BASE_URL']);
+	$APP->set('CONSTRUCTR_REPLACE_BASE_URL',$CONSTRUCTR_CONFIG['CONSTRUCTR_REPLACE_BASE_URL']);
+	$APP->set('ENCODING','utf-8');
     $APP->set('AUTOLOAD', __DIR__.'/CONSTRUCTR-CMS/CONTROLLER/');
 
     try {
@@ -54,18 +29,10 @@
 	        $ACT_URL = ((empty($_SERVER['HTTPS'])) ? 'http://' : 'https://').$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 	        return $ACT_URL;
 	    }
-		echo '<pre>ConstructrCMS-SETUP:</pre>';
-		echo '<pre>';
-		echo '
-			- Perform SQL in File <a href="CONSTRUCTR-CMS/DATABASE/database.sql.txt" target="_blank">CONSTRUCTR-CMS/DATABASE/database.sql</a> (Update your Database Information)
-			- Configure Your Installation in ROOT/index.php-File
-			- After SQL-Installation:
-				- ADMIN-LOGIN via <a href="' . getCurrentUrl() . 'constructr" target="_blank">' . getCurrentUrl() . 'constructr</a>
-				- Admin Username: Benutzername
-				- Admin Password: Password
-			- UPDATE YOUR USER-PREFERENCES
-		';
-		echo '</pre>';
+
+		$CURRENT_URL = getCurrentUrl();
+		echo 'Setup ConstructrCMS <a href="' . $CURRENT_URL . 'CONSTRUCTR-CMS-SETUP/">here</a>';
+
 		die();
 	}
 
