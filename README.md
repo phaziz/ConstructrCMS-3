@@ -3,7 +3,7 @@ Constructr CMS 3.0
 
 ConstructrCMS (<a href="http://constructr-cms.org">http://constructr-cms.org</a>) based on FatFree-Framework, Materialize CSS, MySQL/PDO, jQuery/Javascript and Passion!
 
-That's it for now (Version 3.0 / 2015-07-28):
+That's it for now (Version 3.0 / 2015-07-29):
 
 	- Page-Management
 	- Create, edit, re-order/order, activate/deactivate and delete Pages
@@ -26,6 +26,7 @@ That's it for now (Version 3.0 / 2015-07-28):
 
 ### CHANGELOG
 
+	- 2015-07-29 AutoInsert Markdown for Files / little Bugfixes and minor Features
 	- 2015-07-28 Webinstaller / little Bugfixes and minor Features
 	- 2015-07-23 Grande Update IV...
 	- 2015-03-23 Grande Update III...

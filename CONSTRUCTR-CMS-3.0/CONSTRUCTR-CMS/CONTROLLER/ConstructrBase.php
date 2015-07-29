@@ -50,6 +50,12 @@
             $POST_TRIPPLE_ADDITIVE = filter_var($APP->get('POST.csrf_tripple_additive'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $POST_USERNAME = filter_var($APP->get('POST.username'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $POST_PASSWORD = crypt(filter_var($APP->get('POST.password'), FILTER_SANITIZE_FULL_SPECIAL_CHARS), $APP->get('CONSTRUCTR_USER_SALT'));
+			$EMAIL = $APP->get('POST.email');
+
+            if ($EMAIL != '') {
+            	$APP->get('CONSTRUCTR_LOG')->write('SPAM LOGIN: '.$EMAIL);
+                die();
+            }
 
             if ($POST_CSRF != '') {
                 if ($POST_CSRF != $APP->get('SESSION.csrf')) {
@@ -187,15 +193,6 @@
             $APP->clear('SESSION.username');
             $APP->clear('SESSION.password');
             $APP->clear('SESSION.login');
-
-            $CACHE_FILES=self::gffd($APP->get('BACKEND_CACHE'));
-
-            if ($CACHE_FILES) {
-                foreach ($CACHE_FILES as $CACHE_FILE) {
-                    @chmod($CACHE_FILE, 0777);
-                    @unlink($CACHE_FILE);
-                }
-            }
 
             $_SESSION = array();
 

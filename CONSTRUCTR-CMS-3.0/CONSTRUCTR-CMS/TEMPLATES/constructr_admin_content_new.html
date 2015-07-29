@@ -7,8 +7,6 @@
 <title>Constructr Administration</title>
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/css/constructr.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
-<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex.css">
-<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-wireframe.css">
 </head>
 <body>
 
@@ -70,7 +68,7 @@
 			            <thead>
 			                <tr>
 			                <th data-field="Dateiname">Dateiname</th>
-			                <th data-field="URL">Markdown-Code</th>
+			                <th data-field="URL">Markdown-Code &uuml;bernehmen</th>
 			                </tr>
 			            </thead>
 			            <tbody>
@@ -80,7 +78,7 @@
 			                        <a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @FILE }}" target="_blank" class="tooltipped lightbox" data-position="top" data-delay="25" data-tooltip="Vorschau in Lightbox">{{ @FILE }}</a>
 			                    </td>
 			                    <td>
-			                    	![{{ @FILE }}]({{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @FILE }} "{{ @FILE }}")
+			                    	<span class="tooltipped inserter" id="{{ @FILE }}" data-position="top" data-delay="25" data-tooltip="Markdown-Code &uuml;bernehmen">![{{ @FILE }}]({{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @FILE }} "{{ @FILE }}")</span>
 			                    </td>
 			                </tr>
 			            </repeat>
@@ -104,15 +102,49 @@
     <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/jquery/jquery-2.1.4.min.js"></script>
 	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/js/materialize.min.js"></script>
 	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/imagelightbox/imagelightbox.min.js"></script>
-	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/js/vex.combined.min.js"></script>
 	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/countable/countable.js"></script>
     <script>
         $(function() {
-			var area = document.getElementById('new_content_raw')
+			(function ($, undefined){
+				$.fn.extend({
+					insertAtCaret: function(myValue){
+						var obj;
+						if( typeof this[0].name !='undefined' ) obj = this[0]; 
+						else obj = this;
+
+						if (navigator.appName == 'Microsoft Internet Explorer'){
+							obj.focus();
+							sel = document.selection.createRange();
+							sel.text = myValue;
+							obj.focus();
+						} else {
+							var startPos = obj.selectionStart;
+							var endPos = obj.selectionEnd;
+							var scrollTop = obj.scrollTop;
+							obj.value = obj.value.substring(0, startPos)+myValue+obj.value.substring(endPos,obj.value.length);
+							obj.focus();
+							obj.selectionStart = startPos + myValue.length;
+							obj.selectionEnd = startPos + myValue.length;
+							obj.scrollTop = scrollTop;
+						}
+					}
+				});
+			})(jQuery);
+
+			$('.inserter').bind('click', function(){
+				var FILE = $( this).attr( 'id' );
+				var BASE_URL = "{{ @CONSTRUCTR_BASE_URL }}";
+				var MARKDOWN = '![' + FILE + '](' + BASE_URL + '/UPLOADS/' + FILE + ' "' + FILE + '")';
+				$('#uploads').closeModal();
+				$('#new_content_raw').insertAtCaret(MARKDOWN);
+				return false;
+			});
+
+			var area = document.getElementById('new_content_raw');
 			Countable.live(area, function (counter) {
-				document.getElementById('character-counter').innerHTML = counter.characters
-				document.getElementById('word-counter').innerHTML = counter.words
-				document.getElementById('paragraph-counter').innerHTML = counter.paragraphs
+				document.getElementById('character-counter').innerHTML = counter.characters;
+				document.getElementById('word-counter').innerHTML = counter.words;
+				document.getElementById('paragraph-counter').innerHTML = counter.paragraphs;
 			});
 			$('.lightbox').imageLightbox({
 			    selector:'id="imagelightbox"',
@@ -149,40 +181,11 @@
 			$(document).keyup(function(e) {
 			    if (e.which === 27) javascript:history.back();
 			});
-			$('#new_content').bind('submit',function(){
-				var RAW = $('#new_content_raw').val(); 
-				if(RAW == '') {
-		            vex.dialog.buttons.YES.text = 'OK';
-		            vex.dialog.alert({
-		                className: 'vex-theme-wireframe',
-		                message: 'Bitte einen Inhalt angeben!',
-		            });
-					return false;
-				}
-			});
             function autoBlinder(){
                 $('.card-panel').fadeOut();
             }
             setInterval(autoBlinder,4500);
         	$('#new_content_raw').focus();
-            $(".button-collapse").sideNav();
-			$('#logout').click(function(e) {
-				e.preventDefault();
-	            var U = $(this).attr('href');
-	            vex.dialog.buttons.YES.text = 'Ja';
-	            vex.dialog.buttons.NO.text = 'Abbrechen';
-	            vex.dialog.confirm({
-	                className: 'vex-theme-wireframe',
-	                message: 'Möchten Sie sich wirklich abmelden und ausloggen?',
-	                callback: function(value){
-	                    if(value == true){
-	                        $(location).attr('href',U);
-	                    } else {
-	                        return false;
-	                    }
-	                }
-	            });
-			});
         });
     </script>
 </body>

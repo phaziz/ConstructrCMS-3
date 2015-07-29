@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/css/constructr.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex.css">
-<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-wireframe.css">
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-default.css">
 </head>
 <body>
 
@@ -117,14 +117,13 @@
 			    onLoadStart:false,
 			    onLoadEnd:false
 			});
-			$(".button-collapse").sideNav();
             $('.deleter').click(function(e) {
 				e.preventDefault();
 	            var U = $(this).attr('href');
 	            vex.dialog.buttons.YES.text = 'Ja';
 	            vex.dialog.buttons.NO.text = 'Abbrechen';
 	            vex.dialog.confirm({
-	                className: 'vex-theme-wireframe',
+	                className: 'vex-theme-default',
 	                message: 'Möchten Sie diese Datei wirklich löschen?',
 	                callback: function(value){
 	                    if(value == true){
@@ -142,23 +141,6 @@
                 $('.card-panel').fadeOut();
             }
             setInterval(autoBlinder,4500);
-			$('#logout').click(function(e) {
-				e.preventDefault();
-	            var U = $(this).attr('href');
-	            vex.dialog.buttons.YES.text = 'Ja';
-	            vex.dialog.buttons.NO.text = 'Abbrechen';
-	            vex.dialog.confirm({
-	                className: 'vex-theme-wireframe',
-	                message: 'Möchten Sie sich wirklich abmelden und ausloggen?',
-	                callback: function(value){
-	                    if(value == true){
-	                        $(location).attr('href',U);
-	                    } else {
-	                        return false;
-	                    }
-	                }
-	            });
-			});
 		});
 	</script>
 </body>

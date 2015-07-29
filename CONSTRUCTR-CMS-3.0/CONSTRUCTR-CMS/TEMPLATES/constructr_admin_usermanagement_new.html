@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/css/constructr.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex.css">
-<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-wireframe.css">
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-default.css">
 </head>
 <body>
 
@@ -80,24 +80,6 @@
 			    if (e.which === 27) javascript:history.back();
 			});
             $('select').material_select();
-            $(".button-collapse").sideNav();
-			$('#logout').click(function(e) {
-				e.preventDefault();
-	            var U = $(this).attr('href');
-	            vex.dialog.buttons.YES.text = 'Ja';
-	            vex.dialog.buttons.NO.text = 'Abbrechen';
-	            vex.dialog.confirm({
-	                className: 'vex-theme-wireframe',
-	                message: 'Möchten Sie sich wirklich abmelden und ausloggen?',
-	                callback: function(value){
-	                    if(value == true){
-	                        $(location).attr('href',U);
-	                    } else {
-	                        return false;
-	                    }
-	                }
-	            });
-			});
             function autoBlinder(){
                 $('.card-panel').fadeOut();
             }
@@ -112,18 +94,18 @@
             	} else {
             		if(USERNAME == '' || USEREMAIL == '' || PASSWORD == '' || PASSWORD_RETYPE == '') {
             			$('#user_name').focus();
-			            vex.dialog.buttons.YES.text = 'OK';
+			            vex.dialog.buttons.YES.text = 'Okay';
 			            vex.dialog.alert({
-			                className: 'vex-theme-wireframe',
+			                className: 'vex-theme-default',
 			                message: 'Bitte das Formular vorllständig ausfüllen!',
 			            });
             			return false;
             		}
             		if(PASSWORD != PASSWORD_RETYPE) {
             			$('#user_password').focus();
-			            vex.dialog.buttons.YES.text = 'OK';
+			            vex.dialog.buttons.YES.text = 'Okay';
 			            vex.dialog.alert({
-			                className: 'vex-theme-wireframe',
+			                className: 'vex-theme-default',
 			                message: 'Das Passwort und die Passwort-Wiederholung stimmen nicht überein!',
 			            });
             			return false;

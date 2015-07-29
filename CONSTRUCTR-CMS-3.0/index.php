@@ -181,9 +181,9 @@
 		}
 
 		$APP->set('DEBUG',3);
-	    //$APP->set('CACHE',true);
-		//$APP->set('CACHE','folder='.__DIR__.'/CONSTRUCTR-CMS/CACHE/');
-		//$APP->set('BACKEND_CACHE',__DIR__.'/tmp/');
+	    $APP->set('CACHE',true);
+		$APP->set('TEMP','folder='.__DIR__.'/CONSTRUCTR-CMS/CACHE/');
+		$APP->set('BACKEND_CACHE','folder='.__DIR__.'/CONSTRUCTR-CMS/CACHE/');
 		$APP->set('UPLOADS',__DIR__.'/UPLOADS/');
 		$APP->set('CONSTRUCTR_LOG', $CONSTRUCTR_LOG = new \Log('CONSTRUCTR-CMS/LOGFILES/'.date('Y-m-d').'-constructr.txt'));	
 

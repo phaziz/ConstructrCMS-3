@@ -1232,19 +1232,6 @@
 	        return self::flatten_array($files);
 	    }
 
-		public function clear_backend_cache($APP) {
-            $CACHE_FILES=self::gffd($APP->get('BACKEND_CACHE'));
-
-            if ($CACHE_FILES) {
-                foreach ($CACHE_FILES as $CACHE_FILE) {
-                    @chmod($CACHE_FILE, 0777);
-                    @unlink($CACHE_FILE);
-                }
-            }
-
-			$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/admin');
-		}
-
 	    public function flatten_array($array)
 	    {
 	        $flat_array = array();

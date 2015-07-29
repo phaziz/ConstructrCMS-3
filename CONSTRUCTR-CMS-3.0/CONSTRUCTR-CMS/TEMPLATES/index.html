@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/css/constructr.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex.css">
-<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-wireframe.css">
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-default.css">
 </head>
 <body>
 
@@ -27,6 +27,11 @@
 					<i class="mdi-action-account-circle prefix"></i>
 					<input type="text" id="username" name="username" value="" placeholder="Benutzername" required="required" autofocus="autofocus">
 					<label for="icon_prefix">Benutzername:</label>
+				</div>
+				<div class="input-field col s12 ghost">
+					<i class="mdi-action-account-circle prefix"></i>
+					<input type="text" id="email" name="email" value="" placeholder="eMail">
+					<label for="icon_prefix">eMail:</label>
 				</div>
 				<div class="input-field col s12">
 					<i class="mdi-action-lock-outline prefix"></i>
@@ -57,9 +62,9 @@
 				console.log('A: ' + A);
 				if(typeof A === 'undefined' || A == '') {
 					$('#username').focus();
-	                vex.dialog.buttons.YES.text = 'OK';
+	                vex.dialog.buttons.YES.text = 'Okay';
 	                vex.dialog.alert({
-	                    className: 'vex-theme-wireframe',
+	                    className: 'vex-theme-default',
 	                    message: 'Bitte das Feld Benutzername ausfüllen!',
 	                });
 					return false;
@@ -67,7 +72,7 @@
 	                vex.dialog.buttons.YES.text = 'Ja';
 	                vex.dialog.buttons.NO.text = 'Abbrechen';
 	                vex.dialog.confirm({
-	                    className: 'vex-theme-wireframe',
+	                    className: 'vex-theme-default',
 	                    message: 'Möchten Sie wirklich das Passwort für Benutzer ' + A + ' zurücksetzen?',
 	                    callback: function(value){
 	                        if(value == true){
@@ -86,7 +91,8 @@
 			$('#login').bind('submit', function() {
 				var A = $('#username').val();
 				var P = $('#password').val();
-				if(typeof A === 'undefined' || A == '' || typeof P === 'undefined' ||  P == '') {
+				var E = $('#email').val();
+				if(typeof A === 'undefined' || A == '' || typeof P === 'undefined' ||  P == '' || E != '') {
 					return false;
 				}
 			});
