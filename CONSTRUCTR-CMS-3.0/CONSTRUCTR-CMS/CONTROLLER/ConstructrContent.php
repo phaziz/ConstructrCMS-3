@@ -189,19 +189,30 @@
 
             $H = opendir($APP->get('UPLOADS'));
 
+			$IMAGES = array();
             $FILES = array();
-            $i = 1;
+			$i = 0;
 
-            while ($FILE = readdir($H)) {
-                if ($FILE != '.' && $FILE != '..') {
-                    $FILES[$i] = $FILE;
-                    $i++;
+            while ( $FILE = readdir( $H ) ) {
+                if ( $FILE != '.' && $FILE != '..' ) {
+					$FT = strtolower( strrchr( $FILE, '.' ) );
+
+					if( $FT == '.jpg' || $FT == '.jpeg' || $FT == '.gif' || $FT == '.png' || $FT == '.svg' ) {
+	                    $IMAGES[$i] = $FILE;
+	                    $i++;
+					} else {
+	                    $FILES[$i] = $FILE;
+	                    $i++;
+					}
                 }
             }
 
-            closedir($H);
+            closedir( $H );
 
-            uksort($FILES, "strnatcmp");
+            uksort($IMAGES, "strnatcmp");
+			uksort($FILES, "strnatcmp");
+
+            $APP->set('IMAGES', $IMAGES);
             $APP->set('FILES', $FILES);
 
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_content_new.html', 'text/html');
@@ -349,21 +360,32 @@
             $APP->set('CONTENT_COUNTR', 0);
             $APP->set('CONTENT_COUNTR', count($APP->get('CONTENT')));
 
-            $H = opendir($APP->get('UPLOADS'));
+            $H = opendir( $APP->get( 'UPLOADS' ) );
 
+			$IMAGES = array();
             $FILES = array();
-            $i = 1;
+			$i = 0;
 
-            while ($FILE = readdir($H)) {
-                if ($FILE != '.' && $FILE != '..') {
-                    $FILES[$i] = $FILE;
-                    $i++;
+            while ( $FILE = readdir( $H ) ) {
+                if ( $FILE != '.' && $FILE != '..' ) {
+					$FT = strtolower( strrchr( $FILE, '.' ) );
+
+					if( $FT == '.jpg' || $FT == '.jpeg' || $FT == '.gif' || $FT == '.png' || $FT == '.svg' ) {
+	                    $IMAGES[$i] = $FILE;
+	                    $i++;
+					} else {
+	                    $FILES[$i] = $FILE;
+	                    $i++;
+					}
                 }
             }
 
-            closedir($H);
+            closedir( $H );
 
-            uksort($FILES, "strnatcmp");
+            uksort($IMAGES, "strnatcmp");
+			uksort($FILES, "strnatcmp");
+
+            $APP->set('IMAGES', $IMAGES);
             $APP->set('FILES', $FILES);
 
             if ($APP->get('CONTENT_COUNTR') == 1) {

@@ -11,7 +11,6 @@
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-default.css">
 </head>
 <body>
-
 	<nav>
 		<div class="nav-wrapper light-green lighten-1">
 			<a href="#" data-activates="mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
@@ -34,11 +33,9 @@
 			</ul>
 		</div>
 	</nav>
-
     <div class="row">
         <div class="col s12"><p><a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/new" class="waves-effect waves-light btn"><i class="mdi-content-add-circle right"></i>Neuer Upload</a></p></div>
     </div>
-
     <div class="row">
         <div class="col s12">
             <p><strong>{{ @FILES_COUNTR }} Uploads</strong></p>
@@ -56,53 +53,55 @@
             </check>
 		</div>
 	</div>
-
-	<check if="{{ @FILES }}">
-		<true>
-	        <table class="bordered responsive-table hoverable">
-	            <thead>
-	                <tr>
-	                <th data-field="Dateiname">Dateiname</th>
-	                <th data-field="URL">URL</th>
-	                <th data-field="Aktionen" class="center-align">Aktionen</th>
-	                </tr>
-	            </thead>
-	            <tbody>
-	                <repeat group="{{ @FILES }}" value="{{ @FILE }}">
-	                <tr>
-	                    <td>
-	                        {{ @FILE }}
-	                    </td>
-	                    <td>
-	                    	<a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @FILE }}" target="_blank" class="tooltipped lightbox" data-position="top" data-delay="25" data-tooltip="Vorschau in Lightbox">{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @FILE }}</a><br>
-	                    	<small><strong>Markdown-Syntax:</strong> ![{{ @FILE }}]({{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @FILE }} "{{ @FILE }}")</small>
-	                    	
-	                    </td>
-	                    <td class="center-align"><nobr>
-	                    	<a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @FILE }}" target="_blank" data-position="left" data-delay="25" data-tooltip="Vorschau f&uuml;r Datei ''{{ @FILE }}''" class="tooltipped waves-effect waves-light btn-small"><i class="mdi-action-aspect-ratio"></i></a>
-	                    	&#160;
-	                    	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/delete/{{ @FILE }}" data-position="left" data-delay="25" data-tooltip="Datei ''{{ @FILE }}'' l&ouml;schen" class="deleter tooltipped waves-effect waves-light btn-small"><i class="mdi-action-delete"></i></a>
-	                    </nobr></td>
-	                </tr>
-	            </repeat>
-	            </tbody>
-	        </table>
-		</true>
-		<false>
-		    <div class="row">
-		        <div class="col s12"><p>Keine Dateien vorhanden!</p></div>
-		    </div>
-		</false>
-	</check>
-
+    <table class="bordered responsive-table hoverable">
+        <thead>
+            <tr>
+            <th data-field="Dateiname">Datei</th>
+            <th data-field="URL">Absolute URL</th>
+            <th data-field="Aktionen" class="center-align">Aktionen</th>
+            </tr>
+        </thead>
+        <tbody>
+			<check if="{{ @IMAGES }}">
+				<true>
+		            <repeat group="{{ @IMAGES }}" value="{{ @IMAGE }}">
+			            <tr>
+			                <td><img src="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @IMAGE }}" alt="{{ @IMAGE }}" title="{{ @IMAGE }}" style="max-height: 50px;"></td>
+			                <td><a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @IMAGE }}" target="_blank" class="tooltipped lightbox" data-position="top" data-delay="25" data-tooltip="Vorschau in Lightbox">{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @IMAGE }}</a></td>
+			                <td class="center-align"><nobr>
+			                	<a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @IMAGE }}" target="_blank" data-position="left" data-delay="25" data-tooltip="Vorschau f&uuml;r Datei ''{{ @IMAGE }}''" class="tooltipped waves-effect waves-light btn-small"><i class="mdi-action-aspect-ratio"></i></a>
+			                	&#160;
+			                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/delete/{{ @IMAGE }}" data-position="left" data-delay="25" data-tooltip="Datei ''{{ @IMAGE }}'' l&ouml;schen" class="deleter tooltipped waves-effect waves-light btn-small"><i class="mdi-action-delete"></i></a>
+			                </nobr></td>
+			            </tr>
+			        </repeat>
+				</true>
+			</check>
+			<check if="{{ @FILES }}">
+				<true>
+		            <repeat group="{{ @FILES }}" value="{{ @FILE }}">
+			            <tr>
+			                <td>{{ @FILE }}</td>
+			                <td><a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @FILE }}" target="_blank" class="tooltipped" data-position="top" data-delay="25" data-tooltip="Vorschau">{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @FILE }}</a></td>
+			                <td class="center-align"><nobr>
+			                	<a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @FILE }}" target="_blank" data-position="left" data-delay="25" data-tooltip="Vorschau f&uuml;r Datei ''{{ @FILE }}''" class="tooltipped waves-effect waves-light btn-small"><i class="mdi-action-aspect-ratio"></i></a>
+			                	&#160;
+			                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/delete/{{ @FILE }}" data-position="left" data-delay="25" data-tooltip="Datei ''{{ @FILE }}'' l&ouml;schen" class="deleter tooltipped waves-effect waves-light btn-small"><i class="mdi-action-delete"></i></a>
+			                </nobr></td>
+			            </tr>
+			        </repeat>
+				</true>
+			</check>
+	    </tbody>
+	</table>
 	<div class="row"><div class="col s12 center-align"><p><small><a href="http://phaziz.com" target="_blank">ConstructrCMS Version {{ @CONSTRUCTR_VERSION }}</small></a></p></div></div>
-
 	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/jquery/jquery-2.1.4.min.js"></script>
 	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/js/materialize.min.js"></script>
 	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/imagelightbox/imagelightbox.min.js"></script>
 	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/js/vex.combined.min.js"></script>
 	<script>
 		$(function() {
+			$(".button-collapse").sideNav();
 			$('.lightbox').imageLightbox({
 			    selector:'id="imagelightbox"',
 			    allowedTypes:'png|jpg|jpeg|gif',

@@ -3,8 +3,10 @@
 	session_start();
 
     $APP = require_once __DIR__.'/vendor/base.php';
+
 	$CONSTRUCTR_CONFIG = file_get_contents(__DIR__.'/CONSTRUCTR-CMS/CONFIG/constructr_config.json');
 	$CONSTRUCTR_CONFIG = json_decode($CONSTRUCTR_CONFIG, true);
+
 	$APP->set('DATABASE_HOSTNAME',$CONSTRUCTR_CONFIG['DATABASE_HOSTNAME']);
 	$APP->set('DATABASE_DATABASE',$CONSTRUCTR_CONFIG['DATABASE_DATABASE']);
 	$APP->set('DATABASE_PORT',$CONSTRUCTR_CONFIG['DATABASE_PORT']);
@@ -38,8 +40,8 @@
 
 	$APP->set('TEMPLATES',$APP->get('CONSTRUCTR_BASE_URL').'/THEMES/');
 
-    $REQUEST = 'http://' . $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-    $REQUEST = trim(str_replace($APP->get('CONSTRUCTR_REPLACE_BASE_URL'), '', $REQUEST));
+    $REQUEST='http://' . $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+    $REQUEST=trim(str_replace($APP->get('CONSTRUCTR_REPLACE_BASE_URL'),'', $REQUEST));
 
     if (strpos($REQUEST, 'constructr') === false) {
 		if($REQUEST == '/' || $REQUEST == '') {
@@ -80,61 +82,77 @@
 			$PAGE_TITLE=$APP->get('ACT_PAGE.0.constructr_pages_title');
 			$PAGE_DESCRIPTION=$APP->get('ACT_PAGE.0.constructr_pages_description');
 			$PAGE_KEYWORDS=$APP->get('ACT_PAGE.0.constructr_pages_keywords');
-			$NAVIGATION = '';
+			$NAVIGATION = array();
+			$SUB_NAVIGATION = array();
 
 	        $APP->set('PAGES', $APP->get('DBCON')->exec(
-	                array(
-	                    'SELECT * FROM constructr_pages WHERE constructr_pages_nav_visible=1 ORDER BY constructr_pages_order ASC;'
-	                ),
-	                array(
-	                    array(
-	                    )
-	                )
+	                array('SELECT * FROM constructr_pages WHERE constructr_pages_nav_visible=1 ORDER BY constructr_pages_order ASC;'),array()
 	            )
 	        );
 
 			$PAGES = $APP->get('PAGES');
 
 			if($PAGES) {
-				$DOM = new domDocument();
-				$DOM->validateOnParse = true;
-				$DOM->loadHTML('<html>');
-				$ROOT = $DOM->createElement('ul');
-				$ROOT->setAttribute('class','constructr-menu');
-				$DOM->appendChild($ROOT);
-
-				foreach($PAGES as $KEY => $VALUE) {
-				    $PID = $VALUE['constructr_pages_mother'];
-				    $PARENT = $DOM->getElementById('constructr-li-'.$PID);
-
-				    if($PARENT != null) {
-				        $UL = $DOM->getElementById('ul-'.$PID);
-
-				        if($UL == null) {
-				            $UL = $DOM->createElement('ul');
-				            $UL->setAttribute('id','constructr-ul-'.$PID);
-				            $PARENT->appendChild($UL);
-				        }
-
-				        $TARGET=$UL;
-				    }
-				    else
-				    {
-				        $TARGET=$ROOT;
-				    }
-
-				    $LI = $DOM->createElement('li','<a href="' . $APP->get('CONSTRUCTR_BASE_URL') . '/' . $VALUE['constructr_pages_url'] . '">' . $VALUE['constructr_pages_name'] . '</a>');
-				    $LI->setAttribute('id','constructr-li-'.$VALUE['constructr_pages_id']);
-					$TARGET->appendChild($LI);
+				foreach($PAGES AS $PAGE) {
+					if($PAGE['constructr_pages_mother'] == 0) {
+						$NAVIGATION[$PAGE['constructr_pages_id']] = array (
+							'page_id' => $PAGE['constructr_pages_id'],
+							'page_order' => $PAGE['constructr_pages_order'],
+							'page_mother' => $PAGE['constructr_pages_mother'],
+							'page_name' => $PAGE['constructr_pages_name'],
+							'page_url' => $APP->get('CONSTRUCTR_BASE_URL') . '/' . $PAGE['constructr_pages_url']
+						);
+					} else {
+						$SUB_NAVIGATION[$PAGE['constructr_pages_mother']][$PAGE['constructr_pages_id']] = array (
+							'page_id' => $PAGE['constructr_pages_id'],
+							'page_order' => $PAGE['constructr_pages_order'],
+							'page_mother' => $PAGE['constructr_pages_mother'],
+							'page_name' => $PAGE['constructr_pages_name'],
+							'page_url' =>  $APP->get('CONSTRUCTR_BASE_URL') . '/' . $PAGE['constructr_pages_url'],
+						);
+					}
 				}
 
-				$NAVIGATION = $DOM->saveHTML($ROOT);
-				$NAVIGATION = str_replace('&lt;','<',$NAVIGATION);
-				$NAVIGATION = str_replace('&gt;','>',$NAVIGATION);
-			}
+				$NAVIGATION_STRING='<ul>';
+
+				foreach($NAVIGATION AS $KEY => $PAGE) {
+					if(isset($SUB_NAVIGATION[$PAGE['page_id']])) {
+						$NAVIGATION_STRING.='<li><a href="'.$PAGE['page_url'].'" data-title="'.$PAGE['page_name'].'">'.$PAGE['page_name'].'</a><ul>';
+
+						foreach($SUB_NAVIGATION[$PAGE['page_id']] AS $SUB_KEY => $SUB_PAGE) {
+
+							foreach($SUB_NAVIGATION[$PAGE['page_id']] AS $SUBSUB_KEY => $SUBSUB_PAGE) {
+
+								if(isset($SUB_NAVIGATION[$SUBSUB_PAGE['page_id']]))
+								{
+									$NAVIGATION_STRING.='<li><a href="'.$SUBSUB_PAGE['page_url'].'" data-title="'.$SUBSUB_PAGE['page_name'].'">'.$SUBSUB_PAGE['page_name'].'</a><ul>';
+
+									foreach($SUB_NAVIGATION[$SUBSUB_PAGE['page_id']] AS $SUBSUBSUB_KEY => $SUBSUBSUB_PAGE) {
+										$NAVIGATION_STRING.='<li><a href="'.$SUBSUBSUB_PAGE['page_url'].'" data-title="'.$SUBSUBSUB_PAGE['page_name'].'">'.$SUBSUBSUB_PAGE['page_name'].'</a></li>';
+									}
+
+									$NAVIGATION_STRING.='</ul></li>';
+								}
+								else
+								{
+									$NAVIGATION_STRING.='<li><a href="'.$SUBSUB_PAGE['page_url'].'" data-title="'.$SUBSUB_PAGE['page_name'].'">'.$SUBSUB_PAGE['page_name'].'</a></li>';	
+								}
+							}
+							break;
+						}
+
+						$NAVIGATION_STRING.='</ul></li>';
+					} else {
+						$NAVIGATION_STRING.='<li><a href="'.$PAGE['page_url'].'" data-title="'.$PAGE['page_name'].'">'.$PAGE['page_name'].'</a></li>';
+					}
+				}
+
+				$NAVIGATION_STRING.='<ul>';
+ 			}
 
 			$TEMPLATE=file_get_contents($APP->get('TEMPLATES').$PAGE_TEMPLATE);
-            $APP->set('CONTENT', $APP->get('DBCON')->exec(
+
+			$APP->set('CONTENT', $APP->get('DBCON')->exec(
                     array(
                         'SELECT * FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_visible=1 ORDER BY constructr_content_order ASC;'
                     ),
@@ -163,9 +181,9 @@
 			}
 
 			$SEARCHR=array('{{@ CONSTRUCTR_BASE_URL @}}','{{@ PAGE_ID @}}','{{@ PAGE_TEMPLATE @}}','{{@ PAGE_NAME @}}','{{@ PAGE_CONTENT_RAW @}}','{{@ PAGE_CONTENT_HTML @}}','{{@ PAGE_CSS @}}','{{@ PAGE_JS @}}','{{@ PAGE_NAVIGATION_UL_LI @}}','{{@ CONSTRUCTR_PAGE_TITLE @}}','{{@ CONSTRUCTR_PAGE_KEYWORDS @}}','{{@ CONSTRUCTR_PAGE_DESCRIPTION @}}');
-			$REPLACR=array($APP->get('CONSTRUCTR_BASE_URL'),$PAGE_ID,$PAGE_TEMPLATE,$PAGE_NAME,$PAGE_CONTENT_RAW,$PAGE_CONTENT_HTML,$PAGE_CSS,$PAGE_JS,$NAVIGATION,$PAGE_TITLE,$PAGE_DESCRIPTION,$PAGE_KEYWORDS);
+			$REPLACR=array($APP->get('CONSTRUCTR_BASE_URL'),$PAGE_ID,$PAGE_TEMPLATE,$PAGE_NAME,$PAGE_CONTENT_RAW,$PAGE_CONTENT_HTML,$PAGE_CSS,$PAGE_JS,$NAVIGATION_STRING,$PAGE_TITLE,$PAGE_DESCRIPTION,$PAGE_KEYWORDS);
 			$TEMPLATE=str_replace($SEARCHR,$REPLACR,$TEMPLATE);
-			$TEMPLATE .="\n<!-- ConstructrCMS Version ".$APP->get("CONSTRUCTR_VERSION")." / http://phaziz.com -->";
+			$TEMPLATE .="<!-- ConstructrCMS Version ".$APP->get("CONSTRUCTR_VERSION")." / http://phaziz.com -->";
 
 			echo $TEMPLATE;
 
@@ -182,8 +200,6 @@
 
 		$APP->set('DEBUG',3);
 	    $APP->set('CACHE',true);
-		$APP->set('TEMP','folder='.__DIR__.'/CONSTRUCTR-CMS/CACHE/');
-		$APP->set('BACKEND_CACHE','folder='.__DIR__.'/CONSTRUCTR-CMS/CACHE/');
 		$APP->set('UPLOADS',__DIR__.'/UPLOADS/');
 		$APP->set('CONSTRUCTR_LOG', $CONSTRUCTR_LOG = new \Log('CONSTRUCTR-CMS/LOGFILES/'.date('Y-m-d').'-constructr.txt'));	
 
@@ -199,7 +215,7 @@
 	    	$RET = '';
 
 			for ($i = 1; $i <= $LEVEL; $i++) {
-				$RET .= '&#160;&#160;&#160;';
+				$RET .= '&#160;&#160;';
 			}
 
 			return $RET;
@@ -211,7 +227,7 @@
             ob_end_clean();
         }
 
-		$APP->get('CONSTRUCTR_LOG')->write($APP->get('ERROR.text') . ' - '. $APP->get('ERROR.code') . ' '. $APP->get('ERROR.status'));
+		$APP->get('CONSTRUCTR_LOG')->write($APP->get('ERROR.text') . ' - '. $APP->get('ERROR.code') . ': '. $APP->get('ERROR.status'));
 
 		if($APP->get('ERROR.code') == '404')
 		{

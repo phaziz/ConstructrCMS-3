@@ -11,7 +11,6 @@
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-default.css">
 </head>
 <body>
-
     <nav>
         <div class="nav-wrapper light-green lighten-1">
             <a href="#" data-activates="mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
@@ -34,13 +33,11 @@
             </ul>
         </div>
     </nav>
-
     <div class="row">
         <div class="col s12">
             <p><strong>Neuen Benutzer erstellen</strong></p>
         </div>
     </div>
-
     <div class="row">
         <form name="new_user" id="new_user" action="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/new" method="post" enctype="application/x-www-form-urlencoded" class="col s12">
             <input type="hidden" name="csrf" value="{{ @CSRF }}">
@@ -68,14 +65,13 @@
             </div>
         </form>
     </div>
-
 	<div class="row"><div class="col s12 center-align"><p><small><a href="http://phaziz.com" target="_blank">ConstructrCMS Version {{ @CONSTRUCTR_VERSION }}</small></a></p></div></div>
-
     <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/jquery/jquery-2.1.4.min.js"></script>
     <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/js/materialize.min.js"></script>
     <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/js/vex.combined.min.js"></script>
     <script>
         $(function() {
+        	$(".button-collapse").sideNav();
 			$(document).keyup(function(e) {
 			    if (e.which === 27) javascript:history.back();
 			});
