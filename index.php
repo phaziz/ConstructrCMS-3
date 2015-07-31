@@ -93,62 +93,28 @@
 			$PAGES = $APP->get('PAGES');
 
 			if($PAGES){
-				foreach($PAGES AS $PAGE){
-					if($PAGE['constructr_pages_mother'] == 0){
-						$NAVIGATION[$PAGE['constructr_pages_id']] = array (
-							'page_id' => $PAGE['constructr_pages_id'],
-							'page_order' => $PAGE['constructr_pages_order'],
-							'page_mother' => $PAGE['constructr_pages_mother'],
-							'page_name' => $PAGE['constructr_pages_name'],
-							'page_url' => $APP->get('CONSTRUCTR_BASE_URL') . '/' . $PAGE['constructr_pages_url']
-						);
-					} else {
-						$SUB_NAVIGATION[$PAGE['constructr_pages_mother']][$PAGE['constructr_pages_id']] = array (
-							'page_id' => $PAGE['constructr_pages_id'],
-							'page_order' => $PAGE['constructr_pages_order'],
-							'page_mother' => $PAGE['constructr_pages_mother'],
-							'page_name' => $PAGE['constructr_pages_name'],
-							'page_url' =>  $APP->get('CONSTRUCTR_BASE_URL') . '/' . $PAGE['constructr_pages_url'],
-						);
-					}
+				function constructrNavGen($PAGES, $MOTHER = 0){
+				        $TREE = '';
+				        $TREE = '<ul>';
+				        for($i=0, $ni=count($PAGES); $i < $ni; $i++){
+				            if($PAGES[$i]['constructr_pages_mother'] == $MOTHER){
+				                $TREE .= '<li><a href="'.$PAGES[$i]['constructr_pages_url'].'" data-title="'.$PAGES[$i]['constructr_pages_name'].'">';
+				                $TREE .= $PAGES[$i]['constructr_pages_name'].'</a>';
+				                $TREE .= constructrNavGen($PAGES, $PAGES[$i]['constructr_pages_id']);
+				                $TREE .= '</li>';
+				            }
+				        }
+				        $TREE .= '</ul>';
+						$TREE = str_replace('<ul></ul>','',$TREE);
+				        return $TREE;
 				}
 
-				$NAVIGATION_STRING='<ul>';
-
-				foreach($NAVIGATION AS $KEY => $PAGE){
-					if(isset($SUB_NAVIGATION[$PAGE['page_id']])){
-						$NAVIGATION_STRING.='<li><a href="'.$PAGE['page_url'].'" data-title="'.$PAGE['page_name'].'">'.$PAGE['page_name'].'</a><ul>';
-
-						foreach($SUB_NAVIGATION[$PAGE['page_id']] AS $SUB_KEY => $SUB_PAGE){
-
-							foreach($SUB_NAVIGATION[$PAGE['page_id']] AS $SUBSUB_KEY => $SUBSUB_PAGE){
-
-								if(isset($SUB_NAVIGATION[$SUBSUB_PAGE['page_id']]))
-								{
-									$NAVIGATION_STRING.='<li><a href="'.$SUBSUB_PAGE['page_url'].'" data-title="'.$SUBSUB_PAGE['page_name'].'">'.$SUBSUB_PAGE['page_name'].'</a><ul>';
-
-									foreach($SUB_NAVIGATION[$SUBSUB_PAGE['page_id']] AS $SUBSUBSUB_KEY => $SUBSUBSUB_PAGE){
-										$NAVIGATION_STRING.='<li><a href="'.$SUBSUBSUB_PAGE['page_url'].'" data-title="'.$SUBSUBSUB_PAGE['page_name'].'">'.$SUBSUBSUB_PAGE['page_name'].'</a></li>';
-									}
-
-									$NAVIGATION_STRING.='</ul></li>';
-								}
-								else
-								{
-									$NAVIGATION_STRING.='<li><a href="'.$SUBSUB_PAGE['page_url'].'" data-title="'.$SUBSUB_PAGE['page_name'].'">'.$SUBSUB_PAGE['page_name'].'</a></li>';	
-								}
-							}
-							break;
-						}
-
-						$NAVIGATION_STRING.='</ul></li>';
-					} else {
-						$NAVIGATION_STRING.='<li><a href="'.$PAGE['page_url'].'" data-title="'.$PAGE['page_name'].'">'.$PAGE['page_name'].'</a></li>';
-					}
-				}
-
-				$NAVIGATION_STRING.='<ul>';
+				$NAVIGATION = constructrNavGen($PAGES);
  			}
+			else
+			{
+				$NAVIGATION = '<ul><li><a href="'.$APP->get('CONSTRUCTR_BASE_URL').'">Home</a></li></ul>';
+			}
 
 			$TEMPLATE=file_get_contents($APP->get('TEMPLATES').$PAGE_TEMPLATE);
 
@@ -168,7 +134,7 @@
 
 			if($CONTENT_COUNTR == 0){
 				$PAGE_CONTENT_RAW='<p>Keine Inhalte vorhanden</p>';
-				$PAGE_CONTENT_HTML='<p>Keine Inhalte vorhanden</p>';	
+				$PAGE_CONTENT_HTML='<p>Keine Inhalte vorhanden</p>';
 			} else {
 				$PAGE_CONTENT_HTML='';
 				$PAGE_CONTENT_RAW='';
@@ -181,12 +147,11 @@
 			}
 
 			$SEARCHR=array('{{@ CONSTRUCTR_BASE_URL @}}','{{@ PAGE_ID @}}','{{@ PAGE_TEMPLATE @}}','{{@ PAGE_NAME @}}','{{@ PAGE_CONTENT_RAW @}}','{{@ PAGE_CONTENT_HTML @}}','{{@ PAGE_CSS @}}','{{@ PAGE_JS @}}','{{@ PAGE_NAVIGATION_UL_LI @}}','{{@ CONSTRUCTR_PAGE_TITLE @}}','{{@ CONSTRUCTR_PAGE_KEYWORDS @}}','{{@ CONSTRUCTR_PAGE_DESCRIPTION @}}');
-			$REPLACR=array($APP->get('CONSTRUCTR_BASE_URL'),$PAGE_ID,$PAGE_TEMPLATE,$PAGE_NAME,$PAGE_CONTENT_RAW,$PAGE_CONTENT_HTML,$PAGE_CSS,$PAGE_JS,$NAVIGATION_STRING,$PAGE_TITLE,$PAGE_DESCRIPTION,$PAGE_KEYWORDS);
+			$REPLACR=array($APP->get('CONSTRUCTR_BASE_URL'),$PAGE_ID,$PAGE_TEMPLATE,$PAGE_NAME,$PAGE_CONTENT_RAW,$PAGE_CONTENT_HTML,$PAGE_CSS,$PAGE_JS,$NAVIGATION,$PAGE_TITLE,$PAGE_DESCRIPTION,$PAGE_KEYWORDS);
 			$TEMPLATE=str_replace($SEARCHR,$REPLACR,$TEMPLATE);
 			$TEMPLATE .="<!-- ConstructrCMS Version ".$APP->get("CONSTRUCTR_VERSION")." / http://phaziz.com -->";
 
 			echo $TEMPLATE;
-
 			die();
 		} else {
 			$APP->get('CONSTRUCTR_LOG')->write('Frontend: 404');
