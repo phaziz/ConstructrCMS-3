@@ -18,6 +18,7 @@
 	$APP->set('CONSTRUCTR_REPLACE_BASE_URL',$CONSTRUCTR_CONFIG['CONSTRUCTR_REPLACE_BASE_URL']);
 	$APP->set('ENCODING','utf-8');
     $APP->set('AUTOLOAD', __DIR__.'/CONSTRUCTR-CMS/CONTROLLER/');
+	$APP->set('CONSTRUCTR_LOG', $CONSTRUCTR_LOG = new \Log('CONSTRUCTR-CMS/LOGFILES/'.date('Y-m-d').'-constructr.txt'));
 
     try {
     	$APP->set('DBCON', $DBCON = new DB\SQL('mysql:host=' . $APP->get('DATABASE_HOSTNAME') . ';port=' . $APP->get('DATABASE_PORT') . ';dbname=' . $APP->get('DATABASE_DATABASE'), $APP->get('DATABASE_USERNAME'), $APP->get('DATABASE_PASSWORD')));
@@ -27,14 +28,7 @@
     }
 
 	if($APP->get('DB_CONNECTION') == false){
-	    function getCurrentUrl(){
-	        $ACT_URL = ((empty($_SERVER['HTTPS'])) ? 'http://' : 'https://').$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-	        return $ACT_URL;
-	    }
-
-		$CURRENT_URL = getCurrentUrl();
-		echo 'Setup ConstructrCMS <a href="' . $CURRENT_URL . 'CONSTRUCTR-CMS-SETUP/">here</a>';
-
+		echo 'Setup ConstructrCMS <a href="' . ((empty($_SERVER['HTTPS'])) ? 'http://' : 'https://').$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'] . 'CONSTRUCTR-CMS-SETUP/">here</a>';
 		die();
 	}
 
@@ -166,7 +160,6 @@
 		$APP->set('DEBUG',3);
 	    $APP->set('CACHE',true);
 		$APP->set('UPLOADS',__DIR__.'/UPLOADS/');
-		$APP->set('CONSTRUCTR_LOG', $CONSTRUCTR_LOG = new \Log('CONSTRUCTR-CMS/LOGFILES/'.date('Y-m-d').'-constructr.txt'));	
 
 		require_once __DIR__.'/CONSTRUCTR-CMS/USER_RIGHTS/user_rights.php';
 
