@@ -4,7 +4,7 @@
     {
         public function beforeRoute($APP)
         {
-            if ($APP->get('SESSION.username') != '' && $APP->get('SESSION.password') != '') {
+            if ($APP->get('SESSION.login') == 'true' && $APP->get('SESSION.username') != '' && $APP->get('SESSION.password') != ''){
                 $APP->set('LOGIN_USER', $APP->get('DBCON')->exec(
                         array(
                             'SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;'
@@ -39,25 +39,25 @@
                 $i = 1;
                 $CLEAN_USER_RIGHTS = array();
 
-                foreach ($ITERATOR as $VALUE) {
-                    if ($i == 5) {
+                foreach ($ITERATOR as $VALUE){
+                    if ($i == 5){
                         $i = 1;
                     }
-                    if ($i == 3) {
+                    if ($i == 3){
                         $MODUL_ID = $VALUE;
                     }
-                    if ($i == 4) {
+                    if ($i == 4){
                         $RIGHT = $VALUE;
                     }
                     $i++;
-                    if ($i == 5) {
+                    if ($i == 5){
                         $CLEAN_USER_RIGHTS[$MODUL_ID] = $RIGHT;
                     }
                 }
 
                 $APP->set('LOGIN_USER_RIGHTS', $CLEAN_USER_RIGHTS);
 
-                if (count($LOGIN_USER) != 1) {
+                if (count($LOGIN_USER) != 1){
                     $APP->get('CONSTRUCTR_LOG')->write('USER NOT FOUND - USERNAME: '.$APP->get('SESSION.username'));
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');
                 }
@@ -71,12 +71,10 @@
             $APP->set('MODUL_ID', 50);
             $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
 
-            if ($USER_RIGHTS == false) {
+            if ($USER_RIGHTS == false){
                 $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
-
-            $APP->set('SESSION.login', $APP->get('SESSION.login'));
 
             $PAGE_ID = filter_var($APP->get('PARAMS.page_id'), FILTER_SANITIZE_NUMBER_INT);
             $APP->set('PAGE_ID', $PAGE_ID);
@@ -93,25 +91,25 @@
                 )
             );
 
-            if (isset($_GET['edit'])) {
+            if (isset($_GET['edit'])){
                 $APP->set('EDIT', $_GET['edit']);
             } else {
                 $APP->set('EDIT', '');
             }
 
-            if (isset($_GET['new'])) {
+            if (isset($_GET['new'])){
                 $APP->set('NEW', $_GET['new']);
             } else {
                 $APP->set('NEW', '');
             }
 
-            if (isset($_GET['delete'])) {
+            if (isset($_GET['delete'])){
                 $APP->set('DELETE', $_GET['delete']);
             } else {
                 $APP->set('DELETE', '');
             }
 
-            if (isset($_GET['move'])) {
+            if (isset($_GET['move'])){
                 $APP->set('MOVE', $_GET['move']);
             } else {
                 $APP->set('MOVE', '');
@@ -140,16 +138,14 @@
             $APP->set('MODUL_ID', 51);
             $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
 
-            if ($USER_RIGHTS == false) {
+            if ($USER_RIGHTS == false){
                 $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->set('SESSION.login', $APP->get('SESSION.login'));
-
             $PAGE_ID = filter_var($APP->get('PARAMS.page_id'), FILTER_SANITIZE_NUMBER_INT);
-            $APP->set('PAGE_ID', $PAGE_ID);
 
+            $APP->set('PAGE_ID', $PAGE_ID);
             $APP->set('PAGE', $APP->get('DBCON')->exec(
                     array(
                         'SELECT * FROM constructr_pages WHERE constructr_pages_id=:PAGE_ID LIMIT 1;'
@@ -193,11 +189,11 @@
             $FILES = array();
 			$i = 0;
 
-            while ( $FILE = readdir( $H ) ) {
-                if ( $FILE != '.' && $FILE != '..' ) {
+            while ( $FILE = readdir( $H ) ){
+                if ( $FILE != '.' && $FILE != '..' ){
 					$FT = strtolower( strrchr( $FILE, '.' ) );
 
-					if( $FT == '.jpg' || $FT == '.jpeg' || $FT == '.gif' || $FT == '.png' || $FT == '.svg' ) {
+					if( $FT == '.jpg' || $FT == '.jpeg' || $FT == '.gif' || $FT == '.png' || $FT == '.svg' ){
 	                    $IMAGES[$i] = $FILE;
 	                    $i++;
 					} else {
@@ -223,12 +219,10 @@
             $APP->set('MODUL_ID', 51);
             $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
 
-            if ($USER_RIGHTS == false) {
+            if ($USER_RIGHTS == false){
                 $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
-
-            $APP->set('SESSION.login', $APP->get('SESSION.login'));
 
             $PAGE_ID = filter_var($APP->get('PARAMS.page_id'), FILTER_SANITIZE_NUMBER_INT);
             $APP->set('PAGE_ID', $PAGE_ID);
@@ -241,33 +235,33 @@
             $POST_ADDITIVE = $APP->get('POST.csrf_additive');
             $POST_TRIPPLE_ADDITIVE = $APP->get('POST.csrf_tripple_additive');
 
-            if ($POST_CSRF != '') {
-                if ($POST_CSRF != $APP->get('SESSION.csrf')) {
+            if ($POST_CSRF != ''){
+                if ($POST_CSRF != $APP->get('SESSION.csrf')){
                     $APP->get('CONSTRUCTR_LOG')->write('FORM CSRF DON\'T MATCH: '.$POST_USERNAME);
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
                 }
             }
 
-            if ($POST_ADDITIVE != '') {
-                if ($POST_ADDITIVE != $APP->get('SESSION.additive')) {
+            if ($POST_ADDITIVE != ''){
+                if ($POST_ADDITIVE != $APP->get('SESSION.additive')){
                     $APP->get('CONSTRUCTR_LOG')->write('FORM ADDITIVE DON\'T MATCH: '.$POST_USERNAME);
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
                 }
             }
 
-            if ($POST_TRIPPLE_ADDITIVE != '') {
-                if ($POST_TRIPPLE_ADDITIVE != $APP->get('SESSION.tripple_additive')) {
+            if ($POST_TRIPPLE_ADDITIVE != ''){
+                if ($POST_TRIPPLE_ADDITIVE != $APP->get('SESSION.tripple_additive')){
                     $APP->get('CONSTRUCTR_LOG')->write('FORM TRIPPLE ADDITIVE DON\'T MATCH: '.$POST_USERNAME);
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
                 }
             }
 
-            if ($POST_TRIPPLE_ADDITIVE != $POST_ADDITIVE.$POST_CSRF) {
+            if ($POST_TRIPPLE_ADDITIVE != $POST_ADDITIVE.$POST_CSRF){
                 $APP->get('CONSTRUCTR_LOG')->write('FORM TRIPPLE ADDITIVE COMPARISON DON\'T MATCH: '.$POST_USERNAME);
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
             }
 
-            if ($APP->get('PAGE_ID') != '' && $NEW_POSITION != '') {
+            if ($APP->get('PAGE_ID') != '' && $NEW_POSITION != ''){
                 $APP->set('NEW_CONTENT', $APP->get('DBCON')->exec(
                         array(
                             'INSERT INTO constructr_content SET constructr_content_page_id=:PAGE_ID, constructr_content_content_raw=:NEW_CONTENT_RAW, constructr_content_content_html=:NEW_CONTENT_HTML, constructr_content_order=:NEW_POSITION;'
@@ -298,7 +292,7 @@
 			$PARSED_HTML = '';
             $LIVE_CONTENT = $APP->get('POST.content');
 
-			if($LIVE_CONTENT != '') {
+			if($LIVE_CONTENT != ''){
 				$PARSED_HTML = \Markdown::instance()->convert($LIVE_CONTENT);
 				echo $PARSED_HTML;	
 			}
@@ -309,16 +303,14 @@
             $APP->set('MODUL_ID', 52);
             $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
 
-            if ($USER_RIGHTS == false) {
+            if ($USER_RIGHTS == false){
                 $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->set('SESSION.login', $APP->get('SESSION.login'));
-
             $PAGE_ID = filter_var($APP->get('PARAMS.page_id'), FILTER_SANITIZE_NUMBER_INT);
-            $APP->set('PAGE_ID', $PAGE_ID);
 
+            $APP->set('PAGE_ID', $PAGE_ID);
             $APP->set('PAGE', $APP->get('DBCON')->exec(
                     array(
                         'SELECT * FROM constructr_pages WHERE constructr_pages_id=:PAGE_ID LIMIT 1;'
@@ -333,7 +325,6 @@
 
             $CONTENT_ID = filter_var($APP->get('PARAMS.content_id'), FILTER_SANITIZE_NUMBER_INT);
             $APP->set('CONTENT_ID', $CONTENT_ID);
-
             $CSRF = parent::csrf();
             $APP->set('CSRF', $CSRF);
             $APP->set('SESSION.csrf', $CSRF);
@@ -366,11 +357,11 @@
             $FILES = array();
 			$i = 0;
 
-            while ( $FILE = readdir( $H ) ) {
-                if ( $FILE != '.' && $FILE != '..' ) {
+            while ( $FILE = readdir( $H ) ){
+                if ( $FILE != '.' && $FILE != '..' ){
 					$FT = strtolower( strrchr( $FILE, '.' ) );
 
-					if( $FT == '.jpg' || $FT == '.jpeg' || $FT == '.gif' || $FT == '.png' || $FT == '.svg' ) {
+					if( $FT == '.jpg' || $FT == '.jpeg' || $FT == '.gif' || $FT == '.png' || $FT == '.svg' ){
 	                    $IMAGES[$i] = $FILE;
 	                    $i++;
 					} else {
@@ -388,7 +379,7 @@
             $APP->set('IMAGES', $IMAGES);
             $APP->set('FILES', $FILES);
 
-            if ($APP->get('CONTENT_COUNTR') == 1) {
+            if ($APP->get('CONTENT_COUNTR') == 1){
                 echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_content_edit.html', 'text/html');
             } else {
                 $APP->set('EDIT', 'no-success');
@@ -401,39 +392,37 @@
             $APP->set('MODUL_ID', 52);
             $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
 
-            if ($USER_RIGHTS == false) {
+            if ($USER_RIGHTS == false){
                 $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
-
-            $APP->set('SESSION.login', $APP->get('SESSION.login'));
 
             $POST_CSRF = $APP->get('POST.csrf');
             $POST_ADDITIVE = $APP->get('POST.csrf_additive');
             $POST_TRIPPLE_ADDITIVE = $APP->get('POST.csrf_tripple_additive');
 
-            if ($POST_CSRF != '') {
-                if ($POST_CSRF != $APP->get('SESSION.csrf')) {
+            if ($POST_CSRF != ''){
+                if ($POST_CSRF != $APP->get('SESSION.csrf')){
                     $APP->get('CONSTRUCTR_LOG')->write('FORM CSRF DON\'T MATCH: '.$POST_USERNAME);
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
                 }
             }
 
-            if ($POST_ADDITIVE != '') {
-                if ($POST_ADDITIVE != $APP->get('SESSION.additive')) {
+            if ($POST_ADDITIVE != ''){
+                if ($POST_ADDITIVE != $APP->get('SESSION.additive')){
                     $APP->get('CONSTRUCTR_LOG')->write('FORM ADDITIVE DON\'T MATCH: '.$POST_USERNAME);
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
                 }
             }
 
-            if ($POST_TRIPPLE_ADDITIVE != '') {
-                if ($POST_TRIPPLE_ADDITIVE != $APP->get('SESSION.tripple_additive')) {
+            if ($POST_TRIPPLE_ADDITIVE != ''){
+                if ($POST_TRIPPLE_ADDITIVE != $APP->get('SESSION.tripple_additive')){
                     $APP->get('CONSTRUCTR_LOG')->write('FORM TRIPPLE ADDITIVE DON\'T MATCH: '.$POST_USERNAME);
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
                 }
             }
 
-            if ($POST_TRIPPLE_ADDITIVE != $POST_ADDITIVE.$POST_CSRF) {
+            if ($POST_TRIPPLE_ADDITIVE != $POST_ADDITIVE.$POST_CSRF){
                 $APP->get('CONSTRUCTR_LOG')->write('FORM TRIPPLE ADDITIVE COMPARISON DON\'T MATCH: '.$POST_USERNAME);
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
             }
@@ -447,7 +436,7 @@
             $EDIT_CONTENT_RAW = $APP->get('POST.edit_content_raw');
 			$EDIT_CONTENT_HTML = \Markdown::instance()->convert($EDIT_CONTENT_RAW);
 
-            if ($PAGE_ID != '' && $CONTENT_ID != '') {
+            if ($PAGE_ID != '' && $CONTENT_ID != ''){
                 $APP->set('EDIT_CONTENT', $APP->get('DBCON')->exec(
                         array(
                             'UPDATE constructr_content SET constructr_content_content_raw=:EDIT_CONTENT_RAW, constructr_content_content_html=:EDIT_CONTENT_HTML WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_id=:CONTENT_ID LIMIT 1;'
@@ -476,19 +465,17 @@
             $APP->set('MODUL_ID', 52);
             $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
 
-            if ($USER_RIGHTS == false) {
+            if ($USER_RIGHTS == false){
                 $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
-
-            $APP->set('SESSION.login', $APP->get('SESSION.login'));
 
 			$WHAT = filter_var($APP->get('PARAMS.what'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 			$PAGE_ID = filter_var($APP->get('PARAMS.page_id'), FILTER_SANITIZE_NUMBER_INT);
 			$CONTENT_ID = filter_var($APP->get('PARAMS.content_id'), FILTER_SANITIZE_NUMBER_INT);
 
-			if($WHAT != '' && $PAGE_ID != '') {
-				if($WHAT == 'on') {
+			if($WHAT != '' && $PAGE_ID != ''){
+				if($WHAT == 'on'){
 	                $APP->set('UPDATER', $APP->get('DBCON')->exec(
 	                        array(
 	                            'UPDATE constructr_content SET constructr_content_visible=1 WHERE constructr_content_id=:CONTENT_ID LIMIT 1;'
@@ -530,12 +517,10 @@
             $APP->set('MODUL_ID', 54);
             $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
 
-            if ($USER_RIGHTS == false) {
+            if ($USER_RIGHTS == false){
                 $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
-
-            $APP->set('SESSION.login', $APP->get('SESSION.login'));
 
             $PAGE_ID = filter_var($APP->get('PARAMS.page_id'), FILTER_SANITIZE_NUMBER_INT);
             $APP->set('PAGE_ID', $PAGE_ID);
@@ -543,7 +528,7 @@
             $CONTENT_ID = filter_var($APP->get('PARAMS.content_id'), FILTER_SANITIZE_NUMBER_INT);
             $APP->set('CONTENT_ID', $CONTENT_ID);
 
-            if ($PAGE_ID != '' && $CONTENT_ID != '') {
+            if ($PAGE_ID != '' && $CONTENT_ID != ''){
                 $APP->set('SELECT_CONTENT', $APP->get('DBCON')->exec(
                         array(
                             'SELECT * FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_id=:CONTENT_ID LIMIT 1;'
@@ -560,7 +545,7 @@
                 $APP->set('CONTENT_COUNTR', 0);
                 $APP->set('CONTENT_COUNTR', count($APP->get('SELECT_CONTENT')));
 
-                if ($APP->get('CONTENT_COUNTR') == 1) {
+                if ($APP->get('CONTENT_COUNTR') == 1){
                     $APP->set('DELETE_CONTENT', $APP->get('DBCON')->exec(
                             array(
                                 'DELETE FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_id=:CONTENT_ID LIMIT 1;'
@@ -606,26 +591,20 @@
             $APP->set('MODUL_ID', 53);
             $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
 
-            if ($USER_RIGHTS == false) {
+            if ($USER_RIGHTS == false){
                 $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->set('SESSION.login', $APP->get('SESSION.login'));
-
             $PAGE_ID = filter_var($APP->get('PARAMS.page_id'), FILTER_SANITIZE_NUMBER_INT);
             $APP->set('PAGE_ID', $PAGE_ID);
-
             $CONTENT_ID = filter_var($APP->get('PARAMS.content_id'), FILTER_SANITIZE_NUMBER_INT);
             $APP->set('CONTENT_ID', $CONTENT_ID);
-
             $METHOD = filter_var($APP->get('PARAMS.method'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $APP->set('METHOD', $METHOD);
 
             $APP->set('SELECT_CONTENT', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT * FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_id=:CONTENT_ID LIMIT 1;'
-                    ),
+                    array('SELECT * FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_id=:CONTENT_ID LIMIT 1;'),
                     array(
                         array(
                             ':PAGE_ID' => $PAGE_ID,
@@ -638,8 +617,8 @@
             $APP->set('CONTENT_COUNTR', 0);
             $APP->set('CONTENT_COUNTR', count($APP->get('SELECT_CONTENT')));
 
-            if ($APP->get('CONTENT_COUNTR') == 1) {
-                if ($METHOD == 'up') {
+            if ($APP->get('CONTENT_COUNTR') == 1){
+                if ($METHOD == 'up'){
                     $ACT_POSITION = $APP->get('SELECT_CONTENT.0.constructr_content_order');
                     $NEW_POSITION = ($APP->get('SELECT_CONTENT.0.constructr_content_order')-1);
 
@@ -686,7 +665,7 @@
 
                     $APP->set('MOVE', 'success');
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/content/'.$PAGE_ID.'/?move=success');
-                } elseif ($METHOD == 'down') {
+                } elseif ($METHOD == 'down'){
                     $ACT_POSITION = $APP->get('SELECT_CONTENT.0.constructr_content_order');
                     $NEW_POSITION = ($APP->get('SELECT_CONTENT.0.constructr_content_order')+1);
 

@@ -34,29 +34,6 @@
     $NEW_GUID10 = create_guid();
     $NEW_GUID11 = create_guid();
 
-?>
-<!DOCTYPE html>
-	<html>
-	<head>
-	    <title>Constructr CMS Installation</title>
-	    <meta charset="UTF-8">
-	    <meta name="description" content="Installation von Constructr CMS">
-	    <meta name="keywords" content="Constructr CMS, phaziz.com, Christian Becher">
-	    <link rel="stylesheet" href="<?php echo getCurrentUrl(); ?>/CONSTRUCTR-CMS/ASSETS/css/constructr.css">
-	    <link rel="stylesheet" href="<?php echo getCurrentUrl(); ?>/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
-	    <style>
-	    	#container{width: 65%;margin:5em auto;}
-	    	a:link, a:active, a:visited{text-decoration: none;color:#444;}
-	    	a:hover{text-decoration: none;color:#ff0066;}
-	    	h1{font-weight: 200;}
-	    </style>
-	</head>
-		<body>
-
-			<div id="container">
-
-<?php
-
 if (isset($_POST['setup'])) {
     $NL = "\n";
     $_CONFIG_FILE_CONTENT = '
@@ -77,8 +54,6 @@ if (isset($_POST['setup'])) {
     $CREATE_CONFIG = fopen($FILE, 'w+') or die('FILE NOT FOUND ERROR: Please create file: CONSTRUCTR-CMS/CONFIG/constructr_config.json');
     fwrite($CREATE_CONFIG, trim($_CONFIG_FILE_CONTENT)) or die('ERROR 2');
     fclose($CREATE_CONFIG) or die('ERROR 3');
-
-    echo '<div class="alert alert-success" role="alert">Konfigurationsdatei wurde geschrieben...</div>';
 
     try {
         $DBCON = new PDO('mysql:host='.$_POST['db_host'].';dbname='.$_POST['db_database'], $_POST['db_user'], $_POST['db_password'], array(PDO::ATTR_PERSISTENT => true));
@@ -196,10 +171,32 @@ ALTER TABLE `constructr_user_rights`
     } catch (PDOException $e) {
         die('<div class="alert alert-danger" role="alert">Fehler bei der Datenbankverbindung - Bitte Daten &uuml;berpr&uuml;fen ('.$e.')!</div>');
     }
-    echo '<div class="alert alert-success" role="alert">Datenbank wurde eingerichtet - Sie k&ouml;nnen sich nun anmelden: <a href="'.$_POST['base_url'].'/constructr/">Constructr CMS Login</a></div>';
+
+    header('Location: '.$_POST['base_url'].'/constructr/');
     die();
 }
 ?>
+
+<!DOCTYPE html>
+	<html>
+	<head>
+	    <title>Constructr CMS Installation</title>
+	    <meta charset="UTF-8">
+	    <meta name="description" content="Installation von Constructr CMS">
+	    <meta name="keywords" content="Constructr CMS, phaziz.com, Christian Becher">
+	    <link rel="stylesheet" href="<?php echo getCurrentUrl(); ?>/CONSTRUCTR-CMS/ASSETS/css/constructr.css">
+	    <link rel="stylesheet" href="<?php echo getCurrentUrl(); ?>/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
+	    <style>
+	    	#container{width: 65%;margin:5em auto;}
+	    	a:link, a:active, a:visited{text-decoration: none;color:#444;}
+	    	a:hover{text-decoration: none;color:#ff0066;}
+	    	h1{font-weight: 200;}
+	    </style>
+	</head>
+		<body>
+
+			<div id="container">
+
 				<div class="row">
 					<div class="col-md-12" style="text-align:center;">
 				  		<h1>ConstructrCMS</h1>

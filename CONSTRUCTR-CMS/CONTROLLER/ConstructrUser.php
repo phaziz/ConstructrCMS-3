@@ -4,7 +4,7 @@
     {
         public function beforeRoute($APP)
         {
-            if ($APP->get('SESSION.username') != '' && $APP->get('SESSION.password') != '') {
+            if ($APP->get('SESSION.login') == 'true' && $APP->get('SESSION.username') != '' && $APP->get('SESSION.password') != ''){
                 $APP->set('LOGIN_USER', $APP->get('DBCON')->exec(
                         array(
                             'SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;'
@@ -35,29 +35,28 @@
                 );
 
                 $ITERATOR = new RecursiveIteratorIterator(new RecursiveArrayIterator($APP->get('LOGIN_USER_RIGHTS')));
-
                 $i = 1;
                 $CLEAN_USER_RIGHTS = array();
 
-                foreach ($ITERATOR as $VALUE) {
-                    if ($i == 5) {
+                foreach ($ITERATOR as $VALUE){
+                    if ($i == 5){
                         $i = 1;
                     }
-                    if ($i == 3) {
+                    if ($i == 3){
                         $MODUL_ID = $VALUE;
                     }
-                    if ($i == 4) {
+                    if ($i == 4){
                         $RIGHT = $VALUE;
                     }
                     $i++;
-                    if ($i == 5) {
+                    if ($i == 5){
                         $CLEAN_USER_RIGHTS[$MODUL_ID] = $RIGHT;
                     }
                 }
 
                 $APP->set('LOGIN_USER_RIGHTS', $CLEAN_USER_RIGHTS);
 
-                if (count($LOGIN_USER) != 1) {
+                if (count($LOGIN_USER) != 1){
                     $APP->get('CONSTRUCTR_LOG')->write('USER NOT FOUND - USERNAME: '.$APP->get('SESSION.username'));
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');
                 }
@@ -68,15 +67,14 @@
 
         public function user_management($APP)
         {
-            $APP->set('MODUL_ID', 40);
+			$APP->set('MODUL_ID', 40);
             $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
 
-            if ($USER_RIGHTS == false) {
+            if ($USER_RIGHTS == false){
                 $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->set('SESSION.login', $APP->get('SESSION.login'));
             $CSRF = parent::csrf();
             $APP->set('CSRF', $CSRF);
             $APP->set('SESSION.csrf', $CSRF);
@@ -87,19 +85,19 @@
             $APP->set('TRIPPLE_ADDITIVE', $TRIPPLE_ADDITIVE);
             $APP->set('SESSION.tripple_additive', $TRIPPLE_ADDITIVE);
 
-            if (isset($_GET['edit'])) {
+            if (isset($_GET['edit'])){
                 $APP->set('EDIT', $_GET['edit']);
             } else {
                 $APP->set('EDIT', '');
             }
 
-            if (isset($_GET['new'])) {
+            if (isset($_GET['new'])){
                 $APP->set('NEW', $_GET['new']);
             } else {
                 $APP->set('NEW', '');
             }
 
-            if (isset($_GET['delete'])) {
+            if (isset($_GET['delete'])){
                 $APP->set('DELETE', $_GET['delete']);
             } else {
                 $APP->set('DELETE', '');
@@ -127,19 +125,16 @@
             $APP->set('MODUL_ID', 44);
             $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
 
-            if ($USER_RIGHTS == false) {
+            if ($USER_RIGHTS == false){
                 $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->set('SESSION.login', $APP->get('SESSION.login'));
             $USER_ID = filter_var($APP->get('PARAMS.user_id'), FILTER_SANITIZE_NUMBER_INT);
 			$APP->set('USER_ID',$USER_ID);
 
             $APP->set('USER_RIGHTS', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT * FROM constructr_user_rights WHERE constructr_user_rights_user=:USER_ID ORDER BY constructr_user_rights_key ASC;'
-                    ),
+                    array('SELECT * FROM constructr_user_rights WHERE constructr_user_rights_user=:USER_ID ORDER BY constructr_user_rights_key ASC;'),
                     array(
                         array(
                             ':USER_ID' => $USER_ID
@@ -151,10 +146,9 @@
 			$APP->set('USER_RIGHTS_COUNTR', count($APP->get('USER_RIGHTS')));
 
 			$CONSTRUCTR_USER_RIGHTS = $APP->get('ALL_CONSTRUCTR_USER_RIGHTS');
-
 			$THIS_USER_RIGHTS = array();
 
-			foreach($APP->get('USER_RIGHTS') AS $KEY => $VALUE) {
+			foreach($APP->get('USER_RIGHTS') AS $KEY => $VALUE){
 				$THIS_USER_RIGHTS[$CONSTRUCTR_USER_RIGHTS[$VALUE['constructr_user_rights_key']]] = array(
 					'bezeichnung' => $CONSTRUCTR_USER_RIGHTS[$VALUE['constructr_user_rights_key']],
 					'recht_key' => $VALUE['constructr_user_rights_key'],
@@ -171,15 +165,23 @@
 
 		public function user_management_update_rights($APP)
 		{
+			$APP->set('MODUL_ID', 44);
+            $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
+
+            if ($USER_RIGHTS == false){
+                $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
+            }
+
             $RAW_ID = $APP->get('POST.id');
 
-			if($RAW_ID != '') {
+			if($RAW_ID != ''){
 				$RAW_ID_PARTS = explode('@',$RAW_ID);
 				$RAW_RIGHT_ID = filter_var(str_replace('right_id_','',$RAW_ID_PARTS[0]), FILTER_SANITIZE_NUMBER_INT);
 				$RAW_USER_ID = filter_var(str_replace('user_id_','',$RAW_ID_PARTS[0]), FILTER_SANITIZE_NUMBER_INT);
 				$RAW_RIGHT = filter_var(str_replace('right_','',$RAW_ID_PARTS[0]), FILTER_SANITIZE_NUMBER_INT);
 
-				if($RAW_RIGHT_ID != '' && $RAW_USER_ID != '' && $RAW_RIGHT != '') {
+				if($RAW_RIGHT_ID != '' && $RAW_USER_ID != '' && $RAW_RIGHT != ''){
 		            $APP->set('SELECT_RIGHT', $APP->get('DBCON')->exec(
 		                    array(
 		                        'SELECT * FROM constructr_user_rights WHERE constructr_user_rights_id=:RAW_RIGHT_ID LIMIT 1;'
@@ -192,7 +194,7 @@
 		                )
 		            );
 
-					if($APP->get('SELECT_RIGHT.0.constructr_user_rights_value') == 1) {
+					if($APP->get('SELECT_RIGHT.0.constructr_user_rights_value') == 1){
 			            $APP->set('UPDATE_RIGHT', $APP->get('DBCON')->exec(
 			                    array(
 			                        'UPDATE constructr_user_rights SET constructr_user_rights_value=0 WHERE constructr_user_rights_id=:RAW_RIGHT_ID LIMIT 1;'
@@ -232,12 +234,11 @@
             $APP->set('MODUL_ID', 41);
             $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
 
-            if ($USER_RIGHTS == false) {
+            if ($USER_RIGHTS == false){
                 $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->set('SESSION.login', $APP->get('SESSION.login'));
             $CSRF = parent::csrf();
             $APP->set('CSRF', $CSRF);
             $APP->set('SESSION.csrf', $CSRF);
@@ -256,39 +257,37 @@
             $APP->set('MODUL_ID', 41);
             $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
 
-            if ($USER_RIGHTS == false) {
+            if ($USER_RIGHTS == false){
                 $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
-
-            $APP->set('SESSION.login', $APP->get('SESSION.login'));
 
             $POST_CSRF = $APP->get('POST.csrf');
             $POST_ADDITIVE = $APP->get('POST.csrf_additive');
             $POST_TRIPPLE_ADDITIVE = $APP->get('POST.csrf_tripple_additive');
 
-            if ($POST_CSRF != '') {
-                if ($POST_CSRF != $APP->get('SESSION.csrf')) {
+            if ($POST_CSRF != ''){
+                if ($POST_CSRF != $APP->get('SESSION.csrf')){
                     $APP->get('CONSTRUCTR_LOG')->write('LOGIN FORM CSRF DON\'T MATCH: '.$POST_USERNAME);
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
                 }
             }
 
-            if ($POST_ADDITIVE != '') {
-                if ($POST_ADDITIVE != $APP->get('SESSION.additive')) {
+            if ($POST_ADDITIVE != ''){
+                if ($POST_ADDITIVE != $APP->get('SESSION.additive')){
                     $APP->get('CONSTRUCTR_LOG')->write('FORM ADDITIVE DON\'T MATCH: '.$POST_USERNAME);
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
                 }
             }
 
-            if ($POST_TRIPPLE_ADDITIVE != '') {
-                if ($POST_TRIPPLE_ADDITIVE != $APP->get('SESSION.tripple_additive')) {
+            if ($POST_TRIPPLE_ADDITIVE != ''){
+                if ($POST_TRIPPLE_ADDITIVE != $APP->get('SESSION.tripple_additive')){
                     $APP->get('CONSTRUCTR_LOG')->write('FORM TRIPPLE ADDITIVE DON\'T MATCH: '.$POST_USERNAME);
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
                 }
             }
 
-            if ($POST_TRIPPLE_ADDITIVE != $POST_ADDITIVE.$POST_CSRF) {
+            if ($POST_TRIPPLE_ADDITIVE != $POST_ADDITIVE.$POST_CSRF){
                 $APP->get('CONSTRUCTR_LOG')->write('FORM TRIPPLE ADDITIVE COMPARISON DON\'T MATCH: '.$POST_USERNAME);
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
             }
@@ -311,7 +310,7 @@
 
             $USER_EXISTS_COUNTR = count($APP->get('USER_EXISTS'));
 
-            if ($USER_EXISTS_COUNTR != 0) {
+            if ($USER_EXISTS_COUNTR != 0){
                 $APP->set('NEW', 'no-success');
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/usermanagement?new=no-success');
             }
@@ -349,7 +348,7 @@
 			$NEW_USER_ID = $APP->get('SELECT_NEW_USER.0.constructr_user_id');
 			$ALL_CONSTRUCTR_USER_RIGHTS = $APP->get('ALL_CONSTRUCTR_USER_RIGHTS');
 
-			foreach($ALL_CONSTRUCTR_USER_RIGHTS AS $KEY => $VALUE) {
+			foreach($ALL_CONSTRUCTR_USER_RIGHTS AS $KEY => $VALUE){
 	            $APP->set('INSERT_NEW_USER_RIGHT', $APP->get('DBCON')->exec(
 	                    array(
 	                    	'INSERT INTO constructr_user_rights SET constructr_user_rights_user=:NEW_USER_ID, constructr_user_rights_key=:KEY, constructr_user_rights_value=1;'
@@ -372,12 +371,10 @@
             $APP->set('MODUL_ID', 43);
             $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
 
-            if ($USER_RIGHTS == false) {
+            if ($USER_RIGHTS == false){
                 $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
-
-            $APP->set('SESSION.login', $APP->get('SESSION.login'));
 
             $DELETE_USER_ID = filter_var($APP->get('PARAMS.user_id'), FILTER_SANITIZE_NUMBER_INT);
 
@@ -413,15 +410,12 @@
             $APP->set('MODUL_ID', 42);
             $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
 
-            if ($USER_RIGHTS == false) {
+            if ($USER_RIGHTS == false){
                 $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $APP->set('SESSION.login', $APP->get('SESSION.login'));
-
             $USER_ID = filter_var($APP->get('PARAMS.user_id'), FILTER_SANITIZE_NUMBER_INT);
-
             $CSRF = parent::csrf();
             $APP->set('CSRF', $CSRF);
             $APP->set('SESSION.csrf', $CSRF);
@@ -454,7 +448,7 @@
             $APP->set('MODUL_ID', 42);
             $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
 
-            if ($USER_RIGHTS == false) {
+            if ($USER_RIGHTS == false){
                 $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
@@ -463,28 +457,28 @@
             $POST_ADDITIVE = $APP->get('POST.csrf_additive');
             $POST_TRIPPLE_ADDITIVE = $APP->get('POST.csrf_tripple_additive');
 
-            if ($POST_CSRF != '') {
-                if ($POST_CSRF != $APP->get('SESSION.csrf')) {
+            if ($POST_CSRF != ''){
+                if ($POST_CSRF != $APP->get('SESSION.csrf')){
                     $APP->get('CONSTRUCTR_LOG')->write('LOGIN FORM CSRF DON\'T MATCH: '.$POST_USERNAME);
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
                 }
             }
 
-            if ($POST_ADDITIVE != '') {
-                if ($POST_ADDITIVE != $APP->get('SESSION.additive')) {
+            if ($POST_ADDITIVE != ''){
+                if ($POST_ADDITIVE != $APP->get('SESSION.additive')){
                     $APP->get('CONSTRUCTR_LOG')->write('FORM ADDITIVE DON\'T MATCH: '.$POST_USERNAME);
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
                 }
             }
 
-            if ($POST_TRIPPLE_ADDITIVE != '') {
-                if ($POST_TRIPPLE_ADDITIVE != $APP->get('SESSION.tripple_additive')) {
+            if ($POST_TRIPPLE_ADDITIVE != ''){
+                if ($POST_TRIPPLE_ADDITIVE != $APP->get('SESSION.tripple_additive')){
                     $APP->get('CONSTRUCTR_LOG')->write('FORM TRIPPLE ADDITIVE DON\'T MATCH: '.$POST_USERNAME);
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
                 }
             }
 
-            if ($POST_TRIPPLE_ADDITIVE != $POST_ADDITIVE.$POST_CSRF) {
+            if ($POST_TRIPPLE_ADDITIVE != $POST_ADDITIVE.$POST_CSRF){
                 $APP->get('CONSTRUCTR_LOG')->write('FORM TRIPPLE ADDITIVE COMPARISON DON\'T MATCH: '.$POST_USERNAME);
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
             }
@@ -508,7 +502,7 @@
 
             $USER_EXISTS_COUNTR = count($APP->get('USER_EXISTS'));
 
-            if ($USER_EXISTS_COUNTR > 1) {
+            if ($USER_EXISTS_COUNTR > 1){
                 $APP->set('NEW', 'no-success');
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/usermanagement?new=no-success');
             }

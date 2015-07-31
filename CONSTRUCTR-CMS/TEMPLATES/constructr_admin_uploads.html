@@ -16,16 +16,14 @@
 			<a href="#" data-activates="mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
 			<ul class="left hide-on-med-and-down">
 				<li>&#160;&#160;&#160;</li>
-				<li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Dashboard" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/admin"><i class="mdi-device-dvr"></i></a></li>
-				<li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Seitenverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement"><i class="mdi-action-dashboard"></i></a></li>
-				<li class="active"><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Uploads" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads"><i class="mdi-file-cloud"></i></a></li>
-				<li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Benutzerverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement"><i class="mdi-communication-contacts"></i></a></li>
+				<li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Seitenverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement"><i class="mdi-action-dashboard"></i></a></li>
+				<li class="active"><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Uploads" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads"><i class="mdi-file-cloud"></i></a></li>
+				<li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Benutzerverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement"><i class="mdi-communication-contacts"></i></a></li>
 			</ul>
 			<ul id="nav-mobile" class="right hide-on-med-and-down">
-				<li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Logout?" id="logout" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/logout"><i class="mdi-action-exit-to-app right"></i>{{ @SESSION.username }}</a></li>
+				<li><a class="tooltipped" data-position="left" data-delay="25" data-tooltip="Logout?" id="logout" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/logout"><i class="mdi-action-exit-to-app right"></i>{{ @SESSION.username }}</a></li>
 			</ul>
 			<ul class="side-nav" id="mobile">
-				<li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Dashboard" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/admin"><i class="mdi-device-dvr"></i></a></li>
 				<li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Seitenverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement"><i class="mdi-action-dashboard"></i></a></li>
 				<li class="active"><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Uploads" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads"><i class="mdi-file-cloud"></i></a></li>
 				<li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Benutzerverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement"><i class="mdi-communication-contacts"></i></a></li>
@@ -67,9 +65,9 @@
 		            <repeat group="{{ @IMAGES }}" value="{{ @IMAGE }}">
 			            <tr>
 			                <td><img src="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @IMAGE }}" alt="{{ @IMAGE }}" title="{{ @IMAGE }}" style="max-height: 50px;"></td>
-			                <td><a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @IMAGE }}" target="_blank" class="tooltipped lightbox" data-position="top" data-delay="25" data-tooltip="Vorschau in Lightbox">{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @IMAGE }}</a></td>
+			                <td>{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @IMAGE }}</td>
 			                <td class="center-align"><nobr>
-			                	<a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @IMAGE }}" target="_blank" data-position="left" data-delay="25" data-tooltip="Vorschau f&uuml;r Datei ''{{ @IMAGE }}''" class="tooltipped waves-effect waves-light btn-small"><i class="mdi-action-aspect-ratio"></i></a>
+			                	<a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @IMAGE }}" target="_blank" class="tooltipped lightbox" data-position="top" data-delay="25" data-tooltip="Vorschau in Lightbox"><i class="mdi-action-aspect-ratio"></i></a>
 			                	&#160;
 			                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/delete/{{ @IMAGE }}" data-position="left" data-delay="25" data-tooltip="Datei ''{{ @IMAGE }}'' l&ouml;schen" class="deleter tooltipped waves-effect waves-light btn-small"><i class="mdi-action-delete"></i></a>
 			                </nobr></td>
@@ -82,7 +80,7 @@
 		            <repeat group="{{ @FILES }}" value="{{ @FILE }}">
 			            <tr>
 			                <td>{{ @FILE }}</td>
-			                <td><a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @FILE }}" target="_blank" class="tooltipped" data-position="top" data-delay="25" data-tooltip="Vorschau">{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @FILE }}</a></td>
+			                <td>{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @FILE }}</td>
 			                <td class="center-align"><nobr>
 			                	<a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @FILE }}" target="_blank" data-position="left" data-delay="25" data-tooltip="Vorschau f&uuml;r Datei ''{{ @FILE }}''" class="tooltipped waves-effect waves-light btn-small"><i class="mdi-action-aspect-ratio"></i></a>
 			                	&#160;

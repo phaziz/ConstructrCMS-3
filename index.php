@@ -22,12 +22,12 @@
     try {
     	$APP->set('DBCON', $DBCON = new DB\SQL('mysql:host=' . $APP->get('DATABASE_HOSTNAME') . ';port=' . $APP->get('DATABASE_PORT') . ';dbname=' . $APP->get('DATABASE_DATABASE'), $APP->get('DATABASE_USERNAME'), $APP->get('DATABASE_PASSWORD')));
 		$APP->set('DB_CONNECTION', true);
-    } catch (PDOException $e) {
+    } catch (PDOException $e){
         $APP->set('DB_CONNECTION', false);
     }
 
-	if($APP->get('DB_CONNECTION') == false) {
-	    function getCurrentUrl() {
+	if($APP->get('DB_CONNECTION') == false){
+	    function getCurrentUrl(){
 	        $ACT_URL = ((empty($_SERVER['HTTPS'])) ? 'http://' : 'https://').$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 	        return $ACT_URL;
 	    }
@@ -43,8 +43,8 @@
     $REQUEST='http://' . $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
     $REQUEST=trim(str_replace($APP->get('CONSTRUCTR_REPLACE_BASE_URL'),'', $REQUEST));
 
-    if (strpos($REQUEST, 'constructr') === false) {
-		if($REQUEST == '/' || $REQUEST == '') {
+    if (strpos($REQUEST, 'constructr') === false){
+		if($REQUEST == '/' || $REQUEST == ''){
 	        $APP->set('ACT_PAGE', $APP->get('DBCON')->exec(
 	                array(
 	                    'SELECT * FROM constructr_pages WHERE constructr_pages_order=:STARTPAGE_ORDER AND constructr_pages_nav_visible=1 LIMIT 1;'
@@ -73,7 +73,7 @@
 		$APP->set('ACT_PAGE_COUNTR',0);
 		$APP->set('ACT_PAGE_COUNTR',count($APP->get('ACT_PAGE')));
 
-		if($APP->get('ACT_PAGE_COUNTR') == 1) {
+		if($APP->get('ACT_PAGE_COUNTR') == 1){
 			$PAGE_ID=$APP->get('ACT_PAGE.0.constructr_pages_id');
 			$PAGE_NAME=$APP->get('ACT_PAGE.0.constructr_pages_name');
 			$PAGE_TEMPLATE=$APP->get('ACT_PAGE.0.constructr_pages_template');
@@ -92,9 +92,9 @@
 
 			$PAGES = $APP->get('PAGES');
 
-			if($PAGES) {
-				foreach($PAGES AS $PAGE) {
-					if($PAGE['constructr_pages_mother'] == 0) {
+			if($PAGES){
+				foreach($PAGES AS $PAGE){
+					if($PAGE['constructr_pages_mother'] == 0){
 						$NAVIGATION[$PAGE['constructr_pages_id']] = array (
 							'page_id' => $PAGE['constructr_pages_id'],
 							'page_order' => $PAGE['constructr_pages_order'],
@@ -115,19 +115,19 @@
 
 				$NAVIGATION_STRING='<ul>';
 
-				foreach($NAVIGATION AS $KEY => $PAGE) {
-					if(isset($SUB_NAVIGATION[$PAGE['page_id']])) {
+				foreach($NAVIGATION AS $KEY => $PAGE){
+					if(isset($SUB_NAVIGATION[$PAGE['page_id']])){
 						$NAVIGATION_STRING.='<li><a href="'.$PAGE['page_url'].'" data-title="'.$PAGE['page_name'].'">'.$PAGE['page_name'].'</a><ul>';
 
-						foreach($SUB_NAVIGATION[$PAGE['page_id']] AS $SUB_KEY => $SUB_PAGE) {
+						foreach($SUB_NAVIGATION[$PAGE['page_id']] AS $SUB_KEY => $SUB_PAGE){
 
-							foreach($SUB_NAVIGATION[$PAGE['page_id']] AS $SUBSUB_KEY => $SUBSUB_PAGE) {
+							foreach($SUB_NAVIGATION[$PAGE['page_id']] AS $SUBSUB_KEY => $SUBSUB_PAGE){
 
 								if(isset($SUB_NAVIGATION[$SUBSUB_PAGE['page_id']]))
 								{
 									$NAVIGATION_STRING.='<li><a href="'.$SUBSUB_PAGE['page_url'].'" data-title="'.$SUBSUB_PAGE['page_name'].'">'.$SUBSUB_PAGE['page_name'].'</a><ul>';
 
-									foreach($SUB_NAVIGATION[$SUBSUB_PAGE['page_id']] AS $SUBSUBSUB_KEY => $SUBSUBSUB_PAGE) {
+									foreach($SUB_NAVIGATION[$SUBSUB_PAGE['page_id']] AS $SUBSUBSUB_KEY => $SUBSUBSUB_PAGE){
 										$NAVIGATION_STRING.='<li><a href="'.$SUBSUBSUB_PAGE['page_url'].'" data-title="'.$SUBSUBSUB_PAGE['page_name'].'">'.$SUBSUBSUB_PAGE['page_name'].'</a></li>';
 									}
 
@@ -166,7 +166,7 @@
 
 			$CONTENT_COUNTR=count($APP->get('CONTENT'));
 
-			if($CONTENT_COUNTR == 0) {
+			if($CONTENT_COUNTR == 0){
 				$PAGE_CONTENT_RAW='<p>Keine Inhalte vorhanden</p>';
 				$PAGE_CONTENT_HTML='<p>Keine Inhalte vorhanden</p>';	
 			} else {
@@ -193,7 +193,7 @@
 			$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/404');
 		}
 	} else {
-		if(!$APP->get('SESSION.login') || $APP->get('SESSION.login') == 'false') {
+		if(!$APP->get('SESSION.login') || $APP->get('SESSION.login') == 'false'){
 			$APP->set('SESSION.login','false');
 			$APP->set('SESSION.username','');
 		}
@@ -211,10 +211,10 @@
 	}
 
 	$APP->set('levelIndicator',
-	    function($LEVEL) {
+	    function($LEVEL){
 	    	$RET = '';
 
-			for ($i = 1; $i <= $LEVEL; $i++) {
+			for ($i = 1; $i <= $LEVEL; $i++){
 				$RET .= '&#160;&#160;';
 			}
 
@@ -222,8 +222,8 @@
 	    }
 	);
 
-	$APP->set('ONERROR', function ($APP) {
-        while (ob_get_level()) {
+	$APP->set('ONERROR', function ($APP){
+        while (ob_get_level()){
             ob_end_clean();
         }
 

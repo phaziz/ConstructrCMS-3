@@ -11,8 +11,8 @@
         {
             $USER_RIGHTS_COUNTR = 0;
 
-            foreach ($USER_RIGHTS as $KEY => $VALUE) {
-                if ($KEY == $MODUL_ID && $VALUE == 1) {
+            foreach ($USER_RIGHTS as $KEY => $VALUE){
+                if ($KEY == $MODUL_ID && $VALUE == 1){
                     $USER_RIGHTS_COUNTR ++;
                 }
             }
@@ -36,8 +36,8 @@
             $APP->set('TRIPPLE_ADDITIVE', $TRIPPLE_ADDITIVE);
             $APP->set('SESSION.tripple_additive', $TRIPPLE_ADDITIVE);
 
-			if($APP->get('SESSION.login') == 'true') {
-				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/admin');
+			if($APP->get('SESSION.login') == 'true' && $APP->get('SESSION.password') != '' && $APP->get('SESSION.username') != ''){
+				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement');
 			}
 
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/index.html', 'text/html');
@@ -52,38 +52,38 @@
             $POST_PASSWORD = crypt(filter_var($APP->get('POST.password'), FILTER_SANITIZE_FULL_SPECIAL_CHARS), $APP->get('CONSTRUCTR_USER_SALT'));
 			$EMAIL = $APP->get('POST.email');
 
-            if ($EMAIL != '') {
+            if ($EMAIL != ''){
             	$APP->get('CONSTRUCTR_LOG')->write('SPAM LOGIN: '.$EMAIL);
                 die();
             }
 
-            if ($POST_CSRF != '') {
-                if ($POST_CSRF != $APP->get('SESSION.csrf')) {
+            if ($POST_CSRF != ''){
+                if ($POST_CSRF != $APP->get('SESSION.csrf')){
                     $APP->get('CONSTRUCTR_LOG')->write('LOGIN FORM CSRF DON\'T MATCH: '.$POST_USERNAME);
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');
                 }
             }
 
-            if ($POST_ADDITIVE != '') {
-                if ($POST_ADDITIVE != $APP->get('SESSION.additive')) {
+            if ($POST_ADDITIVE != ''){
+                if ($POST_ADDITIVE != $APP->get('SESSION.additive')){
                     $APP->get('CONSTRUCTR_LOG')->write('LOGIN FORM ADDITIVE DON\'T MATCH: '.$POST_USERNAME);
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');
                 }
             }
 
-            if ($POST_TRIPPLE_ADDITIVE != '') {
-                if ($POST_TRIPPLE_ADDITIVE != $APP->get('SESSION.tripple_additive')) {
+            if ($POST_TRIPPLE_ADDITIVE != ''){
+                if ($POST_TRIPPLE_ADDITIVE != $APP->get('SESSION.tripple_additive')){
                     $APP->get('CONSTRUCTR_LOG')->write('LOGIN FORM TRIPPLE ADDITIVE DON\'T MATCH: '.$POST_USERNAME);
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');
                 }
             }
 
-            if ($POST_TRIPPLE_ADDITIVE != $POST_ADDITIVE.$POST_CSRF) {
+            if ($POST_TRIPPLE_ADDITIVE != $POST_ADDITIVE.$POST_CSRF){
                 $APP->get('CONSTRUCTR_LOG')->write('LOGIN FORM TRIPPLE ADDITIVE COMPARISON DON\'T MATCH: '.$POST_USERNAME);
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');
             }
 
-            if ($POST_USERNAME != '' && $POST_PASSWORD != '') {
+            if ($POST_USERNAME != '' && $POST_PASSWORD != ''){
                 $APP->set('LOGIN_USER', $APP->get('DBCON')->exec(
                         array(
                             'SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;',
@@ -100,7 +100,7 @@
 
                 $LOGIN_USER = $APP->get('LOGIN_USER');
 
-                if (count($LOGIN_USER) == 1) {
+                if (count($LOGIN_USER) == 1){
                     $APP->set('UPDATE_LOGIN_USER', $APP->get('DBCON')->exec(
                             array(
                                 'UPDATE constructr_backenduser SET constructr_user_last_login=:LAST_LOGIN WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;',
@@ -119,10 +119,12 @@
                     $APP->set('SESSION.login', 'true');
                     $APP->set('SESSION.username', $POST_USERNAME);
                     $APP->set('SESSION.password', $POST_PASSWORD);
+
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement');
                 } else {
                     $APP->set('SESSION.login', 'false');
                     $APP->get('CONSTRUCTR_LOG')->write('LOGIN USER CREDENTIALS DONT\'T MATCH - USERNAME: '.$POST_USERNAME);
+
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');
                 }
             }
@@ -151,13 +153,13 @@
 	        $size = sizeof($array);
 	        $keys = array_keys($array);
 	
-	        for ($x = 0; $x < $size; $x++) {
-	            $element = $array[$keys[$x]]; if (is_array($element)) {
+	        for ($x = 0; $x < $size; $x++){
+	            $element = $array[$keys[$x]]; if (is_array($element)){
 	    			$results = self::flatten_array($element);
 					$sr = sizeof($results);
 	    			$sk = array_keys($results);
 	
-	    			for ($y = 0; $y < $sr; $y++) {
+	    			for ($y = 0; $y < $sr; $y++){
 	        			$flat_array[$sk[$y]] = $results[$sk[$y]];
 	    			}
 	
@@ -169,12 +171,12 @@
 	        return $flat_array;
 	    }
 
-	    public function gffd($dir) {
+	    public function gffd($dir){
 	        $files = array();
-	        if ($handle = opendir($dir)) {
-	            while (false !== ($file = readdir($handle))) {
-	                if ($file != "." && $file != "..") {
-	                    if (is_dir($dir.'/'.$file)) {
+	        if ($handle = opendir($dir)){
+	            while (false !== ($file = readdir($handle))){
+	                if ($file != "." && $file != ".."){
+	                    if (is_dir($dir.'/'.$file)){
 	                        $dir2 = $dir.'/'.$file;
 	                        $files[] = self::gffd($dir2);
 	                    } else {
@@ -196,7 +198,7 @@
 
             $_SESSION = array();
 
-            if (ini_get("session.use_cookies")) {
+            if (ini_get("session.use_cookies")){
                 $params = session_get_cookie_params();
                 setcookie(session_name(), '', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
             }
@@ -211,7 +213,7 @@
         {
             $USERNAME = filter_var($APP->get('PARAMS.username'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            if ($USERNAME != '') {
+            if ($USERNAME != ''){
                 $APP->set('USER_BASE_DATA', $APP->get('DBCON')->exec(
                         array(
                             'SELECT * FROM constructr_backenduser WHERE constructr_user_username=:USERNAME AND constructr_user_active=:ACTIVE LIMIT 1;',
@@ -227,11 +229,11 @@
 
                 $USER = $APP->get('USER_BASE_DATA');
 
-                if (count($USER) == 1) {
+                if (count($USER) == 1){
                     $TMP_PASSWORD = self::csrf();
                     $APP->set('NEW_PASSWORD', $TMP_PASSWORD);
 
-                    if ($APP->get('NEW_PASSWORD') != '') {
+                    if ($APP->get('NEW_PASSWORD') != ''){
                         $NEW_CRYPTED_PASSWORD = crypt(filter_var($APP->get('NEW_PASSWORD'), FILTER_SANITIZE_FULL_SPECIAL_CHARS), $APP->get('CONSTRUCTR_USER_SALT'));
 
                         $APP->set('USER', $APP->get('DBCON')->exec(

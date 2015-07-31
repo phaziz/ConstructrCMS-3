@@ -16,16 +16,14 @@
             <a href="#" data-activates="mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
             <ul class="left hide-on-med-and-down">
                 <li>&#160;&#160;&#160;</li>
-                <li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Dashboard" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/admin"><i class="mdi-device-dvr"></i></a></li>
-                <li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Seitenverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement"><i class="mdi-action-dashboard"></i></a></li>
-                <li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Uploads" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads"><i class="mdi-file-cloud"></i></a></li>
-                <li class="active"><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Benutzerverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement"><i class="mdi-communication-contacts"></i></a></li>
+                <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Seitenverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement"><i class="mdi-action-dashboard"></i></a></li>
+                <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Uploads" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads"><i class="mdi-file-cloud"></i></a></li>
+                <li class="active"><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Benutzerverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement"><i class="mdi-communication-contacts"></i></a></li>
             </ul>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Logout?" id="logout" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/logout"><i class="mdi-action-exit-to-app right"></i>{{ @SESSION.username }}</a></li>
+                <li><a class="tooltipped" data-position="left" data-delay="25" data-tooltip="Logout?" id="logout" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/logout"><i class="mdi-action-exit-to-app right"></i>{{ @SESSION.username }}</a></li>
             </ul>
             <ul class="side-nav" id="mobile">
-                <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Dashboard" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/admin"><i class="mdi-device-dvr"></i></a></li>
                 <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Seitenverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement"><i class="mdi-action-dashboard"></i></a></li>
                 <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Uploads" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads"><i class="mdi-file-cloud"></i></a></li>
                 <li class="active"><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Benutzerverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement"><i class="mdi-communication-contacts"></i></a></li>
@@ -35,43 +33,35 @@
     </nav>
     <div class="row">
         <div class="col s12">
-            <p><strong>Benutzer bearbeiten</strong></p>
+            <p><strong>Neuen Benutzer erstellen</strong></p>
         </div>
     </div>
     <div class="row">
-    	<check if="{{ @USER_COUNTER }} != 0">
-    		<true>
-		    	<form name="new_user" id="new_user" action="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/edit" method="post" enctype="application/x-www-form-urlencoded" class="col s12">
-		            <input type="hidden" name="csrf" value="{{ @CSRF }}">
-		            <input type="hidden" name="csrf_additive" value="{{ @ADDITIVE }}">
-		            <input type="hidden" name="csrf_tripple_additive" value="{{ @TRIPPLE_ADDITIVE }}">
-		            <input type="hidden" name="user_id" value="{{ @USER.0.constructr_user_id }}">
-		            <div class="input-field col s12">
-		                <input type="text" id="user_name" name="user_name" value="{{ @USER.0.constructr_user_username }}" placeholder="Name des Benutzers" required="required" autofocus="autofocus">
-		                <label for="user_name">Name des Benutzers:</label>
-		            </div>
-		            <div class="input-field col s12">
-		                <input type="email" id="user_email" name="user_email" value="{{ @USER.0.constructr_user_email }}" placeholder="eMail des Benutzers" required="required">
-		                <label for="user_email">eMail des Benutzers:</label>
-		            </div>
-		            <div class="input-field col s12">
-		                <input type="password" pattern=".{8,}" minlength="8" id="user_password" name="user_password" value="" placeholder="Passwort - mindestens 8 Zeichen - muss neu vergeben werden:" required="required">
-		                <label for="user_password">Passwort - mindestens 8 Zeichen - muss neu vergeben werden:</label>
-		            </div>
-		            <div class="input-field col s12">
-		                <input type="password" pattern=".{8,}" minlength="8" id="user_password_retype" name="user_password_retype" value="" placeholder="Passwort Wiederholung:" required="required">
-		                <label for="user_password_retype">Passwort Wiederholung:</label>
-		            </div>
-		            <div class="input-field col s12">
-		                <button class="btn waves-effect waves-light" type="submit" name="action">Benutzer speichern</button>
-		                <p><small>Taste <strong>''ESC''</strong> zum abbrechen dr&uuml;cken</small></p>
-		            </div>
-		        </form>
-			</true>
-			<false>
-				<p>Es ist ein Fehler aufgetreten!</p>
-			</false>
-        </check>
+        <form name="new_user" id="new_user" action="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/new" method="post" enctype="application/x-www-form-urlencoded" class="col s12">
+            <input type="hidden" name="csrf" value="{{ @CSRF }}">
+            <input type="hidden" name="csrf_additive" value="{{ @ADDITIVE }}">
+            <input type="hidden" name="csrf_tripple_additive" value="{{ @TRIPPLE_ADDITIVE }}">
+            <div class="input-field col s12">
+                <input type="text" id="user_name" name="user_name" value="" placeholder="Name des Benutzers" required="required" autofocus="autofocus">
+                <label for="user_name">Name des Benutzers:</label>
+            </div>
+            <div class="input-field col s12">
+                <input type="email" id="user_email" name="user_email" value="" placeholder="eMail des Benutzers" required="required">
+                <label for="user_email">eMail des Benutzers:</label>
+            </div>
+            <div class="input-field col s12">
+                <input type="password" pattern=".{8,}" minlength="8" id="user_password" name="user_password" value="" placeholder="Passwort - mindestens 8 Zeichen:" required="required">
+                <label for="user_password">Passwort - mindestens 8 Zeichen:</label>
+            </div>
+            <div class="input-field col s12">
+                <input type="password" pattern=".{8,}" minlength="8" id="user_password_retype" name="user_password_retype" value="" placeholder="Passwort Wiederholung:" required="required">
+                <label for="user_password_retype">Passwort Wiederholung:</label>
+            </div>
+            <div class="input-field col s12">
+                <button class="btn waves-effect waves-light" type="submit" name="action">Neuen Benutzer speichern</button>
+                <p><small>Taste <strong>''ESC''</strong> zum abbrechen dr&uuml;cken</small></p>
+            </div>
+        </form>
     </div>
 	<div class="row"><div class="col s12 center-align"><p><small><a href="http://phaziz.com" target="_blank">ConstructrCMS Version {{ @CONSTRUCTR_VERSION }}</small></a></p></div></div>
     <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/jquery/jquery-2.1.4.min.js"></script>
@@ -101,7 +91,7 @@
 			            vex.dialog.buttons.YES.text = 'Okay';
 			            vex.dialog.alert({
 			                className: 'vex-theme-default',
-			                message: 'Bitte das Formular vollständig ausfüllen!',
+			                message: 'Bitte das Formular vorllständig ausfüllen!',
 			            });
             			return false;
             		}
@@ -110,7 +100,7 @@
 			            vex.dialog.buttons.YES.text = 'Okay';
 			            vex.dialog.alert({
 			                className: 'vex-theme-default',
-			                message: 'Passwort und die Passwort-Wiederholung stimmen nicht überein!',
+			                message: 'Das Passwort und die Passwort-Wiederholung stimmen nicht überein!',
 			            });
             			return false;
             		}

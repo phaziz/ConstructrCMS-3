@@ -14,16 +14,14 @@
             <a href="#" data-activates="mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
             <ul class="left hide-on-med-and-down">
                 <li>&#160;&#160;&#160;</li>
-                <li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Dashboard" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/admin"><i class="mdi-device-dvr"></i></a></li>
-                <li class="active"><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Seitenverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement"><i class="mdi-action-dashboard"></i></a></li>
-                <li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Uploads" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads"><i class="mdi-file-cloud"></i></a></li>
-                <li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Benutzerverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement"><i class="mdi-communication-contacts"></i></a></li>
+                <li class="active"><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Seitenverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement"><i class="mdi-action-dashboard"></i></a></li>
+                <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Uploads" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads"><i class="mdi-file-cloud"></i></a></li>
+                <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Benutzerverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement"><i class="mdi-communication-contacts"></i></a></li>
             </ul>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a class="tooltipped" data-position="bottom" data-delay="25" data-tooltip="Logout?" id="logout" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/logout"><i class="mdi-action-exit-to-app right"></i>{{ @SESSION.username }}</a></li>
+                <li><a class="tooltipped" data-position="left" data-delay="25" data-tooltip="Logout?" id="logout" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/logout"><i class="mdi-action-exit-to-app right"></i>{{ @SESSION.username }}</a></li>
             </ul>
             <ul class="side-nav" id="mobile">
-                <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Dashboard" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/admin"><i class="mdi-device-dvr"></i></a></li>
                 <li class="active"><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Seitenverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement"><i class="mdi-action-dashboard"></i></a></li>
                 <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Uploads" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads"><i class="mdi-file-cloud"></i></a></li>
                 <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Benutzerverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement"><i class="mdi-communication-contacts"></i></a></li>
@@ -36,13 +34,13 @@
             <p><strong>Neuen Inhalt auf Seite <a class="tooltipped" data-position="tpo" data-delay="25" data-tooltip="Seite im Browser zeigen" href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.0.constructr_pages_url }}" target="_blank">''{{ @PAGE.0.constructr_pages_name }}''</a> erstellen</strong> | <a href="#" id="uploadsbtn">Uploads anzeigen</a></p>
         </div>
     </div>
-    <div class="row">
-        <form name="new_content" id="new_content" action="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/new" method="post" enctype="application/x-www-form-urlencoded" class="col s12">
-            <input type="hidden" name="csrf" value="{{ @CSRF }}">
-            <input type="hidden" name="csrf_additive" value="{{ @ADDITIVE }}">
-            <input type="hidden" name="csrf_tripple_additive" value="{{ @TRIPPLE_ADDITIVE }}">
-		    <input type="hidden" name="new_position" value="{{ @NEW_POSITION }}">
-	        <div class="input-field col s6" style="max-height: 500px;overflow:auto;padding: 10px 10px 10px 10px;">
+    <form name="new_content" id="new_content" action="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/new" method="post" enctype="application/x-www-form-urlencoded" class="col s12">
+        <input type="hidden" name="csrf" value="{{ @CSRF }}">
+        <input type="hidden" name="csrf_additive" value="{{ @ADDITIVE }}">
+        <input type="hidden" name="csrf_tripple_additive" value="{{ @TRIPPLE_ADDITIVE }}">
+	    <input type="hidden" name="new_position" value="{{ @NEW_POSITION }}">
+	    <div class="row">
+	        <div class="input-field col s6">
 	            <textarea id="new_content_raw" name="new_content_raw" class="materialize-textarea" autofocus required="required" style="max-height: 500px; overflow: auto;"></textarea>
 	            <label for="new_content_raw">Inhalt (Markdown):</label>
 	        </div>
@@ -53,8 +51,8 @@
                 <p><small>Taste <strong>''ESC''</strong> zum abbrechen dr&uuml;cken</small></p>
                 <p><small>Der eingegebene Text wird beim speichern von <a href="http://en.wikipedia.org/wiki/Markdown" target="_blank">Markdown</a>-Syntax in HTML umgewandelt!</small></p>
             </div>
+	    </div>
         </form>
-    </div>
 	<div id="uploads" class="modal">
     	<div class="modal-content">
 			<h4>Verf&uuml;gbare Uploads</h4>
