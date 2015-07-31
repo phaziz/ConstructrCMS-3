@@ -87,14 +87,14 @@
 			$PAGES = $APP->get('PAGES');
 
 			if($PAGES){
-				function constructrNavGen($PAGES, $MOTHER = 0){
+				function constructrNavGen($BASE_URL,$PAGES, $MOTHER = 0){
 				        $TREE = '';
 				        $TREE = '<ul>';
 				        for($i=0, $ni=count($PAGES); $i < $ni; $i++){
 				            if($PAGES[$i]['constructr_pages_mother'] == $MOTHER){
-				                $TREE .= '<li><a href="'.$PAGES[$i]['constructr_pages_url'].'" data-title="'.$PAGES[$i]['constructr_pages_name'].'">';
+				                $TREE .= '<li><a href="'.$BASE_URL.'/'.$PAGES[$i]['constructr_pages_url'].'" data-title="'.$PAGES[$i]['constructr_pages_name'].'">';
 				                $TREE .= $PAGES[$i]['constructr_pages_name'].'</a>';
-				                $TREE .= constructrNavGen($PAGES, $PAGES[$i]['constructr_pages_id']);
+				                $TREE .= constructrNavGen($BASE_URL,$PAGES, $PAGES[$i]['constructr_pages_id']);
 				                $TREE .= '</li>';
 				            }
 				        }
@@ -103,7 +103,7 @@
 				        return $TREE;
 				}
 
-				$NAVIGATION = constructrNavGen($PAGES);
+				$NAVIGATION = constructrNavGen($APP->get('CONSTRUCTR_BASE_URL'),$PAGES);
  			}
 			else
 			{
