@@ -183,6 +183,34 @@
             $APP->set('NEW_POSITION', 0);
             $APP->set('NEW_POSITION', (count($APP->get('CONTENT'))+1));
 
+            $APP->set('TEMPLATE', $APP->get('DBCON')->exec(
+                    array(
+                        'SELECT constructr_pages_template FROM constructr_pages WHERE constructr_pages_id=:PAGE_ID;'
+                    ),
+                    array(
+                        array(
+                            ':PAGE_ID' => $PAGE_ID
+                        ),
+                    )
+                )
+            );
+
+			$APP->set('TEMPLATE_FILE', $APP->get('TEMPLATE.0.constructr_pages_template'));
+			$TEMPLATE_TEXT=file_get_contents($APP->get('TEMPLATES').$APP->get('TEMPLATE_FILE'));
+			preg_match_all("/({{@ CONSTRUCTR_MAPPING\()+([\w-])+(\) @}})/", $TEMPLATE_TEXT, $MATCH);
+
+			$CONSTRUCTR_TPL_MAPPINGS = array();
+
+			if($MATCH[0]){
+				$i = 0;
+				foreach($MATCH[0] AS $KEY => $MATCHR){
+					$CONSTRUCTR_TPL_MAPPINGS[$i] = $MATCHR;
+					$i++;
+				}
+			}
+
+			$APP->set('CONSTRUCTR_TPL_MAPPINGS',$CONSTRUCTR_TPL_MAPPINGS);
+
             $H = opendir($APP->get('UPLOADS'));
 
 			$IMAGES = array();
@@ -230,6 +258,7 @@
             $NEW_POSITION = filter_var($APP->get('POST.new_position'), FILTER_SANITIZE_NUMBER_INT);
             $NEW_CONTENT_RAW = $APP->get('POST.new_content_raw');
 			$NEW_CONTENT_HTML = \Markdown::instance()->convert($NEW_CONTENT_RAW);
+			$NEW_CONTENT_MAPPING = $APP->get('POST.new_content_mapping');
 
             $POST_CSRF = $APP->get('POST.csrf');
             $POST_ADDITIVE = $APP->get('POST.csrf_additive');
@@ -262,20 +291,42 @@
             }
 
             if ($APP->get('PAGE_ID') != '' && $NEW_POSITION != ''){
-                $APP->set('NEW_CONTENT', $APP->get('DBCON')->exec(
-                        array(
-                            'INSERT INTO constructr_content SET constructr_content_page_id=:PAGE_ID, constructr_content_content_raw=:NEW_CONTENT_RAW, constructr_content_content_html=:NEW_CONTENT_HTML, constructr_content_order=:NEW_POSITION;'
-                        ),
-                        array(
-                            array(
-                                ':PAGE_ID' => $PAGE_ID,
-                                ':NEW_CONTENT_RAW' => $NEW_CONTENT_RAW,
-                                ':NEW_CONTENT_HTML' => $NEW_CONTENT_HTML,
-                                ':NEW_POSITION' => $NEW_POSITION
-                            ),
-                        )
-                    )
-                );
+            	
+				if($NEW_CONTENT_MAPPING != '')
+				{
+	                $APP->set('NEW_CONTENT', $APP->get('DBCON')->exec(
+	                        array(
+	                            'INSERT INTO constructr_content SET constructr_content_page_id=:PAGE_ID, constructr_content_content_raw=:NEW_CONTENT_RAW, constructr_content_content_html=:NEW_CONTENT_HTML, constructr_content_tpl_id_mapping=:NEW_CONTENT_MAPPING, constructr_content_order=:NEW_POSITION;'
+	                        ),
+	                        array(
+	                            array(
+	                                ':PAGE_ID' => $PAGE_ID,
+	                                ':NEW_CONTENT_RAW' => $NEW_CONTENT_RAW,
+	                                ':NEW_CONTENT_HTML' => $NEW_CONTENT_HTML,
+	                                ':NEW_POSITION' => $NEW_POSITION,
+	                                ':NEW_CONTENT_MAPPING' => $NEW_CONTENT_MAPPING
+	                            ),
+	                        )
+	                    )
+	                );
+				}
+				else
+				{
+	                $APP->set('NEW_CONTENT', $APP->get('DBCON')->exec(
+	                        array(
+	                            'INSERT INTO constructr_content SET constructr_content_page_id=:PAGE_ID, constructr_content_content_raw=:NEW_CONTENT_RAW, constructr_content_content_html=:NEW_CONTENT_HTML, constructr_content_order=:NEW_POSITION;'
+	                        ),
+	                        array(
+	                            array(
+	                                ':PAGE_ID' => $PAGE_ID,
+	                                ':NEW_CONTENT_RAW' => $NEW_CONTENT_RAW,
+	                                ':NEW_CONTENT_HTML' => $NEW_CONTENT_HTML,
+	                                ':NEW_POSITION' => $NEW_POSITION
+	                            ),
+	                        )
+	                    )
+	                );
+				}
 
                 $APP->set('NEW', 'success');
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/content/'.$PAGE_ID.'/?new=success');
@@ -351,6 +402,33 @@
             $APP->set('CONTENT_COUNTR', 0);
             $APP->set('CONTENT_COUNTR', count($APP->get('CONTENT')));
 
+            $APP->set('TEMPLATE', $APP->get('DBCON')->exec(
+                    array(
+                        'SELECT constructr_pages_template FROM constructr_pages WHERE constructr_pages_id=:PAGE_ID;'
+                    ),
+                    array(
+                        array(
+                            ':PAGE_ID' => $PAGE_ID
+                        ),
+                    )
+                )
+            );
+
+			$APP->set('TEMPLATE_FILE', $APP->get('TEMPLATE.0.constructr_pages_template'));
+			$TEMPLATE_TEXT=file_get_contents($APP->get('TEMPLATES').$APP->get('TEMPLATE_FILE'));
+			preg_match_all("/({{@ CONSTRUCTR_MAPPING\()+([\w-])+(\) @}})/", $TEMPLATE_TEXT, $MATCH);
+
+			$CONSTRUCTR_TPL_MAPPINGS = array();
+
+			if($MATCH[0]){
+				$i = 0;
+				foreach($MATCH[0] AS $KEY => $MATCHR){
+					$CONSTRUCTR_TPL_MAPPINGS[$i] = $MATCHR;
+					$i++;
+				}
+			}
+
+			$APP->set('CONSTRUCTR_TPL_MAPPINGS',$CONSTRUCTR_TPL_MAPPINGS);
             $H = opendir( $APP->get( 'UPLOADS' ) );
 
 			$IMAGES = array();
@@ -433,24 +511,48 @@
             $CONTENT_ID = filter_var($APP->get('PARAMS.content_id'), FILTER_SANITIZE_NUMBER_INT);
             $APP->set('CONTENT_ID', $CONTENT_ID);
 
-            $EDIT_CONTENT_RAW = $APP->get('POST.edit_content_raw');
-			$EDIT_CONTENT_HTML = \Markdown::instance()->convert($EDIT_CONTENT_RAW);
+            $EDIT_CONTENT_RAW=$APP->get('POST.edit_content_raw');
+			$EDIT_CONTENT_HTML=\Markdown::instance()->convert($EDIT_CONTENT_RAW);
+			$EDIT_CONTENT_MAPPING=$APP->get('POST.edit_content_mapping');
 
             if ($PAGE_ID != '' && $CONTENT_ID != ''){
-                $APP->set('EDIT_CONTENT', $APP->get('DBCON')->exec(
-                        array(
-                            'UPDATE constructr_content SET constructr_content_content_raw=:EDIT_CONTENT_RAW, constructr_content_content_html=:EDIT_CONTENT_HTML WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_id=:CONTENT_ID LIMIT 1;'
-                        ),
-                        array(
-                            array(
-                                ':PAGE_ID' => $PAGE_ID,
-                                ':EDIT_CONTENT_RAW' => $EDIT_CONTENT_RAW,
-                                ':EDIT_CONTENT_HTML' => $EDIT_CONTENT_HTML,
-                                ':CONTENT_ID' => $CONTENT_ID
-                            ),
-                        )
-                    )
-                );
+            	
+				if($EDIT_CONTENT_MAPPING != '' && $EDIT_CONTENT_MAPPING != '666')
+				{
+	                $APP->set('EDIT_CONTENT', $APP->get('DBCON')->exec(
+	                        array(
+	                            'UPDATE constructr_content SET constructr_content_content_raw=:EDIT_CONTENT_RAW, constructr_content_content_html=:EDIT_CONTENT_HTML, constructr_content_tpl_id_mapping=:EDIT_CONTENT_MAPPING WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_id=:CONTENT_ID LIMIT 1;'
+	                        ),
+	                        array(
+	                            array(
+	                                ':PAGE_ID' => $PAGE_ID,
+	                                ':EDIT_CONTENT_RAW' => $EDIT_CONTENT_RAW,
+	                                ':EDIT_CONTENT_HTML' => $EDIT_CONTENT_HTML,
+	                                ':CONTENT_ID' => $CONTENT_ID,
+	                                ':EDIT_CONTENT_MAPPING' => $EDIT_CONTENT_MAPPING
+	                            ),
+	                        )
+	                    )
+	                );
+				}
+				else
+				{
+	                $APP->set('EDIT_CONTENT', $APP->get('DBCON')->exec(
+	                        array(
+	                            'UPDATE constructr_content SET constructr_content_content_raw=:EDIT_CONTENT_RAW, constructr_content_content_html=:EDIT_CONTENT_HTML, constructr_content_tpl_id_mapping=:EDIT_CONTENT_MAPPING WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_id=:CONTENT_ID LIMIT 1;'
+	                        ),
+	                        array(
+	                            array(
+	                                ':PAGE_ID' => $PAGE_ID,
+	                                ':EDIT_CONTENT_RAW' => $EDIT_CONTENT_RAW,
+	                                ':EDIT_CONTENT_HTML' => $EDIT_CONTENT_HTML,
+	                                ':CONTENT_ID' => $CONTENT_ID,
+	                                ':EDIT_CONTENT_MAPPING' => ''
+	                            ),
+	                        )
+	                    )
+	                );
+				}
 
                 $APP->set('EDIT', 'success');
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/content/'.$PAGE_ID.'/?edit=success');

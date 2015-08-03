@@ -29,12 +29,12 @@ div#menu ul ul ul {position: absolute; left: 100%; top:0}
 <body>
 
 	<div id="menu">
-		{{@ PAGE_NAVIGATION_UL_LI @}}
+		<!--{{@ PAGE_NAVIGATION_UL_LI @}}-->
 	</div>
 
 	<div class="row">
 		<div class="col s12">
-    		{{@ PAGE_CONTENT_HTML @}}
+    		<!--{{@ PAGE_CONTENT_HTML @}}-->
 		</div>
 	</div>
 
@@ -42,7 +42,6 @@ div#menu ul ul ul {position: absolute; left: 100%; top:0}
 
 	<script src="{{@ CONSTRUCTR_BASE_URL @}}/CONSTRUCTR-CMS/ASSETS/jquery/jquery-2.1.4.min.js"></script>
 	<script src="{{@ CONSTRUCTR_BASE_URL @}}/CONSTRUCTR-CMS/ASSETS/materialize/js/materialize.min.js"></script>
-
 	<script>
 		$(function() {
 			{{@ PAGE_JS @}}

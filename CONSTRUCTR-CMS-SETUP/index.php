@@ -38,7 +38,7 @@ if (isset($_POST['setup'])) {
     $NL = "\n";
     $_CONFIG_FILE_CONTENT = '
 {
-"CONSTRUCTR_VERSION":"3.0 / 2015-07-23",
+"CONSTRUCTR_VERSION":"3.0 / 2015-08-03",
 "DATABASE_HOSTNAME":"'.$_POST['db_host'].'",
 "DATABASE_DATABASE":"'.$_POST['db_database'].'",
 "DATABASE_PORT":3306,
@@ -68,7 +68,7 @@ CREATE TABLE `constructr_backenduser` (
   `constructr_user_email` varchar(255) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
   `constructr_user_last_login` datetime NOT NULL,
   `constructr_user_active` int(1) NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 INSERT INTO `constructr_backenduser` (`constructr_user_id`, `constructr_user_username`, `constructr_user_password`, `constructr_user_factor`, `constructr_user_email`, `constructr_user_last_login`, `constructr_user_active`) VALUES
 (1, :USERNAME, :PASSWORD, '', :EMAIL, :LAST_LOGIN, 1);
@@ -78,9 +78,10 @@ CREATE TABLE `constructr_content` (
   `constructr_content_page_id` int(255) NOT NULL,
   `constructr_content_content_raw` text NOT NULL,
   `constructr_content_content_html` text NOT NULL,
+  `constructr_content_tpl_id_mapping` varchar(255) DEFAULT '',
   `constructr_content_order` int(255) NOT NULL DEFAULT '0',
   `constructr_content_visible` int(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `constructr_pages` (
   `constructr_pages_id` int(255) NOT NULL,
@@ -99,14 +100,14 @@ CREATE TABLE `constructr_pages` (
   `constructr_pages_active` int(1) NOT NULL DEFAULT '0',
   `constructr_pages_nav_visible` int(1) NOT NULL DEFAULT '1',
   `constructr_pages_temp_marker` int(10) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `constructr_user_rights` (
   `constructr_user_rights_id` int(255) NOT NULL,
   `constructr_user_rights_user` int(255) NOT NULL DEFAULT '0',
   `constructr_user_rights_key` int(255) NOT NULL DEFAULT '0',
   `constructr_user_rights_value` int(255) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 
 INSERT INTO `constructr_user_rights` (`constructr_user_rights_id`, `constructr_user_rights_user`, `constructr_user_rights_key`, `constructr_user_rights_value`) VALUES
 (1, 1, 10, 1),

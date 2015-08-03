@@ -29,12 +29,39 @@ div#menu ul ul ul {position: absolute; left: 100%; top:0}
 <body>
 
 	<div id="menu">
-		{{@ PAGE_NAVIGATION_UL_LI @}}
+		<!--{{@ PAGE_NAVIGATION_UL_LI @}}-->
 	</div>
 
 	<div class="row">
 		<div class="col s12">
-    		{{@ PAGE_CONTENT_HTML @}}
+    		<!--{{@ PAGE_CONTENT_HTML @}}-->
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col s6" id="left_content">
+    		<!--{{@ CONSTRUCTR_MAPPING(left_content) @}}-->
+		</div>
+		<div class="col s6" id="right_content">
+    		<!--{{@ CONSTRUCTR_MAPPING(right_content) @}}-->
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col s6" id="left_content">
+    		<!--{{@ CONSTRUCTR_MAPPING(content_whatever) @}}-->
+		</div>
+		<div class="col s6" id="right_content">
+    		<!--{{@ CONSTRUCTR_MAPPING(contentWhatever) @}}-->
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col s6" id="left_content">
+    		<!--{{@ CONSTRUCTR_MAPPING(content--whatever) @}}-->
+		</div>
+		<div class="col s6" id="right_content">
+    		<!--{{@ CONSTRUCTR_MAPPING(content__whatever) @}}-->
 		</div>
 	</div>
 

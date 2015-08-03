@@ -73,7 +73,14 @@
                         <tbody>
                             <repeat group="{{ @CONTENT }}" value="{{ @CONTENT }}">
                             <tr>
-                                <td class="tooltipped content" data-position="top" data-delay="25" data-tooltip="Doppelklick um Inhalt ''ID {{ @CONTENT.constructr_content_id }}'' zu bearbeiten" id="content_id_@@@{{ @CONTENT.constructr_content_id }}">{{ @CONTENT.constructr_content_content_html }}</td>
+                                <td class="tooltipped content" data-position="top" data-delay="25" data-tooltip="Doppelklick um Inhalt ''ID {{ @CONTENT.constructr_content_id }}'' zu bearbeiten" id="content_id_@@@{{ @CONTENT.constructr_content_id }}">
+                                	<check if="{{ @CONTENT.constructr_content_tpl_id_mapping }} != ''">
+                                		<true>
+                                			<p><strong>{{ @CONTENT.constructr_content_tpl_id_mapping }}</strong></p>
+                                		</true>
+                                	</check>
+                                	{{ @CONTENT.constructr_content_content_html }}
+                            	</td>
                                 <td class="center-align"><nobr>
 									<check if="{{ @CONTENT.constructr_content_order }} == 1">
 										<false>

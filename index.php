@@ -114,11 +114,13 @@
 
 			$APP->set('CONTENT', $APP->get('DBCON')->exec(
                     array(
-                        'SELECT * FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_visible=1 ORDER BY constructr_content_order ASC;'
+                        'SELECT * FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_visible=:VISIBILITY AND constructr_content_tpl_id_mapping=:NULLER ORDER BY constructr_content_order ASC;'
                     ),
                     array(
                         array(
-                        	':PAGE_ID'=>$PAGE_ID
+                        	':PAGE_ID'=>$PAGE_ID,
+                        	':NULLER'=>'',
+                        	':VISIBILITY'=>1
                         )
                     )
                 )
@@ -127,8 +129,8 @@
 			$CONTENT_COUNTR=count($APP->get('CONTENT'));
 
 			if($CONTENT_COUNTR == 0){
-				$PAGE_CONTENT_RAW='<p>Keine Inhalte vorhanden</p>';
-				$PAGE_CONTENT_HTML='<p>Keine Inhalte vorhanden</p>';
+				$PAGE_CONTENT_RAW='';
+				$PAGE_CONTENT_HTML='';
 			} else {
 				$PAGE_CONTENT_HTML='';
 				$PAGE_CONTENT_RAW='';
@@ -140,9 +142,64 @@
 				}
 			}
 
-			$SEARCHR=array('{{@ CONSTRUCTR_BASE_URL @}}','{{@ PAGE_ID @}}','{{@ PAGE_TEMPLATE @}}','{{@ PAGE_NAME @}}','{{@ PAGE_CONTENT_RAW @}}','{{@ PAGE_CONTENT_HTML @}}','{{@ PAGE_CSS @}}','{{@ PAGE_JS @}}','{{@ PAGE_NAVIGATION_UL_LI @}}','{{@ CONSTRUCTR_PAGE_TITLE @}}','{{@ CONSTRUCTR_PAGE_KEYWORDS @}}','{{@ CONSTRUCTR_PAGE_DESCRIPTION @}}');
+			$SEARCHR=array('{{@ CONSTRUCTR_BASE_URL @}}','{{@ PAGE_ID @}}','{{@ PAGE_TEMPLATE @}}','{{@ PAGE_NAME @}}','<!--{{@ PAGE_CONTENT_RAW @}}-->','<!--{{@ PAGE_CONTENT_HTML @}}-->','{{@ PAGE_CSS @}}','{{@ PAGE_JS @}}','<!--{{@ PAGE_NAVIGATION_UL_LI @}}-->','{{@ CONSTRUCTR_PAGE_TITLE @}}','{{@ CONSTRUCTR_PAGE_KEYWORDS @}}','{{@ CONSTRUCTR_PAGE_DESCRIPTION @}}');
 			$REPLACR=array($APP->get('CONSTRUCTR_BASE_URL'),$PAGE_ID,$PAGE_TEMPLATE,$PAGE_NAME,$PAGE_CONTENT_RAW,$PAGE_CONTENT_HTML,$PAGE_CSS,$PAGE_JS,$NAVIGATION,$PAGE_TITLE,$PAGE_DESCRIPTION,$PAGE_KEYWORDS);
 			$TEMPLATE=str_replace($SEARCHR,$REPLACR,$TEMPLATE);
+
+			$APP->set('MAPPING_CONTENT', $APP->get('DBCON')->exec(
+                    array(
+                        'SELECT * FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_visible=:VISIBILITY AND constructr_content_tpl_id_mapping!=:NULLER ORDER BY constructr_content_order ASC;'
+                    ),
+                    array(
+                        array(
+                        	':PAGE_ID'=>$PAGE_ID,
+                        	':NULLER'=>'',
+                        	':VISIBILITY'=>1
+                        )
+                    )
+                )
+            );
+
+			if(count($APP->get('MAPPING_CONTENT')) != 0)
+			{
+				preg_match_all("/({{@ CONSTRUCTR_MAPPING\()+([\w-])+(\) @}})/", $TEMPLATE, $MATCH);
+				$CONSTRUCTR_TPL_MAPPINGS = array();
+
+				if($MATCH[0]){
+					$i = 0;
+					foreach($MATCH[0] AS $MATCHR){
+						$CONSTRUCTR_TPL_MAPPINGS[$i] = $MATCHR;
+						$i++;
+					}
+
+					if($CONSTRUCTR_TPL_MAPPINGS)
+					{
+						$MAPPERS = array();
+
+						foreach($APP->get('MAPPING_CONTENT') AS $KEY => $MAPPING_CONTENT)
+						{
+							if(!isset($MAPPERS[$MAPPING_CONTENT['constructr_content_tpl_id_mapping']]) || $MAPPERS[$MAPPING_CONTENT['constructr_content_tpl_id_mapping']] == '')
+							{
+								$MAPPERS[$MAPPING_CONTENT['constructr_content_tpl_id_mapping']] = $MAPPING_CONTENT['constructr_content_content_html'];	
+							}
+							else
+							{
+								$MAPPERS[$MAPPING_CONTENT['constructr_content_tpl_id_mapping']] = $MAPPERS[$MAPPING_CONTENT['constructr_content_tpl_id_mapping']].$MAPPING_CONTENT['constructr_content_content_html'];	
+							}
+						}
+
+						foreach($CONSTRUCTR_TPL_MAPPINGS AS $MAP_NOW_KEY => $MAP_NOW_VALUE)
+						{
+							if(isset($MAPPERS[$MAP_NOW_VALUE])){
+								$TEMPLATE=str_replace('<!--'.$MAP_NOW_VALUE.'-->',$MAPPERS[$MAP_NOW_VALUE],$TEMPLATE);	
+							} else {
+								$TEMPLATE=str_replace('<!--'.$MAP_NOW_VALUE.'-->','',$TEMPLATE);
+							}
+						}
+					}
+				}
+			}
+
 			$TEMPLATE .="<!-- ConstructrCMS Version ".$APP->get("CONSTRUCTR_VERSION")." / http://phaziz.com -->";
 
 			echo $TEMPLATE;
