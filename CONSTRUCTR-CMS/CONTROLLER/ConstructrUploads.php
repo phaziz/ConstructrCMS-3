@@ -218,23 +218,24 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
             }
 
-            if ($_FILES['new_file']['name'] != ''){
-                $NEW_UPLOAD = $APP->get('UPLOADS').$_FILES['new_file']['name'];
+			$COUNTR = count($_FILES['new_file']['name']);
 
-                if (copy($_FILES['new_file']['tmp_name'], $NEW_UPLOAD)){
-                    @chmod($NEW_UPLOAD, 0777);
-                    $APP->set('NEW', 'success');
-                    $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/uploads/?new=success');
-                } else {
-                    $APP->set('NEW', 'no-success');
-                    $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/uploads/?new=no-success');
-                }
+			if($COUNTR != 0){
+				for($i=0;$i<$COUNTR;$i++){
+					$NEW_UPLOAD = '';
+					$NEW_UPLOAD = $APP->get('UPLOADS').$_FILES['new_file']['name'][$i];
 
-                $APP->set('NEW', 'success');
-                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/uploads/?new=success');
-            } else {
-                $APP->set('NEW', 'no-success');
-                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/uploads/?new=no-success');
-            }
+	                if (copy($_FILES['new_file']['tmp_name'][$i], $NEW_UPLOAD)){
+	                    @chmod($NEW_UPLOAD, 0777);
+	                } else {
+	                    $APP->set('NEW', 'no-success');
+	                    $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/uploads/?new=no-success');
+					}
+				}
+			}
+
+            $APP->set('NEW', 'success');
+            $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/uploads/?new=success');
+
         }
     }

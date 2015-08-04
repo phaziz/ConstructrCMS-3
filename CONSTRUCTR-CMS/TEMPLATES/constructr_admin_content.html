@@ -32,13 +32,10 @@
         </div>
     </nav>
     <div class="row">
-        <div class="col s12"><p><a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/new" class="waves-effect waves-light btn"><i class="mdi-content-add-circle right"></i>Neuer Inhalt</a></p></div>
-    </div>
-    <div class="row">
         <div class="col s12">
             <check if="{{ @CONTENT_COUNTR }} != 0">
                 <true>
-                    <p><strong>{{ @CONTENT_COUNTR }} Inhalte auf Seite <a class="tooltipped" data-position="tpo" data-delay="25" data-tooltip="Seite im Browser zeigen" href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.0.constructr_pages_url }}" target="_blank">''{{ @PAGE.0.constructr_pages_name }}''</a> vorhanden</strong></p>
+                    <p><strong>{{ @CONTENT_COUNTR }} Inhalte auf Seite <a class="tooltipped" data-position="tpo" data-delay="25" data-tooltip="Seite im Browser zeigen" href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.0.constructr_pages_url }}" target="_blank">''{{ @PAGE.0.constructr_pages_name }}''</a> vorhanden&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/new" class="waves-effect waves-light btn"><i class="mdi-content-add-circle right"></i>Neuer Inhalt</a></strong></p>
                     <check if="{{ @EDIT=='success' }}">
 						<div class="card-panel green darken-3 white-text">Der Inhalt wurde erfolgreich bearbeitet!</div>
                     </check>
@@ -76,10 +73,10 @@
                                 <td class="tooltipped content" data-position="top" data-delay="25" data-tooltip="Doppelklick um Inhalt ''ID {{ @CONTENT.constructr_content_id }}'' zu bearbeiten" id="content_id_@@@{{ @CONTENT.constructr_content_id }}">
                                 	<check if="{{ @CONTENT.constructr_content_tpl_id_mapping }} != ''">
                                 		<true>
-                                			<p><strong>{{ @CONTENT.constructr_content_tpl_id_mapping }}</strong></p>
+                                			<small><strong>{{ @CONTENT.constructr_content_tpl_id_mapping }} </strong></small>
                                 		</true>
                                 	</check>
-                                	{{ @CONTENT.constructr_content_content_html }}
+                                	<small>{{ @CONTENT.constructr_content_content_html }}</small>
                             	</td>
                                 <td class="center-align"><nobr>
 									<check if="{{ @CONTENT.constructr_content_order }} == 1">
@@ -120,7 +117,7 @@
                     </table>
                 </true>
                 <false>
-                    <p><strong>Keine Inhalte vorhanden</strong></p>
+                    <p><strong>Keine Inhalte vorhanden&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/new" class="waves-effect waves-light btn"><i class="mdi-content-add-circle right"></i>Neuer Inhalt</a></strong></p>
                 </false>
             </check>
             <p><small>Taste ''ESC'' drücken um zur Seitenverwaltung zurückzugehen</small></p>

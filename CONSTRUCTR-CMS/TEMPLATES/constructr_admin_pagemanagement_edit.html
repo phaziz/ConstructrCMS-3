@@ -40,6 +40,7 @@
             <input type="hidden" name="csrf_additive" value="{{ @ADDITIVE }}">
             <input type="hidden" name="csrf_tripple_additive" value="{{ @TRIPPLE_ADDITIVE }}">
             <input type="hidden" name="edit_page" id="edit_page" value="{{ @PAGE.0.constructr_pages_id }}">
+            <input type="hidden" name="old_template" id="old_template" value="{{ @PAGE.0.constructr_pages_template }}">
             <div class="input-field col s12">
                 <input type="text" id="page_name" name="page_name" value="{{ @PAGE.0.constructr_pages_name }}" placeholder="Name der Seite" required="required" autofocus="autofocus">
                 <label for="page_name">Name der Seite:</label>
@@ -74,7 +75,7 @@
                         		</check>
                         	</repeat>
                         </select>
-                        <label for="page_template">Template der neuen Seite:</label>
+                        <label for="page_template">Template der Seite:</label>
                     </div>
                 </true>
                 <false>
@@ -96,7 +97,7 @@
                     <option value="1">Seite ist sichtbar in Navigation</option>
                     <option value="0">Seite ist unsichtbar in Navigation</option>
                 </select>
-                <label for="page_nav_visible">Sichtbarkeit in Navigation der neuen Seite:</label>
+                <label for="page_nav_visible">Sichtbarkeit in Navigation der Seite:</label>
             </div>
             <div class="input-field col s12">
                 <input type="text" id="page_title" name="page_title" value="{{ @PAGE.0.constructr_pages_title }}" placeholder="Titel der Seite" required="required">

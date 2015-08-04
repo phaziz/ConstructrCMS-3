@@ -113,9 +113,7 @@
 			$TEMPLATE=file_get_contents($APP->get('TEMPLATES').$PAGE_TEMPLATE);
 
 			$APP->set('CONTENT', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT * FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_visible=:VISIBILITY AND constructr_content_tpl_id_mapping=:NULLER ORDER BY constructr_content_order ASC;'
-                    ),
+                    array('SELECT * FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_visible=:VISIBILITY AND constructr_content_tpl_id_mapping=:NULLER ORDER BY constructr_content_order ASC;'),
                     array(
                         array(
                         	':PAGE_ID'=>$PAGE_ID,
@@ -206,7 +204,7 @@
 			die();
 		} else {
 			$APP->get('CONSTRUCTR_LOG')->write('Frontend: 404');
-			$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/404');
+			$APP->reroute($APP->get('CONSTRUCTR_BASE_URL'));
 		}
 	} else {
 		if(!$APP->get('SESSION.login') || $APP->get('SESSION.login') == 'false'){

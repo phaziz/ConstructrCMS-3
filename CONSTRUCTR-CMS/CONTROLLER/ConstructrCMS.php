@@ -291,6 +291,7 @@
             $PAGE_NAME = filter_var($APP->get('POST.page_name'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $PAGE_URL = filter_var($APP->get('POST.page_url'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $PAGE_URL = self::cleanUrl($PAGE_URL);
+			$PAGE_OLD_TEMPLATE = filter_var($APP->get('POST.old_template'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $PAGE_TEMPLATE = filter_var($APP->get('POST.page_template'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $PAGE_TITLE = filter_var($APP->get('POST.page_title'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $PAGE_DESCRIPTION = filter_var($APP->get('POST.page_description'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -330,6 +331,19 @@
                 $APP->set('EDIT', 'no-success');
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?edit=no-success');
             }
+
+			if($PAGE_OLD_TEMPLATE != $PAGE_TEMPLATE){
+	            $APP->set('UPDATE_CONTENT_MAPPING', $APP->get('DBCON')->exec(
+	                    array('UPDATE constructr_content SET constructr_content_tpl_id_mapping=:NULLER WHERE constructr_content_page_id=:PAGE_ID;'),
+	                    array(
+	                        array(
+	                            ':PAGE_ID' => $PAGE_ID,
+	                            ':NULLER' => ''
+	                        ),
+	                    )
+	                )
+	            );
+			}
 
             $APP->set('UPDATE_PAGE', $APP->get('DBCON')->exec(
                     array(

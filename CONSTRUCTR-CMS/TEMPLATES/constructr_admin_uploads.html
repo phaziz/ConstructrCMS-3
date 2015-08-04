@@ -32,11 +32,8 @@
 		</div>
 	</nav>
     <div class="row">
-        <div class="col s12"><p><a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/new" class="waves-effect waves-light btn"><i class="mdi-content-add-circle right"></i>Neuer Upload</a></p></div>
-    </div>
-    <div class="row">
         <div class="col s12">
-            <p><strong>{{ @FILES_COUNTR }} Uploads</strong></p>
+            <p><strong>{{ @FILES_COUNTR }} Uploads&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/new" class="waves-effect waves-light btn"><i class="mdi-content-add-circle right"></i>Neuer Upload</a></strong></p>
             <check if="{{ @NEW=='success' }}">
 				<div class="card-panel green darken-3 white-text">Die Datei wurde erfolgreich hochgeladen!</div>
             </check>
