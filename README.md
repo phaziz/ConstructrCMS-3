@@ -5,6 +5,7 @@ ConstructrCMS (<a href="http://constructr-cms.org">http://constructr-cms.org</a>
 
 That's it for now (Version 3.0 / 2015-08-04):
 
+	- FrontEndCache-System (File based)
 	- Page-Management
 	- Create, edit, re-order/order, activate/deactivate and delete Pages
 	- Page specific CSS- and JS-Content and Metadata
@@ -25,7 +26,7 @@ That's it for now (Version 3.0 / 2015-08-04):
 
 ### CHANGELOG
 
-	- 2015-08-04 Multiple Uplaods with Preview
+	- 2015-08-04 Multiple Uplaods with Preview / FrontendCacheSystem (File based)
 	- 2015-08-03 Constructr Content Mapping - Map a Content-Element to a specific HTML-ID-Area / Template Update
 	- 2015-07-30 Split Images and other Files in InsertingModal (Content new / Content edit), minor Bugfixes and Improvements
 	- 2015-07-29 AutoInsert Markdown for Files / little Bugfixes and minor Features

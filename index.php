@@ -19,6 +19,8 @@
 	$APP->set('ENCODING','utf-8');
     $APP->set('AUTOLOAD', __DIR__.'/CONSTRUCTR-CMS/CONTROLLER/');
 	$APP->set('CONSTRUCTR_LOG', $CONSTRUCTR_LOG = new \Log('CONSTRUCTR-CMS/LOGFILES/'.date('Y-m-d').'-constructr.txt'));
+	$APP->set('CONSTRUCTR_FE_CACHE', __DIR__.'/CONSTRUCTR-CMS/CACHE/');
+	$APP->set('CACHE_DELETR','clncchr');
 
     try {
     	$APP->set('DBCON', $DBCON = new DB\SQL('mysql:host=' . $APP->get('DATABASE_HOSTNAME') . ';port=' . $APP->get('DATABASE_PORT') . ';dbname=' . $APP->get('DATABASE_DATABASE'), $APP->get('DATABASE_USERNAME'), $APP->get('DATABASE_PASSWORD')));
@@ -38,6 +40,27 @@
     $REQUEST=trim(str_replace($APP->get('CONSTRUCTR_REPLACE_BASE_URL'),'', $REQUEST));
 
     if (strpos($REQUEST, 'constructr') === false){
+		if(isset($_GET['del-cache']) && $_GET['del-cache']==$APP->get('CACHE_DELETR')){
+			if(@is_dir($APP->get('CONSTRUCTR_FE_CACHE'))) {
+				if ($H=@opendir($APP->get('CONSTRUCTR_FE_CACHE'))) {
+					while(($F=@readdir($H))!==false) {
+						if ($F!='.' && $F!='..' && $F!='.empty_file'){
+							@unlink($APP->get('CONSTRUCTR_FE_CACHE').$F);
+						}
+					}
+					@closedir($H);
+				}
+			}
+		}
+
+		$UNIQUE=$APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST);
+
+		if(file_exists($UNIQUE)){
+			$CACHE_OUTPUT=@file_get_contents($APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST));
+			echo $CACHE_OUTPUT;
+			die();
+		}
+
 		if($REQUEST == '/' || $REQUEST == ''){
 	        $APP->set('ACT_PAGE', $APP->get('DBCON')->exec(
 	                array(
@@ -198,7 +221,8 @@
 				}
 			}
 
-			$TEMPLATE .="<!-- ConstructrCMS Version ".$APP->get("CONSTRUCTR_VERSION")." / http://phaziz.com -->";
+			$TEMPLATE .="\n<!-- ConstructrCMS Version ".$APP->get("CONSTRUCTR_VERSION")." / http://phaziz.com -->";
+			@file_put_contents($UNIQUE=$APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST),$TEMPLATE."\n".'<!--ConstructrCache '.date('Y-m-d H:i:s').'-->');
 
 			echo $TEMPLATE;
 			die();
