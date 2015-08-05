@@ -368,6 +368,9 @@
                 )
             );
 
+			// CACHE DER SEITE LÖSCHEN
+			parent::clean_up_cache($APP);
+
             $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?edit=success');
         }
 
@@ -682,6 +685,9 @@
                 );
             }
 
+			// CACHE DER SEITE LÖSCHEN
+			parent::clean_up_cache($APP);
+
             $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?new=success');
         }
 
@@ -779,6 +785,9 @@
                     )
                 );
 
+				// CACHE DER SEITE LÖSCHEN
+				parent::clean_up_cache($APP);
+
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?delete=success');
             } else {
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?delete=no-success');
@@ -825,7 +834,10 @@
 	                        )
 	                    )
 	                );
-	
+
+					// CACHE DER SEITE LÖSCHEN
+					parent::clean_up_cache($APP);
+
 	                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?edit=success');
 				}
 			} else {
@@ -977,6 +989,9 @@
                 )
             );
 
+			// CACHE DER SEITE LÖSCHEN
+			parent::clean_up_cache($APP);
+
             $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?move=success');
         }
 
@@ -1123,6 +1138,9 @@
                     )
                 )
             );
+
+			// CACHE DER SEITE LÖSCHEN
+			parent::clean_up_cache($APP);
 
             $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?move=success');
         }

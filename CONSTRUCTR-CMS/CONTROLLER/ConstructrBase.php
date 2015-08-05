@@ -264,7 +264,6 @@
 
         public function updated_user_credentials($APP)
         {
-            $APP->set('SESSION.login', $APP->get('SESSION.login'));
             $CSRF = self::csrf();
             $APP->set('CSRF', $CSRF);
             $APP->set('SESSION.csrf', $CSRF);
@@ -289,4 +288,19 @@
         {
             return mt_rand().time();
         }
+		
+        public static function clean_up_cache($APP)
+        {
+			if(@is_dir($APP->get('CONSTRUCTR_FE_CACHE'))) {
+				if ($H=@opendir($APP->get('CONSTRUCTR_FE_CACHE'))) {
+					while(($F=@readdir($H))!==false) {
+						if ($F!='.' && $F!='..' && $F!='.empty_file'){
+							@unlink($APP->get('CONSTRUCTR_FE_CACHE').$F);
+						}
+					}
+					@closedir($H);
+				}
+			}
+        }
+
     }

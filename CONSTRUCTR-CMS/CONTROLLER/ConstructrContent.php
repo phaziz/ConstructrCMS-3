@@ -328,6 +328,9 @@
 	                );
 				}
 
+				// CACHE DER SEITE LÖSCHEN
+				parent::clean_up_cache($APP);
+
                 $APP->set('NEW', 'success');
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/content/'.$PAGE_ID.'/?new=success');
             } else {
@@ -554,6 +557,9 @@
 	                );
 				}
 
+				// CACHE DER SEITE LÖSCHEN
+				parent::clean_up_cache($APP);
+
                 $APP->set('EDIT', 'success');
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/content/'.$PAGE_ID.'/?edit=success');
             } else {
@@ -604,6 +610,9 @@
 	                        )
 	                    )
 	                );
+
+					// CACHE DER SEITE LÖSCHEN
+					parent::clean_up_cache($APP);
 
 	                $APP->set('EDIT', 'success');
 	                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/content/'.$PAGE_ID.'/?edit=success');
@@ -675,6 +684,9 @@
                             )
                         )
                     );
+
+					// CACHE DER SEITE LÖSCHEN
+					parent::clean_up_cache($APP);
 
                     $APP->set('DELETE', 'success');
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/content/'.$PAGE_ID.'/?delete=success');
@@ -811,6 +823,9 @@
                             )
                         )
                     );
+
+					// CACHE DER SEITE LÖSCHEN
+					parent::clean_up_cache($APP);
 
                     $APP->set('MOVE', 'success');
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/content/'.$PAGE_ID.'/?move=success');

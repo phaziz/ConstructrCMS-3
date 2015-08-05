@@ -41,16 +41,7 @@
 
     if (strpos($REQUEST, 'constructr') === false){
 		if(isset($_GET['del-cache']) && $_GET['del-cache']==$APP->get('CACHE_DELETR')){
-			if(@is_dir($APP->get('CONSTRUCTR_FE_CACHE'))) {
-				if ($H=@opendir($APP->get('CONSTRUCTR_FE_CACHE'))) {
-					while(($F=@readdir($H))!==false) {
-						if ($F!='.' && $F!='..' && $F!='.empty_file'){
-							@unlink($APP->get('CONSTRUCTR_FE_CACHE').$F);
-						}
-					}
-					@closedir($H);
-				}
-			}
+			ConstructrBase::clean_up_cache($APP);
 		}
 
 		$UNIQUE=$APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST);
@@ -222,7 +213,7 @@
 			}
 
 			$TEMPLATE .="\n<!-- ConstructrCMS Version ".$APP->get("CONSTRUCTR_VERSION")." / http://phaziz.com -->";
-			@file_put_contents($UNIQUE=$APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST),$TEMPLATE."\n".'<!--ConstructrCache '.date('Y-m-d H:i:s').'-->');
+			@file_put_contents($UNIQUE=$APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST),$TEMPLATE."\n".'<!-- ConstructrCache '.date('Y-m-d H:i:s').' -->');
 
 			echo $TEMPLATE;
 			die();
