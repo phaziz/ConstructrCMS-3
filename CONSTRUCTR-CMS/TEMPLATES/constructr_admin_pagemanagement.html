@@ -11,6 +11,9 @@
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-default.css">
 </head>
 <body>
+	<script>
+		
+	</script>
     <nav>
         <div class="nav-wrapper light-green lighten-1">
             <a href="#" data-activates="mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
@@ -35,7 +38,7 @@
         <div class="col s12">
             <check if="{{ count(@PAGES) != 0 }}">
                 <true>
-                    <p><strong>{{ count(@PAGES) }} Seiten vorhanden&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/new" class="waves-effect waves-light btn"><i class="mdi-content-add-circle right"></i>Neue Seite</a></strong></p>
+                    <p><strong>{{ count(@PAGES) }} Seiten vorhanden&#160;&#160;&#160;<!--<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/drag-n-drop" class="waves-effect waves-light btn"><i class="mdi-av-shuffle right"></i>Drag'N'Drop</a>&#160;&#160;&#160;--><a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/new" class="waves-effect waves-light btn"><i class="mdi-content-add-circle right"></i>Neue Seite</a></strong></p>
                     <check if="{{ @EDIT=='success' }}">
 						<div class="card-panel green darken-3 white-text">Die Seite wurde erfolgreich bearbeitet!</div>
                     </check>
@@ -86,7 +89,10 @@
                                     </check>
                                     <a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE.constructr_pages_id }}" data-position="right" data-delay="25" data-tooltip="Inhalte von Seite ''{{ @PAGE.constructr_pages_name }}'' bearbeiten" class="tooltipped waves-effect waves-light btn-small">{{ @PAGE.constructr_pages_name }}</a>
                                 </td>
-                                <td><a href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.constructr_pages_url }}" target="_blank" data-position="top" data-delay="25" data-tooltip="Vorschau von Seite ''{{ @PAGE.constructr_pages_name }}''" class="tooltipped waves-effect waves-light btn-small">{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.constructr_pages_url }}</a></td>
+                                <td><a href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.constructr_pages_url }}" target="_blank" data-position="top" data-delay="25" data-tooltip="Vorschau von Seite ''{{ @PAGE.constructr_pages_name }}''" class="tooltipped waves-effect waves-light btn-small">{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.constructr_pages_url }}</a>
+                                	<br><small>Level: {{ @PAGE.constructr_pages_level }} | Order: {{ @PAGE.constructr_pages_order }} / ID: {{ @PAGE.constructr_pages_id }} / Mother: {{ @PAGE.constructr_pages_mother }}</small>
+                                	
+                                </td>
                                 <td>{{ @PAGE.constructr_pages_template }}</td>
                                 <td class="center-align"><nobr>
 									<check if="{{ @PAGE.constructr_pages_order }} == 1">
@@ -131,7 +137,7 @@
                     </table>
                 </true>
                 <false>
-                    <p><strong>Keine Seiten vorhanden&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/new" class="waves-effect waves-light btn"><i class="mdi-content-add-circle right"></i>Neue Seite</a></strong></p>
+                    <p><strong>{{ count(@PAGES) }} Seiten vorhanden&#160;&#160;&#160;<!--<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/drag-n-drop" class="waves-effect waves-light btn"><i class="mdi-av-shuffle right"></i>Drag'N'Drop</a>&#160;&#160;&#160;--><a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/new" class="waves-effect waves-light btn"><i class="mdi-content-add-circle right"></i>Neue Seite</a></strong></p>
                 </false>
             </check>
         </div>

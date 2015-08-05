@@ -125,6 +125,60 @@
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin.html', 'text/html');
         }
 
+		public function page_management_drag_n_drop($APP)
+		{
+            $APP->set('MODUL_ID', 30);
+            $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
+
+            if ($USER_RIGHTS == false){
+                $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
+            }
+
+            $APP->set('PAGES', $APP->get('DBCON')->exec(
+                    array('SELECT * FROM constructr_pages ORDER BY constructr_pages_order ASC;'),
+                    array()
+                )
+            );
+
+			if($APP->get('PAGES')){
+				$APP->set('NAVIGATION',self::constructrNavGen($APP->get('CONSTRUCTR_BASE_URL'),$APP->get('PAGES')));
+ 			}
+			else
+			{
+				$APP->set('NAVIGATION','');
+			}
+
+            echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_pagemanagement_drag_n_drop.html', 'text/html');
+		}
+
+		public static function constructrNavGen($BASE_URL,$PAGES, $MOTHER = 0){
+	        $TREE = '';
+	        $TREE = '<ul>';
+	        for($i=0, $ni=count($PAGES); $i < $ni; $i++){
+	            if($PAGES[$i]['constructr_pages_mother'] == $MOTHER){
+	                $TREE .= '<li draggable="true" data-page-id="' . $PAGES[$i]['constructr_pages_id'] . '" data-page-level="' . $PAGES[$i]['constructr_pages_level'] . '" data-page-mother="' . $PAGES[$i]['constructr_pages_mother'] . '">';
+	                $TREE .= $PAGES[$i]['constructr_pages_name'];
+	                $TREE .= self::constructrNavGen($BASE_URL,$PAGES, $PAGES[$i]['constructr_pages_id']);
+	                $TREE .= '</li>';
+	            }
+	        }
+	        $TREE .= '</ul>';
+			$TREE = str_replace('<ul></ul>','',$TREE);
+	        return $TREE;
+		}
+
+		public static function get_max_page_level($APP)
+		{
+            $APP->set('MAX_PAGE_LEVEL', $APP->get('DBCON')->exec(
+                    array('SELECT MAX(constructr_pages_level) AS MAX_LEVEL FROM constructr_pages;'),
+                    array()
+                )
+            );
+			
+			return ($APP->get('MAX_PAGE_LEVEL.0.MAX_LEVEL'));
+		}
+
         public function page_management($APP)
         {
             $APP->set('MODUL_ID', 30);
