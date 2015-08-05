@@ -6,15 +6,13 @@
         {
             if ($APP->get('SESSION.login') == 'true' && $APP->get('SESSION.username') != '' && $APP->get('SESSION.password') != ''){
                 $APP->set('LOGIN_USER', $APP->get('DBCON')->exec(
-                        array(
-                            'SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;'
-                        ),
+                        array('SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;'),
                         array(
                             array(
                                 ':ACTIVE' => (int) 1,
                                 ':USERNAME' => $APP->get('SESSION.username'),
                                 ':PASSWORD' => $APP->get('SESSION.password')
-                            ),
+                            )
                         )
                     )
                 );
@@ -23,14 +21,8 @@
                 $LOGIN_USER_ID = $APP->get('LOGIN_USER.0.constructr_user_id');
 
                 $APP->set('LOGIN_USER_RIGHTS', $APP->get('DBCON')->exec(
-                        array(
-                            'SELECT * FROM constructr_user_rights WHERE constructr_user_rights_user=:LOGIN_USER_ID;'
-                        ),
-                        array(
-                            array(
-                                ':LOGIN_USER_ID' => $LOGIN_USER_ID
-                            ),
-                        )
+                        array('SELECT * FROM constructr_user_rights WHERE constructr_user_rights_user=:LOGIN_USER_ID;'),
+                        array(array(':LOGIN_USER_ID' => $LOGIN_USER_ID))
                     )
                 );
 
@@ -78,21 +70,18 @@
             $CSRF = parent::csrf();
             $APP->set('CSRF', $CSRF);
             $APP->set('SESSION.csrf', $CSRF);
+
             $ADDITIVE = parent::additive();
             $APP->set('ADDITIVE', $ADDITIVE);
             $APP->set('SESSION.additive', $ADDITIVE);
+
             $TRIPPLE_ADDITIVE = ($ADDITIVE.$CSRF);
             $APP->set('TRIPPLE_ADDITIVE', $TRIPPLE_ADDITIVE);
             $APP->set('SESSION.tripple_additive', $TRIPPLE_ADDITIVE);
 
             $APP->set('PAGES', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT constructr_pages_id FROM constructr_pages;'
-                    ),
-                    array(
-                        array(
-                        ),
-                    )
+                    array('SELECT constructr_pages_id FROM constructr_pages;'),
+                    array()
                 )
             );
 
@@ -100,13 +89,8 @@
             $APP->set('PAGE_COUNTR', count($APP->get('PAGES')));
 
             $APP->set('CONTENT', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT constructr_content_id FROM constructr_content;'
-                    ),
-                    array(
-                        array(
-                        ),
-                    )
+                    array('SELECT constructr_content_id FROM constructr_content;'),
+                    array()
                 )
             );
 
@@ -114,13 +98,8 @@
             $APP->set('CONTENT_COUNTR', count($APP->get('CONTENT')));
 
             $APP->set('USER', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT constructr_user_id FROM constructr_backenduser;'
-                    ),
-                    array(
-                        array(
-                        ),
-                    )
+                    array('SELECT constructr_user_id FROM constructr_backenduser;'),
+                    array()
                 )
             );
 
@@ -181,13 +160,8 @@
             }
 
             $APP->set('PAGES', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT * FROM constructr_pages ORDER BY constructr_pages_order ASC;'
-                    ),
-                    array(
-                        array(
-                        ),
-                    )
+                    array('SELECT * FROM constructr_pages ORDER BY constructr_pages_order ASC;'),
+                    array()
                 )
             );
 
@@ -219,25 +193,14 @@
             $APP->set('SESSION.tripple_additive', $TRIPPLE_ADDITIVE);
 
             $APP->set('PAGE', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT * FROM constructr_pages WHERE constructr_pages_id=:PAGE_ID LIMIT 1;'
-                    ),
-                    array(
-                        array(
-                            ':PAGE_ID' => $PAGE_ID
-                        ),
-                    )
+                    array('SELECT * FROM constructr_pages WHERE constructr_pages_id=:PAGE_ID LIMIT 1;'),
+                    array(array(':PAGE_ID' => $PAGE_ID))
                 )
             );
 
             $APP->set('ALLPAGES', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT * FROM constructr_pages ORDER BY constructr_pages_order ASC;'
-                    ),
-                    array(
-                        array(
-                        ),
-                    )
+                    array('SELECT * FROM constructr_pages ORDER BY constructr_pages_order ASC;'),
+                    array()
                 )
             );
 
@@ -314,14 +277,8 @@
             }
 
             $APP->set('URL_EXISTS', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT * FROM constructr_pages WHERE constructr_pages_url=:PAGE_URL LIMIT 1;'
-                    ),
-                    array(
-                        array(
-                            ':PAGE_URL' => $PAGE_URL
-                        ),
-                    )
+                    array('SELECT * FROM constructr_pages WHERE constructr_pages_url=:PAGE_URL LIMIT 1;'),
+                    array(array(':PAGE_URL' => $PAGE_URL))
                 )
             );
 
@@ -339,16 +296,14 @@
 	                        array(
 	                            ':PAGE_ID' => $PAGE_ID,
 	                            ':NULLER' => ''
-	                        ),
+	                        )
 	                    )
 	                )
 	            );
 			}
 
             $APP->set('UPDATE_PAGE', $APP->get('DBCON')->exec(
-                    array(
-                        'UPDATE constructr_pages SET constructr_pages_css=:PAGE_CSS, constructr_pages_js=:PAGE_JS, constructr_pages_datetime=:PAGE_DATETIME, constructr_pages_name=:PAGE_NAME, constructr_pages_nav_visible=:PAGE_VISIBILITY, constructr_pages_url=:PAGE_URL, constructr_pages_template=:PAGE_TEMPLATE, constructr_pages_title=:PAGE_TITLE, constructr_pages_description=:PAGE_DESCRIPTION, constructr_pages_keywords=:PAGE_KEYWORDS, constructr_pages_active=:PAGE_ACTIVE WHERE constructr_pages_id=:PAGE_ID LIMIT 1;'
-                    ),
+                    array('UPDATE constructr_pages SET constructr_pages_css=:PAGE_CSS, constructr_pages_js=:PAGE_JS, constructr_pages_datetime=:PAGE_DATETIME, constructr_pages_name=:PAGE_NAME, constructr_pages_nav_visible=:PAGE_VISIBILITY, constructr_pages_url=:PAGE_URL, constructr_pages_template=:PAGE_TEMPLATE, constructr_pages_title=:PAGE_TITLE, constructr_pages_description=:PAGE_DESCRIPTION, constructr_pages_keywords=:PAGE_KEYWORDS, constructr_pages_active=:PAGE_ACTIVE WHERE constructr_pages_id=:PAGE_ID LIMIT 1;'),
                     array(
                         array(
                             ':PAGE_ID' => $PAGE_ID,
@@ -363,12 +318,11 @@
                             ':PAGE_DATETIME' => $PAGE_DATETIME,
                             ':PAGE_VISIBILITY' => $PAGE_VISIBILITY,
                             ':PAGE_ACTIVE' => $PAGE_ACTIVE
-                        ),
+                        )
                     )
                 )
             );
 
-			// CACHE DER SEITE LÖSCHEN
 			parent::clean_up_cache($APP);
 
             $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?edit=success');
@@ -387,21 +341,18 @@
             $CSRF = parent::csrf();
             $APP->set('CSRF', $CSRF);
             $APP->set('SESSION.csrf', $CSRF);
+
             $ADDITIVE = parent::additive();
             $APP->set('ADDITIVE', $ADDITIVE);
             $APP->set('SESSION.additive', $ADDITIVE);
+
             $TRIPPLE_ADDITIVE = ($ADDITIVE.$CSRF);
             $APP->set('TRIPPLE_ADDITIVE', $TRIPPLE_ADDITIVE);
             $APP->set('SESSION.tripple_additive', $TRIPPLE_ADDITIVE);
 
             $APP->set('PAGES', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT * FROM constructr_pages ORDER BY constructr_pages_order ASC;'
-                    ),
-                    array(
-                        array(
-                        ),
-                    )
+                    array('SELECT * FROM constructr_pages ORDER BY constructr_pages_order ASC;'),
+                    array()
                 )
             );
 
@@ -480,14 +431,8 @@
             }
 
             $APP->set('URL_EXISTS', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT * FROM constructr_pages WHERE constructr_pages_url=:PAGE_URL LIMIT 1;'
-                    ),
-                    array(
-                        array(
-                            ':PAGE_URL' => $PAGE_URL
-                        ),
-                    )
+                    array('SELECT * FROM constructr_pages WHERE constructr_pages_url=:PAGE_URL LIMIT 1;'),
+                    array(array(':PAGE_URL' => $PAGE_URL))
                 )
             );
 
@@ -500,26 +445,14 @@
 
             if ($NEW_PAGE_ORDER == 1 && $NEW_PAGE_ORDER_PAGE_ID != ''){
                 $APP->set('RES', $APP->get('DBCON')->exec(
-                        array(
-                            'SELECT constructr_pages_order, constructr_pages_level, constructr_pages_mother FROM constructr_pages WHERE constructr_pages_id = :NEW_PAGE_ORDER_PAGE_ID LIMIT 1;'
-                        ),
-                        array(
-                            array(
-                                ':NEW_PAGE_ORDER_PAGE_ID' => $NEW_PAGE_ORDER_PAGE_ID
-                            ),
-                        )
+                        array('SELECT constructr_pages_order, constructr_pages_level, constructr_pages_mother FROM constructr_pages WHERE constructr_pages_id = :NEW_PAGE_ORDER_PAGE_ID LIMIT 1;'),
+                        array(array(':NEW_PAGE_ORDER_PAGE_ID' => $NEW_PAGE_ORDER_PAGE_ID))
                     )
                 );
 
                 $APP->get('DBCON')->exec(
-                    array(
-                        'UPDATE constructr_pages SET constructr_pages_order = (constructr_pages_order + 1) WHERE constructr_pages_order >= :ACT_PAGE_ORDER;'
-                    ),
-                    array(
-                        array(
-                            ':ACT_PAGE_ORDER' => $APP->get('RES.0.constructr_pages_order')
-                        ),
-                    )
+                    array('UPDATE constructr_pages SET constructr_pages_order = (constructr_pages_order + 1) WHERE constructr_pages_order >= :ACT_PAGE_ORDER;'),
+                    array(array(':ACT_PAGE_ORDER' => $APP->get('RES.0.constructr_pages_order')))
                 );
 
                 $PAGE_LEVEL = $APP->get('RES.0.constructr_pages_level');
@@ -527,9 +460,7 @@
                 $PAGE_ORDER = $APP->get('RES.0.constructr_pages_order');
 
                 $APP->set('CREATE_PAGE2', $APP->get('DBCON')->exec(
-                        array(
-                            'INSERT INTO constructr_pages SET constructr_pages_css=:PAGE_CSS, constructr_pages_js=:PAGE_JS, constructr_pages_level=:PAGE_LEVEL, constructr_pages_mother=:PAGE_MOTHER, constructr_pages_order=:PAGE_ORDER, constructr_pages_datetime=:PAGE_DATETIME, constructr_pages_name=:PAGE_NAME, constructr_pages_nav_visible=:PAGE_VISIBILITY, constructr_pages_url=:PAGE_URL, constructr_pages_template=:PAGE_TEMPLATE, constructr_pages_title=:PAGE_TITLE, constructr_pages_description=:PAGE_DESCRIPTION, constructr_pages_keywords=:PAGE_KEYWORDS, constructr_pages_active=:PAGE_ACTIVE;'
-                        ),
+                        array('INSERT INTO constructr_pages SET constructr_pages_css=:PAGE_CSS, constructr_pages_js=:PAGE_JS, constructr_pages_level=:PAGE_LEVEL, constructr_pages_mother=:PAGE_MOTHER, constructr_pages_order=:PAGE_ORDER, constructr_pages_datetime=:PAGE_DATETIME, constructr_pages_name=:PAGE_NAME, constructr_pages_nav_visible=:PAGE_VISIBILITY, constructr_pages_url=:PAGE_URL, constructr_pages_template=:PAGE_TEMPLATE, constructr_pages_title=:PAGE_TITLE, constructr_pages_description=:PAGE_DESCRIPTION, constructr_pages_keywords=:PAGE_KEYWORDS, constructr_pages_active=:PAGE_ACTIVE;'),
                         array(
                             array(
                                 ':PAGE_LEVEL' => $PAGE_LEVEL,
@@ -546,32 +477,20 @@
                                 ':PAGE_DATETIME' => $PAGE_DATETIME,
                                 ':PAGE_VISIBILITY' => $PAGE_VISIBILITY,
                                 ':PAGE_ACTIVE' => $PAGE_ACTIVE
-                            ),
+                            )
                         )
                     )
                 );
             } elseif ($NEW_PAGE_ORDER == 2 && $NEW_PAGE_ORDER_PAGE_ID != ''){
                 $APP->set('RES', $APP->get('DBCON')->exec(
-                        array(
-                            'SELECT * FROM constructr_pages WHERE constructr_pages_id = :NEW_PAGE_ORDER_PAGE_ID LIMIT 1;'
-                        ),
-                        array(
-                            array(
-                                ':NEW_PAGE_ORDER_PAGE_ID' => $NEW_PAGE_ORDER_PAGE_ID
-                            ),
-                        )
+                        array('SELECT * FROM constructr_pages WHERE constructr_pages_id = :NEW_PAGE_ORDER_PAGE_ID LIMIT 1;'),
+                        array(array(':NEW_PAGE_ORDER_PAGE_ID' => $NEW_PAGE_ORDER_PAGE_ID))
                     )
                 );
 
                 $APP->get('DBCON')->exec(
-                    array(
-                        'UPDATE constructr_pages SET constructr_pages_order = (constructr_pages_order + 1) WHERE constructr_pages_order > :ACT_PAGE_ORDER;'
-                    ),
-                    array(
-                        array(
-                            ':ACT_PAGE_ORDER' => $APP->get('RES.0.constructr_pages_order')
-                        ),
-                    )
+                    array('UPDATE constructr_pages SET constructr_pages_order = (constructr_pages_order + 1) WHERE constructr_pages_order > :ACT_PAGE_ORDER;'),
+                    array(array(':ACT_PAGE_ORDER' => $APP->get('RES.0.constructr_pages_order')))
                 );
 
                 $PAGE_LEVEL = ($APP->get('RES.0.constructr_pages_level')+1);
@@ -579,9 +498,7 @@
                 $PAGE_ORDER = ($APP->get('RES.0.constructr_pages_order')+1);
 
                 $APP->set('CREATE_PAGE3', $APP->get('DBCON')->exec(
-                        array(
-                            'INSERT INTO constructr_pages SET constructr_pages_css=:PAGE_CSS, constructr_pages_js=:PAGE_JS, constructr_pages_level=:PAGE_LEVEL, constructr_pages_mother=:PAGE_MOTHER, constructr_pages_order=:PAGE_ORDER, constructr_pages_datetime=:PAGE_DATETIME, constructr_pages_name=:PAGE_NAME, constructr_pages_nav_visible=:PAGE_VISIBILITY, constructr_pages_url=:PAGE_URL, constructr_pages_template=:PAGE_TEMPLATE, constructr_pages_title=:PAGE_TITLE, constructr_pages_description=:PAGE_DESCRIPTION, constructr_pages_keywords=:PAGE_KEYWORDS, constructr_pages_active=:PAGE_ACTIVE;'
-                        ),
+                        array('INSERT INTO constructr_pages SET constructr_pages_css=:PAGE_CSS, constructr_pages_js=:PAGE_JS, constructr_pages_level=:PAGE_LEVEL, constructr_pages_mother=:PAGE_MOTHER, constructr_pages_order=:PAGE_ORDER, constructr_pages_datetime=:PAGE_DATETIME, constructr_pages_name=:PAGE_NAME, constructr_pages_nav_visible=:PAGE_VISIBILITY, constructr_pages_url=:PAGE_URL, constructr_pages_template=:PAGE_TEMPLATE, constructr_pages_title=:PAGE_TITLE, constructr_pages_description=:PAGE_DESCRIPTION, constructr_pages_keywords=:PAGE_KEYWORDS, constructr_pages_active=:PAGE_ACTIVE;'),
                         array(
                             array(
                                 ':PAGE_LEVEL' => $PAGE_LEVEL,
@@ -598,32 +515,20 @@
                                 ':PAGE_DATETIME' => $PAGE_DATETIME,
                                 ':PAGE_VISIBILITY' => $PAGE_VISIBILITY,
                                 ':PAGE_ACTIVE' => $PAGE_ACTIVE
-                            ),
+                            )
                         )
                     )
                 );
             } elseif ($NEW_PAGE_ORDER == 3 && $NEW_PAGE_ORDER_PAGE_ID != ''){
                 $APP->set('RES', $APP->get('DBCON')->exec(
-                        array(
-                            'SELECT constructr_pages_order, constructr_pages_level, constructr_pages_mother FROM constructr_pages WHERE constructr_pages_id = :NEW_PAGE_ORDER_PAGE_ID LIMIT 1;'
-                        ),
-                        array(
-                            array(
-                                ':NEW_PAGE_ORDER_PAGE_ID' => $NEW_PAGE_ORDER_PAGE_ID
-                            ),
-                        )
+                        array('SELECT constructr_pages_order, constructr_pages_level, constructr_pages_mother FROM constructr_pages WHERE constructr_pages_id = :NEW_PAGE_ORDER_PAGE_ID LIMIT 1;'),
+                        array(array(':NEW_PAGE_ORDER_PAGE_ID' => $NEW_PAGE_ORDER_PAGE_ID))
                     )
                 );
 
                 $APP->get('DBCON')->exec(
-                    array(
-                        'UPDATE constructr_pages SET constructr_pages_order = (constructr_pages_order + 1) WHERE constructr_pages_order > :ACT_PAGE_ORDER;'
-                    ),
-                    array(
-                        array(
-                            ':ACT_PAGE_ORDER' => $APP->get('RES.0.constructr_pages_order')
-                        ),
-                    )
+                    array('UPDATE constructr_pages SET constructr_pages_order = (constructr_pages_order + 1) WHERE constructr_pages_order > :ACT_PAGE_ORDER;'),
+                    array(array(':ACT_PAGE_ORDER' => $APP->get('RES.0.constructr_pages_order')))
                 );
 
                 $PAGE_LEVEL = $APP->get('RES.0.constructr_pages_level');
@@ -631,9 +536,7 @@
                 $PAGE_ORDER = ($APP->get('RES.0.constructr_pages_order')+1);
 
                 $APP->set('CREATE_PAGE3', $APP->get('DBCON')->exec(
-                        array(
-                            'INSERT INTO constructr_pages SET constructr_pages_css=:PAGE_CSS, constructr_pages_js=:PAGE_JS, constructr_pages_level=:PAGE_LEVEL, constructr_pages_mother=:PAGE_MOTHER, constructr_pages_order=:PAGE_ORDER, constructr_pages_datetime=:PAGE_DATETIME, constructr_pages_name=:PAGE_NAME, constructr_pages_nav_visible=:PAGE_VISIBILITY, constructr_pages_url=:PAGE_URL, constructr_pages_template=:PAGE_TEMPLATE, constructr_pages_title=:PAGE_TITLE, constructr_pages_description=:PAGE_DESCRIPTION, constructr_pages_keywords=:PAGE_KEYWORDS, constructr_pages_active=:PAGE_ACTIVE;'
-                        ),
+                        array('INSERT INTO constructr_pages SET constructr_pages_css=:PAGE_CSS, constructr_pages_js=:PAGE_JS, constructr_pages_level=:PAGE_LEVEL, constructr_pages_mother=:PAGE_MOTHER, constructr_pages_order=:PAGE_ORDER, constructr_pages_datetime=:PAGE_DATETIME, constructr_pages_name=:PAGE_NAME, constructr_pages_nav_visible=:PAGE_VISIBILITY, constructr_pages_url=:PAGE_URL, constructr_pages_template=:PAGE_TEMPLATE, constructr_pages_title=:PAGE_TITLE, constructr_pages_description=:PAGE_DESCRIPTION, constructr_pages_keywords=:PAGE_KEYWORDS, constructr_pages_active=:PAGE_ACTIVE;'),
                         array(
                             array(
                                 ':PAGE_LEVEL' => $PAGE_LEVEL,
@@ -650,7 +553,7 @@
                                 ':PAGE_DATETIME' => $PAGE_DATETIME,
                                 ':PAGE_VISIBILITY' => $PAGE_VISIBILITY,
                                 ':PAGE_ACTIVE' => $PAGE_ACTIVE
-                            ),
+                            )
                         )
                     )
                 );
@@ -660,9 +563,7 @@
                 $PAGE_ORDER = ($PAGES_COUNTR+1);
 
                 $APP->set('CREATE_PAGE1', $APP->get('DBCON')->exec(
-                        array(
-                            'INSERT INTO constructr_pages SET constructr_pages_css=:PAGE_CSS, constructr_pages_js=:PAGE_JS, constructr_pages_level=:PAGE_LEVEL, constructr_pages_mother=:PAGE_MOTHER, constructr_pages_order=:PAGE_ORDER, constructr_pages_datetime=:PAGE_DATETIME, constructr_pages_name=:PAGE_NAME, constructr_pages_nav_visible=:PAGE_VISIBILITY, constructr_pages_url=:PAGE_URL, constructr_pages_template=:PAGE_TEMPLATE, constructr_pages_title=:PAGE_TITLE, constructr_pages_description=:PAGE_DESCRIPTION, constructr_pages_keywords=:PAGE_KEYWORDS, constructr_pages_active=:PAGE_ACTIVE;'
-                        ),
+                        array('INSERT INTO constructr_pages SET constructr_pages_css=:PAGE_CSS, constructr_pages_js=:PAGE_JS, constructr_pages_level=:PAGE_LEVEL, constructr_pages_mother=:PAGE_MOTHER, constructr_pages_order=:PAGE_ORDER, constructr_pages_datetime=:PAGE_DATETIME, constructr_pages_name=:PAGE_NAME, constructr_pages_nav_visible=:PAGE_VISIBILITY, constructr_pages_url=:PAGE_URL, constructr_pages_template=:PAGE_TEMPLATE, constructr_pages_title=:PAGE_TITLE, constructr_pages_description=:PAGE_DESCRIPTION, constructr_pages_keywords=:PAGE_KEYWORDS, constructr_pages_active=:PAGE_ACTIVE;'),
                         array(
                             array(
                                 ':PAGE_LEVEL' => $PAGE_LEVEL,
@@ -679,13 +580,12 @@
                                 ':PAGE_DATETIME' => $PAGE_DATETIME,
                                 ':PAGE_VISIBILITY' => $PAGE_VISIBILITY,
                                 ':PAGE_ACTIVE' => $PAGE_ACTIVE
-                            ),
+                            )
                         )
                     )
                 );
             }
 
-			// CACHE DER SEITE LÖSCHEN
 			parent::clean_up_cache($APP);
 
             $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?new=success');
@@ -704,42 +604,24 @@
             $DELETE_PAGE_ID = filter_var($APP->get('PARAMS.page_id'), FILTER_SANITIZE_NUMBER_INT);
 
             $APP->set('CONTENT_COUNTR', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT constructr_content_id FROM constructr_content WHERE constructr_content_page_id=:DELETE_PAGE_ID;'
-                    ),
-                    array(
-                        array(
-                            ':DELETE_PAGE_ID' => $DELETE_PAGE_ID
-                        ),
-                    )
+                    array('SELECT constructr_content_id FROM constructr_content WHERE constructr_content_page_id=:DELETE_PAGE_ID;'),
+                    array(array(':DELETE_PAGE_ID' => $DELETE_PAGE_ID))
                 )
             );
 
             $CONTENT_COUNTR = count($APP->get('CONTENT_COUNTR'));
 
             $APP->set('ACTIVE_MOTHER', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT constructr_pages_id FROM constructr_pages WHERE constructr_pages_mother=:DELETE_PAGE_ID LIMIT 1;'
-                    ),
-                    array(
-                        array(
-                            ':DELETE_PAGE_ID' => $DELETE_PAGE_ID
-                        ),
-                    )
+                    array('SELECT constructr_pages_id FROM constructr_pages WHERE constructr_pages_mother=:DELETE_PAGE_ID LIMIT 1;'),
+                    array(array(':DELETE_PAGE_ID' => $DELETE_PAGE_ID))
                 )
             );
 
             $MOTHER_COUNTR = count($APP->get('ACTIVE_MOTHER'));
 
             $APP->set('GET_DELETE_PAGE', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT * FROM constructr_pages WHERE constructr_pages_id=:DELETE_PAGE_ID LIMIT 1;'
-                    ),
-                    array(
-                        array(
-                            ':DELETE_PAGE_ID' => $DELETE_PAGE_ID
-                        ),
-                    )
+                    array('SELECT * FROM constructr_pages WHERE constructr_pages_id=:DELETE_PAGE_ID LIMIT 1;'),
+                    array(array(':DELETE_PAGE_ID' => $DELETE_PAGE_ID))
                 )
             );
 
@@ -762,30 +644,17 @@
 
             if ($MOTHER_COUNTR == 0 && $DELETER_PAGE_ORDER != 1 && $CONTENT_COUNTR == 0){
                 $APP->set('DELETE_PAGE', $APP->get('DBCON')->exec(
-                        array(
-                            'DELETE FROM constructr_pages WHERE constructr_pages_id=:DELETE_PAGE_ID LIMIT 1;'
-                        ),
-                        array(
-                            array(
-                                ':DELETE_PAGE_ID' => $DELETE_PAGE_ID
-                            ),
-                        )
+                        array('DELETE FROM constructr_pages WHERE constructr_pages_id=:DELETE_PAGE_ID LIMIT 1;'),
+                        array(array(':DELETE_PAGE_ID' => $DELETE_PAGE_ID))
                     )
                 );
 
                 $APP->set('UPDATER', $APP->get('DBCON')->exec(
-                        array(
-                            'UPDATE constructr_pages SET constructr_pages_order=(constructr_pages_order-1) WHERE constructr_pages_order>=:DELETER_PAGE_ORDER;'
-                        ),
-                        array(
-                            array(
-                                ':DELETER_PAGE_ORDER' => $DELETER_PAGE_ORDER
-                            ),
-                        )
+                        array('UPDATE constructr_pages SET constructr_pages_order=(constructr_pages_order-1) WHERE constructr_pages_order>=:DELETER_PAGE_ORDER;'),
+                        array(array(':DELETER_PAGE_ORDER' => $DELETER_PAGE_ORDER))
                     )
                 );
 
-				// CACHE DER SEITE LÖSCHEN
 				parent::clean_up_cache($APP);
 
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?delete=success');
@@ -810,32 +679,19 @@
 			if($WHAT != '' && $PAGE_ID != ''){
 				if($WHAT == 'on'){
 	                $APP->set('UPDATER', $APP->get('DBCON')->exec(
-	                        array(
-	                            'UPDATE constructr_pages SET constructr_pages_nav_visible=1 WHERE constructr_pages_id=:PAGE_ID LIMIT 1;'
-	                        ),
-	                        array(
-	                            array(
-	                                ':PAGE_ID' => $PAGE_ID
-	                            ),
-	                        )
+	                        array('UPDATE constructr_pages SET constructr_pages_nav_visible=1 WHERE constructr_pages_id=:PAGE_ID LIMIT 1;'),
+	                        array(array(':PAGE_ID' => $PAGE_ID))
 	                    )
 	                );
 	
 	                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?edit=success');
 				} else {
 	                $APP->set('UPDATER', $APP->get('DBCON')->exec(
-	                        array(
-	                            'UPDATE constructr_pages SET constructr_pages_nav_visible=0 WHERE constructr_pages_id=:PAGE_ID LIMIT 1;'
-	                        ),
-	                        array(
-	                            array(
-	                                ':PAGE_ID' => $PAGE_ID
-	                            ),
-	                        )
+	                        array('UPDATE constructr_pages SET constructr_pages_nav_visible=0 WHERE constructr_pages_id=:PAGE_ID LIMIT 1;'),
+	                        array(array(':PAGE_ID' => $PAGE_ID))
 	                    )
 	                );
 
-					// CACHE DER SEITE LÖSCHEN
 					parent::clean_up_cache($APP);
 
 	                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?edit=success');
@@ -858,14 +714,8 @@
             $MOVE_PAGE_ID = filter_var($APP->get('PARAMS.page_id'), FILTER_SANITIZE_NUMBER_INT);
 
             $APP->set('MOVE_PAGE', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT * FROM constructr_pages WHERE constructr_pages_id = :DELETE_PAGE_ID LIMIT 1;'
-                    ),
-                    array(
-                        array(
-                            ':DELETE_PAGE_ID' => $MOVE_PAGE_ID
-                        ),
-                    )
+                    array('SELECT * FROM constructr_pages WHERE constructr_pages_id = :DELETE_PAGE_ID LIMIT 1;'),
+                    array(array(':DELETE_PAGE_ID' => $MOVE_PAGE_ID))
                 )
             );
 
@@ -880,14 +730,8 @@
             $TARGET_PAGE_ORDER = ($MOVE_PAGE_ORDER - 1);
 
             $APP->set('TARGET_PAGE', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT * FROM constructr_pages WHERE constructr_pages_order = :TARGET_PAGE_ORDER LIMIT 1;'
-                    ),
-                    array(
-                        array(
-                            ':TARGET_PAGE_ORDER' => $TARGET_PAGE_ORDER
-                        ),
-                    )
+                    array('SELECT * FROM constructr_pages WHERE constructr_pages_order = :TARGET_PAGE_ORDER LIMIT 1;'),
+                    array(array(':TARGET_PAGE_ORDER' => $TARGET_PAGE_ORDER))
                 )
             );
 
@@ -901,9 +745,7 @@
             }
 
             $APP->set('UPDATR_TARGET_STEP_ONE', $APP->get('DBCON')->exec(
-                    array(
-                        'UPDATE constructr_pages SET constructr_pages_id=:TMP_PAGE_ID, constructr_pages_order=:TMP_PAGE_ORDER, constructr_pages_level=:TMP_PAGE_LEVEL, constructr_pages_mother=:TMP_PAGE_MOTHER, constructr_pages_temp_marker=:TMP_PAGE_MARKER WHERE constructr_pages_id = :TARGET_PAGE_ID LIMIT 1;'
-                    ),
+                    array('UPDATE constructr_pages SET constructr_pages_id=:TMP_PAGE_ID, constructr_pages_order=:TMP_PAGE_ORDER, constructr_pages_level=:TMP_PAGE_LEVEL, constructr_pages_mother=:TMP_PAGE_MOTHER, constructr_pages_temp_marker=:TMP_PAGE_MARKER WHERE constructr_pages_id = :TARGET_PAGE_ID LIMIT 1;'),
                     array(
                         array(
                             ':TMP_PAGE_ID' => 0,
@@ -912,15 +754,13 @@
                             ':TMP_PAGE_MOTHER' => 666,
                             ':TMP_PAGE_MARKER' => 666,
                             ':TARGET_PAGE_ID' => $TARGET_PAGE_ID
-                        ),
+                        )
                     )
                 )
             );
 
             $APP->set('UPDATR_MOVE', $APP->get('DBCON')->exec(
-                    array(
-                        'UPDATE constructr_pages SET constructr_pages_id=:TARGET_PAGE_ID, constructr_pages_order=:TARGET_PAGE_ORDER, constructr_pages_level=:TARGET_PAGE_LEVEL, constructr_pages_mother=:TARGET_PAGE_MOTHER WHERE constructr_pages_id = :MOVE_PAGE_ID LIMIT 1;'
-                    ),
+                    array('UPDATE constructr_pages SET constructr_pages_id=:TARGET_PAGE_ID, constructr_pages_order=:TARGET_PAGE_ORDER, constructr_pages_level=:TARGET_PAGE_LEVEL, constructr_pages_mother=:TARGET_PAGE_MOTHER WHERE constructr_pages_id = :MOVE_PAGE_ID LIMIT 1;'),
                     array(
                         array(
                             ':MOVE_PAGE_ID' => $MOVE_PAGE_ID,
@@ -928,15 +768,13 @@
                             ':TARGET_PAGE_ORDER' => $TARGET_PAGE_ORDER,
                             ':TARGET_PAGE_LEVEL' => $TARGET_PAGE_LEVEL,
                             ':TARGET_PAGE_MOTHER' => $TARGET_PAGE_MOTHER
-                        ),
+                        )
                     )
                 )
             );
 
             $APP->set('UPDATR_TARGET', $APP->get('DBCON')->exec(
-                    array(
-                        'UPDATE constructr_pages SET constructr_pages_id=:MOVE_PAGE_ID, constructr_pages_order=:MOVE_PAGE_ORDER, constructr_pages_level=:MOVE_PAGE_LEVEL, constructr_pages_mother=:MOVE_PAGE_MOTHER, constructr_pages_temp_marker=:TMP_MARKER WHERE constructr_pages_id = :TARGET_PAGE_ID LIMIT 1;'
-                    ),
+                    array('UPDATE constructr_pages SET constructr_pages_id=:MOVE_PAGE_ID, constructr_pages_order=:MOVE_PAGE_ORDER, constructr_pages_level=:MOVE_PAGE_LEVEL, constructr_pages_mother=:MOVE_PAGE_MOTHER, constructr_pages_temp_marker=:TMP_MARKER WHERE constructr_pages_id = :TARGET_PAGE_ID LIMIT 1;'),
                     array(
                         array(
                             ':TMP_MARKER' => 0,
@@ -945,51 +783,44 @@
                             ':MOVE_PAGE_ORDER' => $MOVE_PAGE_ORDER,
                             ':MOVE_PAGE_LEVEL' => $MOVE_PAGE_LEVEL,
                             ':MOVE_PAGE_MOTHER' => $MOVE_PAGE_MOTHER
-                        ),
+                        )
                     )
                 )
             );
 
             $APP->set('CONTENT_UPDATR1', $APP->get('DBCON')->exec(
-                    array(
-                        'UPDATE constructr_content SET constructr_content_page_id=:TMP_MARKER WHERE constructr_content_page_id=:TARGET_PAGE_ID;'
-                    ),
+                    array('UPDATE constructr_content SET constructr_content_page_id=:TMP_MARKER WHERE constructr_content_page_id=:TARGET_PAGE_ID;'),
                     array(
                         array(
                             ':TMP_MARKER' => 9999,
                             ':TARGET_PAGE_ID' => $TARGET_PAGE_ID
-                        ),
+                        )
                     )
                 )
             );
 
             $APP->set('CONTENT_UPDATR2', $APP->get('DBCON')->exec(
-                    array(
-                        'UPDATE constructr_content SET constructr_content_page_id=:TARGET_PAGE_ID WHERE constructr_content_page_id=:MOVE_PAGE_ID;'
-                    ),
+                    array('UPDATE constructr_content SET constructr_content_page_id=:TARGET_PAGE_ID WHERE constructr_content_page_id=:MOVE_PAGE_ID;'),
                     array(
                         array(
                             ':TARGET_PAGE_ID' => $TARGET_PAGE_ID,
                             ':MOVE_PAGE_ID' => $MOVE_PAGE_ID
-                        ),
+                        )
                     )
                 )
             );
 
             $APP->set('CONTENT_UPDATR3', $APP->get('DBCON')->exec(
-                    array(
-                        'UPDATE constructr_content SET constructr_content_page_id=:MOVE_PAGE_ID WHERE constructr_content_page_id=:TMP_MARKER;'
-                    ),
+                    array('UPDATE constructr_content SET constructr_content_page_id=:MOVE_PAGE_ID WHERE constructr_content_page_id=:TMP_MARKER;'),
                     array(
                         array(
                             ':TMP_MARKER' => 9999,
                             ':MOVE_PAGE_ID' => $MOVE_PAGE_ID
-                        ),
+                        )
                     )
                 )
             );
 
-			// CACHE DER SEITE LÖSCHEN
 			parent::clean_up_cache($APP);
 
             $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?move=success');
@@ -1008,14 +839,8 @@
             $MOVE_PAGE_ID = filter_var($APP->get('PARAMS.page_id'), FILTER_SANITIZE_NUMBER_INT);
 
             $APP->set('MOVE_PAGE', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT * FROM constructr_pages WHERE constructr_pages_id = :DELETE_PAGE_ID LIMIT 1;'
-                    ),
-                    array(
-                        array(
-                            ':DELETE_PAGE_ID' => $MOVE_PAGE_ID
-                        ),
-                    )
+                    array('SELECT * FROM constructr_pages WHERE constructr_pages_id = :DELETE_PAGE_ID LIMIT 1;'),
+                    array(array(':DELETE_PAGE_ID' => $MOVE_PAGE_ID))
                 )
             );
 
@@ -1030,14 +855,8 @@
             $TARGET_PAGE_ORDER = ($MOVE_PAGE_ORDER + 1);
 
             $APP->set('TARGET_PAGE', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT * FROM constructr_pages WHERE constructr_pages_order = :TARGET_PAGE_ORDER LIMIT 1;'
-                    ),
-                    array(
-                        array(
-                            ':TARGET_PAGE_ORDER' => $TARGET_PAGE_ORDER
-                        ),
-                    )
+                    array('SELECT * FROM constructr_pages WHERE constructr_pages_order = :TARGET_PAGE_ORDER LIMIT 1;'),
+                    array(array(':TARGET_PAGE_ORDER' => $TARGET_PAGE_ORDER))
                 )
             );
 
@@ -1051,9 +870,7 @@
             }
 
             $APP->set('UPDATR_TARGET_STEP_ONE', $APP->get('DBCON')->exec(
-                    array(
-                        'UPDATE constructr_pages SET constructr_pages_id=:TMP_PAGE_ID, constructr_pages_order=:TMP_PAGE_ORDER, constructr_pages_level=:TMP_PAGE_LEVEL, constructr_pages_mother=:TMP_PAGE_MOTHER, constructr_pages_temp_marker=:TMP_PAGE_MARKER WHERE constructr_pages_id = :TARGET_PAGE_ID LIMIT 1;'
-                    ),
+                    array('UPDATE constructr_pages SET constructr_pages_id=:TMP_PAGE_ID, constructr_pages_order=:TMP_PAGE_ORDER, constructr_pages_level=:TMP_PAGE_LEVEL, constructr_pages_mother=:TMP_PAGE_MOTHER, constructr_pages_temp_marker=:TMP_PAGE_MARKER WHERE constructr_pages_id = :TARGET_PAGE_ID LIMIT 1;'),
                     array(
                         array(
                             ':TMP_PAGE_ID' => 0,
@@ -1062,15 +879,13 @@
                             ':TMP_PAGE_MOTHER' => 666,
                             ':TMP_PAGE_MARKER' => 666,
                             ':TARGET_PAGE_ID' => $TARGET_PAGE_ID
-                        ),
+                        )
                     )
                 )
             );
 
             $APP->set('UPDATR_MOVE', $APP->get('DBCON')->exec(
-                    array(
-                        'UPDATE constructr_pages SET constructr_pages_id=:TARGET_PAGE_ID, constructr_pages_order=:TARGET_PAGE_ORDER, constructr_pages_level=:TARGET_PAGE_LEVEL, constructr_pages_mother=:TARGET_PAGE_MOTHER WHERE constructr_pages_id = :MOVE_PAGE_ID LIMIT 1;'
-                    ),
+                    array('UPDATE constructr_pages SET constructr_pages_id=:TARGET_PAGE_ID, constructr_pages_order=:TARGET_PAGE_ORDER, constructr_pages_level=:TARGET_PAGE_LEVEL, constructr_pages_mother=:TARGET_PAGE_MOTHER WHERE constructr_pages_id = :MOVE_PAGE_ID LIMIT 1;'),
                     array(
                         array(
                             ':MOVE_PAGE_ID' => $MOVE_PAGE_ID,
@@ -1078,15 +893,13 @@
                             ':TARGET_PAGE_ORDER' => $TARGET_PAGE_ORDER,
                             ':TARGET_PAGE_LEVEL' => $TARGET_PAGE_LEVEL,
                             ':TARGET_PAGE_MOTHER' => $TARGET_PAGE_MOTHER
-                        ),
+                        )
                     )
                 )
             );
 
             $APP->set('UPDATR_TARGET', $APP->get('DBCON')->exec(
-                    array(
-                        'UPDATE constructr_pages SET constructr_pages_id=:MOVE_PAGE_ID, constructr_pages_order=:MOVE_PAGE_ORDER, constructr_pages_level=:MOVE_PAGE_LEVEL, constructr_pages_mother=:MOVE_PAGE_MOTHER, constructr_pages_temp_marker=:TMP_MARKER WHERE constructr_pages_id = :TARGET_PAGE_ID LIMIT 1;'
-                    ),
+                    array('UPDATE constructr_pages SET constructr_pages_id=:MOVE_PAGE_ID, constructr_pages_order=:MOVE_PAGE_ORDER, constructr_pages_level=:MOVE_PAGE_LEVEL, constructr_pages_mother=:MOVE_PAGE_MOTHER, constructr_pages_temp_marker=:TMP_MARKER WHERE constructr_pages_id = :TARGET_PAGE_ID LIMIT 1;'),
                     array(
                         array(
                             ':TMP_MARKER' => 0,
@@ -1095,51 +908,44 @@
                             ':MOVE_PAGE_ORDER' => $MOVE_PAGE_ORDER,
                             ':MOVE_PAGE_LEVEL' => $MOVE_PAGE_LEVEL,
                             ':MOVE_PAGE_MOTHER' => $MOVE_PAGE_MOTHER
-                        ),
+                        )
                     )
                 )
             );
 
             $APP->set('CONTENT_UPDATR1', $APP->get('DBCON')->exec(
-                    array(
-                        'UPDATE constructr_content SET constructr_content_page_id=:TMP_MARKER WHERE constructr_content_page_id=:TARGET_PAGE_ID;'
-                    ),
+                    array('UPDATE constructr_content SET constructr_content_page_id=:TMP_MARKER WHERE constructr_content_page_id=:TARGET_PAGE_ID;'),
                     array(
                         array(
                             ':TMP_MARKER' => 9999,
                             ':TARGET_PAGE_ID' => $TARGET_PAGE_ID
-                        ),
+                        )
                     )
                 )
             );
 
             $APP->set('CONTENT_UPDATR2', $APP->get('DBCON')->exec(
-                    array(
-                        'UPDATE constructr_content SET constructr_content_page_id=:TARGET_PAGE_ID WHERE constructr_content_page_id=:MOVE_PAGE_ID;'
-                    ),
+                    array('UPDATE constructr_content SET constructr_content_page_id=:TARGET_PAGE_ID WHERE constructr_content_page_id=:MOVE_PAGE_ID;'),
                     array(
                         array(
                             ':TARGET_PAGE_ID' => $TARGET_PAGE_ID,
                             ':MOVE_PAGE_ID' => $MOVE_PAGE_ID
-                        ),
+                        )
                     )
                 )
             );
 
             $APP->set('CONTENT_UPDATR3', $APP->get('DBCON')->exec(
-                    array(
-                        'UPDATE constructr_content SET constructr_content_page_id=:MOVE_PAGE_ID WHERE constructr_content_page_id=:TMP_MARKER;'
-                    ),
+                    array('UPDATE constructr_content SET constructr_content_page_id=:MOVE_PAGE_ID WHERE constructr_content_page_id=:TMP_MARKER;'),
                     array(
                         array(
                             ':TMP_MARKER' => 9999,
                             ':MOVE_PAGE_ID' => $MOVE_PAGE_ID
-                        ),
+                        )
                     )
                 )
             );
 
-			// CACHE DER SEITE LÖSCHEN
 			parent::clean_up_cache($APP);
 
             $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?move=success');

@@ -6,15 +6,13 @@
         {
             if ($APP->get('SESSION.login') == 'true' && $APP->get('SESSION.username') != '' && $APP->get('SESSION.password') != ''){
                 $APP->set('LOGIN_USER', $APP->get('DBCON')->exec(
-                        array(
-                            'SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;'
-                        ),
+                        array('SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;'),
                         array(
                             array(
                                 ':ACTIVE' => (int) 1,
                                 ':USERNAME' => $APP->get('SESSION.username'),
                                 ':PASSWORD' => $APP->get('SESSION.password')
-                            ),
+                            )
                         )
                     )
                 );
@@ -23,14 +21,8 @@
                 $LOGIN_USER_ID = $APP->get('LOGIN_USER.0.constructr_user_id');
 
                 $APP->set('LOGIN_USER_RIGHTS', $APP->get('DBCON')->exec(
-                        array(
-                            'SELECT * FROM constructr_user_rights WHERE constructr_user_rights_user=:LOGIN_USER_ID;'
-                        ),
-                        array(
-                            array(
-                                ':LOGIN_USER_ID' => $LOGIN_USER_ID
-                            ),
-                        )
+                        array('SELECT * FROM constructr_user_rights WHERE constructr_user_rights_user=:LOGIN_USER_ID;'),
+                        array(array(':LOGIN_USER_ID' => $LOGIN_USER_ID))
                     )
                 );
 
@@ -80,14 +72,8 @@
             $APP->set('PAGE_ID', $PAGE_ID);
 
             $APP->set('PAGE', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT * FROM constructr_pages WHERE constructr_pages_id=:PAGE_ID LIMIT 1;'
-                    ),
-                    array(
-                        array(
-                            ':PAGE_ID' => $PAGE_ID
-                        ),
-                    )
+                    array('SELECT * FROM constructr_pages WHERE constructr_pages_id=:PAGE_ID LIMIT 1;'),
+                    array(array(':PAGE_ID' => $PAGE_ID))
                 )
             );
 
@@ -116,14 +102,8 @@
             }
 
             $APP->set('CONTENT', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT * FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID ORDER BY constructr_content_order ASC;'
-                    ),
-                    array(
-                        array(
-                            ':PAGE_ID' => $PAGE_ID
-                        ),
-                    )
+                    array('SELECT * FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID ORDER BY constructr_content_order ASC;'),
+                    array(array(':PAGE_ID' => $PAGE_ID))
                 )
             );
 
@@ -147,14 +127,8 @@
 
             $APP->set('PAGE_ID', $PAGE_ID);
             $APP->set('PAGE', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT * FROM constructr_pages WHERE constructr_pages_id=:PAGE_ID LIMIT 1;'
-                    ),
-                    array(
-                        array(
-                            ':PAGE_ID' => $PAGE_ID
-                        ),
-                    )
+                    array('SELECT * FROM constructr_pages WHERE constructr_pages_id=:PAGE_ID LIMIT 1;'),
+                    array(array(':PAGE_ID' => $PAGE_ID))
                 )
             );
 
@@ -169,14 +143,8 @@
             $APP->set('SESSION.tripple_additive', $TRIPPLE_ADDITIVE);
 
             $APP->set('CONTENT', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT constructr_content_id FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID;'
-                    ),
-                    array(
-                        array(
-                            ':PAGE_ID' => $PAGE_ID
-                        ),
-                    )
+                    array('SELECT constructr_content_id FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID;'),
+                    array(array(':PAGE_ID' => $PAGE_ID))
                 )
             );
 
@@ -184,14 +152,8 @@
             $APP->set('NEW_POSITION', (count($APP->get('CONTENT'))+1));
 
             $APP->set('TEMPLATE', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT constructr_pages_template FROM constructr_pages WHERE constructr_pages_id=:PAGE_ID;'
-                    ),
-                    array(
-                        array(
-                            ':PAGE_ID' => $PAGE_ID
-                        ),
-                    )
+                    array('SELECT constructr_pages_template FROM constructr_pages WHERE constructr_pages_id=:PAGE_ID;'),
+                    array(array(':PAGE_ID' => $PAGE_ID))
                 )
             );
 
@@ -231,7 +193,7 @@
                 }
             }
 
-            closedir( $H );
+            closedir($H);
 
             uksort($IMAGES, "strnatcmp");
 			uksort($FILES, "strnatcmp");
@@ -295,9 +257,7 @@
 				if($NEW_CONTENT_MAPPING != '')
 				{
 	                $APP->set('NEW_CONTENT', $APP->get('DBCON')->exec(
-	                        array(
-	                            'INSERT INTO constructr_content SET constructr_content_page_id=:PAGE_ID, constructr_content_content_raw=:NEW_CONTENT_RAW, constructr_content_content_html=:NEW_CONTENT_HTML, constructr_content_tpl_id_mapping=:NEW_CONTENT_MAPPING, constructr_content_order=:NEW_POSITION;'
-	                        ),
+	                        array('INSERT INTO constructr_content SET constructr_content_page_id=:PAGE_ID, constructr_content_content_raw=:NEW_CONTENT_RAW, constructr_content_content_html=:NEW_CONTENT_HTML, constructr_content_tpl_id_mapping=:NEW_CONTENT_MAPPING, constructr_content_order=:NEW_POSITION;'),
 	                        array(
 	                            array(
 	                                ':PAGE_ID' => $PAGE_ID,
@@ -305,7 +265,7 @@
 	                                ':NEW_CONTENT_HTML' => $NEW_CONTENT_HTML,
 	                                ':NEW_POSITION' => $NEW_POSITION,
 	                                ':NEW_CONTENT_MAPPING' => $NEW_CONTENT_MAPPING
-	                            ),
+	                            )
 	                        )
 	                    )
 	                );
@@ -313,22 +273,19 @@
 				else
 				{
 	                $APP->set('NEW_CONTENT', $APP->get('DBCON')->exec(
-	                        array(
-	                            'INSERT INTO constructr_content SET constructr_content_page_id=:PAGE_ID, constructr_content_content_raw=:NEW_CONTENT_RAW, constructr_content_content_html=:NEW_CONTENT_HTML, constructr_content_order=:NEW_POSITION;'
-	                        ),
+	                        array('INSERT INTO constructr_content SET constructr_content_page_id=:PAGE_ID, constructr_content_content_raw=:NEW_CONTENT_RAW, constructr_content_content_html=:NEW_CONTENT_HTML, constructr_content_order=:NEW_POSITION;'),
 	                        array(
 	                            array(
 	                                ':PAGE_ID' => $PAGE_ID,
 	                                ':NEW_CONTENT_RAW' => $NEW_CONTENT_RAW,
 	                                ':NEW_CONTENT_HTML' => $NEW_CONTENT_HTML,
 	                                ':NEW_POSITION' => $NEW_POSITION
-	                            ),
+	                            )
 	                        )
 	                    )
 	                );
 				}
 
-				// CACHE DER SEITE LÖSCHEN
 				parent::clean_up_cache($APP);
 
                 $APP->set('NEW', 'success');
@@ -366,14 +323,8 @@
 
             $APP->set('PAGE_ID', $PAGE_ID);
             $APP->set('PAGE', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT * FROM constructr_pages WHERE constructr_pages_id=:PAGE_ID LIMIT 1;'
-                    ),
-                    array(
-                        array(
-                            ':PAGE_ID' => $PAGE_ID
-                        ),
-                    )
+                    array('SELECT * FROM constructr_pages WHERE constructr_pages_id=:PAGE_ID LIMIT 1;'),
+                    array(array(':PAGE_ID' => $PAGE_ID))
                 )
             );
 
@@ -390,14 +341,12 @@
             $APP->set('SESSION.tripple_additive', $TRIPPLE_ADDITIVE);
 
             $APP->set('CONTENT', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT * FROM constructr_content WHERE constructr_content_id=:CONTENT_ID AND constructr_content_page_id=:PAGE_ID LIMIT 1;'
-                    ),
+                    array('SELECT * FROM constructr_content WHERE constructr_content_id=:CONTENT_ID AND constructr_content_page_id=:PAGE_ID LIMIT 1;'),
                     array(
                         array(
                             ':CONTENT_ID' => $CONTENT_ID,
                             ':PAGE_ID' => $PAGE_ID
-                        ),
+                        )
                     )
                 )
             );
@@ -406,14 +355,8 @@
             $APP->set('CONTENT_COUNTR', count($APP->get('CONTENT')));
 
             $APP->set('TEMPLATE', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT constructr_pages_template FROM constructr_pages WHERE constructr_pages_id=:PAGE_ID;'
-                    ),
-                    array(
-                        array(
-                            ':PAGE_ID' => $PAGE_ID
-                        ),
-                    )
+                    array('SELECT constructr_pages_template FROM constructr_pages WHERE constructr_pages_id=:PAGE_ID;'),
+                    array(array(':PAGE_ID' => $PAGE_ID))
                 )
             );
 
@@ -523,9 +466,7 @@
 				if($EDIT_CONTENT_MAPPING != '' && $EDIT_CONTENT_MAPPING != '666')
 				{
 	                $APP->set('EDIT_CONTENT', $APP->get('DBCON')->exec(
-	                        array(
-	                            'UPDATE constructr_content SET constructr_content_content_raw=:EDIT_CONTENT_RAW, constructr_content_content_html=:EDIT_CONTENT_HTML, constructr_content_tpl_id_mapping=:EDIT_CONTENT_MAPPING WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_id=:CONTENT_ID LIMIT 1;'
-	                        ),
+	                        array('UPDATE constructr_content SET constructr_content_content_raw=:EDIT_CONTENT_RAW, constructr_content_content_html=:EDIT_CONTENT_HTML, constructr_content_tpl_id_mapping=:EDIT_CONTENT_MAPPING WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_id=:CONTENT_ID LIMIT 1;'),
 	                        array(
 	                            array(
 	                                ':PAGE_ID' => $PAGE_ID,
@@ -533,7 +474,7 @@
 	                                ':EDIT_CONTENT_HTML' => $EDIT_CONTENT_HTML,
 	                                ':CONTENT_ID' => $CONTENT_ID,
 	                                ':EDIT_CONTENT_MAPPING' => $EDIT_CONTENT_MAPPING
-	                            ),
+	                            )
 	                        )
 	                    )
 	                );
@@ -541,9 +482,7 @@
 				else
 				{
 	                $APP->set('EDIT_CONTENT', $APP->get('DBCON')->exec(
-	                        array(
-	                            'UPDATE constructr_content SET constructr_content_content_raw=:EDIT_CONTENT_RAW, constructr_content_content_html=:EDIT_CONTENT_HTML, constructr_content_tpl_id_mapping=:EDIT_CONTENT_MAPPING WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_id=:CONTENT_ID LIMIT 1;'
-	                        ),
+	                        array('UPDATE constructr_content SET constructr_content_content_raw=:EDIT_CONTENT_RAW, constructr_content_content_html=:EDIT_CONTENT_HTML, constructr_content_tpl_id_mapping=:EDIT_CONTENT_MAPPING WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_id=:CONTENT_ID LIMIT 1;'),
 	                        array(
 	                            array(
 	                                ':PAGE_ID' => $PAGE_ID,
@@ -551,13 +490,12 @@
 	                                ':EDIT_CONTENT_HTML' => $EDIT_CONTENT_HTML,
 	                                ':CONTENT_ID' => $CONTENT_ID,
 	                                ':EDIT_CONTENT_MAPPING' => ''
-	                            ),
+	                            )
 	                        )
 	                    )
 	                );
 				}
 
-				// CACHE DER SEITE LÖSCHEN
 				parent::clean_up_cache($APP);
 
                 $APP->set('EDIT', 'success');
@@ -585,14 +523,8 @@
 			if($WHAT != '' && $PAGE_ID != ''){
 				if($WHAT == 'on'){
 	                $APP->set('UPDATER', $APP->get('DBCON')->exec(
-	                        array(
-	                            'UPDATE constructr_content SET constructr_content_visible=1 WHERE constructr_content_id=:CONTENT_ID LIMIT 1;'
-	                        ),
-	                        array(
-	                            array(
-	                                ':CONTENT_ID' => $CONTENT_ID
-	                            ),
-	                        )
+	                        array('UPDATE constructr_content SET constructr_content_visible=1 WHERE constructr_content_id=:CONTENT_ID LIMIT 1;'),
+	                        array(array(':CONTENT_ID' => $CONTENT_ID))
 	                    )
 	                );
 
@@ -600,18 +532,11 @@
 	                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/content/'.$PAGE_ID.'/?edit=success');
 				} else {
 	                $APP->set('UPDATER', $APP->get('DBCON')->exec(
-	                        array(
-	                            'UPDATE constructr_content SET constructr_content_visible=0 WHERE constructr_content_id=:CONTENT_ID LIMIT 1;'
-	                        ),
-	                        array(
-	                            array(
-	                                ':CONTENT_ID' => $CONTENT_ID
-	                            ),
-	                        )
+	                        array('UPDATE constructr_content SET constructr_content_visible=0 WHERE constructr_content_id=:CONTENT_ID LIMIT 1;'),
+	                        array(array(':CONTENT_ID' => $CONTENT_ID))
 	                    )
 	                );
 
-					// CACHE DER SEITE LÖSCHEN
 					parent::clean_up_cache($APP);
 
 	                $APP->set('EDIT', 'success');
@@ -641,14 +566,12 @@
 
             if ($PAGE_ID != '' && $CONTENT_ID != ''){
                 $APP->set('SELECT_CONTENT', $APP->get('DBCON')->exec(
-                        array(
-                            'SELECT * FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_id=:CONTENT_ID LIMIT 1;'
-                        ),
+                        array('SELECT * FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_id=:CONTENT_ID LIMIT 1;'),
                         array(
                             array(
                                 ':PAGE_ID' => $PAGE_ID,
                                 ':CONTENT_ID' => $CONTENT_ID
-                            ),
+                            )
                         )
                     )
                 );
@@ -658,14 +581,12 @@
 
                 if ($APP->get('CONTENT_COUNTR') == 1){
                     $APP->set('DELETE_CONTENT', $APP->get('DBCON')->exec(
-                            array(
-                                'DELETE FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_id=:CONTENT_ID LIMIT 1;'
-                            ),
+                            array('DELETE FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_id=:CONTENT_ID LIMIT 1;'),
                             array(
                                 array(
                                     ':PAGE_ID' => $PAGE_ID,
                                     ':CONTENT_ID' => $CONTENT_ID
-                                ),
+                                )
                             )
                         )
                     );
@@ -673,19 +594,16 @@
                     $OLD_CONTENT_POSITION = $APP->get('SELECT_CONTENT.0.constructr_content_order');
 
                     $APP->set('UPDATE_ORDER', $APP->get('DBCON')->exec(
-                            array(
-                                'UPDATE constructr_content SET constructr_content_order=(constructr_content_order-1) WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_order>:OLD_CONTENT_POSITION;'
-                            ),
+                            array('UPDATE constructr_content SET constructr_content_order=(constructr_content_order-1) WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_order>:OLD_CONTENT_POSITION;'),
                             array(
                                 array(
                                     ':PAGE_ID' => $PAGE_ID,
                                     ':OLD_CONTENT_POSITION' => $OLD_CONTENT_POSITION
-                                ),
+                                )
                             )
                         )
                     );
 
-					// CACHE DER SEITE LÖSCHEN
 					parent::clean_up_cache($APP);
 
                     $APP->set('DELETE', 'success');
@@ -723,7 +641,7 @@
                         array(
                             ':PAGE_ID' => $PAGE_ID,
                             ':CONTENT_ID' => $CONTENT_ID
-                        ),
+                        )
                     )
                 )
             );
@@ -737,42 +655,36 @@
                     $NEW_POSITION = ($APP->get('SELECT_CONTENT.0.constructr_content_order')-1);
 
                     $APP->set('UPDATE_OLD_CONTENT', $APP->get('DBCON')->exec(
-                            array(
-                                'UPDATE constructr_content SET constructr_content_order=:TMP_ORDER WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_order=:NEW_POSITION LIMIT 1;'
-                            ),
+                            array('UPDATE constructr_content SET constructr_content_order=:TMP_ORDER WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_order=:NEW_POSITION LIMIT 1;'),
                             array(
                                 array(
                                     ':PAGE_ID' => $PAGE_ID,
                                     ':NEW_POSITION' => $NEW_POSITION,
                                     ':TMP_ORDER' => 9999
-                                ),
+                                )
                             )
                         )
                     );
 
                     $APP->set('UPDATE_NEW_CONTENT', $APP->get('DBCON')->exec(
-                            array(
-                                'UPDATE constructr_content SET constructr_content_order=(constructr_content_order-1) WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_id=:CONTENT_ID LIMIT 1;'
-                            ),
+                            array('UPDATE constructr_content SET constructr_content_order=(constructr_content_order-1) WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_id=:CONTENT_ID LIMIT 1;'),
                             array(
                                 array(
                                     ':PAGE_ID' => $PAGE_ID,
                                     ':CONTENT_ID' => $CONTENT_ID
-                                ),
+                                )
                             )
                         )
                     );
 
                     $APP->set('UPDATE_OLD_CONTENT2', $APP->get('DBCON')->exec(
-                            array(
-                                'UPDATE constructr_content SET constructr_content_order=:ACT_POSITION WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_order=:TMP_ORDER LIMIT 1;'
-                            ),
+                            array('UPDATE constructr_content SET constructr_content_order=:ACT_POSITION WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_order=:TMP_ORDER LIMIT 1;'),
                             array(
                                 array(
                                     ':ACT_POSITION' => $ACT_POSITION,
                                     ':PAGE_ID' => $PAGE_ID,
                                     ':TMP_ORDER' => 9999
-                                ),
+                                )
                             )
                         )
                     );
@@ -784,47 +696,40 @@
                     $NEW_POSITION = ($APP->get('SELECT_CONTENT.0.constructr_content_order')+1);
 
                     $APP->set('UPDATE_OLD_CONTENT', $APP->get('DBCON')->exec(
-                            array(
-                                'UPDATE constructr_content SET constructr_content_order=:TMP_ORDER WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_order=:NEW_POSITION LIMIT 1;'
-                            ),
+                            array('UPDATE constructr_content SET constructr_content_order=:TMP_ORDER WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_order=:NEW_POSITION LIMIT 1;'),
                             array(
                                 array(
                                     ':PAGE_ID' => $PAGE_ID,
                                     ':NEW_POSITION' => $NEW_POSITION,
                                     ':TMP_ORDER' => 9999
-                                ),
+                                )
                             )
                         )
                     );
 
                     $APP->set('UPDATE_NEW_CONTENT', $APP->get('DBCON')->exec(
-                            array(
-                                'UPDATE constructr_content SET constructr_content_order=(constructr_content_order+1) WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_id=:CONTENT_ID LIMIT 1;'
-                            ),
+                            array('UPDATE constructr_content SET constructr_content_order=(constructr_content_order+1) WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_id=:CONTENT_ID LIMIT 1;'),
                             array(
                                 array(
                                     ':PAGE_ID' => $PAGE_ID,
                                     ':CONTENT_ID' => $CONTENT_ID
-                                ),
+                                )
                             )
                         )
                     );
 
                     $APP->set('UPDATE_OLD_CONTENT2', $APP->get('DBCON')->exec(
-                            array(
-                                'UPDATE constructr_content SET constructr_content_order=:ACT_POSITION WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_order=:TMP_ORDER LIMIT 1;'
-                            ),
+                            array('UPDATE constructr_content SET constructr_content_order=:ACT_POSITION WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_order=:TMP_ORDER LIMIT 1;'),
                             array(
                                 array(
                                     ':ACT_POSITION' => $ACT_POSITION,
                                     ':PAGE_ID' => $PAGE_ID,
                                     ':TMP_ORDER' => 9999
-                                ),
+                                )
                             )
                         )
                     );
 
-					// CACHE DER SEITE LÖSCHEN
 					parent::clean_up_cache($APP);
 
                     $APP->set('MOVE', 'success');

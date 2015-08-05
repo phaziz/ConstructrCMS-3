@@ -6,15 +6,13 @@
         {
             if ($APP->get('SESSION.login') == 'true' && $APP->get('SESSION.username') != '' && $APP->get('SESSION.password') != ''){
                 $APP->set('LOGIN_USER', $APP->get('DBCON')->exec(
-                        array(
-                            'SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;'
-                        ),
+                        array('SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;'),
                         array(
                             array(
                                 ':ACTIVE' => (int) 1,
                                 ':USERNAME' => $APP->get('SESSION.username'),
                                 ':PASSWORD' => $APP->get('SESSION.password')
-                            ),
+                            )
                         )
                     )
                 );
@@ -23,14 +21,8 @@
                 $LOGIN_USER_ID = $APP->get('LOGIN_USER.0.constructr_user_id');
 
                 $APP->set('LOGIN_USER_RIGHTS', $APP->get('DBCON')->exec(
-                        array(
-                            'SELECT * FROM constructr_user_rights WHERE constructr_user_rights_user=:LOGIN_USER_ID;'
-                        ),
-                        array(
-                            array(
-                                ':LOGIN_USER_ID' => $LOGIN_USER_ID
-                            ),
-                        )
+                        array('SELECT * FROM constructr_user_rights WHERE constructr_user_rights_user=:LOGIN_USER_ID;'),
+                        array(array(':LOGIN_USER_ID' => $LOGIN_USER_ID))
                     )
                 );
 
@@ -168,9 +160,11 @@
             $CSRF = parent::csrf();
             $APP->set('CSRF', $CSRF);
             $APP->set('SESSION.csrf', $CSRF);
+
             $ADDITIVE = parent::additive();
             $APP->set('ADDITIVE', $ADDITIVE);
             $APP->set('SESSION.additive', $ADDITIVE);
+
             $TRIPPLE_ADDITIVE = ($ADDITIVE.$CSRF);
             $APP->set('TRIPPLE_ADDITIVE', $TRIPPLE_ADDITIVE);
             $APP->set('SESSION.tripple_additive', $TRIPPLE_ADDITIVE);

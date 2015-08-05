@@ -6,15 +6,13 @@
         {
             if ($APP->get('SESSION.login') == 'true' && $APP->get('SESSION.username') != '' && $APP->get('SESSION.password') != ''){
                 $APP->set('LOGIN_USER', $APP->get('DBCON')->exec(
-                        array(
-                            'SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;'
-                        ),
+                        array('SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;'),
                         array(
                             array(
                                 ':ACTIVE' => (int) 1,
                                 ':USERNAME' => $APP->get('SESSION.username'),
                                 ':PASSWORD' => $APP->get('SESSION.password')
-                            ),
+                            )
                         )
                     )
                 );
@@ -23,14 +21,8 @@
                 $LOGIN_USER_ID = $APP->get('LOGIN_USER.0.constructr_user_id');
 
                 $APP->set('LOGIN_USER_RIGHTS', $APP->get('DBCON')->exec(
-                        array(
-                            'SELECT * FROM constructr_user_rights WHERE constructr_user_rights_user=:LOGIN_USER_ID;'
-                        ),
-                        array(
-                            array(
-                                ':LOGIN_USER_ID' => $LOGIN_USER_ID
-                            ),
-                        )
+                        array('SELECT * FROM constructr_user_rights WHERE constructr_user_rights_user=:LOGIN_USER_ID;'),
+                        array(array(':LOGIN_USER_ID' => $LOGIN_USER_ID))
                     )
                 );
 
@@ -104,13 +96,8 @@
             }
 
             $APP->set('USER', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT * FROM constructr_backenduser;',
-                    ),
-                    array(
-                        array(
-                        ),
-                    )
+                    array('SELECT * FROM constructr_backenduser;',),
+                    array()
                 )
             );
 
@@ -135,11 +122,7 @@
 
             $APP->set('USER_RIGHTS', $APP->get('DBCON')->exec(
                     array('SELECT * FROM constructr_user_rights WHERE constructr_user_rights_user=:USER_ID ORDER BY constructr_user_rights_key ASC;'),
-                    array(
-                        array(
-                            ':USER_ID' => $USER_ID
-                        ),
-                    )
+                    array(array(':USER_ID' => $USER_ID))
                 )
             );
 
@@ -183,41 +166,23 @@
 
 				if($RAW_RIGHT_ID != '' && $RAW_USER_ID != '' && $RAW_RIGHT != ''){
 		            $APP->set('SELECT_RIGHT', $APP->get('DBCON')->exec(
-		                    array(
-		                        'SELECT * FROM constructr_user_rights WHERE constructr_user_rights_id=:RAW_RIGHT_ID LIMIT 1;'
-		                    ),
-		                    array(
-		                        array(
-		                            ':RAW_RIGHT_ID' => $RAW_RIGHT_ID
-		                        ),
-		                    )
+		                    array('SELECT * FROM constructr_user_rights WHERE constructr_user_rights_id=:RAW_RIGHT_ID LIMIT 1;'),
+		                    array(array(':RAW_RIGHT_ID' => $RAW_RIGHT_ID))
 		                )
 		            );
 
 					if($APP->get('SELECT_RIGHT.0.constructr_user_rights_value') == 1){
 			            $APP->set('UPDATE_RIGHT', $APP->get('DBCON')->exec(
-			                    array(
-			                        'UPDATE constructr_user_rights SET constructr_user_rights_value=0 WHERE constructr_user_rights_id=:RAW_RIGHT_ID LIMIT 1;'
-			                    ),
-			                    array(
-			                        array(
-			                            ':RAW_RIGHT_ID' => $RAW_RIGHT_ID
-			                        ),
-			                    )
+			                    array('UPDATE constructr_user_rights SET constructr_user_rights_value=0 WHERE constructr_user_rights_id=:RAW_RIGHT_ID LIMIT 1;'),
+			                    array(array(':RAW_RIGHT_ID' => $RAW_RIGHT_ID))
 			                )
 			            );
 
 						echo 'true';
 					} else {
 			            $APP->set('UPDATE_RIGHT', $APP->get('DBCON')->exec(
-			                    array(
-			                        'UPDATE constructr_user_rights SET constructr_user_rights_value=1 WHERE constructr_user_rights_id=:RAW_RIGHT_ID LIMIT 1;'
-			                    ),
-			                    array(
-			                        array(
-			                            ':RAW_RIGHT_ID' => $RAW_RIGHT_ID
-			                        ),
-			                    )
+			                    array('UPDATE constructr_user_rights SET constructr_user_rights_value=1 WHERE constructr_user_rights_id=:RAW_RIGHT_ID LIMIT 1;'),
+			                    array(array(':RAW_RIGHT_ID' => $RAW_RIGHT_ID))
 			                )
 			            );
 
@@ -297,14 +262,8 @@
             $USER_PASSWORD = crypt(filter_var($APP->get('POST.user_password'), FILTER_SANITIZE_FULL_SPECIAL_CHARS), $APP->get('CONSTRUCTR_USER_SALT'));
 
             $APP->set('USER_EXISTS', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT * FROM constructr_backenduser WHERE constructr_user_username=:USER_NAME LIMIT 1;'
-                    ),
-                    array(
-                        array(
-                            ':USER_NAME' => $USER_NAME
-                        ),
-                    )
+                    array('SELECT * FROM constructr_backenduser WHERE constructr_user_username=:USER_NAME LIMIT 1;'),
+                    array(array(':USER_NAME' => $USER_NAME))
                 )
             );
 
@@ -316,31 +275,27 @@
             }
 
             $APP->set('CREATE_USER', $APP->get('DBCON')->exec(
-                    array(
-                        'INSERT INTO constructr_backenduser SET constructr_user_username=:USER_NAME, constructr_user_email=:USER_EMAIL, constructr_user_password=:USER_PASSWORD, constructr_user_active=:USER_ACTIVE;'
-                    ),
+                    array('INSERT INTO constructr_backenduser SET constructr_user_username=:USER_NAME, constructr_user_email=:USER_EMAIL, constructr_user_password=:USER_PASSWORD, constructr_user_active=:USER_ACTIVE;'),
                     array(
                         array(
                             ':USER_NAME' => $USER_NAME,
                             ':USER_EMAIL' => $USER_EMAIL,
                             ':USER_PASSWORD' => $USER_PASSWORD,
                             ':USER_ACTIVE' => 1
-                        ),
+                        )
                     )
                 )
             );
 
             $APP->set('SELECT_NEW_USER', $APP->get('DBCON')->exec(
-                    array(
-                    	'SELECT constructr_user_id FROM constructr_backenduser WHERE constructr_user_username=:USER_NAME AND constructr_user_email=:USER_EMAIL AND constructr_user_password=:USER_PASSWORD AND constructr_user_active=:USER_ACTIVE LIMIT 1;'
-                    ),
+                    array('SELECT constructr_user_id FROM constructr_backenduser WHERE constructr_user_username=:USER_NAME AND constructr_user_email=:USER_EMAIL AND constructr_user_password=:USER_PASSWORD AND constructr_user_active=:USER_ACTIVE LIMIT 1;'),
                     array(
                         array(
                             ':USER_NAME' => $USER_NAME,
                             ':USER_EMAIL' => $USER_EMAIL,
                             ':USER_PASSWORD' => $USER_PASSWORD,
                             ':USER_ACTIVE' => 1
-                        ),
+                        )
                     )
                 )
             );
@@ -350,14 +305,12 @@
 
 			foreach($ALL_CONSTRUCTR_USER_RIGHTS AS $KEY => $VALUE){
 	            $APP->set('INSERT_NEW_USER_RIGHT', $APP->get('DBCON')->exec(
-	                    array(
-	                    	'INSERT INTO constructr_user_rights SET constructr_user_rights_user=:NEW_USER_ID, constructr_user_rights_key=:KEY, constructr_user_rights_value=1;'
-	                    ),
+	                    array('INSERT INTO constructr_user_rights SET constructr_user_rights_user=:NEW_USER_ID, constructr_user_rights_key=:KEY, constructr_user_rights_value=1;'),
 	                    array(
 	                        array(
 	                            ':NEW_USER_ID' => $NEW_USER_ID,
 	                            ':KEY' => $KEY
-	                        ),
+	                        )
 	                    )
 	                )
 	            );
@@ -379,26 +332,14 @@
             $DELETE_USER_ID = filter_var($APP->get('PARAMS.user_id'), FILTER_SANITIZE_NUMBER_INT);
 
             $APP->set('DELETE_USER', $APP->get('DBCON')->exec(
-                    array(
-                        'DELETE FROM constructr_backenduser WHERE constructr_user_id=:DELETE_USER_ID LIMIT 1;'
-                    ),
-                    array(
-                        array(
-                            ':DELETE_USER_ID' => $DELETE_USER_ID
-                        ),
-                    )
+                    array('DELETE FROM constructr_backenduser WHERE constructr_user_id=:DELETE_USER_ID LIMIT 1;'),
+                    array(array(':DELETE_USER_ID' => $DELETE_USER_ID))
                 )
             );
 
             $APP->set('DELETE_USER_RIGHT', $APP->get('DBCON')->exec(
-                    array(
-                    	'DELETE FROM constructr_user_rights WHERE constructr_user_rights_user=:DELETE_USER_ID;'
-                    ),
-                    array(
-                        array(
-                            ':DELETE_USER_ID' => $DELETE_USER_ID
-                        ),
-                    )
+                    array('DELETE FROM constructr_user_rights WHERE constructr_user_rights_user=:DELETE_USER_ID;'),
+                    array(array(':DELETE_USER_ID' => $DELETE_USER_ID))
                 )
             );
 
@@ -427,14 +368,8 @@
             $APP->set('SESSION.tripple_additive', $TRIPPLE_ADDITIVE);
 
             $APP->set('USER', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT * FROM constructr_backenduser WHERE constructr_user_id=:USER_ID LIMIT 1;'
-                    ),
-                    array(
-                        array(
-                            ':USER_ID' => $USER_ID
-                        ),
-                    )
+                    array('SELECT * FROM constructr_backenduser WHERE constructr_user_id=:USER_ID LIMIT 1;'),
+                    array(array(':USER_ID' => $USER_ID))
                 )
             );
 
@@ -489,14 +424,8 @@
             $USER_PASSWORD = crypt(filter_var($APP->get('POST.user_password'), FILTER_SANITIZE_FULL_SPECIAL_CHARS), $APP->get('CONSTRUCTR_USER_SALT'));
 
             $APP->set('USER_EXISTS', $APP->get('DBCON')->exec(
-                    array(
-                        'SELECT * FROM constructr_backenduser WHERE constructr_user_username=:USER_NAME LIMIT 1;'
-                    ),
-                    array(
-                        array(
-                            ':USER_NAME' => $USER_NAME
-                        ),
-                    )
+                    array('SELECT * FROM constructr_backenduser WHERE constructr_user_username=:USER_NAME LIMIT 1;'),
+                    array(array(':USER_NAME' => $USER_NAME))
                 )
             );
 
@@ -508,16 +437,14 @@
             }
 
             $APP->set('UPDATE_USER', $APP->get('DBCON')->exec(
-                    array(
-                        'UPDATE constructr_backenduser SET constructr_user_username=:USER_NAME, constructr_user_email=:USER_EMAIL, constructr_user_password=:USER_PASSWORD WHERE constructr_user_id=:USER_ID LIMIT 1;'
-                    ),
+                    array('UPDATE constructr_backenduser SET constructr_user_username=:USER_NAME, constructr_user_email=:USER_EMAIL, constructr_user_password=:USER_PASSWORD WHERE constructr_user_id=:USER_ID LIMIT 1;'),
                     array(
                         array(
                             ':USER_ID' => $USER_ID,
                             ':USER_NAME' => $USER_NAME,
                             ':USER_EMAIL' => $USER_EMAIL,
                             ':USER_PASSWORD' => $USER_PASSWORD
-                        ),
+                        )
                     )
                 )
             );

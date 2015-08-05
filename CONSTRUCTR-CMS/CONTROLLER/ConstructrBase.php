@@ -22,8 +22,6 @@
 
         public function init($APP)
         {
-            $APP->set('SESSION.login', $APP->get('SESSION.login'));
-
             $CSRF = self::csrf();
             $APP->set('CSRF', $CSRF);
             $APP->set('SESSION.csrf', $CSRF);
@@ -85,15 +83,13 @@
 
             if ($POST_USERNAME != '' && $POST_PASSWORD != ''){
                 $APP->set('LOGIN_USER', $APP->get('DBCON')->exec(
-                        array(
-                            'SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;',
-                        ),
+                        array('SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;',),
                         array(
                             array(
                                 ':ACTIVE' => (int) 1,
                                 ':USERNAME' => $POST_USERNAME,
-                                ':PASSWORD' => $POST_PASSWORD,
-                            ),
+                                ':PASSWORD' => $POST_PASSWORD
+                            )
                         )
                     )
                 );
@@ -102,16 +98,14 @@
 
                 if (count($LOGIN_USER) == 1){
                     $APP->set('UPDATE_LOGIN_USER', $APP->get('DBCON')->exec(
-                            array(
-                                'UPDATE constructr_backenduser SET constructr_user_last_login=:LAST_LOGIN WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;',
-                            ),
+                            array('UPDATE constructr_backenduser SET constructr_user_last_login=:LAST_LOGIN WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;',),
                             array(
                                 array(
                                     ':ACTIVE' => (int) 1,
                                     ':LAST_LOGIN' => date('Y-m-d H:i:s'),
                                     ':USERNAME' => $POST_USERNAME,
-                                    ':PASSWORD' => $POST_PASSWORD,
-                                ),
+                                    ':PASSWORD' => $POST_PASSWORD
+                                )
                             )
                         )
                     );
@@ -133,13 +127,15 @@
         public function login_error($APP)
         {
             $APP->get('CONSTRUCTR_LOG')->write('LOGIN_ERROR!');
-            $APP->set('SESSION.login', $APP->get('SESSION.login'));
+
             $CSRF = self::csrf();
             $APP->set('CSRF', $CSRF);
             $APP->set('SESSION.csrf', $CSRF);
+
             $ADDITIVE = self::additive();
             $APP->set('ADDITIVE', $ADDITIVE);
             $APP->set('SESSION.additive', $ADDITIVE);
+
             $TRIPPLE_ADDITIVE = ($ADDITIVE.$CSRF);
             $APP->set('TRIPPLE_ADDITIVE', $TRIPPLE_ADDITIVE);
             $APP->set('SESSION.tripple_additive', $TRIPPLE_ADDITIVE);
@@ -215,14 +211,12 @@
 
             if ($USERNAME != ''){
                 $APP->set('USER_BASE_DATA', $APP->get('DBCON')->exec(
-                        array(
-                            'SELECT * FROM constructr_backenduser WHERE constructr_user_username=:USERNAME AND constructr_user_active=:ACTIVE LIMIT 1;',
-                        ),
+                        array('SELECT * FROM constructr_backenduser WHERE constructr_user_username=:USERNAME AND constructr_user_active=:ACTIVE LIMIT 1;',),
                         array(
                             array(
                                 ':USERNAME' => $USERNAME,
-                                ':ACTIVE' => (int) 1,
-                            ),
+                                ':ACTIVE' => (int) 1
+                            )
                         )
                     )
                 );
@@ -237,15 +231,13 @@
                         $NEW_CRYPTED_PASSWORD = crypt(filter_var($APP->get('NEW_PASSWORD'), FILTER_SANITIZE_FULL_SPECIAL_CHARS), $APP->get('CONSTRUCTR_USER_SALT'));
 
                         $APP->set('USER', $APP->get('DBCON')->exec(
-                                array(
-                                    'UPDATE constructr_backenduser SET constructr_user_password=:NEW_CRYPTED_PASSWORD WHERE constructr_user_username=:USERNAME AND constructr_user_active=:ACTIVE LIMIT 1;',
-                                ),
+                                array('UPDATE constructr_backenduser SET constructr_user_password=:NEW_CRYPTED_PASSWORD WHERE constructr_user_username=:USERNAME AND constructr_user_active=:ACTIVE LIMIT 1;',),
                                 array(
                                     array(
                                         ':USERNAME' => $USERNAME,
                                         ':NEW_CRYPTED_PASSWORD' => $NEW_CRYPTED_PASSWORD,
-                                        ':ACTIVE' => (int) 1,
-                                    ),
+                                        ':ACTIVE' => (int) 1
+                                    )
                                 )
                             )
                         );
@@ -266,10 +258,13 @@
         {
             $CSRF = self::csrf();
             $APP->set('CSRF', $CSRF);
+
             $APP->set('SESSION.csrf', $CSRF);
             $ADDITIVE = self::additive();
+
             $APP->set('ADDITIVE', $ADDITIVE);
             $APP->set('SESSION.additive', $ADDITIVE);
+
             $TRIPPLE_ADDITIVE = ($ADDITIVE.$CSRF);
             $APP->set('TRIPPLE_ADDITIVE', $TRIPPLE_ADDITIVE);
             $APP->set('SESSION.tripple_additive', $TRIPPLE_ADDITIVE);
@@ -302,5 +297,4 @@
 				}
 			}
         }
-
     }
