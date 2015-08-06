@@ -33,6 +33,12 @@ div#menu ul ul ul {position: absolute; left: 100%; top:0}
 	</div>
 
 	<div class="row">
+		<div class="col s12">
+    		<center><img src="{{@ CONSTRUCTR_BASE_URL @}}/THEMES/ASSETS/phaziz.png"></center>
+		</div>
+	</div>
+
+	<div class="row">
 		<div class="col s6">
     		{{@ CONSTRUCTR_MAPPING(left_content) @}}
 		</div>
@@ -47,7 +53,13 @@ div#menu ul ul ul {position: absolute; left: 100%; top:0}
 		</div>
 	</div>
 
-	<div class="row center-align"><div class="col s12"><p><small><a href="http://phaziz.com" target="_blank">ConstructrCMS</small></a></p></div></div>
+	<div class="row center-align">
+		<div class="col s12">
+			<p>
+				<small><a href="http://phaziz.com" target="_blank">phaziz.com</a>&#160;&#160;&#160;|&#160;&#160;&#160;<a href="http://constructr-cms.org" target="_blank">ConstructrCMS</a>&#160;&#160;&#160;|&#160;&#160;&#160;<a href="http://blog.phaziz.com/tag/constructr-cms/" target="_blank">ConstructrCMS Blog</a>&#160;&#160;&#160;|&#160;&#160;&#160;<a href="https://github.com/phaziz/ConstructrCMS-3" target="_blank">ConstructrCMS GitHub</a>&#160;&#160;&#160;|&#160;&#160;&#160;<a href=" https://twitter.com/ConstructrCMS" target="_blank">ConstructrCMS twitter</a></small>
+			</p>
+		</div>
+	</div>
 
 	<script src="{{@ CONSTRUCTR_BASE_URL @}}/CONSTRUCTR-CMS/ASSETS/jquery/jquery-2.1.4.min.js"></script>
 	<script src="{{@ CONSTRUCTR_BASE_URL @}}/CONSTRUCTR-CMS/ASSETS/materialize/js/materialize.min.js"></script>

@@ -22,6 +22,8 @@
 	$APP->set('CONSTRUCTR_FE_CACHE', __DIR__.'/CONSTRUCTR-CMS/CACHE/');
 	$APP->set('TEMPLATES',$APP->get('CONSTRUCTR_BASE_URL').'/THEMES/');
 
+	$APP->set('CONSTRUCTR_CACHE',true);
+
     try {
     	$APP->set('DBCON',$DBCON=new DB\SQL('mysql:host='.$APP->get('DATABASE_HOSTNAME').';port='.$APP->get('DATABASE_PORT').';dbname='.$APP->get('DATABASE_DATABASE'),$APP->get('DATABASE_USERNAME'),$APP->get('DATABASE_PASSWORD')));
 		$APP->set('DB_C',true);
@@ -38,12 +40,14 @@
     $REQUEST=trim(str_replace($APP->get('CONSTRUCTR_REPLACE_BASE_URL'),'', $REQUEST));
 
     if (strpos($REQUEST, 'constructr') === false){
-		$UNIQUE=$APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST.'.html');
+		if($APP->get('CONSTRUCTR_CACHE') == true){
+			$UNIQUE=$APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST.'.html');
 
-		if(file_exists($UNIQUE)){
-			$CACHE_OUTPUT=@file_get_contents($APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST).'.html');
-			echo $CACHE_OUTPUT;
-			die();
+			if(file_exists($UNIQUE)){
+				$CACHE_OUTPUT=@file_get_contents($APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST).'.html');
+				echo $CACHE_OUTPUT;
+				die();
+			}
 		}
 
 		if($REQUEST == '/' || $REQUEST == ''){
@@ -147,6 +151,8 @@
 							}
 						}
 
+						$MAPPERS = array_filter($MAPPERS,'strlen');
+
 						foreach($CONSTRUCTR_TPL_MAPPINGS AS $MAP_NOW_KEY => $MAP_NOW_VALUE) {
 							if(isset($MAPPERS[$MAP_NOW_VALUE])) {
 								$TEMPLATE=str_replace($MAP_NOW_VALUE,$MAPPERS[$MAP_NOW_VALUE],$TEMPLATE);
@@ -156,10 +162,19 @@
 						}
 					}
 				}
+			} else {
+				preg_match_all("/({{@ CONSTRUCTR_MAPPING\()+([\w-])+(\) @}})/", $TEMPLATE, $MATCH);
+
+				foreach($MATCH[0] AS $MATCHR) {
+					$TEMPLATE=str_replace($MATCHR,'',$TEMPLATE);
+				}
 			}
 
 			$TEMPLATE .="\n<!-- ConstructrCMS Version ".$APP->get("CONSTRUCTR_VERSION")." / http://phaziz.com -->";
-			@file_put_contents($UNIQUE=$APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST).'.html',$TEMPLATE."\n".'<!-- ConstructrCache '.date('Y-m-d H:i:s').' -->');
+
+			if($APP->get('CONSTRUCTR_CACHE') == true){
+				@file_put_contents($UNIQUE=$APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST).'.html',$TEMPLATE."\n".'<!-- ConstructrCache '.date('Y-m-d H:i:s').' -->');
+			}
 
 			echo $TEMPLATE;
 			die();

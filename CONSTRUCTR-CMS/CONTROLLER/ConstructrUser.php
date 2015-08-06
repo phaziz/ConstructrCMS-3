@@ -6,46 +6,38 @@
         {
         	$APP->set('ACT_VIEW','user');
 
-            if ($APP->get('SESSION.login') == 'true' && $APP->get('SESSION.username') != '' && $APP->get('SESSION.password') != ''){
+            if ($APP->get('SESSION.login')=='true' && $APP->get('SESSION.username') != '' && $APP->get('SESSION.password') != ''){
                 $APP->set('LOGIN_USER', $APP->get('DBCON')->exec(
                         array('SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;'),
                         array(
                             array(
-                                ':ACTIVE' => (int) 1,
-                                ':USERNAME' => $APP->get('SESSION.username'),
-                                ':PASSWORD' => $APP->get('SESSION.password')
+                                ':ACTIVE'=>(int) 1,
+                                ':USERNAME'=>$APP->get('SESSION.username'),
+                                ':PASSWORD'=>$APP->get('SESSION.password')
                             )
                         )
                     )
                 );
 
-                $LOGIN_USER = $APP->get('LOGIN_USER');
-                $LOGIN_USER_ID = $APP->get('LOGIN_USER.0.constructr_user_id');
+                $LOGIN_USER=$APP->get('LOGIN_USER');
+                $LOGIN_USER_ID=$APP->get('LOGIN_USER.0.constructr_user_id');
 
                 $APP->set('LOGIN_USER_RIGHTS', $APP->get('DBCON')->exec(
                         array('SELECT * FROM constructr_user_rights WHERE constructr_user_rights_user=:LOGIN_USER_ID;'),
-                        array(array(':LOGIN_USER_ID' => $LOGIN_USER_ID))
+                        array(array(':LOGIN_USER_ID'=>$LOGIN_USER_ID))
                     )
                 );
 
-                $ITERATOR = new RecursiveIteratorIterator(new RecursiveArrayIterator($APP->get('LOGIN_USER_RIGHTS')));
-                $i = 1;
-                $CLEAN_USER_RIGHTS = array();
+                $ITERATOR=new RecursiveIteratorIterator(new RecursiveArrayIterator($APP->get('LOGIN_USER_RIGHTS')));
+                $i=1;
+                $CLEAN_USER_RIGHTS=array();
 
                 foreach ($ITERATOR as $VALUE){
-                    if ($i == 5){
-                        $i = 1;
-                    }
-                    if ($i == 3){
-                        $MODUL_ID = $VALUE;
-                    }
-                    if ($i == 4){
-                        $RIGHT = $VALUE;
-                    }
+                    if ($i==5){$i=1;}
+                    if ($i==3){$MODUL_ID=$VALUE;}
+                    if ($i==4){$RIGHT=$VALUE;}
                     $i++;
-                    if ($i == 5){
-                        $CLEAN_USER_RIGHTS[$MODUL_ID] = $RIGHT;
-                    }
+                    if ($i==5){$CLEAN_USER_RIGHTS[$MODUL_ID]=$RIGHT;}
                 }
 
                 $APP->set('LOGIN_USER_RIGHTS', $CLEAN_USER_RIGHTS);
@@ -62,20 +54,20 @@
         public function user_management($APP)
         {
 			$APP->set('MODUL_ID', 40);
-            $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
+            $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
 
-            if ($USER_RIGHTS == false){
+            if ($USER_RIGHTS==false){
                 $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $CSRF = parent::csrf();
+            $CSRF=parent::csrf();
             $APP->set('CSRF', $CSRF);
             $APP->set('SESSION.csrf', $CSRF);
-            $ADDITIVE = parent::additive();
+            $ADDITIVE=parent::additive();
             $APP->set('ADDITIVE', $ADDITIVE);
             $APP->set('SESSION.additive', $ADDITIVE);
-            $TRIPPLE_ADDITIVE = ($ADDITIVE.$CSRF);
+            $TRIPPLE_ADDITIVE=($ADDITIVE.$CSRF);
             $APP->set('TRIPPLE_ADDITIVE', $TRIPPLE_ADDITIVE);
             $APP->set('SESSION.tripple_additive', $TRIPPLE_ADDITIVE);
 
@@ -112,34 +104,34 @@
 		public function user_management_edit_rights($APP)
 		{
             $APP->set('MODUL_ID', 44);
-            $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
+            $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
 
-            if ($USER_RIGHTS == false){
+            if ($USER_RIGHTS==false){
                 $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $USER_ID = filter_var($APP->get('PARAMS.user_id'), FILTER_SANITIZE_NUMBER_INT);
+            $USER_ID=filter_var($APP->get('PARAMS.user_id'), FILTER_SANITIZE_NUMBER_INT);
 			$APP->set('USER_ID',$USER_ID);
 
             $APP->set('USER_RIGHTS', $APP->get('DBCON')->exec(
                     array('SELECT * FROM constructr_user_rights WHERE constructr_user_rights_user=:USER_ID ORDER BY constructr_user_rights_key ASC;'),
-                    array(array(':USER_ID' => $USER_ID))
+                    array(array(':USER_ID'=>$USER_ID))
                 )
             );
 
 			$APP->set('USER_RIGHTS_COUNTR', count($APP->get('USER_RIGHTS')));
 
-			$CONSTRUCTR_USER_RIGHTS = $APP->get('ALL_CONSTRUCTR_USER_RIGHTS');
-			$THIS_USER_RIGHTS = array();
+			$CONSTRUCTR_USER_RIGHTS=$APP->get('ALL_CONSTRUCTR_USER_RIGHTS');
+			$THIS_USER_RIGHTS=array();
 
-			foreach($APP->get('USER_RIGHTS') AS $KEY => $VALUE){
-				$THIS_USER_RIGHTS[$CONSTRUCTR_USER_RIGHTS[$VALUE['constructr_user_rights_key']]] = array(
-					'bezeichnung' => $CONSTRUCTR_USER_RIGHTS[$VALUE['constructr_user_rights_key']],
-					'recht_key' => $VALUE['constructr_user_rights_key'],
-					'recht' => $VALUE['constructr_user_rights_value'],
-					'id' => $VALUE['constructr_user_rights_id'],
-					'benutzer' => $VALUE['constructr_user_rights_user']
+			foreach($APP->get('USER_RIGHTS') AS $KEY=>$VALUE){
+				$THIS_USER_RIGHTS[$CONSTRUCTR_USER_RIGHTS[$VALUE['constructr_user_rights_key']]]=array(
+					'bezeichnung'=>$CONSTRUCTR_USER_RIGHTS[$VALUE['constructr_user_rights_key']],
+					'recht_key'=>$VALUE['constructr_user_rights_key'],
+					'recht'=>$VALUE['constructr_user_rights_value'],
+					'id'=>$VALUE['constructr_user_rights_id'],
+					'benutzer'=>$VALUE['constructr_user_rights_user']
 				);
 			}
 
@@ -151,32 +143,32 @@
 		public function user_management_update_rights($APP)
 		{
 			$APP->set('MODUL_ID', 44);
-            $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
+            $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
 
-            if ($USER_RIGHTS == false){
+            if ($USER_RIGHTS==false){
                 $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $RAW_ID = $APP->get('POST.id');
+            $RAW_ID=$APP->get('POST.id');
 
 			if($RAW_ID != ''){
-				$RAW_ID_PARTS = explode('@',$RAW_ID);
-				$RAW_RIGHT_ID = filter_var(str_replace('right_id_','',$RAW_ID_PARTS[0]), FILTER_SANITIZE_NUMBER_INT);
-				$RAW_USER_ID = filter_var(str_replace('user_id_','',$RAW_ID_PARTS[0]), FILTER_SANITIZE_NUMBER_INT);
-				$RAW_RIGHT = filter_var(str_replace('right_','',$RAW_ID_PARTS[0]), FILTER_SANITIZE_NUMBER_INT);
+				$RAW_ID_PARTS=explode('@',$RAW_ID);
+				$RAW_RIGHT_ID=filter_var(str_replace('right_id_','',$RAW_ID_PARTS[0]), FILTER_SANITIZE_NUMBER_INT);
+				$RAW_USER_ID=filter_var(str_replace('user_id_','',$RAW_ID_PARTS[0]), FILTER_SANITIZE_NUMBER_INT);
+				$RAW_RIGHT=filter_var(str_replace('right_','',$RAW_ID_PARTS[0]), FILTER_SANITIZE_NUMBER_INT);
 
 				if($RAW_RIGHT_ID != '' && $RAW_USER_ID != '' && $RAW_RIGHT != ''){
 		            $APP->set('SELECT_RIGHT', $APP->get('DBCON')->exec(
 		                    array('SELECT * FROM constructr_user_rights WHERE constructr_user_rights_id=:RAW_RIGHT_ID LIMIT 1;'),
-		                    array(array(':RAW_RIGHT_ID' => $RAW_RIGHT_ID))
+		                    array(array(':RAW_RIGHT_ID'=>$RAW_RIGHT_ID))
 		                )
 		            );
 
-					if($APP->get('SELECT_RIGHT.0.constructr_user_rights_value') == 1){
+					if($APP->get('SELECT_RIGHT.0.constructr_user_rights_value')==1){
 			            $APP->set('UPDATE_RIGHT', $APP->get('DBCON')->exec(
 			                    array('UPDATE constructr_user_rights SET constructr_user_rights_value=0 WHERE constructr_user_rights_id=:RAW_RIGHT_ID LIMIT 1;'),
-			                    array(array(':RAW_RIGHT_ID' => $RAW_RIGHT_ID))
+			                    array(array(':RAW_RIGHT_ID'=>$RAW_RIGHT_ID))
 			                )
 			            );
 
@@ -184,7 +176,7 @@
 					} else {
 			            $APP->set('UPDATE_RIGHT', $APP->get('DBCON')->exec(
 			                    array('UPDATE constructr_user_rights SET constructr_user_rights_value=1 WHERE constructr_user_rights_id=:RAW_RIGHT_ID LIMIT 1;'),
-			                    array(array(':RAW_RIGHT_ID' => $RAW_RIGHT_ID))
+			                    array(array(':RAW_RIGHT_ID'=>$RAW_RIGHT_ID))
 			                )
 			            );
 
@@ -199,20 +191,20 @@
         public function user_management_new($APP)
         {
             $APP->set('MODUL_ID', 41);
-            $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
+            $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
 
-            if ($USER_RIGHTS == false){
+            if ($USER_RIGHTS==false){
                 $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $CSRF = parent::csrf();
+            $CSRF=parent::csrf();
             $APP->set('CSRF', $CSRF);
             $APP->set('SESSION.csrf', $CSRF);
-            $ADDITIVE = parent::additive();
+            $ADDITIVE=parent::additive();
             $APP->set('ADDITIVE', $ADDITIVE);
             $APP->set('SESSION.additive', $ADDITIVE);
-            $TRIPPLE_ADDITIVE = ($ADDITIVE.$CSRF);
+            $TRIPPLE_ADDITIVE=($ADDITIVE.$CSRF);
             $APP->set('TRIPPLE_ADDITIVE', $TRIPPLE_ADDITIVE);
             $APP->set('SESSION.tripple_additive', $TRIPPLE_ADDITIVE);
 
@@ -222,16 +214,16 @@
         public function user_management_new_verify($APP)
         {
             $APP->set('MODUL_ID', 41);
-            $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
+            $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
 
-            if ($USER_RIGHTS == false){
+            if ($USER_RIGHTS==false){
                 $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $POST_CSRF = $APP->get('POST.csrf');
-            $POST_ADDITIVE = $APP->get('POST.csrf_additive');
-            $POST_TRIPPLE_ADDITIVE = $APP->get('POST.csrf_tripple_additive');
+            $POST_CSRF=$APP->get('POST.csrf');
+            $POST_ADDITIVE=$APP->get('POST.csrf_additive');
+            $POST_TRIPPLE_ADDITIVE=$APP->get('POST.csrf_tripple_additive');
 
             if ($POST_CSRF != ''){
                 if ($POST_CSRF != $APP->get('SESSION.csrf')){
@@ -259,17 +251,17 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
             }
 
-            $USER_NAME = filter_var($APP->get('POST.user_name'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $USER_EMAIL = filter_var($APP->get('POST.user_email'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $USER_PASSWORD = crypt(filter_var($APP->get('POST.user_password'), FILTER_SANITIZE_FULL_SPECIAL_CHARS), $APP->get('CONSTRUCTR_USER_SALT'));
+            $USER_NAME=filter_var($APP->get('POST.user_name'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $USER_EMAIL=filter_var($APP->get('POST.user_email'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $USER_PASSWORD=crypt(filter_var($APP->get('POST.user_password'), FILTER_SANITIZE_FULL_SPECIAL_CHARS), $APP->get('CONSTRUCTR_USER_SALT'));
 
             $APP->set('USER_EXISTS', $APP->get('DBCON')->exec(
                     array('SELECT * FROM constructr_backenduser WHERE constructr_user_username=:USER_NAME LIMIT 1;'),
-                    array(array(':USER_NAME' => $USER_NAME))
+                    array(array(':USER_NAME'=>$USER_NAME))
                 )
             );
 
-            $USER_EXISTS_COUNTR = count($APP->get('USER_EXISTS'));
+            $USER_EXISTS_COUNTR=count($APP->get('USER_EXISTS'));
 
             if ($USER_EXISTS_COUNTR != 0){
                 $APP->set('NEW', 'no-success');
@@ -280,10 +272,10 @@
                     array('INSERT INTO constructr_backenduser SET constructr_user_username=:USER_NAME, constructr_user_email=:USER_EMAIL, constructr_user_password=:USER_PASSWORD, constructr_user_active=:USER_ACTIVE;'),
                     array(
                         array(
-                            ':USER_NAME' => $USER_NAME,
-                            ':USER_EMAIL' => $USER_EMAIL,
-                            ':USER_PASSWORD' => $USER_PASSWORD,
-                            ':USER_ACTIVE' => 1
+                            ':USER_NAME'=>$USER_NAME,
+                            ':USER_EMAIL'=>$USER_EMAIL,
+                            ':USER_PASSWORD'=>$USER_PASSWORD,
+                            ':USER_ACTIVE'=>1
                         )
                     )
                 )
@@ -293,25 +285,25 @@
                     array('SELECT constructr_user_id FROM constructr_backenduser WHERE constructr_user_username=:USER_NAME AND constructr_user_email=:USER_EMAIL AND constructr_user_password=:USER_PASSWORD AND constructr_user_active=:USER_ACTIVE LIMIT 1;'),
                     array(
                         array(
-                            ':USER_NAME' => $USER_NAME,
-                            ':USER_EMAIL' => $USER_EMAIL,
-                            ':USER_PASSWORD' => $USER_PASSWORD,
-                            ':USER_ACTIVE' => 1
+                            ':USER_NAME'=>$USER_NAME,
+                            ':USER_EMAIL'=>$USER_EMAIL,
+                            ':USER_PASSWORD'=>$USER_PASSWORD,
+                            ':USER_ACTIVE'=>1
                         )
                     )
                 )
             );
 
-			$NEW_USER_ID = $APP->get('SELECT_NEW_USER.0.constructr_user_id');
-			$ALL_CONSTRUCTR_USER_RIGHTS = $APP->get('ALL_CONSTRUCTR_USER_RIGHTS');
+			$NEW_USER_ID=$APP->get('SELECT_NEW_USER.0.constructr_user_id');
+			$ALL_CONSTRUCTR_USER_RIGHTS=$APP->get('ALL_CONSTRUCTR_USER_RIGHTS');
 
-			foreach($ALL_CONSTRUCTR_USER_RIGHTS AS $KEY => $VALUE){
+			foreach($ALL_CONSTRUCTR_USER_RIGHTS AS $KEY=>$VALUE){
 	            $APP->set('INSERT_NEW_USER_RIGHT', $APP->get('DBCON')->exec(
 	                    array('INSERT INTO constructr_user_rights SET constructr_user_rights_user=:NEW_USER_ID, constructr_user_rights_key=:KEY, constructr_user_rights_value=1;'),
 	                    array(
 	                        array(
-	                            ':NEW_USER_ID' => $NEW_USER_ID,
-	                            ':KEY' => $KEY
+	                            ':NEW_USER_ID'=>$NEW_USER_ID,
+	                            ':KEY'=>$KEY
 	                        )
 	                    )
 	                )
@@ -324,24 +316,24 @@
         public function user_management_delete($APP)
         {
             $APP->set('MODUL_ID', 43);
-            $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
+            $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
 
-            if ($USER_RIGHTS == false){
+            if ($USER_RIGHTS==false){
                 $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $DELETE_USER_ID = filter_var($APP->get('PARAMS.user_id'), FILTER_SANITIZE_NUMBER_INT);
+            $DELETE_USER_ID=filter_var($APP->get('PARAMS.user_id'), FILTER_SANITIZE_NUMBER_INT);
 
             $APP->set('DELETE_USER', $APP->get('DBCON')->exec(
                     array('DELETE FROM constructr_backenduser WHERE constructr_user_id=:DELETE_USER_ID LIMIT 1;'),
-                    array(array(':DELETE_USER_ID' => $DELETE_USER_ID))
+                    array(array(':DELETE_USER_ID'=>$DELETE_USER_ID))
                 )
             );
 
             $APP->set('DELETE_USER_RIGHT', $APP->get('DBCON')->exec(
                     array('DELETE FROM constructr_user_rights WHERE constructr_user_rights_user=:DELETE_USER_ID;'),
-                    array(array(':DELETE_USER_ID' => $DELETE_USER_ID))
+                    array(array(':DELETE_USER_ID'=>$DELETE_USER_ID))
                 )
             );
 
@@ -351,27 +343,27 @@
         public function user_management_edit($APP)
         {
             $APP->set('MODUL_ID', 42);
-            $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
+            $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
 
-            if ($USER_RIGHTS == false){
+            if ($USER_RIGHTS==false){
                 $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $USER_ID = filter_var($APP->get('PARAMS.user_id'), FILTER_SANITIZE_NUMBER_INT);
-            $CSRF = parent::csrf();
+            $USER_ID=filter_var($APP->get('PARAMS.user_id'), FILTER_SANITIZE_NUMBER_INT);
+            $CSRF=parent::csrf();
             $APP->set('CSRF', $CSRF);
             $APP->set('SESSION.csrf', $CSRF);
-            $ADDITIVE = parent::additive();
+            $ADDITIVE=parent::additive();
             $APP->set('ADDITIVE', $ADDITIVE);
             $APP->set('SESSION.additive', $ADDITIVE);
-            $TRIPPLE_ADDITIVE = ($ADDITIVE.$CSRF);
+            $TRIPPLE_ADDITIVE=($ADDITIVE.$CSRF);
             $APP->set('TRIPPLE_ADDITIVE', $TRIPPLE_ADDITIVE);
             $APP->set('SESSION.tripple_additive', $TRIPPLE_ADDITIVE);
 
             $APP->set('USER', $APP->get('DBCON')->exec(
                     array('SELECT * FROM constructr_backenduser WHERE constructr_user_id=:USER_ID LIMIT 1;'),
-                    array(array(':USER_ID' => $USER_ID))
+                    array(array(':USER_ID'=>$USER_ID))
                 )
             );
 
@@ -383,16 +375,16 @@
         public function user_management_edit_verify($APP)
         {
             $APP->set('MODUL_ID', 42);
-            $USER_RIGHTS = parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
+            $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
 
-            if ($USER_RIGHTS == false){
+            if ($USER_RIGHTS==false){
                 $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            $POST_CSRF = $APP->get('POST.csrf');
-            $POST_ADDITIVE = $APP->get('POST.csrf_additive');
-            $POST_TRIPPLE_ADDITIVE = $APP->get('POST.csrf_tripple_additive');
+            $POST_CSRF=$APP->get('POST.csrf');
+            $POST_ADDITIVE=$APP->get('POST.csrf_additive');
+            $POST_TRIPPLE_ADDITIVE=$APP->get('POST.csrf_tripple_additive');
 
             if ($POST_CSRF != ''){
                 if ($POST_CSRF != $APP->get('SESSION.csrf')){
@@ -420,18 +412,18 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
             }
 
-            $USER_ID = filter_var($APP->get('POST.user_id'), FILTER_SANITIZE_NUMBER_INT);
-            $USER_NAME = filter_var($APP->get('POST.user_name'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $USER_EMAIL = filter_var($APP->get('POST.user_email'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $USER_PASSWORD = crypt(filter_var($APP->get('POST.user_password'), FILTER_SANITIZE_FULL_SPECIAL_CHARS), $APP->get('CONSTRUCTR_USER_SALT'));
+            $USER_ID=filter_var($APP->get('POST.user_id'), FILTER_SANITIZE_NUMBER_INT);
+            $USER_NAME=filter_var($APP->get('POST.user_name'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $USER_EMAIL=filter_var($APP->get('POST.user_email'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $USER_PASSWORD=crypt(filter_var($APP->get('POST.user_password'), FILTER_SANITIZE_FULL_SPECIAL_CHARS), $APP->get('CONSTRUCTR_USER_SALT'));
 
             $APP->set('USER_EXISTS', $APP->get('DBCON')->exec(
                     array('SELECT * FROM constructr_backenduser WHERE constructr_user_username=:USER_NAME LIMIT 1;'),
-                    array(array(':USER_NAME' => $USER_NAME))
+                    array(array(':USER_NAME'=>$USER_NAME))
                 )
             );
 
-            $USER_EXISTS_COUNTR = count($APP->get('USER_EXISTS'));
+            $USER_EXISTS_COUNTR=count($APP->get('USER_EXISTS'));
 
             if ($USER_EXISTS_COUNTR > 1){
                 $APP->set('NEW', 'no-success');
@@ -442,10 +434,10 @@
                     array('UPDATE constructr_backenduser SET constructr_user_username=:USER_NAME, constructr_user_email=:USER_EMAIL, constructr_user_password=:USER_PASSWORD WHERE constructr_user_id=:USER_ID LIMIT 1;'),
                     array(
                         array(
-                            ':USER_ID' => $USER_ID,
-                            ':USER_NAME' => $USER_NAME,
-                            ':USER_EMAIL' => $USER_EMAIL,
-                            ':USER_PASSWORD' => $USER_PASSWORD
+                            ':USER_ID'=>$USER_ID,
+                            ':USER_NAME'=>$USER_NAME,
+                            ':USER_EMAIL'=>$USER_EMAIL,
+                            ':USER_PASSWORD'=>$USER_PASSWORD
                         )
                     )
                 )

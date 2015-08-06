@@ -27,7 +27,7 @@
         {
             $USER_RIGHTS_COUNTR = 0;
 
-            foreach ($USER_RIGHTS as $KEY => $VALUE){
+            foreach ($USER_RIGHTS as $KEY=>$VALUE){
                 if ($KEY == $MODUL_ID && $VALUE == 1){
                     $USER_RIGHTS_COUNTR ++;
                 }
@@ -102,9 +102,9 @@
                         array('SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;',),
                         array(
                             array(
-                                ':ACTIVE' => (int) 1,
-                                ':USERNAME' => $POST_USERNAME,
-                                ':PASSWORD' => $POST_PASSWORD
+                                ':ACTIVE'=>(int) 1,
+                                ':USERNAME'=>$POST_USERNAME,
+                                ':PASSWORD'=>$POST_PASSWORD
                             )
                         )
                     )
@@ -117,10 +117,10 @@
                             array('UPDATE constructr_backenduser SET constructr_user_last_login=:LAST_LOGIN WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;',),
                             array(
                                 array(
-                                    ':ACTIVE' => (int) 1,
-                                    ':LAST_LOGIN' => date('Y-m-d H:i:s'),
-                                    ':USERNAME' => $POST_USERNAME,
-                                    ':PASSWORD' => $POST_PASSWORD
+                                    ':ACTIVE'=>(int) 1,
+                                    ':LAST_LOGIN'=>date('Y-m-d H:i:s'),
+                                    ':USERNAME'=>$POST_USERNAME,
+                                    ':PASSWORD'=>$POST_PASSWORD
                                 )
                             )
                         )
@@ -129,6 +129,7 @@
                     $APP->set('SESSION.login', 'true');
                     $APP->set('SESSION.username', $POST_USERNAME);
                     $APP->set('SESSION.password', $POST_PASSWORD);
+
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement');
                 } else {
                     $APP->set('SESSION.login', 'false');
@@ -229,8 +230,8 @@
                         array('SELECT * FROM constructr_backenduser WHERE constructr_user_username=:USERNAME AND constructr_user_active=:ACTIVE LIMIT 1;',),
                         array(
                             array(
-                                ':USERNAME' => $USERNAME,
-                                ':ACTIVE' => (int) 1
+                                ':USERNAME'=>$USERNAME,
+                                ':ACTIVE'=>(int) 1
                             )
                         )
                     )
@@ -249,9 +250,9 @@
                                 array('UPDATE constructr_backenduser SET constructr_user_password=:NEW_CRYPTED_PASSWORD WHERE constructr_user_username=:USERNAME AND constructr_user_active=:ACTIVE LIMIT 1;',),
                                 array(
                                     array(
-                                        ':USERNAME' => $USERNAME,
-                                        ':NEW_CRYPTED_PASSWORD' => $NEW_CRYPTED_PASSWORD,
-                                        ':ACTIVE' => (int) 1
+                                        ':USERNAME'=>$USERNAME,
+                                        ':NEW_CRYPTED_PASSWORD'=>$NEW_CRYPTED_PASSWORD,
+                                        ':ACTIVE'=>(int) 1
                                     )
                                 )
                             )
@@ -289,8 +290,7 @@
 
         public static function additive($LENGTH = 10, $CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz')
         {
-            for ($S = '', $CL = strlen($CHARS)-1, $i = 0; $i < $LENGTH; $S .= $CHARS[mt_rand(0, $CL)], ++$i);
-
+            for($S='',$CL=strlen($CHARS)-1,$i=0;$i<$LENGTH;$S.=$CHARS[mt_rand(0,$CL)],++$i);
             return $S;
         }
 
