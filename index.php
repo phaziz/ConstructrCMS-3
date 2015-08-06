@@ -41,7 +41,7 @@
 
     if (strpos($REQUEST, 'constructr') === false){
 		if($APP->get('CONSTRUCTR_CACHE') == true){
-			$UNIQUE=$APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST.'.html');
+			$UNIQUE=$APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST).'.html';
 
 			if(file_exists($UNIQUE)){
 				$CACHE_OUTPUT=@file_get_contents($APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST).'.html');
