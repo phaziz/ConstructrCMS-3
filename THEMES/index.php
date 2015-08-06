@@ -14,14 +14,14 @@ div#menu ul ul {display: none;z-index:999;margin:0 0 0 0;padding:0 0 0 0}
 div#menu ul li:hover > ul {display: block;z-index:999}
 div#menu ul {padding-left: 10px;  list-style: none;position: relative;display: inline-table}
 div#menu ul:after {content:""; clear: both; display: block}
-div#menu ul li {float: left;width:150px}
-div#menu ul li:hover {background: #ff0035}
-div#menu ul li:hover a {color: #fff}
+div#menu ul li {float: left;width:150px;}
+div#menu ul li:hover {background: #f6f6f6;}
+div#menu ul li:hover a {color: #000}
 div#menu ul li a {display: block; padding: 10px 10px;color: #fff; text-decoration: none;text-align:center}
-div#menu ul ul {background: #ff0035; padding: 0;position: absolute; top: 100%}
+div#menu ul ul {background: #f6f6f6; padding: 0;position: absolute; top: 100%}
 div#menu ul ul li {float: none;position: relative}
 div#menu ul ul li a {padding: 10px 10px;color: #fff;border-top: 1px solid #fff;text-align:left}
-div#menu ul ul li a:hover {background: #ff0035}
+div#menu ul ul li a:hover {background: #f0f0f0}
 div#menu ul ul ul {position: absolute; left: 100%; top:0}
 {{@ PAGE_CSS @}}
 </style>
@@ -29,39 +29,21 @@ div#menu ul ul ul {position: absolute; left: 100%; top:0}
 <body>
 
 	<div id="menu">
-		<!--{{@ PAGE_NAVIGATION_UL_LI @}}-->
+		{{@ PAGE_NAVIGATION_UL_LI @}}
+	</div>
+
+	<div class="row">
+		<div class="col s6">
+    		{{@ CONSTRUCTR_MAPPING(left_content) @}}
+		</div>
+		<div class="col s6">
+    		{{@ CONSTRUCTR_MAPPING(right_content) @}}
+		</div>
 	</div>
 
 	<div class="row">
 		<div class="col s12">
-    		<!--{{@ PAGE_CONTENT_HTML @}}-->
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col s6" id="left_content">
-    		<!--{{@ CONSTRUCTR_MAPPING(left_content) @}}-->
-		</div>
-		<div class="col s6" id="right_content">
-    		<!--{{@ CONSTRUCTR_MAPPING(right_content) @}}-->
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col s6" id="left_content">
-    		<!--{{@ CONSTRUCTR_MAPPING(content_whatever) @}}-->
-		</div>
-		<div class="col s6" id="right_content">
-    		<!--{{@ CONSTRUCTR_MAPPING(contentWhatever) @}}-->
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col s6" id="left_content">
-    		<!--{{@ CONSTRUCTR_MAPPING(content--whatever) @}}-->
-		</div>
-		<div class="col s6" id="right_content">
-    		<!--{{@ CONSTRUCTR_MAPPING(content__whatever) @}}-->
+    		{{@ PAGE_CONTENT_HTML @}}
 		</div>
 	</div>
 

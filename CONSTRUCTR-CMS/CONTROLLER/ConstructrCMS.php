@@ -145,9 +145,7 @@
 
 			if($APP->get('PAGES')){
 				$APP->set('NAVIGATION',self::constructrNavGen($APP->get('CONSTRUCTR_BASE_URL'),$APP->get('PAGES')));
- 			}
-			else
-			{
+ 			} else {
 				$APP->set('NAVIGATION','');
 			}
 

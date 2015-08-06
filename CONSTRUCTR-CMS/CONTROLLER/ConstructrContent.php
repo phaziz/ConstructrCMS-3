@@ -162,7 +162,6 @@
 			$APP->set('TEMPLATE_FILE', $APP->get('TEMPLATE.0.constructr_pages_template'));
 			$TEMPLATE_TEXT=file_get_contents($APP->get('TEMPLATES').$APP->get('TEMPLATE_FILE'));
 			preg_match_all("/({{@ CONSTRUCTR_MAPPING\()+([\w-])+(\) @}})/", $TEMPLATE_TEXT, $MATCH);
-
 			$CONSTRUCTR_TPL_MAPPINGS = array();
 
 			if($MATCH[0]){
@@ -174,7 +173,6 @@
 			}
 
 			$APP->set('CONSTRUCTR_TPL_MAPPINGS',$CONSTRUCTR_TPL_MAPPINGS);
-
             $H = opendir($APP->get('UPLOADS'));
 
 			$IMAGES = array();

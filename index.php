@@ -20,6 +20,7 @@
     $APP->set('AUTOLOAD', __DIR__.'/CONSTRUCTR-CMS/CONTROLLER/');
 	$APP->set('CONSTRUCTR_LOG', $CONSTRUCTR_LOG = new \Log('CONSTRUCTR-CMS/LOGFILES/'.date('Y-m-d').'-constructr.txt'));
 	$APP->set('CONSTRUCTR_FE_CACHE', __DIR__.'/CONSTRUCTR-CMS/CACHE/');
+	$APP->set('TEMPLATES',$APP->get('CONSTRUCTR_BASE_URL').'/THEMES/');
 
     try {
     	$APP->set('DBCON',$DBCON=new DB\SQL('mysql:host='.$APP->get('DATABASE_HOSTNAME').';port='.$APP->get('DATABASE_PORT').';dbname='.$APP->get('DATABASE_DATABASE'),$APP->get('DATABASE_USERNAME'),$APP->get('DATABASE_PASSWORD')));
@@ -37,11 +38,10 @@
     $REQUEST=trim(str_replace($APP->get('CONSTRUCTR_REPLACE_BASE_URL'),'', $REQUEST));
 
     if (strpos($REQUEST, 'constructr') === false){
-		$APP->set('TEMPLATES',$APP->get('CONSTRUCTR_BASE_URL').'/THEMES/');
-		$UNIQUE=$APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST);
+		$UNIQUE=$APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST.'.html');
 
 		if(file_exists($UNIQUE)){
-			$CACHE_OUTPUT=@file_get_contents($APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST));
+			$CACHE_OUTPUT=@file_get_contents($APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST).'.html');
 			echo $CACHE_OUTPUT;
 			die();
 		}
@@ -75,8 +75,8 @@
 			$NAVIGATION='<ul><li><a href="'.$APP->get('CONSTRUCTR_BASE_URL').'">Home</a></li></ul>';
 	        $APP->set('PAGES', $APP->get('DBCON')->exec(array('SELECT * FROM constructr_pages WHERE constructr_pages_nav_visible=1 ORDER BY constructr_pages_order ASC;'),array()));
 
-			if($PAGES){
-				$NAVIGATION = ConstructrBase::constructrNavGen($APP->get('CONSTRUCTR_BASE_URL'),$PAGES);
+			if($APP->get('PAGES')){
+				$NAVIGATION = ConstructrBase::constructrNavGen($APP->get('CONSTRUCTR_BASE_URL'),$APP->get('PAGES'));
  			}
 
 			$TEMPLATE=file_get_contents($APP->get('TEMPLATES').$PAGE_TEMPLATE);
@@ -109,7 +109,7 @@
 				}
 			}
 
-			$SEARCHR=array('{{@ CONSTRUCTR_BASE_URL @}}','{{@ PAGE_ID @}}','{{@ PAGE_TEMPLATE @}}','{{@ PAGE_NAME @}}','<!--{{@ PAGE_CONTENT_RAW @}}-->','<!--{{@ PAGE_CONTENT_HTML @}}-->','{{@ PAGE_CSS @}}','{{@ PAGE_JS @}}','<!--{{@ PAGE_NAVIGATION_UL_LI @}}-->','{{@ CONSTRUCTR_PAGE_TITLE @}}','{{@ CONSTRUCTR_PAGE_KEYWORDS @}}','{{@ CONSTRUCTR_PAGE_DESCRIPTION @}}');
+			$SEARCHR=array('{{@ CONSTRUCTR_BASE_URL @}}','{{@ PAGE_ID @}}','{{@ PAGE_TEMPLATE @}}','{{@ PAGE_NAME @}}','{{@ PAGE_CONTENT_RAW @}}','{{@ PAGE_CONTENT_HTML @}}','{{@ PAGE_CSS @}}','{{@ PAGE_JS @}}','{{@ PAGE_NAVIGATION_UL_LI @}}','{{@ CONSTRUCTR_PAGE_TITLE @}}','{{@ CONSTRUCTR_PAGE_KEYWORDS @}}','{{@ CONSTRUCTR_PAGE_DESCRIPTION @}}');
 			$REPLACR=array($APP->get('CONSTRUCTR_BASE_URL'),$PAGE_ID,$PAGE_TEMPLATE,$PAGE_NAME,$PAGE_CONTENT_RAW,$PAGE_CONTENT_HTML,$PAGE_CSS,$PAGE_JS,$NAVIGATION,$PAGE_TITLE,$PAGE_DESCRIPTION,$PAGE_KEYWORDS);
 			$TEMPLATE=str_replace($SEARCHR,$REPLACR,$TEMPLATE);
 
@@ -148,10 +148,10 @@
 						}
 
 						foreach($CONSTRUCTR_TPL_MAPPINGS AS $MAP_NOW_KEY => $MAP_NOW_VALUE) {
-							if(isset($MAPPERS[$MAP_NOW_VALUE])){
-								$TEMPLATE=str_replace('<!--'.$MAP_NOW_VALUE.'-->',$MAPPERS[$MAP_NOW_VALUE],$TEMPLATE);	
+							if(isset($MAPPERS[$MAP_NOW_VALUE])) {
+								$TEMPLATE=str_replace($MAP_NOW_VALUE,$MAPPERS[$MAP_NOW_VALUE],$TEMPLATE);
 							} else {
-								$TEMPLATE=str_replace('<!--'.$MAP_NOW_VALUE.'-->','',$TEMPLATE);
+								$TEMPLATE=str_replace($MAP_NOW_VALUE,'',$TEMPLATE);
 							}
 						}
 					}
@@ -159,7 +159,7 @@
 			}
 
 			$TEMPLATE .="\n<!-- ConstructrCMS Version ".$APP->get("CONSTRUCTR_VERSION")." / http://phaziz.com -->";
-			@file_put_contents($UNIQUE=$APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST),$TEMPLATE."\n".'<!-- ConstructrCache '.date('Y-m-d H:i:s').' -->');
+			@file_put_contents($UNIQUE=$APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST).'.html',$TEMPLATE."\n".'<!-- ConstructrCache '.date('Y-m-d H:i:s').' -->');
 
 			echo $TEMPLATE;
 			die();

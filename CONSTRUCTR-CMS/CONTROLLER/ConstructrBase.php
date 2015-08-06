@@ -8,7 +8,7 @@
 	        for($i=0, $ni=count($PAGES); $i < $ni; $i++){
 	            if($PAGES[$i]['constructr_pages_mother'] == $MOTHER){
 	                $TREE .= '<li>';
-	                $TREE .= $PAGES[$i]['constructr_pages_name'];
+	                $TREE .= '<a href="' . $BASE_URL .'/'. $PAGES[$i]['constructr_pages_url'] . '">' . $PAGES[$i]['constructr_pages_name'] . '</a>';
 	                $TREE .= self::constructrNavGen($BASE_URL,$PAGES, $PAGES[$i]['constructr_pages_id']);
 	                $TREE .= '</li>';
 	            }
