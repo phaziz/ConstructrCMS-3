@@ -4,6 +4,8 @@
     {
         public function beforeRoute($APP)
         {
+        	$APP->set('ACT_VIEW','uploads');
+
             if ($APP->get('SESSION.login') == 'true' && $APP->get('SESSION.username') != '' && $APP->get('SESSION.password') != ''){
                 $APP->set('LOGIN_USER', $APP->get('DBCON')->exec(
                         array('SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;'),
@@ -68,12 +70,6 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
-            if (isset($_GET['edit'])){
-                $APP->set('EDIT', $_GET['edit']);
-            } else {
-                $APP->set('EDIT', '');
-            }
-
             if (isset($_GET['new'])){
                 $APP->set('NEW', $_GET['new']);
             } else {
@@ -84,12 +80,6 @@
                 $APP->set('DELETE', $_GET['delete']);
             } else {
                 $APP->set('DELETE', '');
-            }
-
-            if (isset($_GET['move'])){
-                $APP->set('MOVE', $_GET['move']);
-            } else {
-                $APP->set('MOVE', '');
             }
 
             $H = opendir($APP->get('UPLOADS'));
@@ -119,6 +109,7 @@
 
             $APP->set('IMAGES', $IMAGES);
             $APP->set('FILES', $FILES);
+
 			$APP->set('FILES_COUNTR',0);
 			$APP->set('FILES_COUNTR', (count($FILES) + count($IMAGES)));
 

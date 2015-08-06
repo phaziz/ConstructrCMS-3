@@ -11,26 +11,7 @@
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-default.css">
 </head>
 <body>
-    <nav>
-        <div class="nav-wrapper light-green lighten-1">
-            <a href="#" data-activates="mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
-            <ul class="left hide-on-med-and-down">
-                <li>&#160;&#160;&#160;</li>
-                <li class="active"><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Seitenverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement"><i class="mdi-action-dashboard"></i></a></li>
-                <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Uploads" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads"><i class="mdi-file-cloud"></i></a></li>
-                <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Benutzerverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement"><i class="mdi-communication-contacts"></i></a></li>
-            </ul>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a class="tooltipped" data-position="left" data-delay="25" data-tooltip="Logout?" id="logout" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/logout"><i class="mdi-action-exit-to-app right"></i>{{ @SESSION.username }}</a></li>
-            </ul>
-            <ul class="side-nav" id="mobile">
-                <li class="active"><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Seitenverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement"><i class="mdi-action-dashboard"></i></a></li>
-                <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Uploads" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads"><i class="mdi-file-cloud"></i></a></li>
-                <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Benutzerverwaltung" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement"><i class="mdi-communication-contacts"></i></a></li>
-                <li><a class="tooltipped" data-position="right" data-delay="25" data-tooltip="Logout?" id="logout" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/logout"><i class="mdi-action-exit-to-app right"></i>{{ @SESSION.username }}</a></li>
-            </ul>
-        </div>
-    </nav>
+	<include href="{{ @NAVIGATION }}" />
     <div class="row">
         <div class="col s12">
             <check if="{{ @CONTENT_COUNTR }} != 0">

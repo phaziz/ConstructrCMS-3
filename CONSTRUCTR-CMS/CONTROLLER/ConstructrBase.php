@@ -2,6 +2,22 @@
 
     class ConstructrBase
     {
+		public static function constructrNavGen($BASE_URL,$PAGES, $MOTHER = 0){
+	        $TREE = '';
+	        $TREE = '<ul>';
+	        for($i=0, $ni=count($PAGES); $i < $ni; $i++){
+	            if($PAGES[$i]['constructr_pages_mother'] == $MOTHER){
+	                $TREE .= '<li>';
+	                $TREE .= $PAGES[$i]['constructr_pages_name'];
+	                $TREE .= self::constructrNavGen($BASE_URL,$PAGES, $PAGES[$i]['constructr_pages_id']);
+	                $TREE .= '</li>';
+	            }
+	        }
+	        $TREE .= '</ul>';
+			$TREE = str_replace('<ul></ul>','',$TREE);
+	        return $TREE;
+		}
+
         public function no_rights($APP)
         {
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_no_rights.html', 'text/html');
@@ -113,7 +129,6 @@
                     $APP->set('SESSION.login', 'true');
                     $APP->set('SESSION.username', $POST_USERNAME);
                     $APP->set('SESSION.password', $POST_PASSWORD);
-
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement');
                 } else {
                     $APP->set('SESSION.login', 'false');

@@ -4,6 +4,8 @@
     {
         public function beforeRoute($APP)
         {
+        	$APP->set('ACT_VIEW','pages');
+
             if ($APP->get('SESSION.login') == 'true' && $APP->get('SESSION.username') != '' && $APP->get('SESSION.password') != ''){
                 $APP->set('LOGIN_USER', $APP->get('DBCON')->exec(
                         array('SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;'),
@@ -154,17 +156,17 @@
 
 		public static function constructrNavGen($BASE_URL,$PAGES, $MOTHER = 0){
 	        $TREE = '';
-	        $TREE = '<ul>';
+	        $TREE = '<ul class="area-dragable" id="draggables">';
 	        for($i=0, $ni=count($PAGES); $i < $ni; $i++){
 	            if($PAGES[$i]['constructr_pages_mother'] == $MOTHER){
-	                $TREE .= '<li draggable="true" data-page-id="' . $PAGES[$i]['constructr_pages_id'] . '" data-page-level="' . $PAGES[$i]['constructr_pages_level'] . '" data-page-mother="' . $PAGES[$i]['constructr_pages_mother'] . '">';
+	                $TREE .= '<li class="dragger" draggable="true" data-page-id="' . $PAGES[$i]['constructr_pages_id'] . '" data-page-level="' . $PAGES[$i]['constructr_pages_level'] . '" data-page-mother="' . $PAGES[$i]['constructr_pages_mother'] . '">';
 	                $TREE .= $PAGES[$i]['constructr_pages_name'];
 	                $TREE .= self::constructrNavGen($BASE_URL,$PAGES, $PAGES[$i]['constructr_pages_id']);
 	                $TREE .= '</li>';
 	            }
 	        }
 	        $TREE .= '</ul>';
-			$TREE = str_replace('<ul></ul>','',$TREE);
+			$TREE = str_replace('<ul class="area-dragable" id="draggables"></ul>','',$TREE);
 	        return $TREE;
 		}
 

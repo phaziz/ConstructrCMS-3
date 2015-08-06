@@ -27,7 +27,7 @@
     $APP->route('GET  /constructr/pagemanagement/move-down/@page_id [sync]', 'ConstructrCMS->page_management_move_down');
     $APP->route('GET  /constructr/pagemanagement/content/@page_id [sync]', 'ConstructrCMS->page_management_move_down');
 	$APP->route('GET  /constructr/pagemanagement/visibility/@what/@page_id [sync]', 'ConstructrCMS->page_management_change_visibility');
-	$APP->route('GET  /constructr/pagemanagement/drag-n-drop [sync]', 'ConstructrCMS->page_management_drag_n_drop');
+	//$APP->route('GET  /constructr/pagemanagement/drag-n-drop [sync]', 'ConstructrCMS->page_management_drag_n_drop');
 
     $APP->route('GET  /constructr/content/@page_id [sync]', 'ConstructrContent->content_init');
     $APP->route('GET  /constructr/content/@page_id/new [sync]', 'ConstructrContent->content_new');

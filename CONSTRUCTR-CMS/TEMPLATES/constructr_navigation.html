@@ -1,0 +1,62 @@
+<nav>
+    <div class="nav-wrapper light-green lighten-1">
+        <a href="#" data-activates="mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+        <ul class="left hide-on-med-and-down">
+            <li>&#160;&#160;&#160;</li>
+			<check if="{{ @ACT_VIEW=='pages' }}">
+				<true>
+					<li class="active"><a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement">Seiten</a></li>
+				</true>
+				<false>
+					<li><a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement">Seiten</a></li>
+				</false>
+			</check>
+			<check if="{{ @ACT_VIEW=='uploads' }}">
+				<true>
+					<li class="active"><a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads">Dateien</a></li>
+				</true>
+				<false>
+					<li><a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads">Dateien</a></li>
+				</false>
+			</check>
+			<check if="{{ @ACT_VIEW=='user' }}">
+				<true>
+					<li class="active"><a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement">Benutzer</a></li>
+				</true>
+				<false>
+					<li><a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement">Benutzer</a></li>
+				</false>
+			</check>
+        </ul>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a class="tooltipped" data-position="left" data-delay="25" data-tooltip="Logout?" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/logout">{{ @SESSION.username }}</a></li>
+        </ul>
+        <ul class="side-nav" id="mobile">
+			<check if="{{ @ACT_VIEW=='pages' }}">
+				<true>
+					<li class="active"><a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement">Seiten</a></li>
+				</true>
+				<false>
+					<li><a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement">Seiten</a></li>
+				</false>
+			</check>
+			<check if="{{ @ACT_VIEW=='uploads' }}">
+				<true>
+					<li class="active"><a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads">Dateien</a></li>
+				</true>
+				<false>
+					<li><a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads">Dateien</a></li>
+				</false>
+			</check>
+			<check if="{{ @ACT_VIEW=='user' }}">
+				<true>
+					<li class="active"><a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement">Benutzer</a></li>
+				</true>
+				<false>
+					<li><a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement">Benutzer</a></li>
+				</false>
+			</check>
+            <li><a class="tooltipped" data-position="left" data-delay="25" data-tooltip="Logout?" href="{{ @CONSTRUCTR_BASE_URL}}/constructr/logout">{{ @SESSION.username }}</a></li>
+        </ul>
+    </div>
+</nav>
