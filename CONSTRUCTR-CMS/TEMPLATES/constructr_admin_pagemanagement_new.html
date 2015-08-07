@@ -115,6 +115,7 @@
             </div>
             <div class="input-field col s12">
                 <button class="btn waves-effect waves-light" type="submit" name="action">Neue Seite speichern</button>
+                <button class="btn waves-effect waves-light red" id="esc" type="submit" name="action">Abbrechen</button>
                 <p><small>Taste <strong>''ESC''</strong> zum abbrechen dr&uuml;cken</small></p>
             </div>
         </form>
@@ -132,6 +133,9 @@
             function autoBlinder(){
                 $('.card-panel').fadeOut();
             }
+			$('#esc').bind('click',function() {
+			    javascript:history.back();
+			});
             setInterval(autoBlinder,4500);
             cleanUpMess = function() {
                 var URL = $('#page_url').val().toLowerCase();

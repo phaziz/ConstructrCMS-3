@@ -16,7 +16,7 @@
         <div class="col s12">
             <check if="{{ @USER_RIGHTS_COUNTR != 0 }}">
                 <true>
-                    <p><strong>{{ @USER_RIGHTS_COUNTR }} Rechte für Benutzer {{ @USER_ID}} vorhanden</strong></p>
+                    <p><strong>{{ @USER_RIGHTS_COUNTR }} Rechte für Benutzer {{ @USER_ID}} vorhanden</strong>&#160;&#160;&#160;<button class="btn waves-effect waves-light red" id="esc" type="submit" name="action">Abbrechen</button></p>
                     <table class="bordered responsive-table hoverable">
                         <thead>
                             <tr>
@@ -70,24 +70,27 @@
     <script>
         $(function() {
         	$(".button-collapse").sideNav();
+			$('#esc').bind('click',function() {
+			    javascript:history.back();
+			});
         	$('.lever').bind('click', function(e) {
         		e.preventDefault();
         		var ID = $(this).attr('id');
 	            if(ID != '') {
 	                $.post("{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/update-rights", { id:ID })
-	                  	.done(function( data ) {
-	                        if(data == 'true') {
-								$(location).attr('href',$(location).attr('href'));
-								
-	                        } else {
-					            vex.dialog.buttons.YES.text = 'Okay';
-					            vex.dialog.alert({
-					                className: 'vex-theme-default',
-					                message: 'Ups... Es ist ein Fehler aufgetreten... Bitte abmelden...!',
-					            });
-								return false;	                        	
-	                        }
-						});
+                  	.done(function( data ) {
+                        if(data == 'true') {
+							$(location).attr('href',$(location).attr('href'));
+							
+                        } else {
+				            vex.dialog.buttons.YES.text = 'Okay';
+				            vex.dialog.alert({
+				                className: 'vex-theme-default',
+				                message: 'Ups... Es ist ein Fehler aufgetreten... Bitte abmelden...!',
+				            });
+							return false;	                        	
+                        }
+					});
 	            }
         	});
         	$(document).keyup(function(e) {

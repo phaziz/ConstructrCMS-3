@@ -23,6 +23,8 @@ div#menu ul ul li {float: none;position: relative}
 div#menu ul ul li a {padding: 10px 10px;color: #fff;border-top: 1px solid #fff;text-align:left}
 div#menu ul ul li a:hover {background: #f0f0f0}
 div#menu ul ul ul {position: absolute; left: 100%; top:0}
+.overHidr{overflow:hidden;}
+.overHidr img{max-width: 100%;height:auto;}
 {{@ PAGE_CSS @}}
 </style>
 </head>
@@ -39,22 +41,22 @@ div#menu ul ul ul {position: absolute; left: 100%; top:0}
 	</div>
 
 	<div class="row">
-		<div class="col s6">
+		<div class="col s6 overHidr">
     		{{@ CONSTRUCTR_MAPPING(left_content) @}}
 		</div>
-		<div class="col s6">
+		<div class="col s6 overHidr">
     		{{@ CONSTRUCTR_MAPPING(right_content) @}}
 		</div>
 	</div>
 
 	<div class="row">
-		<div class="col s12">
+		<div class="col s12 overHidr">
     		{{@ PAGE_CONTENT_HTML @}}
 		</div>
 	</div>
 
 	<div class="row center-align">
-		<div class="col s12">
+		<div class="col s12 overHidr">
 			<p>
 				<small><a href="http://phaziz.com" target="_blank">phaziz.com</a>&#160;&#160;&#160;|&#160;&#160;&#160;<a href="http://constructr-cms.org" target="_blank">ConstructrCMS</a>&#160;&#160;&#160;|&#160;&#160;&#160;<a href="http://blog.phaziz.com/tag/constructr-cms/" target="_blank">ConstructrCMS Blog</a>&#160;&#160;&#160;|&#160;&#160;&#160;<a href="https://github.com/phaziz/ConstructrCMS-3" target="_blank">ConstructrCMS GitHub</a>&#160;&#160;&#160;|&#160;&#160;&#160;<a href=" https://twitter.com/ConstructrCMS" target="_blank">ConstructrCMS twitter</a></small>
 			</p>

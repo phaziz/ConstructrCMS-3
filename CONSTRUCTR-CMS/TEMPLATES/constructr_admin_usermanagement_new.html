@@ -40,6 +40,7 @@
             </div>
             <div class="input-field col s12">
                 <button class="btn waves-effect waves-light" type="submit" name="action">Neuen Benutzer speichern</button>
+				<button class="btn waves-effect waves-light red" id="esc" type="submit" name="action">Abbrechen</button>
                 <p><small>Taste <strong>''ESC''</strong> zum abbrechen dr&uuml;cken</small></p>
             </div>
         </form>
@@ -53,6 +54,9 @@
         	$(".button-collapse").sideNav();
 			$(document).keyup(function(e) {
 			    if (e.which === 27) javascript:history.back();
+			});
+			$('#esc').bind('click',function() {
+			    javascript:history.back();
 			});
             $('select').material_select();
             function autoBlinder(){
