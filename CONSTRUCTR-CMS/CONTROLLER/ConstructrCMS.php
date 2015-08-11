@@ -965,6 +965,15 @@
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_error.html', 'text/html');
         }
 
+		public function page_management_make_slug($APP){
+			$MESSY_URL=$APP->get('POST.messy_url');
+			
+			$slugify = new Slugify();
+			echo $slugify->slugify('Hello World!'); // hello-world
+			
+			//echo self::cleanUrl($MESSY_URL);
+		}
+
         public function cleanUrl($str)
         {
             $str=str_replace('À', '-', $str);
@@ -1031,6 +1040,7 @@
             $str=str_replace('ý', '-', $str);
             $str=str_replace('þ', '-', $str);
             $str=str_replace('ÿ', '-', $str);
+			$str=str_replace(' ', '_', $str);
 
             return $str;
         }

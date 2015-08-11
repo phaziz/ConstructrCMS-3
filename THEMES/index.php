@@ -41,10 +41,10 @@ div#menu ul ul ul {position: absolute; left: 100%; top:0}
 	</div>
 
 	<div class="row">
-		<div class="col s6 overHidr">
+		<div class="col s12 m12 l6 overHidr">
     		{{@ CONSTRUCTR_MAPPING(left_content) @}}
 		</div>
-		<div class="col s6 overHidr">
+		<div class="col s12 m12 l6 overHidr">
     		{{@ CONSTRUCTR_MAPPING(right_content) @}}
 		</div>
 	</div>

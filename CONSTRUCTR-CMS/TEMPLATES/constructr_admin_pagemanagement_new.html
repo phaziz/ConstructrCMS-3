@@ -137,8 +137,9 @@
 			    javascript:history.back();
 			});
             setInterval(autoBlinder,4500);
+
             cleanUpMess = function() {
-                var URL = $('#page_url').val().toLowerCase();
+        		var URL = $('#page_url').val().toLowerCase();
                 var CLEAN_URL = '';
                 for (i = 0; i < URL.length; i++) {
                     var ACT_CHAR = URL.charAt(i);
@@ -163,7 +164,20 @@
                     ACT_CHAR = ACT_CHAR.toLowerCase();
                     CLEAN_URL += ACT_CHAR;
                 }
-                $('#page_url').val(CLEAN_URL);
+	            if(CLEAN_URL != '') {
+	                $.post("{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/slug", { messy_url:CLEAN_URL })
+                  	.done(function( data ) {
+                        if(data != '') {
+							$('#page_url').val(CLEAN_URL);
+                        } else {
+				            vex.dialog.buttons.YES.text = 'Okay';
+				            vex.dialog.alert({
+				                className: 'vex-theme-default',
+				                message: 'Ups... Es ist ein Fehler aufgetreten...: ' + data,
+				            });
+                        }
+					});
+	            }
             }
         });
     </script>
