@@ -22,7 +22,7 @@
 	$APP->set('CONSTRUCTR_FE_CACHE', __DIR__.'/CONSTRUCTR-CMS/CACHE/');
 	$APP->set('TEMPLATES',$APP->get('CONSTRUCTR_BASE_URL').'/THEMES/');
 
-	$APP->set('CONSTRUCTR_CACHE',false);
+	$APP->set('CONSTRUCTR_CACHE',true);
 
     try {
     	$APP->set('DBCON',$DBCON=new DB\SQL('mysql:host='.$APP->get('DATABASE_HOSTNAME').';port='.$APP->get('DATABASE_PORT').';dbname='.$APP->get('DATABASE_DATABASE'),$APP->get('DATABASE_USERNAME'),$APP->get('DATABASE_PASSWORD')));
@@ -68,6 +68,14 @@
 		$APP->set('ACT_PAGE_COUNTR',count($APP->get('ACT_PAGE')));
 
 		if($APP->get('ACT_PAGE_COUNTR') == 1){
+			$PAGE_EXT_URL=$APP->get('ACT_PAGE.0.constructr_pages_ext_url');
+
+			if($PAGE_EXT_URL != ''){
+				header('HTTP/1.1 301 Moved Permanently');
+				header('Location: ' . $PAGE_EXT_URL);
+				die();
+			}
+
 			$PAGE_ID=$APP->get('ACT_PAGE.0.constructr_pages_id');
 			$PAGE_NAME=$APP->get('ACT_PAGE.0.constructr_pages_name');
 			$PAGE_TEMPLATE=$APP->get('ACT_PAGE.0.constructr_pages_template');

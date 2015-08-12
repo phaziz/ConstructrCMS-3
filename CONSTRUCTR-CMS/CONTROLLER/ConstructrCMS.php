@@ -261,6 +261,7 @@
             $PAGE_DATETIME=date('Y-m-d H:i:s');
             $PAGE_ID=filter_var($APP->get('POST.edit_page'), FILTER_SANITIZE_NUMBER_INT);
             $PAGE_NAME=filter_var($APP->get('POST.page_name'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $PAGE_EXT_URL=filter_var($APP->get('POST.page_ext_url'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $PAGE_URL=filter_var($APP->get('POST.page_url'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $PAGE_URL=self::cleanUrl($PAGE_URL);
 			$PAGE_OLD_TEMPLATE=filter_var($APP->get('POST.old_template'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -312,12 +313,13 @@
 			}
 
             $APP->set('UPDATE_PAGE', $APP->get('DBCON')->exec(
-                    array('UPDATE constructr_pages SET constructr_pages_css=:PAGE_CSS, constructr_pages_js=:PAGE_JS, constructr_pages_datetime=:PAGE_DATETIME, constructr_pages_name=:PAGE_NAME, constructr_pages_nav_visible=:PAGE_VISIBILITY, constructr_pages_url=:PAGE_URL, constructr_pages_template=:PAGE_TEMPLATE, constructr_pages_title=:PAGE_TITLE, constructr_pages_description=:PAGE_DESCRIPTION, constructr_pages_keywords=:PAGE_KEYWORDS, constructr_pages_active=:PAGE_ACTIVE WHERE constructr_pages_id=:PAGE_ID LIMIT 1;'),
+                    array('UPDATE constructr_pages SET constructr_pages_css=:PAGE_CSS, constructr_pages_js=:PAGE_JS, constructr_pages_datetime=:PAGE_DATETIME, constructr_pages_name=:PAGE_NAME, constructr_pages_nav_visible=:PAGE_VISIBILITY, constructr_pages_url=:PAGE_URL, constructr_pages_ext_url=:PAGE_EXT_URL, constructr_pages_template=:PAGE_TEMPLATE, constructr_pages_title=:PAGE_TITLE, constructr_pages_description=:PAGE_DESCRIPTION, constructr_pages_keywords=:PAGE_KEYWORDS, constructr_pages_active=:PAGE_ACTIVE WHERE constructr_pages_id=:PAGE_ID LIMIT 1;'),
                     array(
                         array(
                             ':PAGE_ID'=>$PAGE_ID,
                             ':PAGE_NAME'=>$PAGE_NAME,
                             ':PAGE_URL'=>$PAGE_URL,
+                            ':PAGE_EXT_URL'=>$PAGE_EXT_URL,
                             ':PAGE_TEMPLATE'=>$PAGE_TEMPLATE,
                             ':PAGE_CSS'=>$PAGE_CSS,
                             ':PAGE_JS'=>$PAGE_JS,
@@ -413,6 +415,7 @@
             $PAGE_NAME=filter_var($APP->get('POST.page_name'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $PAGE_URL=filter_var($APP->get('POST.page_url'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $PAGE_URL=self::cleanUrl($PAGE_URL);
+			$PAGE_EXT_URL=filter_var($APP->get('POST.page_ext_url'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $PAGE_TEMPLATE=filter_var($APP->get('POST.page_template'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $PAGE_TITLE=filter_var($APP->get('POST.page_title'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $PAGE_DESCRIPTION=filter_var($APP->get('POST.page_description'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -464,7 +467,7 @@
                 $PAGE_ORDER=$APP->get('RES.0.constructr_pages_order');
 
                 $APP->set('CREATE_PAGE2', $APP->get('DBCON')->exec(
-                        array('INSERT INTO constructr_pages SET constructr_pages_css=:PAGE_CSS, constructr_pages_js=:PAGE_JS, constructr_pages_level=:PAGE_LEVEL, constructr_pages_mother=:PAGE_MOTHER, constructr_pages_order=:PAGE_ORDER, constructr_pages_datetime=:PAGE_DATETIME, constructr_pages_name=:PAGE_NAME, constructr_pages_nav_visible=:PAGE_VISIBILITY, constructr_pages_url=:PAGE_URL, constructr_pages_template=:PAGE_TEMPLATE, constructr_pages_title=:PAGE_TITLE, constructr_pages_description=:PAGE_DESCRIPTION, constructr_pages_keywords=:PAGE_KEYWORDS, constructr_pages_active=:PAGE_ACTIVE;'),
+                        array('INSERT INTO constructr_pages SET constructr_pages_css=:PAGE_CSS, constructr_pages_js=:PAGE_JS, constructr_pages_level=:PAGE_LEVEL, constructr_pages_mother=:PAGE_MOTHER, constructr_pages_order=:PAGE_ORDER, constructr_pages_datetime=:PAGE_DATETIME, constructr_pages_name=:PAGE_NAME, constructr_pages_nav_visible=:PAGE_VISIBILITY, constructr_pages_url=:PAGE_URL, constructr_pages_ext_url=:PAGE_EXT_URL, constructr_pages_template=:PAGE_TEMPLATE, constructr_pages_title=:PAGE_TITLE, constructr_pages_description=:PAGE_DESCRIPTION, constructr_pages_keywords=:PAGE_KEYWORDS, constructr_pages_active=:PAGE_ACTIVE;'),
                         array(
                             array(
                                 ':PAGE_LEVEL'=>$PAGE_LEVEL,
@@ -472,6 +475,7 @@
                                 ':PAGE_ORDER'=>$PAGE_ORDER,
                                 ':PAGE_NAME'=>$PAGE_NAME,
                                 ':PAGE_URL'=>$PAGE_URL,
+                                ':PAGE_EXT_URL'=>$PAGE_EXT_URL,
                                 ':PAGE_TEMPLATE'=>$PAGE_TEMPLATE,
                                 ':PAGE_CSS'=>$PAGE_CSS,
                                 ':PAGE_JS'=>$PAGE_JS,

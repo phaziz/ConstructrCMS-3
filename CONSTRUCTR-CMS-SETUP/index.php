@@ -91,6 +91,7 @@ CREATE TABLE `constructr_pages` (
   `constructr_pages_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `constructr_pages_name` varchar(255) NOT NULL DEFAULT 'PAGE_NAME',
   `constructr_pages_url` varchar(255) NOT NULL DEFAULT 'PAGE_URL',
+  `constructr_pages_ext_url` varchar(255) NOT NULL DEFAULT '',
   `constructr_pages_css` text NOT NULL,
   `constructr_pages_js` text NOT NULL,
   `constructr_pages_template` varchar(255) NOT NULL DEFAULT 'index.php',
@@ -107,7 +108,7 @@ CREATE TABLE `constructr_user_rights` (
   `constructr_user_rights_user` int(255) NOT NULL DEFAULT '0',
   `constructr_user_rights_key` int(255) NOT NULL DEFAULT '0',
   `constructr_user_rights_value` int(255) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=666 DEFAULT CHARSET=utf8;
 
 INSERT INTO `constructr_user_rights` (`constructr_user_rights_id`, `constructr_user_rights_user`, `constructr_user_rights_key`, `constructr_user_rights_value`) VALUES
 (1, 1, 10, 1),

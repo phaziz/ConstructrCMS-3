@@ -40,6 +40,10 @@
 		            </div>
 				</false>
             </check>
+            <div class="input-field col s12">
+                <input type="url" id="page_ext_url" name="page_ext_url" value="{{ @PAGE.0.constructr_pages_ext_url }}" placeholder="Externe URL der Seite" maxlength="100">
+                <label for="page_url">externe Weiterleitung der Seite zu URL:</label>
+            </div>
             <check if="{{ count(@TEMPLATES) != 0 }}">
                 <true>
                     <div class="input-field col s12">
