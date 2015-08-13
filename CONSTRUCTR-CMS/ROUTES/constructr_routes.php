@@ -3,8 +3,12 @@
 	$APP->route('GET  /constructr/no-rights [sync]', 'ConstructrBase->no_rights');
     $APP->route('GET  /constructr/404 [sync]', 'ConstructrCMS->admin_404');
     $APP->route('GET  /constructr/error [sync]', 'ConstructrCMS->admin_error');
-	$APP->route('GET  /constructr [sync]', 'ConstructrBase->init');	
-    $APP->route('POST /constructr/login [sync]', 'ConstructrBase->login');
+	$APP->route('GET  /constructr [sync]', 'ConstructrBase->init');
+    $APP->route('POST /constructr/login [sync]', 'ConstructrBase->login_step_1');
+	
+	$APP->route('GET /constructr/login-step-2 [sync]', 'ConstructrBase->login_step_2');
+	$APP->route('POST /constructr/login-step-2 [sync]', 'ConstructrBase->login_step_2_verify');
+
     $APP->route('GET  /constructr/login-error [sync]', 'ConstructrBase->login_error');
     $APP->route('GET  /constructr/logout [sync]', 'ConstructrBase->logout');
     $APP->route('GET  /constructr/retrieve-password/@username [sync]', 'ConstructrBase->retrieve_password');

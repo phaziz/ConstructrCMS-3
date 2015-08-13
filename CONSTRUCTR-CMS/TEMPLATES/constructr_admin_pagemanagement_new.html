@@ -22,7 +22,7 @@
             <input type="hidden" name="csrf_tripple_additive" value="{{ @TRIPPLE_ADDITIVE }}">
             <input type="hidden" name="page_countr" value="{{ @PAGE_COUNTR }}">
             <div class="input-field col s12">
-                <input type="text" id="page_name" name="page_name" value="" placeholder="Name der Seite" required="required" autofocus="autofocus">
+                <input type="text" id="page_name" name="page_name" value="" length="100" placeholder="Name der Seite" required="required" autofocus="autofocus">
                 <label for="page_name">Name der Seite:</label>
             </div>
             <check if="{{ count(@PAGES) != 0 }}">
@@ -52,19 +52,19 @@
             <check if="{{ count(@PAGES) == 0 }}">
             	<true>
 		            <div class="input-field col s12">
-		                <input type="text" id="page_url" name="page_url" value="" placeholder="URL der Seite" maxlength="100" onblur="javascript:cleanUpMess();">
+		                <input type="text" id="page_url" name="page_url" length="100" value="" placeholder="URL der Seite" maxlength="100" onblur="javascript:cleanUpMess();">
 		                <label for="page_url">URL der Seite:</label>
 		            </div>
 				</true>
 				<false>
 		            <div class="input-field col s12">
-		                <input type="text" id="page_url" name="page_url" value="" placeholder="URL der Seite" required="required" maxlength="100" onblur="javascript:cleanUpMess();">
+		                <input type="text" id="page_url" name="page_url" length="100" value="" placeholder="URL der Seite" required="required" maxlength="100" onblur="javascript:cleanUpMess();">
 		                <label for="page_url">URL der Seite:</label>
 		            </div>
 				</false>
             </check>
             <div class="input-field col s12">
-                <input type="url" id="page_ext_url" name="page_ext_url" value="" placeholder="Externe URL der Seite" maxlength="100">
+                <input type="url" id="page_ext_url" name="page_ext_url" length="100" value="" placeholder="Externe URL der Seite" maxlength="100">
                 <label for="page_url">externe Weiterleitung der Seite zu URL:</label>
             </div>
             <check if="{{ count(@TEMPLATES) != 0 }}">
@@ -98,15 +98,15 @@
                 <label for="page_nav_visible">Sichtbarkeit in Navigation der neuen Seite:</label>
             </div>
             <div class="input-field col s12">
-                <input type="text" id="page_title" name="page_title" value="" placeholder="Titel der Seite" required="required">
+                <input type="text" id="page_title" name="page_title" length="55" value="" placeholder="Titel der Seite" required="required">
                 <label for="page_title">Titel der Seite:</label>
             </div>
             <div class="input-field col s12">
-                <input type="text" id="page_description" name="page_description" value="" placeholder="Beschreibung der Seite" required="required">
+                <input type="text" id="page_description" length="156" name="page_description" value="" placeholder="Beschreibung der Seite" required="required">
                 <label for="page_description">Beschreibung der Seite:</label>
             </div>
             <div class="input-field col s12">
-                <input type="text" id="page_keywords" name="page_keywords" value="" placeholder="Schlagworte/Keywords der Seite" required="required">
+                <input type="text" id="page_keywords" length="250" name="page_keywords" value="" placeholder="Schlagworte/Keywords der Seite" required="required">
                 <label for="page_keywords">Schlagworte/Keywords der Seite:</label>
             </div>
             <div class="input-field col s12">

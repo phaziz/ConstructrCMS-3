@@ -23,25 +23,25 @@
             <input type="hidden" name="edit_page" id="edit_page" value="{{ @PAGE.0.constructr_pages_id }}">
             <input type="hidden" name="old_template" id="old_template" value="{{ @PAGE.0.constructr_pages_template }}">
             <div class="input-field col s12">
-                <input type="text" id="page_name" name="page_name" value="{{ @PAGE.0.constructr_pages_name }}" placeholder="Name der Seite" required="required" autofocus="autofocus">
+                <input type="text" id="page_name" name="page_name" length="100" value="{{ @PAGE.0.constructr_pages_name }}" placeholder="Name der Seite" required="required" autofocus="autofocus">
                 <label for="page_name">Name der Seite:</label>
             </div>
             <check if="{{ @PAGE.0.constructr_pages_order }} == 1">
             	<true>
 		            <div class="input-field col s12">
-		                <input type="text" id="page_url" name="page_url" value="{{ @PAGE.0.constructr_pages_url }}" placeholder="URL der Seite" maxlength="100" onblur="javascript:cleanUpMess();">
+		                <input type="text" id="page_url" name="page_url" length="100" value="{{ @PAGE.0.constructr_pages_url }}" placeholder="URL der Seite" maxlength="100" onblur="javascript:cleanUpMess();">
 		                <label for="page_url">URL der Seite:</label>
 		            </div>
 				</true>
 				<false>
 		            <div class="input-field col s12">
-		                <input type="text" id="page_url" name="page_url" value="{{ @PAGE.0.constructr_pages_url }}" placeholder="URL der Seite" required="required" maxlength="100" onblur="javascript:cleanUpMess();">
+		                <input type="text" id="page_url" name="page_url" length="100" value="{{ @PAGE.0.constructr_pages_url }}" placeholder="URL der Seite" required="required" maxlength="100" onblur="javascript:cleanUpMess();">
 		                <label for="page_url">URL der Seite:</label>
 		            </div>
 				</false>
             </check>
             <div class="input-field col s12">
-                <input type="url" id="page_ext_url" name="page_ext_url" value="{{ @PAGE.0.constructr_pages_ext_url }}" placeholder="Externe URL der Seite" maxlength="100">
+                <input type="url" id="page_ext_url" name="page_ext_url" length="100" value="{{ @PAGE.0.constructr_pages_ext_url }}" placeholder="Externe URL der Seite" maxlength="100">
                 <label for="page_url">externe Weiterleitung der Seite zu URL:</label>
             </div>
             <check if="{{ count(@TEMPLATES) != 0 }}">
@@ -85,15 +85,15 @@
                 <label for="page_nav_visible">Sichtbarkeit in Navigation der Seite:</label>
             </div>
             <div class="input-field col s12">
-                <input type="text" id="page_title" name="page_title" value="{{ @PAGE.0.constructr_pages_title }}" placeholder="Titel der Seite" required="required">
+                <input type="text" id="page_title" name="page_title" length="55" value="{{ @PAGE.0.constructr_pages_title }}" placeholder="Titel der Seite" required="required">
                 <label for="page_title">Titel der Seite:</label>
             </div>
             <div class="input-field col s12">
-                <input type="text" id="page_description" name="page_description" value="{{ @PAGE.0.constructr_pages_description }}" placeholder="Beschreibung der Seite" required="required">
+                <input type="text" id="page_description" name="page_description" length="156" value="{{ @PAGE.0.constructr_pages_description }}" placeholder="Beschreibung der Seite" required="required">
                 <label for="page_description">Beschreibung der Seite:</label>
             </div>
             <div class="input-field col s12">
-                <input type="text" id="page_keywords" name="page_keywords" value="{{ @PAGE.0.constructr_pages_keywords }}" placeholder="Schlagworte/Keywords der Seite" required="required">
+                <input type="text" id="page_keywords" name="page_keywords" length="250" value="{{ @PAGE.0.constructr_pages_keywords }}" placeholder="Schlagworte/Keywords der Seite" required="required">
                 <label for="page_keywords">Schlagworte/Keywords der Seite:</label>
             </div>
             <div class="input-field col s12">

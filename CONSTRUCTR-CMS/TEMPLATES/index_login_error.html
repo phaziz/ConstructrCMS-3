@@ -35,11 +35,6 @@
 					<input type="text" id="email" name="email" value="" placeholder="eMail">
 					<label for="icon_prefix">eMail:</label>
 				</div>
-				<div class="input-field col s12">
-					<i class="mdi-action-lock-outline prefix"></i>
-					<input type="password" id="password" name="password" value="" placeholder="Passwort" required="required">
-					<label for="icon_prefix">Passwort:</label>
-				</div>
 				<div class="input-field col s6">
 					<button class="btn waves-effect waves-light" type="submit" name="action">Login<i class="mdi-content-send right"></i></button>
 				</div>
@@ -56,7 +51,7 @@
 	<script>
 		$(function() {
 			$("#username").focus();
-			$('#retrieve_password').click(function() {
+			$('#retrieve_password').click(function(){
 				var A = $('#username').val();
 				var E = $('#email').val();
 				if(E != ''){
@@ -75,7 +70,7 @@
 	                vex.dialog.buttons.NO.text = 'Abbrechen';
 	                vex.dialog.confirm({
 	                    className: 'vex-theme-default',
-	                    message: 'Möchten Sie wirklich das Passwort für Benutzer ' + A + ' zurücksetzen?',
+	                    message: 'Möchten Sie wirklich das Passwort für Benutzer '+A+' zurücksetzen?',
 	                    callback: function(value){
 	                        if(value == true){
 	                            $(location).attr('href','{{ @CONSTRUCTR_BASE_URL}}/constructr/retrieve-password/'+A);
@@ -92,9 +87,8 @@
             setInterval(autoBlinder,4500);
 			$('#login').bind('submit', function() {
 				var A = $('#username').val();
-				var P = $('#password').val();
 				var E = $('#email').val();
-				if(typeof A === 'undefined' || A == '' || typeof P === 'undefined' ||  P == '' ||  E != '') {
+				if(typeof A === 'undefined' || A == '' || E != '') {
 					return false;
 				}
 			});

@@ -18,25 +18,25 @@
     		</div>
 		</div>
 		<div class="row form-row">
-			<form name="login" id="login" action="{{ @CONSTRUCTR_BASE_URL}}/constructr/login" method="post" enctype="application/x-www-form-urlencoded" class="col s12">
+			<form name="login" id="login" action="{{ @CONSTRUCTR_BASE_URL}}/constructr/login-step-2" method="post" enctype="application/x-www-form-urlencoded" class="col s12">
 				<input type="hidden" name="csrf" value="{{ @CSRF }}">
 				<input type="hidden" name="csrf_additive" value="{{ @ADDITIVE }}">
 				<input type="hidden" name="csrf_tripple_additive" value="{{ @TRIPPLE_ADDITIVE }}">
-				<div class="input-field col s12">
-					<i class="mdi-action-account-circle prefix"></i>
-					<input type="text" id="username" name="username" value="" placeholder="Benutzername" required="required" autofocus="autofocus">
-					<label for="icon_prefix">Benutzername:</label>
-				</div>
 				<div class="input-field col s12 ghost">
 					<i class="mdi-action-account-circle prefix"></i>
 					<input type="text" id="email" name="email" value="" placeholder="eMail">
 					<label for="icon_prefix">eMail:</label>
 				</div>
-				<div class="input-field col s6">
-					<button class="btn waves-effect waves-light" type="submit" name="action">Login Schritt 1 von 2<i class="mdi-content-send right"></i></button>
+				<div class="input-field col s12">
+					<i class="mdi-action-lock-outline prefix"></i>
+					<input type="password" id="password" name="password" value="" placeholder="Passwort" required="required">
+					<label for="icon_prefix">Passwort:</label>
 				</div>
 				<div class="input-field col s6">
-					<p class="right-align"><small><a id="retrieve_password" href="#">Passwort vergessen?</a></small></p>
+					<button class="btn waves-effect waves-light" type="submit" name="action">Login Schritt 2 von 2<i class="mdi-content-send right"></i></button>
+				</div>
+				<div class="input-field col s6">
+					&#160;
 				</div>
 			</form>
 		</div>
@@ -47,43 +47,15 @@
 	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/js/vex.combined.min.js"></script>
 	<script>
 		$(function() {
-			$("#username").focus();
-			$('#retrieve_password').click(function() {
-				$("#username").focus();
-				var A = $('#username').val();
-				console.log('A: ' + A);
-				if(typeof A === 'undefined' || A == '') {
-					$('#username').focus();
-	                vex.dialog.buttons.YES.text = 'Okay';
-	                vex.dialog.alert({
-	                    className: 'vex-theme-default',
-	                    message: 'Bitte das Feld Benutzername ausfüllen!',
-	                });
-					return false;
-				} else {
-	                vex.dialog.buttons.YES.text = 'Ja';
-	                vex.dialog.buttons.NO.text = 'Abbrechen';
-	                vex.dialog.confirm({
-	                    className: 'vex-theme-default',
-	                    message: 'Möchten Sie wirklich das Passwort für Benutzer ' + A + ' zurücksetzen?',
-	                    callback: function(value){
-	                        if(value == true){
-	                            $(location).attr('href','{{ @CONSTRUCTR_BASE_URL}}/constructr/retrieve-password/'+A);
-	                        } else {
-	                            return false;
-	                        }
-	                    }
-	                });
-				}
-			});
+			$("#password").focus();
             function autoBlinder(){
                 $('.card-panel').fadeOut();
             }
             setInterval(autoBlinder,4500);
 			$('#login').bind('submit', function() {
-				var A = $('#username').val();
+				var P = $('#password').val();
 				var E = $('#email').val();
-				if(typeof A === 'undefined' || A == '' || E != '') {
+				if(typeof P === 'undefined' ||  P == '' || E != '') {
 					return false;
 				}
 			});

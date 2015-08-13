@@ -35,10 +35,10 @@
     $NEW_GUID11 = create_guid();
 
 if (isset($_POST['setup'])) {
-    $NL = "\n";
-    $_CONFIG_FILE_CONTENT = '
+$NL = "\n";
+$_CONFIG_FILE_CONTENT = '
 {
-"CONSTRUCTR_VERSION":"3.0 / 2015-08-03",
+"CONSTRUCTR_VERSION":"3.0 / 2015-08-13",
 "DATABASE_HOSTNAME":"'.$_POST['db_host'].'",
 "DATABASE_DATABASE":"'.$_POST['db_database'].'",
 "DATABASE_PORT":3306,
@@ -48,7 +48,7 @@ if (isset($_POST['setup'])) {
 "CONSTRUCTR_BASE_URL":"'.$_POST['base_url'].'",
 "CONSTRUCTR_REPLACE_BASE_URL":"'.$_POST['base_url'].'/"
 }
-    ';
+';
 
     $FILE = '../CONSTRUCTR-CMS/CONFIG/constructr_config.json';
     $CREATE_CONFIG = fopen($FILE, 'w+') or die('FILE NOT FOUND ERROR: Please create file: CONSTRUCTR-CMS/CONFIG/constructr_config.json');
@@ -89,8 +89,8 @@ CREATE TABLE `constructr_pages` (
   `constructr_pages_level` int(255) NOT NULL DEFAULT '1',
   `constructr_pages_order` int(255) NOT NULL DEFAULT '0',
   `constructr_pages_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `constructr_pages_name` varchar(255) NOT NULL DEFAULT 'PAGE_NAME',
-  `constructr_pages_url` varchar(255) NOT NULL DEFAULT 'PAGE_URL',
+  `constructr_pages_name` varchar(255) NOT NULL DEFAULT '',
+  `constructr_pages_url` varchar(255) NOT NULL DEFAULT '',
   `constructr_pages_ext_url` varchar(255) NOT NULL DEFAULT '',
   `constructr_pages_css` text NOT NULL,
   `constructr_pages_js` text NOT NULL,
@@ -295,9 +295,5 @@ ALTER TABLE `constructr_user_rights`
 			</div>
 			<script src="<?php echo getCurrentUrl(); ?>/CONSTRUCTR-CMS/ASSETS/jquery/jquery-2.1.4.min.js"></script>
 			<script src="<?php echo getCurrentUrl(); ?>/CONSTRUCTR-CMS/ASSETS/materialize/js/materialize.min.js"></script>
-            <script>
-            	$(function(){
-            	});
-            </script>
 		</body>
 	</html>
