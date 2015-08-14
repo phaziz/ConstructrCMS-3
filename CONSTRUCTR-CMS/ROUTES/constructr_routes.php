@@ -1,11 +1,13 @@
 <?php
 
+	$APP->route('GET  /constructr/admin [sync]', 'ConstructrCMS->admin_init');
+
 	$APP->route('GET  /constructr/no-rights [sync]', 'ConstructrBase->no_rights');
     $APP->route('GET  /constructr/404 [sync]', 'ConstructrCMS->admin_404');
     $APP->route('GET  /constructr/error [sync]', 'ConstructrCMS->admin_error');
 	$APP->route('GET  /constructr [sync]', 'ConstructrBase->init');
     $APP->route('POST /constructr/login [sync]', 'ConstructrBase->login_step_1');
-	
+
 	$APP->route('GET /constructr/login-step-2 [sync]', 'ConstructrBase->login_step_2');
 	$APP->route('POST /constructr/login-step-2 [sync]', 'ConstructrBase->login_step_2_verify');
 
@@ -15,11 +17,10 @@
     $APP->route('GET  /constructr/updated-user-credentials [sync]', 'ConstructrBase->updated_user_credentials');
 
     $APP->route('GET  /constructr/uploads [sync]', 'ConstructrUploads->uploads_init');
+	$APP->route('GET  /constructr/uploads/@offset [sync]', 'ConstructrUploads->uploads_init_per_page');
     $APP->route('GET  /constructr/uploads/new [sync]', 'ConstructrUploads->uploads_new');
     $APP->route('POST /constructr/uploads/new [sync]', 'ConstructrUploads->uploads_new_verify');
     $APP->route('GET  /constructr/uploads/delete/@file [sync]', 'ConstructrUploads->uploads_delete_file');
-
-    $APP->route('GET  /constructr/admin [sync]', 'ConstructrCMS->admin_init');
 
     $APP->route('GET  /constructr/pagemanagement [sync]', 'ConstructrCMS->page_management');
     $APP->route('GET  /constructr/pagemanagement/new [sync]', 'ConstructrCMS->page_management_new');

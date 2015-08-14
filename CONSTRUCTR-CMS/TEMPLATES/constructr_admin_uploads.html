@@ -34,45 +34,53 @@
 			<input type="checkbox" id="pix" checked="checked" /> <label for="pix">Bilder</label>&#160;&#160;&#160;<input type="checkbox" id="files" checked="checked" /> <label for="files">Dateien</label>
 		</div>
 	</div>
-    <table class="bordered responsive-table hoverable">
-        <thead>
-            <tr>
-            <th data-field="Dateiname">Datei/Vorschau</th>
-            <th data-field="URL">Absolute URL</th>
-            <th data-field="Aktionen" class="center-align">Aktionen</th>
-            </tr>
-        </thead>
-        <tbody>
-			<check if="{{ @IMAGES }}">
-				<true>
-		            <repeat group="{{ @IMAGES }}" value="{{ @IMAGE }}">
-			            <tr class="image_row">
-			                <td><a data-imagelightbox="gallery" href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @IMAGE }}" target="_blank" class="tooltipped lightbox" data-position="right" data-delay="25" data-tooltip="Vorschau in Lightbox"><img src="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @IMAGE }}" alt="{{ @IMAGE }}" title="{{ @IMAGE }}" style="max-height: 35px;"></a></td>
+	<check if="{{ @PAGINATION_FILES }}">
+		<true>
+		    <table class="bordered responsive-table hoverable">
+		        <thead>
+		            <tr>
+		            <th data-field="Dateiname">Datei/Vorschau</th>
+		            <th data-field="URL">Absolute URL</th>
+		            <th data-field="Aktionen" class="center-align">Aktionen</th>
+		            </tr>
+		        </thead>
+		        <tbody>
+		            <repeat group="{{ @PAGINATION_FILES }}" value="{{ @IMAGE }}">
+		            	<check if="{{ strrchr(@IMAGE,'#')  == '#true' }}">
+		            		<true>
+		            			<tr class="image_row">
+		            		</true>
+		            		<false>
+		            			<tr class="file_row">
+		            		</false>
+		            	</check>
+			            	<check if="{{ strrchr(@IMAGE,'#')  == '#true' }}">
+			            		<true>
+			            			<td><a data-imagelightbox="gallery" href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#true','',@IMAGE) }}" target="_blank" class="tooltipped lightbox" data-position="right" data-delay="25" data-tooltip="Vorschau in Lightbox"><img src="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#true','',@IMAGE) }}" alt="{{ str_replace('#true','',@IMAGE) }}" title="{{ str_replace('#true','',@IMAGE) }}" style="max-height: 35px;"></a></td>		
+			            		</true>
+			            		<false>
+			            			<td><a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#false','',@IMAGE) }}" target="_blank" class="tooltipped" data-position="right" data-delay="25" data-tooltip="Vorschau">{{ str_replace('#false','',@IMAGE) }}</a></td>
+			            		</false>
+			            	</check>
 			                <td><small>{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @IMAGE }}</small></td>
 			                <td class="center-align"><nobr>
 			                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/delete/{{ @IMAGE }}" data-position="left" data-delay="25" data-tooltip="Datei ''{{ @IMAGE }}'' l&ouml;schen" class="deleter tooltipped waves-effect waves-light btn-small"><i class="mdi-action-delete"></i></a>
 			                </nobr></td>
 			            </tr>
 			        </repeat>
-				</true>
-			</check>
-			<check if="{{ @FILES }}">
-				<true>
-		            <repeat group="{{ @FILES }}" value="{{ @FILE }}">
-			            <tr class="file_row">
-			                <td>{{ @FILE }}</td>
-			                <td>{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @FILE }}</td>
-			                <td class="center-align"><nobr>
-			                	<a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @FILE }}" target="_blank" data-position="left" data-delay="25" data-tooltip="Vorschau f&uuml;r Datei ''{{ @FILE }}''" class="tooltipped waves-effect waves-light btn-small"><i class="mdi-action-aspect-ratio"></i></a>
-			                	&#160;
-			                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/delete/{{ @FILE }}" data-position="left" data-delay="25" data-tooltip="Datei ''{{ @FILE }}'' l&ouml;schen" class="deleter tooltipped waves-effect waves-light btn-small"><i class="mdi-action-delete"></i></a>
-			                </nobr></td>
-			            </tr>
-			        </repeat>
-				</true>
-			</check>
-	    </tbody>
-	</table>
+		    	</tbody>
+			</table>
+		</true>
+	</check>
+	<check if="{{ @SHOW_PAGINATION }} == 'true'">
+		<true>
+			<div class="row">
+				<div class="col s12 center-align">
+					{{ html_entity_decode(@PAGINATION_STRING) }}
+				</div>
+			</div>
+		</true>
+	</check>
 	<div class="row"><div class="col s12 center-align"><p><small><a href="http://phaziz.com" target="_blank">ConstructrCMS Version {{ @CONSTRUCTR_VERSION }}</small></a></p></div></div>
 	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/jquery/jquery-2.1.4.min.js"></script>
 	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/js/materialize.min.js"></script>

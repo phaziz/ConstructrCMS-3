@@ -3,7 +3,7 @@ Constructr CMS 3.0
 
 ConstructrCMS (<a href="http://constructr-cms.org">http://constructr-cms.org</a>) based on FatFree-Framework, Materialize CSS, MySQL/PDO, jQuery/Javascript and Passion!
 
-That's it for now (Version 3.0 / 2015-08-13):
+That's it for now (Version 3.0 / 2015-08-14):
 
 	- FrontEndCache-System (automatic, File based)
 	- Page-Management
@@ -12,7 +12,7 @@ That's it for now (Version 3.0 / 2015-08-13):
 	- Markdown Content-Management with Live-Preview
 	- Create, edit, re-order/order, activate/deavtivate and delete Content-Elements
 	- EASY PHP-Templates
-	- Asset-Management (Uploads / multiple Uploads) with Filter and Live-Preview and Lightbox
+	- Asset-Management (Uploads / multiple Uploads) with Filter and Live-Preview and Lightbox and Pagination
 	- Add, edit, delete, Uploads
 	- User Management
 	- Create, edit, delete User-Accounts
@@ -25,8 +25,27 @@ That's it for now (Version 3.0 / 2015-08-13):
 
 	- VISIT THE INSTALLER AT http://yourdomain.tld/CONSTRUCTR-CMS-SETUP/
 
+###UPDATE:
+
+	- BACKUP YOUR DATABASE AND WEBSPACE
+	- BACKUP - via FTP - YOUR: 
+		- ROOT/CONSTRUCTR-CMS/CONFIG/constructr_config.json
+		- ROOT/THEMES
+		- ROOT/UPLOADS
+	- DOWNLOAD THE LATEST CONSTRUCTR-CMS ZIP at GitHub
+	- UNZIP AND UPLOAD (OVERWRITE) TO YOUR WEBSERVER
+	- UPLOAD YOUR BACKUP:
+		- ROOT/CONSTRUCTR-CMS/CONFIG/constructr_config.json
+		- ROOT/THEMES
+		- ROOT/UPLOADS
+	- DELETE THE FOLDER CONSTRUCTR-CMS-SETUP
+	- VISIT THE UPDATER AT http://yourdomain.tld/CONSTRUCTR-UPDATER/
+	- DELETE THE FOLDER ROOT/CONSTRUCTR-UPDATER
+	- THAT'S IT!
+
 ### CHANGELOG
-	
+
+	- 2015-08-14 Paginated-View in Uploads
 	- 2015-08-13 2-Step Login
 	- 2015-08-11 Better URL Slug
 	- 2015-08-07 Little Improvements and UI-Update

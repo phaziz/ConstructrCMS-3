@@ -21,6 +21,7 @@
 	$APP->set('CONSTRUCTR_LOG', $CONSTRUCTR_LOG = new \Log('CONSTRUCTR-CMS/LOGFILES/'.date('Y-m-d').'-constructr.txt'));
 	$APP->set('CONSTRUCTR_FE_CACHE', __DIR__.'/CONSTRUCTR-CMS/CACHE/');
 	$APP->set('TEMPLATES',$APP->get('CONSTRUCTR_BASE_URL').'/THEMES/');
+	$APP->set('UPLOADS_LIST_PAGINATION',5);
 	$APP->set('CONSTRUCTR_CACHE',true);
 
     try{
