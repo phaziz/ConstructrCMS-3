@@ -79,7 +79,12 @@
 
             while($FILE=readdir($H)){
                 if($FILE != '.' && $FILE != '..'){
-                    $PAGINATION_FILES[$i]=$FILE;
+					$FT=strtolower( strrchr( $FILE, '.' ) );
+					if( $FT=='.jpg' || $FT=='.jpeg' || $FT=='.gif' || $FT=='.png' || $FT=='.svg' ){
+						$PAGINATION_FILES[$i] = $FILE . '#true';
+					} else {
+						$PAGINATION_FILES[$i] = $FILE . '#false';
+					}
                     $i++;
                 }
             }
@@ -158,7 +163,12 @@
 
             while($FILE=readdir($H)){
                 if($FILE != '.' && $FILE != '..'){
-                    $PAGINATION_FILES[$i]=$FILE;
+					$FT=strtolower( strrchr( $FILE, '.' ) );
+					if( $FT=='.jpg' || $FT=='.jpeg' || $FT=='.gif' || $FT=='.png' || $FT=='.svg' ){
+						$PAGINATION_FILES[$i] = $FILE . '#true';
+					} else {
+						$PAGINATION_FILES[$i] = $FILE . '#false';
+					}
                     $i++;
                 }
             }
