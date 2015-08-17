@@ -17,7 +17,7 @@
     $APP->route('GET  /constructr/updated-user-credentials [sync]', 'ConstructrBase->updated_user_credentials');
 
     $APP->route('GET  /constructr/uploads [sync]', 'ConstructrUploads->uploads_init');
-	$APP->route('GET  /constructr/uploads/@offset [sync]', 'ConstructrUploads->uploads_init_per_page');
+	$APP->route('GET  /constructr/uploads/@offset [sync]', 'ConstructrUploads->uploads_init');
     $APP->route('GET  /constructr/uploads/new [sync]', 'ConstructrUploads->uploads_new');
     $APP->route('POST /constructr/uploads/new [sync]', 'ConstructrUploads->uploads_new_verify');
     $APP->route('GET  /constructr/uploads/delete/@file [sync]', 'ConstructrUploads->uploads_delete_file');

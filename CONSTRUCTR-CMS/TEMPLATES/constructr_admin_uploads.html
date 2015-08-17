@@ -45,8 +45,8 @@
 		            </tr>
 		        </thead>
 		        <tbody>
-		            <repeat group="{{ @PAGINATION_FILES }}" value="{{ @IMAGE }}">
-		            	<check if="{{ strrchr(@IMAGE,'#')  == '#true' }}">
+		            <repeat group="{{ @PAGINATION_FILES }}" value="{{ @PAGINATION_FILE }}">
+		            	<check if="{{ strrchr(@PAGINATION_FILE,'#')  == '#true' }}">
 		            		<true>
 		            			<tr class="image_row">
 		            		</true>
@@ -54,17 +54,17 @@
 		            			<tr class="file_row">
 		            		</false>
 		            	</check>
-			            	<check if="{{ strrchr(@IMAGE,'#')  == '#true' }}">
+			            	<check if="{{ strrchr(@PAGINATION_FILE,'#')  == '#true' }}">
 			            		<true>
-			            			<td><a data-imagelightbox="gallery" href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#true','',@IMAGE) }}" target="_blank" class="tooltipped lightbox" data-position="right" data-delay="25" data-tooltip="Vorschau in Lightbox"><img src="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#true','',@IMAGE) }}" alt="{{ str_replace('#true','',@IMAGE) }}" title="{{ str_replace('#true','',@IMAGE) }}" style="max-height: 35px;"></a></td>		
+			            			<td><a data-imagelightbox="gallery" href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#true','',@PAGINATION_FILE) }}" target="_blank" class="tooltipped lightbox" data-position="right" data-delay="25" data-tooltip="Vorschau in Lightbox"><img src="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#true','',@PAGINATION_FILE) }}" alt="{{ str_replace('#true','',@PAGINATION_FILE) }}" title="{{ str_replace('#true','',@PAGINATION_FILE) }}" style="max-height: 35px;"></a></td>		
 			            		</true>
 			            		<false>
-			            			<td><a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#false','',@IMAGE) }}" target="_blank" class="tooltipped" data-position="right" data-delay="25" data-tooltip="Vorschau">{{ str_replace('#false','',@IMAGE) }}</a></td>
+			            			<td><a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#false','',@PAGINATION_FILE) }}" target="_blank" class="tooltipped" data-position="right" data-delay="25" data-tooltip="Vorschau">{{ str_replace('#false','',@PAGINATION_FILE) }}</a></td>
 			            		</false>
 			            	</check>
-			                <td><small>{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @IMAGE }}</small></td>
+			                <td><small>{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @PAGINATION_FILE }}</small></td>
 			                <td class="center-align"><nobr>
-			                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/delete/{{ @IMAGE }}" data-position="left" data-delay="25" data-tooltip="Datei ''{{ @IMAGE }}'' l&ouml;schen" class="deleter tooltipped waves-effect waves-light btn-small"><i class="mdi-action-delete"></i></a>
+			                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/delete/{{ @PAGINATION_FILE }}" data-position="left" data-delay="25" data-tooltip="Datei ''{{ @PAGINATION_FILE }}'' l&ouml;schen" class="deleter tooltipped waves-effect waves-light btn-small"><i class="mdi-action-delete"></i></a>
 			                </nobr></td>
 			            </tr>
 			        </repeat>
