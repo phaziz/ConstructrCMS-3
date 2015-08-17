@@ -38,7 +38,7 @@ if (isset($_POST['setup'])) {
 $NL = "\n";
 $_CONFIG_FILE_CONTENT = '
 {
-"CONSTRUCTR_VERSION":"3.0 / 2015-08-17",
+"CONSTRUCTR_VERSION":"3.0 / 2015-08-13",
 "DATABASE_HOSTNAME":"'.$_POST['db_host'].'",
 "DATABASE_DATABASE":"'.$_POST['db_database'].'",
 "DATABASE_PORT":3306,
@@ -59,16 +59,16 @@ $_CONFIG_FILE_CONTENT = '
         $DBCON = new PDO('mysql:host='.$_POST['db_host'].';dbname='.$_POST['db_database'], $_POST['db_user'], $_POST['db_password'], array(PDO::ATTR_PERSISTENT => true));
         $DBCON->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $QUERY = "
-
 CREATE TABLE `constructr_backenduser` (
   `constructr_user_id` int(25) NOT NULL,
-  `constructr_user_username` varchar(255) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
-  `constructr_user_password` varchar(255) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
-  `constructr_user_factor` varchar(255) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
-  `constructr_user_email` varchar(255) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
+  `constructr_user_username` varchar(255) NOT NULL,
+  `constructr_user_password` varchar(255) NOT NULL,
+  `constructr_user_salt` varchar(255) NOT NULL DEFAULT '',
+  `constructr_user_factor` varchar(255) NOT NULL,
+  `constructr_user_email` varchar(255) NOT NULL,
   `constructr_user_last_login` datetime NOT NULL,
   `constructr_user_active` int(1) NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `constructr_backenduser` (`constructr_user_id`, `constructr_user_username`, `constructr_user_password`, `constructr_user_factor`, `constructr_user_email`, `constructr_user_last_login`, `constructr_user_active`) VALUES
 (1, :USERNAME, :PASSWORD, '', :EMAIL, :LAST_LOGIN, 1);

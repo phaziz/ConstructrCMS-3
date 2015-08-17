@@ -41,10 +41,12 @@ That's it for now (Version 3.0 / 2015-08-17):
 	- DELETE THE FOLDER CONSTRUCTR-CMS-SETUP
 	- VISIT THE UPDATER AT http://yourdomain.tld/CONSTRUCTR-UPDATER/
 	- DELETE THE FOLDER ROOT/CONSTRUCTR-UPDATER
-	- THAT'S IT!
+	- THAT'S IT - LOGIN!
 
 ### CHANGELOG
 
+	- 2015-08-17 New UserSalt with every Login - Improvement
+		- Take care of the Upgrade Instructions above - The database tables need to be updated!
 	- 2015-08-17 Paginated-View in Uploads - Bugfix
 	- 2015-08-14 Paginated-View in Uploads
 	- 2015-08-13 2-Step Login

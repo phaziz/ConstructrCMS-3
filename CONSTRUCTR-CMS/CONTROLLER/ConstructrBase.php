@@ -62,7 +62,7 @@
             $POST_CSRF = filter_var($APP->get('POST.csrf'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $POST_ADDITIVE = filter_var($APP->get('POST.csrf_additive'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $POST_TRIPPLE_ADDITIVE = filter_var($APP->get('POST.csrf_tripple_additive'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $POST_USERNAME = filter_var($APP->get('POST.username'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $POST_USERNAME = trim($APP->get('POST.username'));
 			$EMAIL = $APP->get('POST.email');
 
             if ($EMAIL != ''){
@@ -96,7 +96,8 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');
             }
 
-            if ($POST_USERNAME != ''){
+            if ($POST_USERNAME != '')
+            {
             	$APP->set('SESSION.post_username',$POST_USERNAME);
                 $APP->set('LOGIN_USER', $APP->get('DBCON')->exec(
                         array('SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME LIMIT 1;'),
@@ -109,7 +110,15 @@
                     )
                 );
 
-                $LOGIN_USER = $APP->get('LOGIN_USER');
+                $LOGIN_USER=$APP->get('LOGIN_USER');
+				$OLD_USER_SALT = $APP->get('LOGIN_USER.0.constructr_user_salt');
+
+				if($OLD_USER_SALT == '')
+				{
+					$OLD_USER_SALT = $APP->get('CONSTRUCTR_USER_SALT');
+				}
+
+				$APP->set('SESSION.OLD_USER_SALT',$OLD_USER_SALT);
 
                 if (count($LOGIN_USER) == 1){
                 	$APP->set('SESSION.login_step_1', 'true');
@@ -160,7 +169,7 @@
             $POST_ADDITIVE = filter_var($APP->get('POST.csrf_additive'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $POST_TRIPPLE_ADDITIVE = filter_var($APP->get('POST.csrf_tripple_additive'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $POST_USERNAME = $APP->get('SESSION.post_username');
-            $POST_PASSWORD = crypt(filter_var($APP->get('POST.password'), FILTER_SANITIZE_FULL_SPECIAL_CHARS), $APP->get('CONSTRUCTR_USER_SALT'));
+			$POST_PASSWORD = crypt(trim($APP->get('POST.password')), $APP->get('SESSION.OLD_USER_SALT'));
 			$EMAIL = $APP->get('POST.email');
 
             if ($EMAIL != ''){
@@ -207,17 +216,23 @@
                     )
                 );
 
+	            $APP->clear('SESSION.OLD_USER_SALT');
                 $LOGIN_USER = $APP->get('LOGIN_USER');
+				$COUNTR = count($LOGIN_USER);
+				$NEW_SALT = '$2a$10$' . strtr(base64_encode(mcrypt_create_iv(50, MCRYPT_DEV_URANDOM)), '+', '.') . '$';
+				$NEW_PASSWORD_HASH = crypt($APP->get('POST.password'),$NEW_SALT);
 
-                if (count($LOGIN_USER) == 1){
+              	if ($COUNTR == 1){
                     $APP->set('UPDATE_LOGIN_USER', $APP->get('DBCON')->exec(
-                            array('UPDATE constructr_backenduser SET constructr_user_last_login=:LAST_LOGIN WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;',),
+                            array('UPDATE constructr_backenduser SET constructr_user_password=:NEW_PASSWORD_HASH, constructr_user_last_login=:LAST_LOGIN, constructr_user_salt=:NEW_SALT WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;',),
                             array(
                                 array(
                                     ':ACTIVE'=>1,
                                     ':LAST_LOGIN'=>date('Y-m-d H:i:s'),
                                     ':USERNAME'=>$POST_USERNAME,
-                                    ':PASSWORD'=>$POST_PASSWORD
+                                    ':PASSWORD'=>$POST_PASSWORD,
+                                    ':NEW_PASSWORD_HASH'=>$NEW_PASSWORD_HASH,
+                                    ':NEW_SALT'=>$NEW_SALT
                                 )
                             )
                         )
@@ -225,7 +240,7 @@
 
                     $APP->set('SESSION.login', 'true');
 					$APP->set('SESSION.username', $POST_USERNAME);
-                    $APP->set('SESSION.password', $POST_PASSWORD);
+                    $APP->set('SESSION.password', $NEW_PASSWORD_HASH);
 
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/');
                 } else {
