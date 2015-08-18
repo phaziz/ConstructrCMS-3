@@ -38,12 +38,13 @@ if (isset($_POST['setup'])) {
 $NL = "\n";
 $_CONFIG_FILE_CONTENT = '
 {
-"CONSTRUCTR_VERSION":"3.0 / 2015-08-13",
+"CONSTRUCTR_VERSION":"3.0 / 2015-08-18",
 "DATABASE_HOSTNAME":"'.$_POST['db_host'].'",
 "DATABASE_DATABASE":"'.$_POST['db_database'].'",
 "DATABASE_PORT":3306,
 "DATABASE_USERNAME":"'.$_POST['db_user'].'",
 "DATABASE_PASSWORD":"'.$_POST['db_password'].'",
+"CONSTRUCTR_POSTMASTER_EMAIL":"'.$_POST['contact_email'].'",
 "CONSTRUCTR_USER_SALT":"$2y$10$'.$_POST['salt1'].''.$_POST['salt2'].''.$_POST['salt3'].'$",
 "CONSTRUCTR_BASE_URL":"'.$_POST['base_url'].'",
 "CONSTRUCTR_REPLACE_BASE_URL":"'.$_POST['base_url'].'/"
@@ -277,6 +278,14 @@ ALTER TABLE `constructr_user_rights`
 					<div class="col-sm-10">
 						<input class="form-control" type="email" name="admin_email" id="admin_email" value="" size="50" required="required" placeholder="eMail Administrator Account">
 						<small><span class="helpBlock" class="help-block">Die gewünschte eMail-Adresse für das Administrator-Account.</span></small>
+						<br><br><br>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="admin_email" class="col-sm-2 control-label">eMail Kontaktformulare:</label>
+					<div class="col-sm-10">
+						<input class="form-control" type="email" name="contact_email" id="contact_email" value="" size="50" required="required" placeholder="eMail Kontaktformulare">
+						<small><span class="helpBlock" class="help-block">Die gewünschte eMail-Adresse für Kontaktformulare.</span></small>
 						<br><br><br>
 					</div>
 				</div>

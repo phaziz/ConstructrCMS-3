@@ -11,6 +11,7 @@ That's it for now (Version 3.0 / 2015-08-18):
 	- Page specific CSS- and JS-Content and Metadata
 	- Markdown Content-Management with Live-Preview
 	- Create, edit, re-order/order, activate/deavtivate and delete Content-Elements
+	- ContactForm Handling via ConstructrPostmaster
 	- EASY PHP-Templates
 	- Asset-Management (Uploads / multiple Uploads) with Filter and Live-Preview and Lightbox and Pagination
 	- Add, edit, delete, Uploads
@@ -44,7 +45,8 @@ That's it for now (Version 3.0 / 2015-08-18):
 	- THAT'S IT - LOGIN!
 
 ### CHANGELOG
-	
+
+	- 2015-08-18 ConstructrPostmaster integration - Improvement
 	- 2015-08-18 New UserSalt with every New/Edited UserAccount - Improvement
 	- 2015-08-17 New UserSalt with every Login - Improvement
 		- Take care of the Upgrade Instructions above - The database tables need to be updated!
