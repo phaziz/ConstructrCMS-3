@@ -3,7 +3,7 @@ Constructr CMS 3.0
 
 ConstructrCMS (<a href="http://constructr-cms.org">http://constructr-cms.org</a>) based on FatFree-Framework, Materialize CSS, MySQL/PDO, jQuery/Javascript and Passion!
 
-That's it for now (Version 3.0 / 2015-08-17):
+That's it for now (Version 3.0 / 2015-08-18):
 
 	- FrontEndCache-System (automatic, File based)
 	- Page-Management
@@ -44,7 +44,8 @@ That's it for now (Version 3.0 / 2015-08-17):
 	- THAT'S IT - LOGIN!
 
 ### CHANGELOG
-
+	
+	- 2015-08-18 New UserSalt with every New/Edited UserAccount - Improvement
 	- 2015-08-17 New UserSalt with every Login - Improvement
 		- Take care of the Upgrade Instructions above - The database tables need to be updated!
 	- 2015-08-17 Paginated-View in Uploads - Bugfix

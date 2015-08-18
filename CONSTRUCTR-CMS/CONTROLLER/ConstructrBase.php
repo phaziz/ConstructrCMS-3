@@ -133,7 +133,6 @@
 			{
                 $APP->set('SESSION.login', 'false');
                 $APP->get('CONSTRUCTR_LOG')->write('LOGIN USER CREDENTIALS DONT\'T MATCH - EMPTY USERNAME');
-
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');				
 			}
         }
@@ -241,12 +240,10 @@
                     $APP->set('SESSION.login', 'true');
 					$APP->set('SESSION.username', $POST_USERNAME);
                     $APP->set('SESSION.password', $NEW_PASSWORD_HASH);
-
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/');
                 } else {
                     $APP->set('SESSION.login', 'false');
                     $APP->get('CONSTRUCTR_LOG')->write('LOGIN USER CREDENTIALS DONT\'T MATCH - USERNAME: '.$POST_USERNAME);
-
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');
                 }
             }
@@ -309,7 +306,6 @@
 	            }
 	            closedir($handle);
 	        }
-	
 	        return self::flatten_array($files);
 	    }
 

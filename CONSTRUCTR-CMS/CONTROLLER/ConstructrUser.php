@@ -121,7 +121,6 @@
             );
 
 			$APP->set('USER_RIGHTS_COUNTR', count($APP->get('USER_RIGHTS')));
-
 			$CONSTRUCTR_USER_RIGHTS=$APP->get('ALL_CONSTRUCTR_USER_RIGHTS');
 			$THIS_USER_RIGHTS=array();
 
@@ -251,9 +250,10 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
             }
 
+			$NEW_SALT = '$2a$10$' . strtr(base64_encode(mcrypt_create_iv(50, MCRYPT_DEV_URANDOM)), '+', '.') . '$';
             $USER_NAME=filter_var($APP->get('POST.user_name'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $USER_EMAIL=filter_var($APP->get('POST.user_email'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $USER_PASSWORD=crypt(filter_var($APP->get('POST.user_password'), FILTER_SANITIZE_FULL_SPECIAL_CHARS), $APP->get('CONSTRUCTR_USER_SALT'));
+            $USER_PASSWORD=crypt($APP->get('POST.user_password'), $NEW_SALT);
 
             $APP->set('USER_EXISTS', $APP->get('DBCON')->exec(
                     array('SELECT * FROM constructr_backenduser WHERE constructr_user_username=:USER_NAME LIMIT 1;'),
@@ -269,12 +269,13 @@
             }
 
             $APP->set('CREATE_USER', $APP->get('DBCON')->exec(
-                    array('INSERT INTO constructr_backenduser SET constructr_user_username=:USER_NAME, constructr_user_email=:USER_EMAIL, constructr_user_password=:USER_PASSWORD, constructr_user_active=:USER_ACTIVE;'),
+                    array('INSERT INTO constructr_backenduser SET constructr_user_username=:USER_NAME, constructr_user_email=:USER_EMAIL, constructr_user_password=:USER_PASSWORD, constructr_user_salt=:USER_SALT, constructr_user_active=:USER_ACTIVE;'),
                     array(
                         array(
                             ':USER_NAME'=>$USER_NAME,
                             ':USER_EMAIL'=>$USER_EMAIL,
                             ':USER_PASSWORD'=>$USER_PASSWORD,
+                            ':USER_SALT'=>$NEW_SALT,
                             ':USER_ACTIVE'=>1
                         )
                     )
@@ -415,7 +416,8 @@
             $USER_ID=filter_var($APP->get('POST.user_id'), FILTER_SANITIZE_NUMBER_INT);
             $USER_NAME=filter_var($APP->get('POST.user_name'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $USER_EMAIL=filter_var($APP->get('POST.user_email'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $USER_PASSWORD=crypt(filter_var($APP->get('POST.user_password'), FILTER_SANITIZE_FULL_SPECIAL_CHARS), $APP->get('CONSTRUCTR_USER_SALT'));
+			$NEW_SALT = '$2a$10$' . strtr(base64_encode(mcrypt_create_iv(50, MCRYPT_DEV_URANDOM)), '+', '.') . '$';
+            $USER_PASSWORD=crypt($APP->get('POST.user_password'), $NEW_SALT);
 
             $APP->set('USER_EXISTS', $APP->get('DBCON')->exec(
                     array('SELECT * FROM constructr_backenduser WHERE constructr_user_username=:USER_NAME LIMIT 1;'),
@@ -431,13 +433,14 @@
             }
 
             $APP->set('UPDATE_USER', $APP->get('DBCON')->exec(
-                    array('UPDATE constructr_backenduser SET constructr_user_username=:USER_NAME, constructr_user_email=:USER_EMAIL, constructr_user_password=:USER_PASSWORD WHERE constructr_user_id=:USER_ID LIMIT 1;'),
+                    array('UPDATE constructr_backenduser SET constructr_user_username=:USER_NAME, constructr_user_email=:USER_EMAIL, constructr_user_password=:USER_PASSWORD, constructr_user_salt=:USER_SALT WHERE constructr_user_id=:USER_ID LIMIT 1;'),
                     array(
                         array(
                             ':USER_ID'=>$USER_ID,
                             ':USER_NAME'=>$USER_NAME,
                             ':USER_EMAIL'=>$USER_EMAIL,
-                            ':USER_PASSWORD'=>$USER_PASSWORD
+                            ':USER_PASSWORD'=>$USER_PASSWORD,
+                            ':USER_SALT'=>$NEW_SALT
                         )
                     )
                 )
