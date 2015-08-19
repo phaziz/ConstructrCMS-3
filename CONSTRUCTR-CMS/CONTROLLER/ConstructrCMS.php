@@ -99,27 +99,6 @@
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin.html', 'text/html');
         }
 
-		public function page_management_drag_n_drop($APP)
-		{
-            $APP->set('MODUL_ID', 30);
-            $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
-
-            if ($USER_RIGHTS==false){
-                $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
-                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
-            }
-
-            $APP->set('PAGES', $APP->get('DBCON')->exec(array('SELECT * FROM constructr_pages ORDER BY constructr_pages_order ASC;'),array()));
-
-			if($APP->get('PAGES')){
-				$APP->set('NAVIGATION',self::constructrNavGen($APP->get('CONSTRUCTR_BASE_URL'),$APP->get('PAGES')));
- 			} else {
-				$APP->set('NAVIGATION','');
-			}
-
-            echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_pagemanagement_drag_n_drop.html', 'text/html');
-		}
-
 		public static function constructrNavGen($BASE_URL,$PAGES, $MOTHER=0){
 	        $TREE='';
 	        $TREE='<ul class="area-dragable" id="draggables">';
@@ -686,8 +665,13 @@
 
 			$WHAT=filter_var($APP->get('PARAMS.what'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 			$PAGE_ID=filter_var($APP->get('PARAMS.page_id'), FILTER_SANITIZE_NUMBER_INT);
+			$PAGE_ORDER=filter_var($APP->get('PARAMS.page_order'), FILTER_SANITIZE_NUMBER_INT);
 
-			if($WHAT != '' && $PAGE_ID != ''){
+			if($PAGE_ORDER == 1){
+				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?edit=no-success');
+			}
+
+			if($WHAT != '' && $PAGE_ID != '' && $PAGE_ORDER != ''){
 				if($WHAT=='on'){
 	                $APP->set('UPDATER', $APP->get('DBCON')->exec(
 	                        array('UPDATE constructr_pages SET constructr_pages_nav_visible=1 WHERE constructr_pages_id=:PAGE_ID LIMIT 1;'),
@@ -708,7 +692,7 @@
 	                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?edit=success');
 				}
 			} else {
-				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?edit=success');
+				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?edit=no-success');
 			}
 		}
 
@@ -738,6 +722,10 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?move=no-success');
             }
 
+			if($MOVE_PAGE_ORDER == 1){
+				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?move=no-success');
+			}
+
             $TARGET_PAGE_ORDER=($MOVE_PAGE_ORDER - 1);
 
             $APP->set('TARGET_PAGE', $APP->get('DBCON')->exec(
@@ -754,6 +742,10 @@
             } else {
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?move=no-success');
             }
+
+			if($TARGET_PAGE_ORDER == 1){
+				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?move=no-success');
+			}
 
             $APP->set('UPDATR_TARGET_STEP_ONE', $APP->get('DBCON')->exec(
                     array('UPDATE constructr_pages SET constructr_pages_id=:TMP_PAGE_ID, constructr_pages_order=:TMP_PAGE_ORDER, constructr_pages_level=:TMP_PAGE_LEVEL, constructr_pages_mother=:TMP_PAGE_MOTHER, constructr_pages_temp_marker=:TMP_PAGE_MARKER WHERE constructr_pages_id=:TARGET_PAGE_ID LIMIT 1;'),
@@ -863,6 +855,10 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?move=no-success');
             }
 
+			if($MOVE_PAGE_ORDER == 1){
+				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?move=no-success');
+			}
+
             $TARGET_PAGE_ORDER=($MOVE_PAGE_ORDER + 1);
 
             $APP->set('TARGET_PAGE', $APP->get('DBCON')->exec(
@@ -879,6 +875,10 @@
             } else {
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?move=no-success');
             }
+
+			if($TARGET_PAGE_ORDER == 1){
+				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?move=no-success');
+			}
 
             $APP->set('UPDATR_TARGET_STEP_ONE', $APP->get('DBCON')->exec(
                     array('UPDATE constructr_pages SET constructr_pages_id=:TMP_PAGE_ID, constructr_pages_order=:TMP_PAGE_ORDER, constructr_pages_level=:TMP_PAGE_LEVEL, constructr_pages_mother=:TMP_PAGE_MOTHER, constructr_pages_temp_marker=:TMP_PAGE_MARKER WHERE constructr_pages_id=:TARGET_PAGE_ID LIMIT 1;'),

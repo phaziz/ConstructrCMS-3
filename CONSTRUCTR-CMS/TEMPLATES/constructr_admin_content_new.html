@@ -23,11 +23,6 @@
 	    <input type="hidden" name="new_position" value="{{ @NEW_POSITION }}">
 	    <input type="hidden" name="template_file" value="{{ @TEMPLATE_FILE }}">
         <div class="row">
-	        <div class="input-field col s6" id="entering">
-	            <textarea id="new_content_raw" name="new_content_raw" class="materialize-textarea" autofocus required="required" style="max-height: 500px; overflow: auto;"></textarea>
-	            <label for="new_content_raw">Inhalt (Markdown):</label>
-	        </div>
-	        <div class="input-field col s6" id="live-preview" style="max-height:500px;overflow:auto;padding: 10px 10px 10px 10px;"></div>
 	    	<check if="{{ @CONSTRUCTR_TPL_MAPPINGS }}">
 	    		<true>
 	    			<div class="input-field col s12">
@@ -44,6 +39,12 @@
 					<input type="hidden" name="new_content_mapping=" value="">
 	    		</false>
 	    	</check>
+			<br><br>
+	        <div class="input-field col s6" id="entering">
+	            <textarea id="new_content_raw" name="new_content_raw" class="materialize-textarea" autofocus required="required" style="min-height: 300px;max-height: 500px; overflow: auto;"></textarea>
+	            <label for="new_content_raw">Inhalt (Markdown):</label>
+	        </div>
+	        <div class="input-field col s6" id="live-preview" style="min-height:300px;max-height:500px;overflow:auto;padding: 10px 10px 10px 10px;"></div>
             <div class="input-field col s12">
                 <button class="btn waves-effect waves-light" type="submit" name="action">Neuen Inhalt speichern</button>
                 <button class="btn waves-effect waves-light red" id="esc" type="submit" name="action">Abbrechen</button>

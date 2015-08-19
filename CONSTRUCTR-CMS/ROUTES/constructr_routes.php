@@ -31,7 +31,7 @@
     $APP->route('GET  /constructr/pagemanagement/move-up/@page_id [sync]', 'ConstructrCMS->page_management_move_up');
     $APP->route('GET  /constructr/pagemanagement/move-down/@page_id [sync]', 'ConstructrCMS->page_management_move_down');
     $APP->route('GET  /constructr/pagemanagement/content/@page_id [sync]', 'ConstructrCMS->page_management_move_down');
-	$APP->route('GET  /constructr/pagemanagement/visibility/@what/@page_id [sync]', 'ConstructrCMS->page_management_change_visibility');
+	$APP->route('GET  /constructr/pagemanagement/visibility/@what/@page_id/@page_order [sync]', 'ConstructrCMS->page_management_change_visibility');
 	$APP->route('POST /constructr/pagemanagement/slug [ajax]', 'ConstructrCMS->page_management_make_slug');
 
     $APP->route('GET  /constructr/content/@page_id [sync]', 'ConstructrContent->content_init');
@@ -52,3 +52,5 @@
     $APP->route('POST /constructr/usermanagement/edit [sync]', 'ConstructrUser->user_management_edit_verify');
 	$APP->route('GET  /constructr/usermanagement/edit-rights/@user_id [sync]', 'ConstructrUser->user_management_edit_rights');
 	$APP->route('POST /constructr/usermanagement/update-rights [ajax]', 'ConstructrUser->user_management_update_rights');
+	$APP->route('GET /constructr/usermanagement/activate/@user_id [sync]', 'ConstructrUser->user_management_activate');
+	$APP->route('GET /constructr/usermanagement/deactivate/@user_id [sync]', 'ConstructrUser->user_management_deactivate');

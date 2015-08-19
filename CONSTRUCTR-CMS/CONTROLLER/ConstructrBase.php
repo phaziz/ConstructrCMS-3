@@ -253,6 +253,21 @@
         {
             $APP->get('CONSTRUCTR_LOG')->write('LOGIN_ERROR!');
 
+            $APP->clear('SESSION.post_username');
+			$APP->clear('SESSION.username');
+            $APP->clear('SESSION.password');
+            $APP->clear('SESSION.login');
+
+            $_SESSION = array();
+
+            if (ini_get("session.use_cookies")){
+                $params = session_get_cookie_params();
+                setcookie(session_name(), '', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
+            }
+
+            session_destroy();
+            session_regenerate_id(true);
+
             $CSRF = self::csrf();
             $APP->set('CSRF', $CSRF);
             $APP->set('SESSION.csrf', $CSRF);
@@ -335,45 +350,40 @@
 
             if ($USERNAME != ''){
                 $APP->set('USER_BASE_DATA', $APP->get('DBCON')->exec(
-                        array('SELECT * FROM constructr_backenduser WHERE constructr_user_username=:USERNAME AND constructr_user_active=:ACTIVE LIMIT 1;',),
-                        array(
-                            array(
-                                ':USERNAME'=>$USERNAME,
-                                ':ACTIVE'=>1
-                            )
-                        )
+                        array('SELECT * FROM constructr_backenduser WHERE constructr_user_username=:USERNAME AND constructr_user_active="1" LIMIT 1;',),
+                        array(array(':USERNAME'=>$USERNAME))
                     )
                 );
 
                 $USER = $APP->get('USER_BASE_DATA');
 
-                if (count($USER) == 1){
+                if (count($USER) == 1) {
                     $TMP_PASSWORD = self::csrf();
-                    $APP->set('NEW_PASSWORD', $TMP_PASSWORD);
 
-                    if ($APP->get('NEW_PASSWORD') != ''){
-                        $NEW_CRYPTED_PASSWORD = crypt(filter_var($APP->get('NEW_PASSWORD'), FILTER_SANITIZE_FULL_SPECIAL_CHARS), $APP->get('CONSTRUCTR_USER_SALT'));
+                    if ($TMP_PASSWORD != ''){
+						$NEW_SALT = '$2a$10$' . strtr(base64_encode(mcrypt_create_iv(50, MCRYPT_DEV_URANDOM)), '+', '.') . '$';
+                        $NEW_CRYPTED_PASSWORD = crypt($TMP_PASSWORD, $NEW_SALT);
 
                         $APP->set('USER', $APP->get('DBCON')->exec(
-                                array('UPDATE constructr_backenduser SET constructr_user_password=:NEW_CRYPTED_PASSWORD WHERE constructr_user_username=:USERNAME AND constructr_user_active=:ACTIVE LIMIT 1;',),
+                                array('UPDATE constructr_backenduser SET constructr_user_password=:NEW_CRYPTED_PASSWORD, constructr_user_salt=:NEW_SALT WHERE constructr_user_username=:USERNAME AND constructr_user_active="1" LIMIT 1;',),
                                 array(
                                     array(
                                         ':USERNAME'=>$USERNAME,
                                         ':NEW_CRYPTED_PASSWORD'=>$NEW_CRYPTED_PASSWORD,
-                                        ':ACTIVE'=>1
+                                        ':NEW_SALT'=>$NEW_SALT
                                     )
                                 )
                             )
                         );
 
-                        @mail($APP->get('USER_BASE_DATA.0.constructr_user_email'), 'Constructr Password-Reset', date('d.m.Y, H:i').' Uhr //  New password for you: '.$APP->get('NEW_PASSWORD').' - update as soon as possible! ' . $APP->get('CONSTRUCTR_BASE_URL'));
+                        mail($APP->get('USER_BASE_DATA.0.constructr_user_email'), 'Constructr Password-Reset', date('d.m.Y, H:i').' Uhr //  New password for you: '.$TMP_PASSWORD.' - update as soon as possible! ' . $APP->get('CONSTRUCTR_BASE_URL'));
 
                         $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/updated-user-credentials');
                     } else {
-                        $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');
+                        $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error#1');
                     }
                 } else {
-                    $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');
+                    $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error#2');
                 }
             }
         }

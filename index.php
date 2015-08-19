@@ -23,7 +23,7 @@
 	$APP->set('CONSTRUCTR_FE_CACHE', __DIR__.'/CONSTRUCTR-CMS/CACHE/');
 	$APP->set('TEMPLATES',$APP->get('CONSTRUCTR_BASE_URL').'/THEMES/');
 	$APP->set('UPLOADS_LIST_PAGINATION',5);
-	$APP->set('CONSTRUCTR_CACHE',false);
+	$APP->set('CONSTRUCTR_CACHE',true);
 
     try{
     	$APP->set('DBCON',$DBCON=new DB\SQL('mysql:host='.$APP->get('DATABASE_HOSTNAME').';port='.$APP->get('DATABASE_PORT').';dbname='.$APP->get('DATABASE_DATABASE'),$APP->get('DATABASE_USERNAME'),$APP->get('DATABASE_PASSWORD')));
@@ -188,7 +188,7 @@
 			echo $TEMPLATE;
 			die();
 		} else {
-			$APP->get('CONSTRUCTR_LOG')->write('Frontend: 404');
+			$APP->get('CONSTRUCTR_LOG')->write('Frontend: 404 -> ' . $REQUEST);
 			$APP->reroute($APP->get('CONSTRUCTR_BASE_URL'));
 		}
 	} else {

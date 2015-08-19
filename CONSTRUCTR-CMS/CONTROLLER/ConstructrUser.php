@@ -101,6 +101,56 @@
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_usermanagement.html', 'text/html');
         }
 
+		public function user_management_activate($APP)
+		{
+            $APP->set('MODUL_ID', 42);
+            $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
+
+            if ($USER_RIGHTS==false){
+                $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
+            }
+
+            $USER_ID=filter_var($APP->get('PARAMS.user_id'), FILTER_SANITIZE_NUMBER_INT);
+
+			if(isset($USER_ID) && $USER_ID != ''){
+	            $APP->set('UPDATE_CONTENT_MAPPING', $APP->get('DBCON')->exec(
+	                    array('UPDATE constructr_backenduser SET constructr_user_active="1" WHERE constructr_user_id=:USER_ID;'),
+	                    array(array(':USER_ID'=>$USER_ID))
+	                )
+	            );
+
+				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/usermanagement?edit=success');
+			} else {
+				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/usermanagement?edit=no-success');
+			}
+		}
+
+		public function user_management_deactivate($APP)
+		{
+            $APP->set('MODUL_ID', 42);
+            $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'), $APP->get('LOGIN_USER_RIGHTS'));
+
+            if ($USER_RIGHTS==false){
+                $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
+            }
+
+            $USER_ID=filter_var($APP->get('PARAMS.user_id'), FILTER_SANITIZE_NUMBER_INT);
+
+			if(isset($USER_ID) && $USER_ID != ''){
+	            $APP->set('UPDATE_CONTENT_MAPPING', $APP->get('DBCON')->exec(
+	                    array('UPDATE constructr_backenduser SET constructr_user_active="0" WHERE constructr_user_id=:USER_ID;'),
+	                    array(array(':USER_ID'=>$USER_ID))
+	                )
+	            );
+
+				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/usermanagement?edit=success');
+			} else {
+				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/usermanagement?edit=no-success');
+			}
+		}
+
 		public function user_management_edit_rights($APP)
 		{
             $APP->set('MODUL_ID', 44);
