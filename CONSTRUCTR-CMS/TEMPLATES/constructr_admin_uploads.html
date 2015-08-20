@@ -15,16 +15,16 @@
     <div class="row">
         <div class="col s12">
             <p><strong>{{ @FILES_COUNTR }} Uploads</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/new" class="waves-effect waves-light btn"><i class="mdi-content-add-circle right"></i>Neuer Upload</a></p>
-            <check if="{{ @NEW=='success' }}">
+            <check if="{{ @NEW }} == 'success'">
 				<div class="card-panel green darken-3 white-text">Die Datei wurde erfolgreich hochgeladen!</div>
             </check>
-            <check if="{{ @NEW=='no-success' }}">
+            <check if="{{ @NEW }} == 'no-success'">
 				<div class="card-panel red darken-3 white-text">Die Datei konnte nicht hochgeladen werden!</div>
             </check>
-            <check if="{{ @DELETE=='success' }}">
+            <check if="{{ @DELETE }} == 'success'">
 				<div class="card-panel green darken-3 white-text">Die Datei wurde erfolgreich gel&ouml;scht!</div>
             </check>
-            <check if="{{ @DELETE=='no-success' }}">
+            <check if="{{ @DELETE }} == 'no-success'">
 				<div class="card-panel red darken-3 white-text">Die Datei konnte leider nicht gel&ouml;scht werden!</div>
             </check>
 		</div>
@@ -46,7 +46,7 @@
 		        </thead>
 		        <tbody>
 		            <repeat group="{{ @PAGINATION_FILES }}" value="{{ @PAGINATION_FILE }}">
-		            	<check if="{{ strrchr(@PAGINATION_FILE,'#')  == '#true' }}">
+		            	<check if="{{ strrchr(@PAGINATION_FILE,'#') }} == '#true'">
 		            		<true>
 		            			<tr class="image_row">
 		            		</true>
@@ -54,7 +54,7 @@
 		            			<tr class="file_row">
 		            		</false>
 		            	</check>
-			            	<check if="{{ strrchr(@PAGINATION_FILE,'#')  == '#true' }}">
+			            	<check if="{{ strrchr(@PAGINATION_FILE,'#') }} == '#true'">
 			            		<true>
 			            			<td><a data-imagelightbox="gallery" href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#true','',@PAGINATION_FILE) }}" target="_blank" class="tooltipped lightbox" data-position="right" data-delay="25" data-tooltip="Vorschau in Lightbox"><img src="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#true','',@PAGINATION_FILE) }}" alt="{{ str_replace('#true','',@PAGINATION_FILE) }}" title="{{ str_replace('#true','',@PAGINATION_FILE) }}" style="max-height: 35px;"></a></td>		
 			            		</true>

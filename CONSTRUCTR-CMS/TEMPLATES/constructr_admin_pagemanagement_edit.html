@@ -44,7 +44,7 @@
                 <input type="url" id="page_ext_url" name="page_ext_url" length="100" value="{{ @PAGE.0.constructr_pages_ext_url }}" placeholder="Externe URL der Seite" maxlength="100">
                 <label for="page_url">externe Weiterleitung der Seite zu URL:</label>
             </div>
-            <check if="{{ count(@TEMPLATES) != 0 }}">
+            <check if="{{ count(@TEMPLATES) }} != 0">
                 <true>
                     <div class="input-field col s12">
                         <select name="page_template" id="page_template" required="required">

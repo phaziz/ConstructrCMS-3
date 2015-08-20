@@ -17,28 +17,28 @@
             <check if="{{ @CONTENT_COUNTR }} != 0">
                 <true>
                     <p><strong>{{ @CONTENT_COUNTR }} Inhalte auf Seite <a class="tooltipped" data-position="tpo" data-delay="25" data-tooltip="Seite im Browser zeigen" href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.0.constructr_pages_url }}" target="_blank">''{{ @PAGE.0.constructr_pages_name }}''</a> vorhanden</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/new" class="waves-effect waves-light btn"><i class="mdi-content-add-circle right"></i>Neuer Inhalt</a></p>
-                    <check if="{{ @EDIT=='success' }}">
+                    <check if="{{ @EDIT }} == 'success'">
 						<div class="card-panel green darken-3 white-text">Der Inhalt wurde erfolgreich bearbeitet!</div>
                     </check>
-                    <check if="{{ @EDIT=='no-success' }}">
+                    <check if="{{ @EDIT }} == 'no-success'">
 						<div class="card-panel red darken-3 white-text">Der Inhalt wurde leider nicht aktualisiert!</div>
                     </check>
-                    <check if="{{ @NEW=='success' }}">
+                    <check if="{{ @NEW }} == 'success'">
 						<div class="card-panel green darken-3 white-text">Der Inhalt wurde erfolgreich erstellt!</div>
                     </check>
-                    <check if="{{ @NEW=='no-success' }}">
+                    <check if="{{ @NEW }} == 'no-success'">
 						<div class="card-panel red darken-3 white-text">Der Inhalt konnte leider nicht erstellt werden!</div>
                     </check>
-                    <check if="{{ @DELETE=='success' }}">
+                    <check if="{{ @DELETE }} == 'success'">
 						<div class="card-panel green darken-3 white-text">Der Inhalt wurde erfolgreich gel&ouml;scht!</div>
                     </check>
-                    <check if="{{ @DELETE=='no-success' }}">
+                    <check if="{{ @DELETE }} == 'no-success'">
 						<div class="card-panel red darken-3 white-text">Der Inhalt konnte leider nicht gel&ouml;scht werden!</div>
                     </check>
-                    <check if="{{ @MOVE=='success' }}">
+                    <check if="{{ @MOVE }} == 'success'">
 						<div class="card-panel green darken-3 white-text">Der Inhalt wurde erfolgreich verschoben!</div>
                     </check>
-                    <check if="{{ @MOVE=='no-success' }}">
+                    <check if="{{ @MOVE }} == 'no-success'">
 						<div class="card-panel red darken-3 white-text">Der Inhalt konnte leider nicht verschoben werden!</div>
                     </check>
 					<div class="col s12">
@@ -59,7 +59,7 @@
                                 <td class="tooltipped content" data-position="top" data-delay="25" data-tooltip="Doppelklick um Inhalt ''ID {{ @CONTENT.constructr_content_id }}'' zu bearbeiten" id="content_id_@@@{{ @CONTENT.constructr_content_id }}">
                                 	<check if="{{ @CONTENT.constructr_content_tpl_id_mapping }} != ''">
                                 		<true>
-                                			<strong>{{ @CONTENT.constructr_content_tpl_id_mapping }} </strong><br>
+                                			<strong><small>{{ @CONTENT.constructr_content_tpl_id_mapping }}</small></strong><br>
                                 		</true>
                                 	</check>
                                 	<small>{{ @CONTENT.constructr_content_content_html }}</small>

@@ -17,22 +17,22 @@
             <check if="{{ @USER_COUNTR != 0 }}">
                 <true>
                     <p><strong>{{ @USER_COUNTR }} Benutzer vorhanden</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/new" class="waves-effect waves-light btn"><i class="mdi-content-add-circle right"></i>Neuer Benutzer</a></p>
-                    <check if="{{ @EDIT=='success' }}">
+                    <check if="{{ @EDIT }} == 'success'">
 						<div class="card-panel green darken-3 white-text">Der Benutzer wurde erfolgreich bearbeitet!</div>
                     </check>
-                    <check if="{{ @EDIT=='no-success' }}">
+                    <check if="{{ @EDIT }} == 'no-success'">
 						<div class="card-panel red darken-3 white-text">Der Benutzer wurde leider nicht aktualisiert!</div>
                     </check>
-                    <check if="{{ @NEW=='success' }}">
+                    <check if="{{ @NEW }} == 'success'">
 						<div class="card-panel green darken-3 white-text">Der Benutzer wurde erfolgreich erstellt!</div>
                     </check>
-                    <check if="{{ @NEW=='no-success' }}">
+                    <check if="{{ @NEW }} == 'no-success'">
 						<div class="card-panel red darken-3 white-text">Der Benutzer konnte leider nicht erstellt werden!</div>
                     </check>
-                    <check if="{{ @DELETE=='success' }}">
+                    <check if="{{ @DELETE }} == 'success'">
 						<div class="card-panel green darken-3 white-text">Der Benutzer wurde erfolgreich gel&ouml;scht!</div>
                     </check>
-                    <check if="{{ @DELETE=='no-success' }}">
+                    <check if="{{ @DELETE }} == 'no-success'">
 						<div class="card-panel red darken-3 white-text">Der Benutzer konnte leider nicht gel&ouml;scht werden!</div>
                     </check>
                     <table class="bordered responsive-table hoverable">
@@ -57,7 +57,6 @@
                                 	&#160;
                                 	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/edit-rights/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="Benutzerrechte ''{{ @USER.constructr_user_username }}'' bearbeiten" class="tooltipped waves-effect waves-light btn-small"><i class="mdi-action-lock"></i></a>
                                 	&#160;
-
 									<check if="{{ @USER.constructr_user_active }} == 1">
 										<true>
 											<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/deactivate/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="Benutzer ''{{ @USER.constructr_user_username }}'' deaktivieren" class="tooltipped waves-effect waves-light btn-small"><i class="mdi-toggle-radio-button-on"></i></a>
@@ -66,8 +65,6 @@
 		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/activate/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="Benutzer ''{{ @USER.constructr_user_username }}'' aktivieren" class="tooltipped waves-effect waves-light btn-small"><i class="mdi-toggle-radio-button-off"></i></a>
 										</false>
 									</check>
-                                	
-
                                 	&#160;
                                 	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/delete/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="Seite ''{{ @USER.constructr_user_username }}'' l&ouml;schen" class="deleter tooltipped waves-effect waves-light btn-small"><i class="mdi-action-delete"></i></a>
                                 </td>

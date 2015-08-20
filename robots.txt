@@ -2,6 +2,8 @@ User-agent: *
 Allow: /
 Disallow: /CONSTRUCTR-CMS
 Disallow: /CONSTRUCTR-CMS-SETUP
+Disallow: /CONSTRUCTR-UPDATER
+Disallow: /CONSTRUCTR-POSTMASTER
 Disallow: /THEMES
 Disallow: /tmp
 Disallow: /UPLOADS
