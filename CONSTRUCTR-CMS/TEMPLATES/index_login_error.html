@@ -62,7 +62,7 @@
 	                vex.dialog.buttons.YES.text = 'Okay';
 	                vex.dialog.alert({
 	                    className: 'vex-theme-default',
-	                    message: 'Bitte das Feld Benutzername ausfüllen!',
+	                    message: 'Bitte das Feld Benutzername ausf&uuml;llen!',
 	                });
 					return false;
 				} else {
@@ -70,7 +70,7 @@
 	                vex.dialog.buttons.NO.text = 'Abbrechen';
 	                vex.dialog.confirm({
 	                    className: 'vex-theme-default',
-	                    message: 'Möchten Sie wirklich das Passwort für Benutzer '+A+' zurücksetzen?',
+	                    message: 'M&ouml;chten Sie wirklich das Passwort f&uuml;r Benutzer '+A+' zur&uuml;cksetzen?',
 	                    callback: function(value){
 	                        if(value == true){
 	                            $(location).attr('href','{{ @CONSTRUCTR_BASE_URL}}/constructr/retrieve-password/'+A);

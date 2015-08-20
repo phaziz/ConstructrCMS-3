@@ -66,7 +66,7 @@
                     <check if="{{ @MOVE }} == 'no-success-homepage'">
 						<div class="card-panel red darken-3 white-text">Die Seite konnte leider nicht verschoben werden - Startseite darf nicht &uuml;berschrieben werden!</div>
                     </check>                    
-                    <table class="bordered responsive-table hoverable">
+                    <table class="bordered responsive-table hoverable" onmouseout="javascript:$('.tooltipped').tooltip('remove');">
                         <thead>
                             <tr>
                             <th data-field="Name">Name</th>
@@ -157,7 +157,7 @@
 	            vex.dialog.buttons.NO.text = 'Abbrechen';
 	            vex.dialog.confirm({
 	                className: 'vex-theme-default',
-	                message: 'Möchten Sie diese Seite wirklich löschen?',
+	                message: 'M&ouml;chten Sie diese Seite wirklich l&ouml;schen?',
 	                callback: function(value){
 	                    if(value == true){
 	                        $(location).attr('href',U);

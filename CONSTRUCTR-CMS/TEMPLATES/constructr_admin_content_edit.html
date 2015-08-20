@@ -7,6 +7,10 @@
 <title>Constructr Administration</title>
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/css/constructr.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
+<style>
+img.initialized{max-height:50px;max-width:auto;}
+img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-width: 100%; border: 5px solid #ff0066;}
+</style>
 </head>
 <body>
 	<include href="{{ @NAVIGATION }}" />
@@ -84,7 +88,7 @@
 						<true>
 			                <repeat group="{{ @IMAGES }}" value="{{ @IMAGE }}">
 				                <tr>
-				                    <td><a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @IMAGE }}" target="_blank" class="tooltipped lightbox" data-position="top" data-delay="25" data-tooltip="Vorschau in Lightbox"><img src="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @IMAGE }}" alt="{{ @IMAGE }}" title="{{ @IMAGE }}" style="max-height: 50px;"></a></td>
+				                    <td><img class="thumbnail_content" src="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @IMAGE }}" alt="{{ @IMAGE }}" title="{{ @IMAGE }}"></td>
 				                    <td><span class="tooltipped inserter" id="{{ @IMAGE }}" data-position="top" data-delay="25" data-tooltip="Markdown-Code &uuml;bernehmen">![{{ @IMAGE }}]({{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @IMAGE }} "{{ @IMAGE }}")</span></td>
 				                </tr>
 				            </repeat>
@@ -94,7 +98,7 @@
 						<true>
 			                <repeat group="{{ @FILES }}" value="{{ @FILE }}">
 				                <tr>
-				                    <td><a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @FILE }}" target="_blank" class="tooltipped lightbox" data-position="top" data-delay="25" data-tooltip="Vorschau in Lightbox">{{ @FILE }}</a></td>
+				                    <td>{{ @FILE }}</td>
 				                    <td><span class="tooltipped inserter" id="{{ @FILE }}" data-position="top" data-delay="25" data-tooltip="Markdown-Code &uuml;bernehmen">![{{ @FILE }}]({{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @FILE }} "{{ @FILE }}")</span></td>
 				                </tr>
 				            </repeat>
@@ -110,7 +114,6 @@
 	<div class="row"><div class="col s12 center-align"><p><small><a href="http://phaziz.com" target="_blank">ConstructrCMS Version {{ @CONSTRUCTR_VERSION }}</small></a></p></div></div>
     <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/jquery/jquery-2.1.4.min.js"></script>
     <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/js/materialize.min.js"></script>
-    <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/imagelightbox/imagelightbox.min.js"></script>
     <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/countable/countable.js"></script>
     <script>
         $(function() {
@@ -163,20 +166,6 @@
 				document.getElementById('character-counter').innerHTML = counter.characters;
 				document.getElementById('word-counter').innerHTML = counter.words;
 				document.getElementById('paragraph-counter').innerHTML = counter.paragraphs;
-			});
-			$('.lightbox').imageLightbox({
-			    selector:'id="imagelightbox"',
-			    allowedTypes:'png|jpg|jpeg|gif',
-			    animationSpeed:100,
-			    preloadNext:true,
-			    enableKeyboard:true,
-			    quitOnEnd:true,
-			    quitOnImgClick:false,
-			    quitOnDocClick:true,
-			    onStart:false,
-			    onEnd:false,
-			    onLoadStart:false,
-			    onLoadEnd:false
 			});
 			$('#uploadsbtn').bind('click', function (e) {
 				e.preventDefault();

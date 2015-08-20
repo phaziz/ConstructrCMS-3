@@ -35,7 +35,7 @@
                     <check if="{{ @DELETE }} == 'no-success'">
 						<div class="card-panel red darken-3 white-text">Der Benutzer konnte leider nicht gel&ouml;scht werden!</div>
                     </check>
-                    <table class="bordered responsive-table hoverable">
+                    <table class="bordered responsive-table hoverable" onmouseout="javascript:$('.tooltipped').tooltip('remove');">
                         <thead>
                             <tr>
                         	<th data-field="ID" class="center-align">ID</th>
@@ -99,7 +99,7 @@
 	            vex.dialog.buttons.NO.text = 'Abbrechen';
 	            vex.dialog.confirm({
 	                className: 'vex-theme-default',
-	                message: 'Möchten Sie diesen Benutzer wirklich vorrständig löschen?',
+	                message: 'M&ouml;chten Sie diesen Benutzer wirklich vorrst&auml;ndig l&ouml;schen?',
 	                callback: function(value){
 	                    if(value == true){
 	                        $(location).attr('href',U);

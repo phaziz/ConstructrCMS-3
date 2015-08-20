@@ -45,7 +45,7 @@
 						<input type="checkbox" id="shower" /> <label for="shower">Vorschau anzeigen</label>
 					</div>
 					<br><br>
-                    <table class="bordered responsive-table hoverable">
+                    <table class="bordered responsive-table hoverable" onmouseout="javascript:$('.tooltipped').tooltip('remove');">
                         <thead>
                             <tr>
                             <th data-field="Inhalt">Inhalt</th>
@@ -133,7 +133,7 @@
                 vex.dialog.buttons.NO.text = 'Abbrechen';
                 vex.dialog.confirm({
                     className: 'vex-theme-default',
-                    message: 'Inhalt wirklich löschen?',
+                    message: 'Inhalt wirklich l&ouml;schen?',
                     callback: function(value){
                         if(value == true){
                             window.location = (U);

@@ -9,6 +9,10 @@
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-default.css">
+<style>
+img.initialized{max-height:50px;max-width:auto;}
+img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-width: 100%; border: 5px solid #ff0066;}
+</style>
 </head>
 <body>
 	<include href="{{ @NAVIGATION }}" />
@@ -36,7 +40,7 @@
 	</div>
 	<check if="{{ @PAGINATION_FILES }}">
 		<true>
-		    <table class="bordered responsive-table hoverable">
+		    <table class="bordered responsive-table hoverable" onmouseout="javascript:$('.tooltipped').tooltip('remove');">
 		        <thead>
 		            <tr>
 		            <th data-field="Dateiname">Datei/Vorschau</th>
@@ -56,7 +60,7 @@
 		            	</check>
 			            	<check if="{{ strrchr(@PAGINATION_FILE,'#') }} == '#true'">
 			            		<true>
-			            			<td><a data-imagelightbox="gallery" href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#true','',@PAGINATION_FILE) }}" target="_blank" class="tooltipped lightbox" data-position="right" data-delay="25" data-tooltip="Vorschau in Lightbox"><img src="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#true','',@PAGINATION_FILE) }}" alt="{{ str_replace('#true','',@PAGINATION_FILE) }}" title="{{ str_replace('#true','',@PAGINATION_FILE) }}" style="max-height: 35px;"></a></td>		
+			            			<td><img class="materialboxed" src="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#true','',@PAGINATION_FILE) }}" alt="{{ str_replace('#true','',@PAGINATION_FILE) }}" title="{{ str_replace('#true','',@PAGINATION_FILE) }}"></td>		
 			            		</true>
 			            		<false>
 			            			<td><a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#false','',@PAGINATION_FILE) }}" target="_blank" class="tooltipped" data-position="right" data-delay="25" data-tooltip="Vorschau">{{ str_replace('#false','',@PAGINATION_FILE) }}</a></td>
@@ -84,10 +88,10 @@
 	<div class="row"><div class="col s12 center-align"><p><small><a href="http://phaziz.com" target="_blank">ConstructrCMS Version {{ @CONSTRUCTR_VERSION }}</small></a></p></div></div>
 	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/jquery/jquery-2.1.4.min.js"></script>
 	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/js/materialize.min.js"></script>
-	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/imagelightbox/imagelightbox.min.js"></script>
 	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/js/vex.combined.min.js"></script>
 	<script>
-		$(function() {
+		$(function(){
+			$('.materialboxed').materialbox();
 			$(".button-collapse").sideNav();
 			$('#pix').bind('click', function (){
 				if($(this).prop("checked") == true){
@@ -103,20 +107,6 @@
 					$('.file_row').hide();
 				}
 			});
-			$('.lightbox').imageLightbox({
-			    selector:'id="imagelightbox"',
-			    allowedTypes:'png|jpg|jpeg|gif',
-			    animationSpeed:0,
-			    preloadNext:true,
-			    enableKeyboard:true,
-			    quitOnEnd:false,
-			    quitOnImgClick:false,
-			    quitOnDocClick:true,
-			    onStart:false,
-			    onEnd:false,
-			    onLoadStart:false,
-			    onLoadEnd:false
-			});
             $('.deleter').click(function(e){
 				e.preventDefault();
 	            var U = $(this).attr('href');
@@ -124,7 +114,7 @@
 	            vex.dialog.buttons.NO.text = 'Abbrechen';
 	            vex.dialog.confirm({
 	                className: 'vex-theme-default',
-	                message: 'Möchten Sie diese Datei wirklich löschen?',
+	                message: 'M&ouml;chten Sie diese Datei wirklich l&ouml;schen?',
 	                callback: function(value){
 	                    if(value == true){
 	                        $(location).attr('href',U);
