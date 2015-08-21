@@ -9,6 +9,9 @@
 <meta name="description" content="{{@ CONSTRUCTR_PAGE_DESCRIPTION @}}">
 <link rel="stylesheet" href="{{@ CONSTRUCTR_BASE_URL @}}/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
 <style>
+.overHidr{overflow:hidden;}
+.overHidr img{max-width: 100%;height:auto;}
+{{@ PAGE_CSS @}}
 div#menu{background: #000;margin:0 0 25px 0;padding:0 0 0 0}
 div#menu ul ul {display: none;z-index:999;margin:0 0 0 0;padding:0 0 0 0}
 div#menu ul li:hover > ul {display: block;z-index:999}
@@ -23,26 +26,17 @@ div#menu ul ul li {float: none;position: relative}
 div#menu ul ul li a {padding: 10px 10px;color: #fff;border-top: 1px solid #fff;text-align:left}
 div#menu ul ul li a:hover {background: #f0f0f0}
 div#menu ul ul ul {position: absolute; left: 100%; top:0}
-.overHidr{overflow:hidden;}
-.overHidr img{max-width: 100%;height:auto;}
-.mt100{margin-top: 100px;}
-.mb100{margin-bottom: 100px;}
-.center{text-align:center;}
+.active{background: #ff0066;}
+.btop{border-top: 5px solid #000;padding: 25px;}
+.bbottom{border-bottom: 5px solid #000;padding: 25px;}
+.overHidr p img{margin: 50px 0 50px 0; display: block; margin-left: auto; margin-right: auto}
 {{@ PAGE_CSS @}}
-.btop{
-border-top: 5px solid #000;
-padding: 25px;
-}
-.bbottom{
-border-bottom: 5px solid #000;
-padding: 25px;
-}
 </style>
 </head>
 <body>
 
 	<div id="menu">
-		{{@ PAGE_NAVIGATION_UL_LI @}}
+		{{@ PAGE_NAVIGATION_UL_LI_CLASSES(ul,uls,inactive,active) @}}
 	</div>
 
 	<div class="row mt100 mb100 center">
