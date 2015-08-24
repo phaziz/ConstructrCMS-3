@@ -29,6 +29,24 @@ p img{margin:150px 0 150px 0; display:block; margin-left:auto; margin-right:auto
 a:link, a:active, a:visited{color:#2196f3; text-decoration:none;}
 a:hover{color:#0d47a1; text-decoration:none;}
 #bg{text-align:center;}
+
+ul.pagesnav{margin:0 0 0 0; padding:0 0 0 0;}
+ul.pagesnav li{list-style-type:none; margin:0 0 0 25px;; padding:5px 5px 5px 5px; float: left; display:block;}
+ul.pagesnav li.inactive a:link,
+ul.pagesnav li.inactive a:active,
+ul.pagesnav li.inactive a:visited{color:#666;font-family:sans-serif}
+ul.pagesnav li.active a{color:#fff;font-family:sans-serif}
+ul.pagesnav::after{content: ".";display: block;height: 0;clear: left;visibility: hidden;}
+
+
+ul.subnav{margin:0 0 0 0; padding:0 0 0 0;}
+ul.subnav li{list-style-type:none; margin:0 0 0 25px;; padding:5px 5px 5px 5px; float: left; display:block;}
+ul.subnav li.inactive a:link,
+ul.subnav li.inactive a:active,
+ul.subnav li.inactive a:visited{color:#666;font-family:sans-serif}
+ul.subnav li.active a{color:#fff;font-family:sans-serif}
+ul.subnav::after{content: ".";display: block;height: 0;clear: left;visibility: hidden;}
+
 </style>
 </head>
 <body>
@@ -40,6 +58,12 @@ a:hover{color:#0d47a1; text-decoration:none;}
 	</div>
 
 	<main class="container">
+
+		<nav class="mtop100 mbot100">
+			{{@ FIRST_LEVEL_NAV @}}
+    		{{@ SUBNAV_PAGE @}}
+		</nav>
+
 		<article class="mbot100">
     		{{@ PAGE_CONTENT_HTML @}}
 		</article>

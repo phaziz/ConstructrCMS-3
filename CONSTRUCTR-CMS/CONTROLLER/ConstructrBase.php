@@ -2,7 +2,8 @@
 
     class ConstructrBase
     {
-		public static function constructrNavGenClasses($REQUEST,$BASE_URL,$PAGES,$UL_CLASS,$UL_CLASS_SUB,$LI_CLASS_INACTIVE,$LI_CLASS_ACTIVE,$MOTHER=0){
+		public static function constructrNavGenClasses($REQUEST,$BASE_URL,$PAGES,$UL_CLASS,$UL_CLASS_SUB,$LI_CLASS_INACTIVE,$LI_CLASS_ACTIVE,$MOTHER=0)
+		{
 	        $TREE='';
 
 			if($MOTHER!=0){
@@ -31,7 +32,8 @@
 	        return $TREE;
 		}
 
-		public static function constructrNavGen($BASE_URL,$PAGES,$MOTHER=0){
+		public static function constructrNavGen($BASE_URL,$PAGES,$MOTHER=0)
+		{
 	        $TREE='';
 	        $TREE='<ul>';
 	        for($i=0,$ni=count($PAGES);$i<$ni;$i++){
@@ -45,6 +47,140 @@
 	        $TREE.='</ul>';
 			$TREE=str_replace('<ul></ul>','',$TREE);
 	        return $TREE;
+		}
+
+		public static function constructrFirstLevelNav($APP,$REQUEST,$DBCON,$CONSTRUCTR_BASE_URL,$PAGES_NAV = '')
+		{
+            $APP->set('PAGES_NAV',$DBCON->exec(array('SELECT * FROM constructr_pages WHERE constructr_pages_mother=0 AND constructr_pages_active=1 ORDER BY constructr_pages_order ASC;')));
+
+            $APP->set('ACT_MOTHER',$DBCON->exec(
+                    array('SELECT constructr_pages_mother FROM constructr_pages WHERE constructr_pages_url=:ACT_URL LIMIT 1;'),
+                    array(array(':ACT_URL'=>$REQUEST))
+                )
+            );
+
+			if($APP->get('PAGES_NAV')){
+				$PAGES_NAV.='<ul class="pagesnav">';
+
+				foreach($APP->get('PAGES_NAV') AS $PAGE){
+					if($REQUEST == $PAGE['constructr_pages_url'] || $APP->get('ACT_MOTHER.0.constructr_pages_mother') == $PAGE['constructr_pages_id']){
+						$PAGES_NAV.='<li class="active"><a href="' . $CONSTRUCTR_BASE_URL . '/' . $PAGE['constructr_pages_url'] . '">' . $PAGE['constructr_pages_name'] . '</a></li>';
+					} else {
+						$PAGES_NAV.='<li class="inactive"><a href="' . $CONSTRUCTR_BASE_URL . '/' . $PAGE['constructr_pages_url'] . '">' . $PAGE['constructr_pages_name'] . '</a></li>';
+					}
+				}
+
+				$PAGES_NAV.='</ul>';
+			}
+
+			return $PAGES_NAV;
+		}
+
+		public static function constructrSecondLevelNav($APP,$REQUEST,$DBCON,$CONSTRUCTR_BASE_URL,$PAGES_NAV = '')
+		{
+            $APP->set('PAGES_NAV',$DBCON->exec(array('SELECT * FROM constructr_pages WHERE constructr_pages_level=2 AND constructr_pages_mother!=0 AND constructr_pages_active=1 ORDER BY constructr_pages_order ASC;')));
+
+            $APP->set('ACT_MOTHER',$DBCON->exec(
+                    array('SELECT constructr_pages_mother FROM constructr_pages WHERE constructr_pages_url=:ACT_URL LIMIT 1;'),
+                    array(array(':ACT_URL'=>$REQUEST))
+                )
+            );
+
+			if($APP->get('PAGES_NAV')){
+				$PAGES_NAV.='<ul class="pagesnav">';
+
+				foreach($APP->get('PAGES_NAV') AS $PAGE){
+					if($REQUEST == $PAGE['constructr_pages_url'] || $APP->get('ACT_MOTHER.0.constructr_pages_mother') == $PAGE['constructr_pages_id']){
+						$PAGES_NAV.='<li class="active"><a href="' . $CONSTRUCTR_BASE_URL . '/' . $PAGE['constructr_pages_url'] . '">' . $PAGE['constructr_pages_name'] . '</a></li>';
+					} else {
+						$PAGES_NAV.='<li class="inactive"><a href="' . $CONSTRUCTR_BASE_URL . '/' . $PAGE['constructr_pages_url'] . '">' . $PAGE['constructr_pages_name'] . '</a></li>';
+					}
+				}
+
+				$PAGES_NAV.='</ul>';
+			}
+
+			return $PAGES_NAV;
+		}
+
+		public static function constructrThirdLevelNav($APP,$REQUEST,$DBCON,$CONSTRUCTR_BASE_URL,$PAGES_NAV = '')
+		{
+            $APP->set('PAGES_NAV',$DBCON->exec(array('SELECT * FROM constructr_pages WHERE constructr_pages_level=3 AND constructr_pages_mother!=0 AND constructr_pages_active=1 ORDER BY constructr_pages_order ASC;')));
+
+            $APP->set('ACT_MOTHER',$DBCON->exec(
+                    array('SELECT constructr_pages_mother FROM constructr_pages WHERE constructr_pages_url=:ACT_URL LIMIT 1;'),
+                    array(array(':ACT_URL'=>$REQUEST))
+                )
+            );
+
+			if($APP->get('PAGES_NAV')){
+				$PAGES_NAV.='<ul class="pagesnav">';
+
+				foreach($APP->get('PAGES_NAV') AS $PAGE){
+					if($REQUEST == $PAGE['constructr_pages_url'] || $APP->get('ACT_MOTHER.0.constructr_pages_mother') == $PAGE['constructr_pages_id']){
+						$PAGES_NAV.='<li class="active"><a href="' . $CONSTRUCTR_BASE_URL . '/' . $PAGE['constructr_pages_url'] . '">' . $PAGE['constructr_pages_name'] . '</a></li>';
+					} else {
+						$PAGES_NAV.='<li class="inactive"><a href="' . $CONSTRUCTR_BASE_URL . '/' . $PAGE['constructr_pages_url'] . '">' . $PAGE['constructr_pages_name'] . '</a></li>';
+					}
+				}
+
+				$PAGES_NAV.='</ul>';
+			}
+
+			return $PAGES_NAV;
+		}
+
+		public static function constructrSubnavPages($APP,$REQUEST,$DBCON,$CONSTRUCTR_BASE_URL,$SUB_NAV = '')
+		{
+            $APP->set('ACT_REQUEST',$DBCON->exec(
+                    array('SELECT constructr_pages_id,constructr_pages_mother FROM constructr_pages WHERE constructr_pages_url=:ACT_URL LIMIT 1;'),
+                    array(array(':ACT_URL'=>$REQUEST))
+                )
+            );
+
+			if($APP->get('ACT_REQUEST')){
+	            $APP->set('SUB_PAGES',$DBCON->exec(
+	                    array('SELECT * FROM constructr_pages WHERE constructr_pages_active=1 AND constructr_pages_mother=:MOTHER ORDER BY constructr_pages_order ASC;'),
+	                    array(array(':MOTHER'=>$APP->get('ACT_REQUEST.0.constructr_pages_id')))
+	                )
+	            );
+
+				if($APP->get('SUB_PAGES')){
+					$SUB_NAV.='<ul class="subnav">';
+
+					foreach($APP->get('SUB_PAGES') AS $PAGE){
+						if($REQUEST == $PAGE['constructr_pages_url']){
+							$SUB_NAV.='<li class="active"><a href="' . $CONSTRUCTR_BASE_URL . '/' . $PAGE['constructr_pages_url'] . '">' . $PAGE['constructr_pages_name'] . '</a></li>';
+						} else {
+							$SUB_NAV.='<li class="inactive"><a href="' . $CONSTRUCTR_BASE_URL . '/' . $PAGE['constructr_pages_url'] . '">' . $PAGE['constructr_pages_name'] . '</a></li>';
+						}
+					}
+
+					$SUB_NAV.='</ul>';
+				} else {
+					if($APP->get('ACT_REQUEST.0.constructr_pages_mother') != 0){
+			            $APP->set('SUB_PAGES',$DBCON->exec(
+			                    array('SELECT * FROM constructr_pages WHERE constructr_pages_active=1 AND constructr_pages_mother=:MOTHER ORDER BY constructr_pages_order ASC;'),
+			                    array(array(':MOTHER'=>$APP->get('ACT_REQUEST.0.constructr_pages_mother')))
+			                )
+			            );
+
+						$SUB_NAV.='<ul class="subnav">';
+
+						foreach($APP->get('SUB_PAGES') AS $PAGE){
+							if($REQUEST == $PAGE['constructr_pages_url']){
+								$SUB_NAV.='<li class="active"><a href="' . $CONSTRUCTR_BASE_URL . '/' . $PAGE['constructr_pages_url'] . '">' . $PAGE['constructr_pages_name'] . '</a></li>';
+							} else {
+								$SUB_NAV.='<li class="inactive"><a href="' . $CONSTRUCTR_BASE_URL . '/' . $PAGE['constructr_pages_url'] . '">' . $PAGE['constructr_pages_name'] . '</a></li>';
+							}
+						}
+
+						$SUB_NAV.='</ul>';
+					}
+				}
+			}
+
+			return $SUB_NAV;
 		}
 
         public function no_rights($APP)

@@ -1,5 +1,10 @@
 CHANGELOG
 
+- 2015-08-24 New ConstructrSmartTag's
+	- {{@ FIRST_LEVEL_NAV @}} - A List of pages with page_level 1
+	- {{@ SECOND_LEVEL_NAV @}} - A List of pages with page_level 2
+	- {{@ THIRD_LEVEL_NAV @}} - A List of pages with page_level 3
+	- {{@ SUBNAV_PAGE @}} - A List of subpages of actual page, or actual mother-page
 - 2015-08-21 MIT License (MIT)
 - 2015-08-21 oneCol Template
 - 2015-08-20 Bugfixes, better Navigation-MagicPattern
@@ -16,7 +21,7 @@ CHANGELOG
 - 2015-08-06 Better Lightbox and MediaFilter in Uploads
 - 2015-08-05 Automatic CacheRefreshing
 - 2015-08-04 Multiple Uplaods with Preview / FrontendCacheSystem (File based)
-- 2015-08-03 Constructr Content Mapping - Map a Content-Element to a specific HTML-ID-Area / Template Update
+- 2015-08-03 Smart Constructr Content Mapping - Map a Content-Element to a specific HTML-ID-Area / Template Update
 - 2015-07-30 Split Images and other Files in InsertingModal (Content new / Content edit), minor Bugfixes and Improvements
 - 2015-07-29 AutoInsert Markdown for Files / little Bugfixes and minor Features
 - 2015-07-28 Webinstaller / little Bugfixes and minor Features

@@ -34,6 +34,9 @@
 
     $REQUEST='http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
     $REQUEST=trim(str_replace($APP->get('CONSTRUCTR_REPLACE_BASE_URL'),'',$REQUEST));
+	if($REQUEST == '/'){
+		$REQUEST = '';
+	}
 
     if (strpos($REQUEST, 'constructr')===false){
 		if($APP->get('CONSTRUCTR_CACHE')==true){
@@ -89,7 +92,7 @@
 
 			$TEMPLATE=file_get_contents($APP->get('TEMPLATES').$PAGE_TEMPLATE);
 
-			if($APP->get('PAGES')){
+			if($APP->get('PAGES') && preg_match("/\bPAGE_NAVIGATION_UL_LI_CLASSES\b/i", $TEMPLATE)){
 				$CONSTRUCTR_CLASSES_NAV=array();
 				preg_match_all("/({{@ PAGE_NAVIGATION_UL_LI_CLASSES\((\n|.)*?\)) @}}/",$TEMPLATE,$MATCH_NAV);
 
@@ -106,6 +109,30 @@
 					$CLASSES_NAVIGATION=ConstructrBase::constructrNavGenClasses($REQUEST,$APP->get('CONSTRUCTR_BASE_URL'),$APP->get('PAGES'),trim($PARTS[0]),trim($PARTS[1]),trim($PARTS[2]),trim($PARTS[3]));
 					$TEMPLATE=str_replace($MATCH_NAV[0],$CLASSES_NAVIGATION,$TEMPLATE);
 				}
+			}
+
+			if($APP->get('PAGES') && preg_match("/\bSUBNAV_PAGE\b/i", $TEMPLATE)){
+				$SUBNAV_PAGES = '';
+				$SUBNAV_PAGES=ConstructrBase::constructrSubnavPages($APP,$REQUEST,$APP->get('DBCON'),$APP->get('CONSTRUCTR_BASE_URL'));
+				$TEMPLATE=str_replace('{{@ SUBNAV_PAGE @}}',$SUBNAV_PAGES,$TEMPLATE);
+			}
+
+			if($APP->get('PAGES') && preg_match("/\bFIRST_LEVEL_NAV\b/i", $TEMPLATE)){
+				$FIRST_LEVEL_NAV = '';
+				$FIRST_LEVEL_NAV=ConstructrBase::constructrFirstLevelNav($APP,$REQUEST,$APP->get('DBCON'),$APP->get('CONSTRUCTR_BASE_URL'));
+				$TEMPLATE=str_replace('{{@ FIRST_LEVEL_NAV @}}',$FIRST_LEVEL_NAV,$TEMPLATE);
+			}
+
+			if($APP->get('PAGES') && preg_match("/\bSECOND_LEVEL_NAV\b/i", $TEMPLATE)){
+				$SECOND_LEVEL_NAV = '';
+				$SECOND_LEVEL_NAV=ConstructrBase::constructrSecondLevelNav($APP,$REQUEST,$APP->get('DBCON'),$APP->get('CONSTRUCTR_BASE_URL'));
+				$TEMPLATE=str_replace('{{@ SECOND_LEVEL_NAV @}}',$SECOND_LEVEL_NAV,$TEMPLATE);
+			}
+
+			if($APP->get('PAGES') && preg_match("/\bTHIRD_LEVEL_NAV\b/i", $TEMPLATE)){
+				$THIRD_LEVEL_NAV = '';
+				$THIRD_LEVEL_NAV=ConstructrBase::constructrThirdLevelNav($APP,$REQUEST,$APP->get('DBCON'),$APP->get('CONSTRUCTR_BASE_URL'));
+				$TEMPLATE=str_replace('{{@ THIRD_LEVEL_NAV @}}',$THIRD_LEVEL_NAV,$TEMPLATE);
 			}
 
 			$APP->set('CONTENT', $APP->get('DBCON')->exec(
