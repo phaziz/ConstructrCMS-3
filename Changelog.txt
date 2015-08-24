@@ -5,6 +5,7 @@ CHANGELOG
 	- {{@ SECOND_LEVEL_NAV @}} - A List of pages with page_level 2
 	- {{@ THIRD_LEVEL_NAV @}} - A List of pages with page_level 3
 	- {{@ SUBNAV_PAGE @}} - A List of subpages of actual page, or actual mother-page
+	- Bugfixes and implementing Google Material Icon Set
 - 2015-08-21 MIT License (MIT)
 - 2015-08-21 oneCol Template
 - 2015-08-20 Bugfixes, better Navigation-MagicPattern
