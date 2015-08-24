@@ -49,7 +49,7 @@
 	        return $TREE;
 		}
 
-		public static function constructrFirstLevelNav($APP,$REQUEST,$DBCON,$CONSTRUCTR_BASE_URL,$PAGES_NAV = '')
+		public static function constructrFirstLevelNav($APP,$REQUEST,$DBCON,$CONSTRUCTR_BASE_URL,$PAGES_NAV='')
 		{
             $APP->set('PAGES_NAV',$DBCON->exec(array('SELECT * FROM constructr_pages WHERE constructr_pages_mother=0 AND constructr_pages_active=1 ORDER BY constructr_pages_order ASC;')));
 
@@ -76,7 +76,7 @@
 			return $PAGES_NAV;
 		}
 
-		public static function constructrSecondLevelNav($APP,$REQUEST,$DBCON,$CONSTRUCTR_BASE_URL,$PAGES_NAV = '')
+		public static function constructrSecondLevelNav($APP,$REQUEST,$DBCON,$CONSTRUCTR_BASE_URL,$PAGES_NAV='')
 		{
             $APP->set('PAGES_NAV',$DBCON->exec(array('SELECT * FROM constructr_pages WHERE constructr_pages_level=2 AND constructr_pages_mother!=0 AND constructr_pages_active=1 ORDER BY constructr_pages_order ASC;')));
 
@@ -185,6 +185,7 @@
 
         public function no_rights($APP)
         {
+        	$APP->set('ACT_VIEW','');
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_no_rights.html','text/html');
         }
 

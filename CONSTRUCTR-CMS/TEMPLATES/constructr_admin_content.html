@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-default.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 	<include href="{{ @NAVIGATION }}" />
@@ -16,7 +17,7 @@
         <div class="col s12">
             <check if="{{ @CONTENT_COUNTR }} != 0">
                 <true>
-                    <p><strong>{{ @CONTENT_COUNTR }} Inhalte auf Seite <a class="tooltipped" data-position="tpo" data-delay="25" data-tooltip="Seite im Browser zeigen" href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.0.constructr_pages_url }}" target="_blank">''{{ @PAGE.0.constructr_pages_name }}''</a> vorhanden</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/new" class="waves-effect waves-light btn"><i class="mdi-content-add-circle right"></i>Neuer Inhalt</a></p>
+                    <p><strong>{{ @CONTENT_COUNTR }} Inhalte auf Seite <a class="tooltipped" data-position="tpo" data-delay="25" data-tooltip="Seite im Browser zeigen" href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.0.constructr_pages_url }}" target="_blank">''{{ @PAGE.0.constructr_pages_name }}''</a> vorhanden</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/new" class="waves-effect waves-light btn">Neuer Inhalt +</a></p>
                     <check if="{{ @EDIT }} == 'success'">
 						<div class="card-panel green darken-3 white-text">Der Inhalt wurde erfolgreich bearbeitet!</div>
                     </check>
@@ -71,42 +72,42 @@
 									<check if="{{ @CONTENT.constructr_content_order }} == 1">
 										<false>
 		                                	&#160;
-		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/reorder/up/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''ID {{ @CONTENT.constructr_content_id }}'' nach oben verschieben" class="tooltipped waves-effect waves-light btn-small"><i class="mdi-hardware-keyboard-arrow-up"></i></a>
+		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/reorder/up/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''ID {{ @CONTENT.constructr_content_id }}'' nach oben verschieben" class="tooltipped waves-effect waves-light btn-small"><i class="material-icons">arrow_drop_up</i></a>
 										</false>
 										<true>
-											&#160;&#160;&#160;&#160;&#160;&#160;
+											&#160;&#160;&#160;&#160;&#160;&#160;&#160;
 										</true>
 									</check>
 									<check if="{{ @CONTENT.constructr_content_order }} == {{ @CONTENT_COUNTR }}">
 										<false>
 		                                	&#160;
-		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/reorder/down/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''ID {{ @CONTENT.constructr_content_id }}'' nach unten verschieben" class="tooltipped waves-effect waves-light btn-small"><i class="mdi-hardware-keyboard-arrow-down"></i></a>
+		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/reorder/down/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''ID {{ @CONTENT.constructr_content_id }}'' nach unten verschieben" class="tooltipped waves-effect waves-light btn-small"><i class="material-icons">arrow_drop_down</i></a>
 										</false>
 										<true>
-											&#160;&#160;&#160;&#160;&#160;&#160;
+											&#160;&#160;&#160;&#160;&#160;&#160;&#160;
 										</true>
 									</check>
 									&#160;
 									<check if="{{ @CONTENT.constructr_content_visible }} == 1">
 										<false>
-		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/visibility/on/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''{{ @CONTENT.constructr_content_id }}'' zeigen" class="tooltipped waves-effect waves-light btn-small"><i class="mdi-toggle-radio-button-off"></i></a>
+		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/visibility/on/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''{{ @CONTENT.constructr_content_id }}'' zeigen" class="tooltipped waves-effect waves-light btn-small"><i class="material-icons">filter_tilt_shift</i></a>
 										</false>
 										<true>
-											<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/visibility/off/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''{{ @CONTENT.constructr_content_id }}'' verbergen" class="tooltipped waves-effect waves-light btn-small"><i class="mdi-toggle-radio-button-on"></i></a>
+											<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/visibility/off/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''{{ @CONTENT.constructr_content_id }}'' verbergen" class="tooltipped waves-effect waves-light btn-small"><i class="material-icons">adjust</i></a>
 										</true>
 									</check>
 									&#160;
-									<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/edit/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''ID {{ @CONTENT.constructr_content_id }}'' bearbeiten" class="tooltipped waves-effect waves-light btn-small"><i class="mdi-editor-mode-edit"></i></a>
+									<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/edit/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''ID {{ @CONTENT.constructr_content_id }}'' bearbeiten" class="tooltipped waves-effect waves-light btn-small"><i class="material-icons">mode_edit</i></a>
                                 	&#160;
-                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/delete/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''ID {{ @CONTENT.constructr_content_id }}'' l&ouml;schen" class="deleter tooltipped waves-effect waves-light btn-small"><i class="mdi-action-delete"></i></a>
-                                </nobr></td>
+                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/delete/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''ID {{ @CONTENT.constructr_content_id }}'' l&ouml;schen" class="deleter tooltipped waves-effect waves-light btn-small"><i class="material-icons">delete</i></a>
+                                &#160;&#160;&#160;</nobr></td>
                             </tr>
                         </repeat>
                         </tbody>
                     </table>
                 </true>
                 <false>
-					<p><strong>0 Inhalte auf Seite <a class="tooltipped" data-position="tpo" data-delay="25" data-tooltip="Seite im Browser zeigen" href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.0.constructr_pages_url }}" target="_blank">''{{ @PAGE.0.constructr_pages_name }}''</a> vorhanden</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/new" class="waves-effect waves-light btn"><i class="mdi-content-add-circle right"></i>Neuer Inhalt</a></p>
+					<p><strong>0 Inhalte auf Seite <a class="tooltipped" data-position="tpo" data-delay="25" data-tooltip="Seite im Browser zeigen" href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.0.constructr_pages_url }}" target="_blank">''{{ @PAGE.0.constructr_pages_name }}''</a> vorhanden</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/new" class="waves-effect waves-light btn">Neuer Inhalt +</a></p>
                 </false>
             </check>
             <p><small>Taste ''ESC'' drücken um zur Seitenverwaltung zurückzugehen</small></p>

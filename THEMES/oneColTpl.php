@@ -38,7 +38,6 @@ ul.pagesnav li.inactive a:visited{color:#666;font-family:sans-serif}
 ul.pagesnav li.active a{color:#fff;font-family:sans-serif}
 ul.pagesnav::after{content: ".";display: block;height: 0;clear: left;visibility: hidden;}
 
-
 ul.subnav{margin:0 0 0 0; padding:0 0 0 0;}
 ul.subnav li{list-style-type:none; margin:0 0 0 25px;; padding:5px 5px 5px 5px; float: left; display:block;}
 ul.subnav li.inactive a:link,
@@ -47,13 +46,21 @@ ul.subnav li.inactive a:visited{color:#666;font-family:sans-serif}
 ul.subnav li.active a{color:#fff;font-family:sans-serif}
 ul.subnav::after{content: ".";display: block;height: 0;clear: left;visibility: hidden;}
 
+ul.breadcrumb{margin:0 0 0 0; padding:0 0 0 0;}
+ul.breadcrumb li{list-style-type:none; margin:0 0 0 25px;; padding:5px 5px 5px 5px; float: left; display:block;}
+ul.breadcrumb li.inactive a:link,
+ul.breadcrumb li.inactive a:active,
+ul.breadcrumb li.inactive a:visited{color:#666;font-family:sans-serif}
+ul.breadcrumb li.active a{color:#fff;font-family:sans-serif}
+ul.breadcrumb::after{content: ".";display: block;height: 0;clear: left;visibility: hidden;}
+
 </style>
 </head>
 <body>
 
 	<div id="bg">
 		<header class="pLogo">
-    		<img src="{{@ CONSTRUCTR_BASE_URL @}}/THEMES/ASSETS/phaziz.png" alt="phaziz.png">
+    		<a href="{{@ CONSTRUCTR_BASE_URL @}}"><img src="{{@ CONSTRUCTR_BASE_URL @}}/THEMES/ASSETS/phaziz.png" alt="phaziz.png"></a>
 		</header>
 	</div>
 

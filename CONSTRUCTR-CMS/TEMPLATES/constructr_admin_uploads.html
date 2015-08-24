@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-default.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
 img.initialized{max-height:50px;max-width:auto;}
 img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-width: 100%; border: 5px solid #ff0066;}
@@ -18,7 +19,7 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 	<include href="{{ @NAVIGATION }}" />
     <div class="row">
         <div class="col s12">
-            <p><strong>{{ @FILES_COUNTR }} Uploads</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/new" class="waves-effect waves-light btn"><i class="mdi-content-add-circle right"></i>Neuer Upload</a></p>
+            <p><strong>{{ @FILES_COUNTR }} Uploads</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/new" class="waves-effect waves-light btn">Neuer Upload +</a></p>
             <check if="{{ @NEW }} == 'success'">
 				<div class="card-panel green darken-3 white-text">Die Datei wurde erfolgreich hochgeladen!</div>
             </check>
@@ -68,7 +69,7 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 			            	</check>
 			                <td><small>{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @PAGINATION_FILE }}</small></td>
 			                <td class="center-align"><nobr>
-			                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/delete/{{ @PAGINATION_FILE }}" data-position="left" data-delay="25" data-tooltip="Datei ''{{ @PAGINATION_FILE }}'' l&ouml;schen" class="deleter tooltipped waves-effect waves-light btn-small"><i class="mdi-action-delete"></i></a>
+			                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/delete/{{ @PAGINATION_FILE }}" data-position="left" data-delay="25" data-tooltip="Datei ''{{ @PAGINATION_FILE }}'' l&ouml;schen" class="deleter tooltipped waves-effect waves-light btn-small"><i class="material-icons">delete</i></a>
 			                </nobr></td>
 			            </tr>
 			        </repeat>

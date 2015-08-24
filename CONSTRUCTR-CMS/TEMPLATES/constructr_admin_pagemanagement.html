@@ -17,7 +17,7 @@
         <div class="col s12">
             <check if="{{ count(@PAGES) != 0 }}">
                 <true>
-                    <p><strong>{{ count(@PAGES) }} Seiten vorhanden</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/new" class="waves-effect waves-light btn"><i class="mdi-content-add-circle right"></i>Neue Seite</a></p>
+                    <p><strong>{{ count(@PAGES) }} Seiten vorhanden</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/new" class="waves-effect waves-light btn">Neue Seite +</a></p>
                     <check if="{{ @EDIT }} =='success'">
 						<div class="card-panel green darken-3 white-text">Die Seite wurde erfolgreich bearbeitet!</div>
                     </check>
@@ -93,38 +93,38 @@
 									<check if="{{ @PAGE.constructr_pages_order }} == 1">
 										<false>
 		                                	&#160;
-		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/move-up/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="Seite ''{{ @PAGE.constructr_pages_name }}'' nach oben verschieben" class="tooltipped waves-effect waves-light btn-small"><i class="mdi-hardware-keyboard-arrow-up"></i></a>
+		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/move-up/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="Seite ''{{ @PAGE.constructr_pages_name }}'' nach oben verschieben" class="tooltipped waves-effect waves-light btn-small"><i class="material-icons">arrow_drop_up</i></a>
 										</false>
 										<true>
-											&#160;&#160;&#160;&#160;&#160;&#160;
+											&#160;&#160;&#160;&#160;&#160;&#160;&#160;
 										</true>
 									</check>
 									<check if="{{ @PAGE.constructr_pages_order }} == {{ count(@PAGES) }}">
 										<false>
 		                                	&#160;
-		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/move-down/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="Seite ''{{ @PAGE.constructr_pages_name }}'' nach unten verschieben" class="tooltipped waves-effect waves-light btn-small"><i class="mdi-hardware-keyboard-arrow-down"></i></a>
+		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/move-down/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="Seite ''{{ @PAGE.constructr_pages_name }}'' nach unten verschieben" class="tooltipped waves-effect waves-light btn-small"><i class="material-icons">arrow_drop_down</i></a>
 										</false>
 										<true>
-											&#160;&#160;&#160;&#160;&#160;&#160;
+											&#160;&#160;&#160;&#160;&#160;&#160;&#160;
 										</true>
 									</check>
 									&#160;
-									<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="Inhalte von Seite ''{{ @PAGE.constructr_pages_name }}'' bearbeiten" class="tooltipped waves-effect waves-light btn-small"><i class="mdi-action-subject"></i></a>
+									<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="Inhalte von Seite ''{{ @PAGE.constructr_pages_name }}'' bearbeiten" class="tooltipped waves-effect waves-light btn-small"><i class="material-icons">format_align_justify</i></a>
                                 	&#160;
-                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/edit/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="Seite ''{{ @PAGE.constructr_pages_name }}'' bearbeiten" class="tooltipped waves-effect waves-light btn-small"><i class="mdi-editor-mode-edit"></i></a>
+                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/edit/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="Seite ''{{ @PAGE.constructr_pages_name }}'' bearbeiten" class="tooltipped waves-effect waves-light btn-small"><i class="material-icons">mode_edit</i></a>
                                 	&#160;
 									<check if="{{ @PAGE.constructr_pages_nav_visible }} == 1">
 										<false>
-		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/visibility/on/{{ @PAGE.constructr_pages_id }}/{{ @PAGE.constructr_pages_order }}" data-position="left" data-delay="25" data-tooltip="Seite ''{{ @PAGE.constructr_pages_name }}'' in Navigation zeigen" class="tooltipped waves-effect waves-light btn-small"><i class="mdi-toggle-radio-button-off"></i></a>
+		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/visibility/on/{{ @PAGE.constructr_pages_id }}/{{ @PAGE.constructr_pages_order }}" data-position="left" data-delay="25" data-tooltip="Seite ''{{ @PAGE.constructr_pages_name }}'' in Navigation zeigen" class="tooltipped waves-effect waves-light btn-small"><i class="material-icons">filter_tilt_shift</i></a>
 										</false>
 										<true>
-											<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/visibility/off/{{ @PAGE.constructr_pages_id }}/{{ @PAGE.constructr_pages_order }}" data-position="left" data-delay="25" data-tooltip="Seite ''{{ @PAGE.constructr_pages_name }}'' in Navigation verbergen" class="tooltipped waves-effect waves-light btn-small"><i class="mdi-toggle-radio-button-on"></i></a>
+											<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/visibility/off/{{ @PAGE.constructr_pages_id }}/{{ @PAGE.constructr_pages_order }}" data-position="left" data-delay="25" data-tooltip="Seite ''{{ @PAGE.constructr_pages_name }}'' in Navigation verbergen" class="tooltipped waves-effect waves-light btn-small"><i class="material-icons">adjust</i></a>
 										</true>
 									</check>
 									&#160;
-                                	<a href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.constructr_pages_url }}" target="_blank" data-position="left" data-delay="25" data-tooltip="Vorschau von Seite ''{{ @PAGE.constructr_pages_name }}''" class="tooltipped waves-effect waves-light btn-small"><i class="mdi-action-launch"></i></a>
+                                	<a href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.constructr_pages_url }}" target="_blank" data-position="left" data-delay="25" data-tooltip="Vorschau von Seite ''{{ @PAGE.constructr_pages_name }}''" class="tooltipped waves-effect waves-light btn-small"><i class="material-icons">open_in_new</i></a>
                                 	&#160;
-                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/delete/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="Seite ''{{ @PAGE.constructr_pages_name }}'' l&ouml;schen" class="deleter tooltipped waves-effect waves-light btn-small"><i class="mdi-action-delete"></i></a>
+                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/delete/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="Seite ''{{ @PAGE.constructr_pages_name }}'' l&ouml;schen" class="deleter tooltipped waves-effect waves-light btn-small"><i class="material-icons">delete</i></a>
                                 </nobr></td>
                             </tr>
                         </repeat>
@@ -132,7 +132,7 @@
                     </table>
                 </true>
                 <false>
-                    <p><strong>{{ count(@PAGES) }} Seiten vorhanden</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/new" class="waves-effect waves-light btn"><i class="mdi-content-add-circle right"></i>Neue Seite</a></p>
+                    <p><strong>{{ count(@PAGES) }} Seiten vorhanden</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/new" class="waves-effect waves-light btn">Neue Seite +</a></p>
                 </false>
             </check>
         </div>
