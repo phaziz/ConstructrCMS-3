@@ -23,7 +23,7 @@
 	$APP->set('CONSTRUCTR_FE_CACHE', __DIR__.'/CONSTRUCTR-CMS/CACHE/');
 	$APP->set('TEMPLATES',$APP->get('CONSTRUCTR_BASE_URL').'/THEMES/');
 	$APP->set('UPLOADS_LIST_PAGINATION',5);
-	$APP->set('CONSTRUCTR_CACHE',false);
+	$APP->set('CONSTRUCTR_CACHE',true);
 
     try{
     	$APP->set('DBCON',$DBCON=new DB\SQL('mysql:host='.$APP->get('DATABASE_HOSTNAME').';port='.$APP->get('DATABASE_PORT').';dbname='.$APP->get('DATABASE_DATABASE'),$APP->get('DATABASE_USERNAME'),$APP->get('DATABASE_PASSWORD')));
@@ -111,6 +111,27 @@
 				}
 			}
 
+			if($APP->get('PAGES') && preg_match("/\bCONSTRUCTR_LINK\b/i", $TEMPLATE)){
+				$CONSTRUCTR_LINKS=array();
+				preg_match_all("/({{@ CONSTRUCTR_LINK\((\n|.)*?\)) @}}/",$TEMPLATE,$MATCH_LINK);
+
+				if($MATCH_LINK[0]){
+					$z=0;
+					foreach($MATCH_LINK[0] AS $ML){
+						$TL=str_replace('{{@ CONSTRUCTR_LINK(','',$ML);
+						$LINK=str_replace(') @}}','',$TL);
+						$CONSTRUCTR_LINKS[$z]=trim($LINK);
+						$z++;
+					}
+
+					$LINKS=ConstructrBase::constructrLinkGen($APP,$APP->get('DBCON'),$APP->get('CONSTRUCTR_BASE_URL'),$CONSTRUCTR_LINKS);
+
+					foreach($LINKS AS $KEY=>$LINK){
+						$TEMPLATE=str_replace('{{@ CONSTRUCTR_LINK(' . $KEY . ') @}}',$LINK,$TEMPLATE);	
+					}
+				}
+			}
+
 			if($APP->get('PAGES') && preg_match("/\bSUBNAV_PAGE\b/i", $TEMPLATE)){
 				$SUBNAV_PAGES = '';
 				$SUBNAV_PAGES=ConstructrBase::constructrSubnavPages($APP,$REQUEST,$APP->get('DBCON'),$APP->get('CONSTRUCTR_BASE_URL'));
@@ -147,6 +168,7 @@
                 )
             );
 
+			$CONTENT_COUNTR=0;
 			$CONTENT_COUNTR=count($APP->get('CONTENT'));
 			$PAGE_CONTENT_HTML='';
 			$PAGE_CONTENT_RAW='';
@@ -181,7 +203,7 @@
 				$CONSTRUCTR_TPL_MAPPINGS=array();
 
 				if($MATCH[0]){
-					$i = 0;
+					$i=0;
 					foreach($MATCH[0] AS $MATCHR){
 						$CONSTRUCTR_TPL_MAPPINGS[$i]=$MATCHR;
 						$i++;

@@ -581,6 +581,73 @@
             $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?new=success');
         }
 
+        public function page_management_delete_with_content($APP)
+        {
+            $APP->set('MODUL_ID',33);
+            $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
+
+            $APP->set('MODUL_ID',54);
+            $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
+
+            if ($USER_RIGHTS==false){
+                $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
+            }
+
+            $DELETE_PAGE_ID=filter_var($APP->get('PARAMS.page_id'),FILTER_SANITIZE_NUMBER_INT);
+
+            $APP->set('ACTIVE_MOTHER',$APP->get('DBCON')->exec(
+                    array('SELECT constructr_pages_id FROM constructr_pages WHERE constructr_pages_mother=:DELETE_PAGE_ID LIMIT 1;'),
+                    array(array(':DELETE_PAGE_ID'=>$DELETE_PAGE_ID))
+                )
+            );
+
+            $MOTHER_COUNTR=count($APP->get('ACTIVE_MOTHER'));
+
+            $APP->set('GET_DELETE_PAGE',$APP->get('DBCON')->exec(
+                    array('SELECT * FROM constructr_pages WHERE constructr_pages_id=:DELETE_PAGE_ID LIMIT 1;'),
+                    array(array(':DELETE_PAGE_ID'=>$DELETE_PAGE_ID))
+                )
+            );
+
+            if (count($APP->get('GET_DELETE_PAGE'))==1){
+                $DELETER_PAGE_ORDER=$APP->get('GET_DELETE_PAGE.0.constructr_pages_order');
+            } else {
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?delete=no-success');
+				die();
+            }
+
+            if ($DELETER_PAGE_ORDER==1){
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?delete=no-success-is-homepage');
+				die();
+            }
+
+            if ($MOTHER_COUNTR==0 && $DELETER_PAGE_ORDER!=1){
+                $APP->set('DELETE_PAGE',$APP->get('DBCON')->exec(
+                        array('DELETE FROM constructr_pages WHERE constructr_pages_id=:DELETE_PAGE_ID LIMIT 1;'),
+                        array(array(':DELETE_PAGE_ID'=>$DELETE_PAGE_ID))
+                    )
+                );
+
+                $APP->set('UPDATER',$APP->get('DBCON')->exec(
+                        array('UPDATE constructr_pages SET constructr_pages_order=(constructr_pages_order-1) WHERE constructr_pages_order>=:DELETER_PAGE_ORDER;'),
+                        array(array(':DELETER_PAGE_ORDER'=>$DELETER_PAGE_ORDER))
+                    )
+                );
+
+	            $APP->get('DBCON')->exec(
+                    array('DELETE FROM constructr_content WHERE constructr_content_page_id=:DELETE_PAGE_ID;'),
+                    array(array(':DELETE_PAGE_ID'=>$DELETE_PAGE_ID))
+                );
+
+				parent::clean_up_cache($APP);
+
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?delete=success');
+            } else {
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?delete=no-success');
+            }
+        }
+
         public function page_management_delete($APP)
         {
             $APP->set('MODUL_ID',33);

@@ -8,7 +8,8 @@
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/css/constructr.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex.css">
-<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-default.css">
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-wireframe.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 	<include href="{{ @NAVIGATION }}" />
@@ -58,42 +59,42 @@
     <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/js/materialize.min.js"></script>
     <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/js/vex.combined.min.js"></script>
     <script>
-        $(function() {
+        $(function(){
         	$(".button-collapse").sideNav();
-			$('#esc').bind('click',function() {
+			$('#esc').bind('click',function(){
 			    javascript:history.back();
 			});
-			$(document).keyup(function(e) {
-			    if (e.which === 27) javascript:history.back();
+			$(document).keyup(function(e){
+			    if (e.which===27) javascript:history.back();
 			});
             $('select').material_select();
             function autoBlinder(){
                 $('.card-panel').fadeOut();
             }
             setInterval(autoBlinder,4500);
-            $('#new_user').bind('submit', function() {
-            	var USERNAME = $('#user_name').val();
-            	var USEREMAIL= $('#user_email').val();
-            	var PASSWORD = $('#user_password').val();
-            	var PASSWORD_RETYPE = $('#user_password_retype').val();
-            	if(USERNAME != '' && USEREMAIL != '' && PASSWORD != '' && PASSWORD_RETYPE != '' && PASSWORD == PASSWORD_RETYPE) {
+            $('#new_user').bind('submit',function(){
+            	var USERNAME=$('#user_name').val();
+            	var USEREMAIL=$('#user_email').val();
+            	var PASSWORD=$('#user_password').val();
+            	var PASSWORD_RETYPE=$('#user_password_retype').val();
+            	if(USERNAME!='' && USEREMAIL!='' && PASSWORD!='' && PASSWORD_RETYPE!='' && PASSWORD==PASSWORD_RETYPE){
             		return true;
             	} else {
-            		if(USERNAME == '' || USEREMAIL == '' || PASSWORD == '' || PASSWORD_RETYPE == '') {
+            		if(USERNAME=='' || USEREMAIL=='' || PASSWORD=='' || PASSWORD_RETYPE==''){
             			$('#user_name').focus();
-			            vex.dialog.buttons.YES.text = 'Okay';
+			            vex.dialog.buttons.YES.text='Okay';
 			            vex.dialog.alert({
-			                className: 'vex-theme-default',
-			                message: 'Bitte das Formular vollst&auml;ndig ausf&uuml;llen!',
+			                className:'vex-theme-wireframe',
+			                message:'<h5>Achtung:</h5>Bitte das Formular vollst&auml;ndig ausf&uuml;llen!',
 			            });
             			return false;
             		}
-            		if(PASSWORD != PASSWORD_RETYPE) {
+            		if(PASSWORD!=PASSWORD_RETYPE){
             			$('#user_password').focus();
-			            vex.dialog.buttons.YES.text = 'Okay';
+			            vex.dialog.buttons.YES.text='Okay';
 			            vex.dialog.alert({
-			                className: 'vex-theme-default',
-			                message: 'Passwort und die Passwort-Wiederholung stimmen nicht &uuml;berein!',
+			                className:'vex-theme-wireframe',
+			                message:'<h5>Achtung:</h5>Passwort und die Passwort-Wiederholung stimmen nicht &uuml;berein!',
 			            });
             			return false;
             		}

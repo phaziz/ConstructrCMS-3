@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/css/constructr.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex.css">
-<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-default.css">
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-wireframe.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
@@ -51,7 +51,7 @@
                             <tr>
                             <th data-field="Inhalt">Inhalt</th>
                             <th data-field="Vorschau" class="show" style="display:none;">Vorschau</th>
-                            <th data-field="Aktionen" class="center-align">Aktionen</th>
+                            <th data-field="Aktionen" class="center-align" style="width:150px">Aktionen</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,7 +72,7 @@
 									<check if="{{ @CONTENT.constructr_content_order }} == 1">
 										<false>
 		                                	&#160;
-		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/reorder/up/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''ID {{ @CONTENT.constructr_content_id }}'' nach oben verschieben" class="tooltipped waves-effect waves-light btn-small"><i class="material-icons">arrow_drop_up</i></a>
+		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/reorder/up/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''ID {{ @CONTENT.constructr_content_id }}'' nach oben verschieben" class="tooltipped"><i class="material-icons">arrow_drop_up</i></a>
 										</false>
 										<true>
 											&#160;&#160;&#160;&#160;&#160;&#160;&#160;
@@ -81,7 +81,7 @@
 									<check if="{{ @CONTENT.constructr_content_order }} == {{ @CONTENT_COUNTR }}">
 										<false>
 		                                	&#160;
-		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/reorder/down/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''ID {{ @CONTENT.constructr_content_id }}'' nach unten verschieben" class="tooltipped waves-effect waves-light btn-small"><i class="material-icons">arrow_drop_down</i></a>
+		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/reorder/down/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''ID {{ @CONTENT.constructr_content_id }}'' nach unten verschieben" class="tooltipped"><i class="material-icons">arrow_drop_down</i></a>
 										</false>
 										<true>
 											&#160;&#160;&#160;&#160;&#160;&#160;&#160;
@@ -90,16 +90,16 @@
 									&#160;
 									<check if="{{ @CONTENT.constructr_content_visible }} == 1">
 										<false>
-		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/visibility/on/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''{{ @CONTENT.constructr_content_id }}'' zeigen" class="tooltipped waves-effect waves-light btn-small"><i class="material-icons">filter_tilt_shift</i></a>
+		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/visibility/on/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''{{ @CONTENT.constructr_content_id }}'' zeigen" class="tooltipped"><i class="material-icons">filter_tilt_shift</i></a>
 										</false>
 										<true>
-											<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/visibility/off/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''{{ @CONTENT.constructr_content_id }}'' verbergen" class="tooltipped waves-effect waves-light btn-small"><i class="material-icons">adjust</i></a>
+											<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/visibility/off/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''{{ @CONTENT.constructr_content_id }}'' verbergen" class="tooltipped"><i class="material-icons">adjust</i></a>
 										</true>
 									</check>
 									&#160;
-									<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/edit/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''ID {{ @CONTENT.constructr_content_id }}'' bearbeiten" class="tooltipped waves-effect waves-light btn-small"><i class="material-icons">mode_edit</i></a>
+									<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/edit/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''ID {{ @CONTENT.constructr_content_id }}'' bearbeiten" class="tooltipped"><i class="material-icons">mode_edit</i></a>
                                 	&#160;
-                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/delete/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''ID {{ @CONTENT.constructr_content_id }}'' l&ouml;schen" class="deleter tooltipped waves-effect waves-light btn-small"><i class="material-icons">delete</i></a>
+                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/delete/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''ID {{ @CONTENT.constructr_content_id }}'' l&ouml;schen" class="deleter tooltipped"><i class="material-icons">delete</i></a>
                                 &#160;&#160;&#160;</nobr></td>
                             </tr>
                         </repeat>
@@ -133,8 +133,8 @@
                 vex.dialog.buttons.YES.text = 'Ja';
                 vex.dialog.buttons.NO.text = 'Abbrechen';
                 vex.dialog.confirm({
-                    className: 'vex-theme-default',
-                    message: 'Inhalt wirklich l&ouml;schen?',
+                    className: 'vex-theme-wireframe',
+                    message: '<h5>Achtung:</h5>M&ouml;chten Sie diesen Inhalt wirklich l&ouml;schen?',
                     callback: function(value){
                         if(value == true){
                             window.location = (U);

@@ -38,22 +38,6 @@ ul.pagesnav li.inactive a:visited{color:#666;font-family:sans-serif}
 ul.pagesnav li.active a{color:#fff;font-family:sans-serif}
 ul.pagesnav::after{content: ".";display: block;height: 0;clear: left;visibility: hidden;}
 
-ul.subnav{margin:0 0 0 0; padding:0 0 0 0;}
-ul.subnav li{list-style-type:none; margin:0 0 0 25px;; padding:5px 5px 5px 5px; float: left; display:block;}
-ul.subnav li.inactive a:link,
-ul.subnav li.inactive a:active,
-ul.subnav li.inactive a:visited{color:#666;font-family:sans-serif}
-ul.subnav li.active a{color:#fff;font-family:sans-serif}
-ul.subnav::after{content: ".";display: block;height: 0;clear: left;visibility: hidden;}
-
-ul.breadcrumb{margin:0 0 0 0; padding:0 0 0 0;}
-ul.breadcrumb li{list-style-type:none; margin:0 0 0 25px;; padding:5px 5px 5px 5px; float: left; display:block;}
-ul.breadcrumb li.inactive a:link,
-ul.breadcrumb li.inactive a:active,
-ul.breadcrumb li.inactive a:visited{color:#666;font-family:sans-serif}
-ul.breadcrumb li.active a{color:#fff;font-family:sans-serif}
-ul.breadcrumb::after{content: ".";display: block;height: 0;clear: left;visibility: hidden;}
-
 </style>
 </head>
 <body>
@@ -68,7 +52,6 @@ ul.breadcrumb::after{content: ".";display: block;height: 0;clear: left;visibilit
 
 		<nav class="mtop100 mbot100">
 			{{@ FIRST_LEVEL_NAV @}}
-    		{{@ SUBNAV_PAGE @}}
 		</nav>
 
 		<article class="mbot100">
@@ -77,6 +60,10 @@ ul.breadcrumb::after{content: ".";display: block;height: 0;clear: left;visibilit
 
 		<footer class="mtop100 mbot100 footer">
 			<small><a href="http://phaziz.com" target="_blank">phaziz.com</a>&#160;&#160;&#160;|&#160;&#160;&#160;<a href="http://constructr-cms.org" target="_blank">ConstructrCMS</a>&#160;&#160;&#160;|&#160;&#160;&#160;<a href="http://blog.phaziz.com/tag/constructr-cms/" target="_blank">ConstructrCMS Blog</a>&#160;&#160;&#160;|&#160;&#160;&#160;<a href="https://github.com/phaziz/ConstructrCMS-3" target="_blank">ConstructrCMS GitHub</a>&#160;&#160;&#160;|&#160;&#160;&#160;<a href=" https://twitter.com/ConstructrCMS" target="_blank">ConstructrCMS twitter</a></small>
+		</footer>
+
+		<footer class="mtop100 mbot100 footer">
+			<small>{{@ CONSTRUCTR_LINK(1) @}}</small>
 		</footer>
 
 	</main>

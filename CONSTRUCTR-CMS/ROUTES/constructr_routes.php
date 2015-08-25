@@ -28,6 +28,7 @@
     $APP->route('GET  /constructr/pagemanagement/edit/@page_id [sync]', 'ConstructrCMS->page_management_edit');
     $APP->route('POST /constructr/pagemanagement/edit [sync]', 'ConstructrCMS->page_management_edit_verify');
     $APP->route('GET  /constructr/pagemanagement/delete/@page_id [sync]', 'ConstructrCMS->page_management_delete');
+	$APP->route('GET  /constructr/pagemanagement/deletewithcontent/@page_id [sync]', 'ConstructrCMS->page_management_delete_with_content');
     $APP->route('GET  /constructr/pagemanagement/move-up/@page_id [sync]', 'ConstructrCMS->page_management_move_up');
     $APP->route('GET  /constructr/pagemanagement/move-down/@page_id [sync]', 'ConstructrCMS->page_management_move_down');
     $APP->route('GET  /constructr/pagemanagement/content/@page_id [sync]', 'ConstructrCMS->page_management_move_down');

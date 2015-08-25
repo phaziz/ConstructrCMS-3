@@ -7,6 +7,7 @@
 <title>Constructr Administration</title>
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/css/constructr.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 	<include href="{{ @NAVIGATION }}" />
@@ -162,8 +163,8 @@
                         } else {
 				            vex.dialog.buttons.YES.text = 'Okay';
 				            vex.dialog.alert({
-				                className: 'vex-theme-default',
-				                message: 'Ups... Es ist ein Fehler aufgetreten...: ' + data,
+				                className: 'vex-theme-wireframe',
+				                message: '<h5>Achtung:</h5>Ups... Es ist ein Fehler aufgetreten...: ' + data,
 				            });
                         }
 					});

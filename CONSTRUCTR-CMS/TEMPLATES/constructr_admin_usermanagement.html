@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/css/constructr.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex.css">
-<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-default.css">
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-wireframe.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
@@ -39,35 +39,33 @@
                     <table class="bordered responsive-table hoverable" onmouseout="javascript:$('.tooltipped').tooltip('remove');">
                         <thead>
                             <tr>
-                        	<th data-field="ID" class="center-align">ID</th>
                             <th data-field="Benutzername">Benutzername</th>
                             <th data-field="eMail">eMail</th>
-                            <th data-field="Aktionen" class="center-align">Aktionen</th>
+                            <th data-field="Aktionen" class="center-align" style="width:150px">Aktionen</th>
                             </tr>
                         </thead>
                         <tbody>
                             <repeat group="{{ @USER }}" value="{{ @USER }}">
                             <tr>
-                            	<td class="center-align">{{ @USER.constructr_user_id }}</td>
                                 <td class="tooltipped users" data-position="right" data-delay="25" data-tooltip="Doppelklick um Benutzer ''ID {{ @USER.constructr_user_id }}'' zu bearbeiten" id="user_id_@@@{{ @USER.constructr_user_id }}">
                                     {{ @USER.constructr_user_username }}
                                 </td>
-                                <td>{{ @USER.constructr_user_email }}</td>
+                                <td><small><a class="tooltipped" data-position="top" data-delay="25" data-tooltip="eMail senden" href="mailto:{{ @USER.constructr_user_email }}">{{ @USER.constructr_user_email }}</a></small></td>
                                 <td class="center-align">
-                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/edit/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="Benutzer ''{{ @USER.constructr_user_username }}'' bearbeiten" class="tooltipped waves-effect waves-light btn-small"><i class="material-icons">mode_edit</i></a>
+                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/edit/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="Benutzer ''{{ @USER.constructr_user_username }}'' bearbeiten" class="tooltipped"><i class="material-icons">mode_edit</i></a>
                                 	&#160;
-                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/edit-rights/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="Benutzerrechte ''{{ @USER.constructr_user_username }}'' bearbeiten" class="tooltipped waves-effect waves-light btn-small"><i class="material-icons">security</i></a>
+                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/edit-rights/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="Benutzerrechte ''{{ @USER.constructr_user_username }}'' bearbeiten" class="tooltipped"><i class="material-icons">security</i></a>
                                 	&#160;
 									<check if="{{ @USER.constructr_user_active }} == 1">
 										<true>
-											<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/deactivate/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="Benutzer ''{{ @USER.constructr_user_username }}'' deaktivieren" class="tooltipped waves-effect waves-light btn-small"><i class="material-icons">adjust</i></a>
+											<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/deactivate/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="Benutzer ''{{ @USER.constructr_user_username }}'' deaktivieren" class="tooltipped"><i class="material-icons">adjust</i></a>
 										</true>
 										<false>
-		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/activate/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="Benutzer ''{{ @USER.constructr_user_username }}'' aktivieren" class="tooltipped waves-effect waves-light btn-small"><i class="material-icons">filter_tilt_shift</i></a>
+		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/activate/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="Benutzer ''{{ @USER.constructr_user_username }}'' aktivieren" class="tooltipped"><i class="material-icons">filter_tilt_shift</i></a>
 										</false>
 									</check>
                                 	&#160;
-                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/delete/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="Seite ''{{ @USER.constructr_user_username }}'' l&ouml;schen" class="deleter tooltipped waves-effect waves-light btn-small"><i class="material-icons">delete</i></a>
+                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/delete/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="Benutzer ''{{ @USER.constructr_user_username }}'' l&ouml;schen" class="deleter tooltipped"><i class="material-icons">delete</i></a>
                                 </td>
                             </tr>
                         </repeat>
@@ -75,7 +73,7 @@
                     </table>
                 </true>
                 <false>
-                    <p><strong>Keine Benutzer vorhanden</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/new" class="waves-effect waves-light btn">Neuer Benutzer + </a></p>
+                    <p><strong>Keine Benutzer vorhanden</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/new" class="waves-effect waves-light btn">Neuer Benutzer +</a></p>
                 </false>
             </check>
         </div>
@@ -85,24 +83,24 @@
     <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/js/materialize.min.js"></script>
     <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/js/vex.combined.min.js"></script>
     <script>
-        $(function() {
+        $(function(){
             $(".button-collapse").sideNav();
             $('.users').dblclick(function(){
-				var INFO = $(this).attr('id');
-				INFO = INFO.split('@@@');
-            	var USER_ID = INFO[1];
-            	window.location = '{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/edit/' + USER_ID;
+				var INFO=$(this).attr('id');
+				INFO=INFO.split('@@@');
+            	var USER_ID=INFO[1];
+            	window.location='{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/edit/'+USER_ID;
             });
             $('.deleter').click(function(e) {
 				e.preventDefault();
-	            var U = $(this).attr('href');
-	            vex.dialog.buttons.YES.text = 'Ja';
-	            vex.dialog.buttons.NO.text = 'Abbrechen';
+	            var U=$(this).attr('href');
+	            vex.dialog.buttons.YES.text='Ja';
+	            vex.dialog.buttons.NO.text='Abbrechen';
 	            vex.dialog.confirm({
-	                className: 'vex-theme-default',
-	                message: 'M&ouml;chten Sie diesen Benutzer wirklich vorrst&auml;ndig l&ouml;schen?',
-	                callback: function(value){
-	                    if(value == true){
+	                className:'vex-theme-wireframe',
+	                message:'<h5>Achtung:</h5>M&ouml;chten Sie diesen Benutzer wirklich vorrst&auml;ndig l&ouml;schen?',
+	                callback:function(value){
+	                    if(value==true){
 	                        $(location).attr('href',U);
 	                    } else {
 	                        return false;
@@ -110,8 +108,8 @@
 	                }
 	            });
             });
-            $(document).keyup(function(e) {
-			    if (e.which === 27) javascript:history.back();
+            $(document).keyup(function(e){
+			    if (e.which===27) javascript:history.back();
 			});
             function autoBlinder(){
                 $('.card-panel').fadeOut();

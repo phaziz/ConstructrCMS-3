@@ -8,11 +8,11 @@
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/css/constructr.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex.css">
-<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-default.css">
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex-theme-wireframe.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
 img.initialized{max-height:50px;max-width:auto;}
-img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-width: 100%; border: 5px solid #ff0066;}
+img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-width: 100%; border: 5px solid #fff;}
 </style>
 </head>
 <body>
@@ -46,7 +46,7 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 		            <tr>
 		            <th data-field="Dateiname">Datei/Vorschau</th>
 		            <th data-field="URL">Absolute URL</th>
-		            <th data-field="Aktionen" class="center-align">Aktionen</th>
+		            <th data-field="Aktionen" class="center-align" style="width:125px">Aktionen</th>
 		            </tr>
 		        </thead>
 		        <tbody>
@@ -67,9 +67,11 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 			            			<td><a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#false','',@PAGINATION_FILE) }}" target="_blank" class="tooltipped" data-position="right" data-delay="25" data-tooltip="Vorschau">{{ str_replace('#false','',@PAGINATION_FILE) }}</a></td>
 			            		</false>
 			            	</check>
-			                <td><small>{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @PAGINATION_FILE }}</small></td>
+			                <td><small>{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#false','',str_replace('#true','',@PAGINATION_FILE)) }}</small></td>
 			                <td class="center-align"><nobr>
-			                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/delete/{{ @PAGINATION_FILE }}" data-position="left" data-delay="25" data-tooltip="Datei ''{{ @PAGINATION_FILE }}'' l&ouml;schen" class="deleter tooltipped waves-effect waves-light btn-small"><i class="material-icons">delete</i></a>
+			                	<a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#false','',str_replace('#true','',@PAGINATION_FILE)) }}" target="_blank" data-position="left" data-delay="25" data-tooltip="Vorschau in neuem Fenster" class="tooltipped"><i class="material-icons">open_in_new</i></a>
+			                	&#160;
+			                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/delete/{{ @PAGINATION_FILE }}" data-position="left" data-delay="25" data-tooltip="Datei l&ouml;schen" class="deleter tooltipped"><i class="material-icons">delete</i></a>
 			                </nobr></td>
 			            </tr>
 			        </repeat>
@@ -94,15 +96,15 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 		$(function(){
 			$('.materialboxed').materialbox();
 			$(".button-collapse").sideNav();
-			$('#pix').bind('click', function (){
-				if($(this).prop("checked") == true){
+			$('#pix').bind('click',function(){
+				if($(this).prop("checked")==true){
 					$('.image_row').show();
-				} else {
+				}else{
 					$('.image_row').hide();
 				}
 			});
-			$('#files').bind('click', function (){
-				if($(this).prop("checked") == true){
+			$('#files').bind('click',function(){
+				if($(this).prop("checked")==true){
 					$('.file_row').show();
 				} else {
 					$('.file_row').hide();
@@ -110,14 +112,14 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 			});
             $('.deleter').click(function(e){
 				e.preventDefault();
-	            var U = $(this).attr('href');
-	            vex.dialog.buttons.YES.text = 'Ja';
-	            vex.dialog.buttons.NO.text = 'Abbrechen';
+	            var U=$(this).attr('href');
+	            vex.dialog.buttons.YES.text='Ja';
+	            vex.dialog.buttons.NO.text='Abbrechen';
 	            vex.dialog.confirm({
-	                className: 'vex-theme-default',
-	                message: 'M&ouml;chten Sie diese Datei wirklich l&ouml;schen?',
-	                callback: function(value){
-	                    if(value == true){
+	                className:'vex-theme-wireframe',
+	                message:'<h5>Achtung:</h5>M&ouml;chten Sie diese Datei wirklich l&ouml;schen?',
+	                callback:function(value){
+	                    if(value==true){
 	                        $(location).attr('href',U);
 	                    } else {
 	                        return false;

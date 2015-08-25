@@ -7,6 +7,7 @@
 <title>Constructr Administration</title>
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/css/constructr.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 	<include href="{{ @NAVIGATION }}" />
@@ -34,17 +35,13 @@
     <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/jquery/jquery-2.1.4.min.js"></script>
     <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/js/materialize.min.js"></script>
     <script>
-        $(function() {
+        $(function(){
 			window.onload=function(){if(window.File&&window.FileList&&window.FileReader){var e=document.getElementById("new_file");e.addEventListener("change",function(e){for(var n=e.target.files,t=document.getElementById("preview"),i=0;i<n.length;i++){var r=n[i];if(r.type.match("image")){var a=new FileReader;a.addEventListener("load",function(e){var n=e.target,i=document.createElement("div");i.innerHTML="<img class='thumbnail' src='"+n.result+"'title='"+n.name+"'/>",t.insertBefore(i,null)}),a.readAsDataURL(r)}}})}else console.log("Your browser does not support File API")};
 			!function(t){var e="undefined"!=typeof t("<input/>")[0].multiple,i=/msie/i.test(navigator.userAgent);t.fn.customFile=function(){return this.each(function(){var n=t(this).addClass("custom-file-upload-hidden"),l=t('<div class="file-upload-wrapper">'),u=t('<input type="text" class="file-upload-input" />'),a=t('<button type="button" class="file-upload-button">Dateien ausw&auml;hlen</button>'),o=t('<label class="file-upload-button" for="'+n[0].id+'">Select a File</label>');n.css({position:"absolute",left:"-9999px"}),l.insertAfter(n).append(n,u,i?o:a),n.attr("tabIndex",-1),a.attr("tabIndex",-1),a.click(function(){n.focus().click()}),n.change(function(){var t,i,l=[];if(e){t=n[0].files;for(var a=0,o=t.length;o>a;a++)l.push(t[a].name);i=l.join(", ")}else i=n.val().split("\\").pop();u.val(i).attr("title",i).focus()}),u.on({blur:function(){n.trigger("blur")},keydown:function(t){if(13===t.which)i||n.trigger("click");else{if(8!==t.which&&46!==t.which)return 9===t.which?void 0:!1;n.replaceWith(n=n.clone(!0)),n.trigger("change"),u.val("")}}})})},e||t(document).on("change","input.customfile",function(){var e=t(this),i="customfile_"+(new Date).getTime(),n=e.parent(),l=n.siblings().find(".file-upload-input").filter(function(){return!this.value}),u=t('<input type="file" id="'+i+'" name="'+e.attr("name")+'"/>');setTimeout(function(){e.val()?l.length||(n.after(u),u.customFile()):(l.parent().remove(),n.appendTo(n.parent()),n.find("input").focus())},1)})}(jQuery),$("input[type=file]").customFile();
         	$(".button-collapse").sideNav();
-			$(document).keyup(function(e) {
-			    if (e.which === 27) javascript:history.back();
-			});
+			$(document).keyup(function(e){if (e.which===27) javascript:history.back();});
         	$('#new_file').focus();
-            function autoBlinder(){
-                $('.card-panel').fadeOut();
-            }
+            function autoBlinder(){$('.card-panel').fadeOut();}
             setInterval(autoBlinder,4500);
         });
     </script>

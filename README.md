@@ -3,7 +3,7 @@ Constructr CMS 3.0
 
 ConstructrCMS (<a href="http://constructr-cms.org">http://constructr-cms.org</a>) based on FatFree-Framework, Materialize CSS, MySQL/PDO, jQuery/Javascript and Passion!
 
-That's it for now (Version 3.0 / 2015-08-24):
+That's it for now (Version 3.0 / 2015-08-25):
 
 	- FrontEndCache-System (automatic, File based)
 	- Page-Management
@@ -12,7 +12,7 @@ That's it for now (Version 3.0 / 2015-08-24):
 	- Markdown Content-Management with Live-Preview
 	- Create, edit, re-order/order, activate/deavtivate and delete Content-Elements
 	- ContactForm Handling via ConstructrPostmaster
-	- EASY PHP-Templates with ConstructrSmartTags
+	- EASY PHP-Templates with ConstructrSmartTag's
 	- Asset-Management (Uploads / multiple Uploads) with Filter and Live-Preview and Lightbox and Pagination
 	- Add, edit, delete, Uploads
 	- User Management

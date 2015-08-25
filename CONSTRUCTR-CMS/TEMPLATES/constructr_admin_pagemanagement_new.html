@@ -7,6 +7,7 @@
 <title>Constructr Administration</title>
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/css/constructr.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 	<include href="{{ @NAVIGATION }}" />
@@ -128,27 +129,26 @@
     <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/jquery/jquery-2.1.4.min.js"></script>
     <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/js/materialize.min.js"></script>
     <script>
-        $(function() {
+        $(function(){
         	$(".button-collapse").sideNav();
-			$(document).keyup(function(e) {
-			    if (e.which === 27) javascript:history.back();
+			$(document).keyup(function(e){
+			    if(e.which === 27) javascript:history.back();
 			});
             $('select').material_select();
             function autoBlinder(){
                 $('.card-panel').fadeOut();
             }
-			$('#esc').bind('click',function() {
+			$('#esc').bind('click',function(){
 			    javascript:history.back();
 			});
             setInterval(autoBlinder,4500);
-
-            cleanUpMess = function() {
+            cleanUpMess = function(){
         		var URL = $('#page_url').val().toLowerCase();
-                var CLEAN_URL = '';
-                for (i = 0; i < URL.length; i++) {
-                    var ACT_CHAR = URL.charAt(i);
-                    if (ACT_CHAR == ' ') {
-                        ACT_CHAR = '-';
+                var CLEAN_URL='';
+                for (i=0; i<URL.length; i++) {
+                    var ACT_CHAR=URL.charAt(i);
+                    if (ACT_CHAR==' ') {
+                        ACT_CHAR='-';
                     }
                     if (ACT_CHAR == 'ä' || ACT_CHAR == 'Ä') {
                         ACT_CHAR = 'ae';
@@ -176,8 +176,8 @@
                         } else {
 				            vex.dialog.buttons.YES.text = 'Okay';
 				            vex.dialog.alert({
-				                className: 'vex-theme-default',
-				                message: 'Ups... Es ist ein Fehler aufgetreten...: ' + data,
+				                className: 'vex-theme-wireframe',
+				                message: '<h5>Achtung:</h5>Ups... Es ist ein Fehler aufgetreten...: ' + data,
 				            });
                         }
 					});
