@@ -23,7 +23,7 @@
 	$APP->set('CONSTRUCTR_FE_CACHE', __DIR__.'/CONSTRUCTR-CMS/CACHE/');
 	$APP->set('TEMPLATES',$APP->get('CONSTRUCTR_BASE_URL').'/THEMES/');
 	$APP->set('UPLOADS_LIST_PAGINATION',5);
-	$APP->set('CONSTRUCTR_CACHE',true);
+	$APP->set('CONSTRUCTR_CACHE',false);
 
     try{
     	$APP->set('DBCON',$DBCON=new DB\SQL('mysql:host='.$APP->get('DATABASE_HOSTNAME').';port='.$APP->get('DATABASE_PORT').';dbname='.$APP->get('DATABASE_DATABASE'),$APP->get('DATABASE_USERNAME'),$APP->get('DATABASE_PASSWORD')));
@@ -32,7 +32,7 @@
 		die();
     }
 
-    $REQUEST='http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+    $REQUEST=((empty($_SERVER['HTTPS']))?'http://':'https://').$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
     $REQUEST=trim(str_replace($APP->get('CONSTRUCTR_REPLACE_BASE_URL'),'',$REQUEST));
 	if($REQUEST == '/'){
 		$REQUEST = '';
@@ -55,7 +55,7 @@
 	                array(array(':STARTPAGE_ORDER'=>1))
 	            )
 	        );
-		} else {
+		}else{
 	        $APP->set('ACT_PAGE',$APP->get('DBCON')->exec(
 	                array('SELECT * FROM constructr_pages WHERE constructr_pages_URL=:REQUEST AND constructr_pages_nav_visible=1 LIMIT 1;'),
 	                array(array(':REQUEST'=>$REQUEST))
@@ -71,7 +71,7 @@
 
 			if($PAGE_EXT_URL!=''){
 				header('HTTP/1.1 301 Moved Permanently');
-				header('Location: ' . $PAGE_EXT_URL);
+				header('Location: '.$PAGE_EXT_URL);
 				die();
 			}
 
@@ -111,7 +111,7 @@
 				}
 			}
 
-			if($APP->get('PAGES') && preg_match("/\bCONSTRUCTR_LINK\b/i", $TEMPLATE)){
+			if($APP->get('PAGES') && preg_match("/\bCONSTRUCTR_LINK\b/i",$TEMPLATE)){
 				$CONSTRUCTR_LINKS=array();
 				preg_match_all("/({{@ CONSTRUCTR_LINK\((\n|.)*?\)) @}}/",$TEMPLATE,$MATCH_LINK);
 
@@ -127,36 +127,36 @@
 					$LINKS=ConstructrBase::constructrLinkGen($APP,$APP->get('DBCON'),$APP->get('CONSTRUCTR_BASE_URL'),$CONSTRUCTR_LINKS);
 
 					foreach($LINKS AS $KEY=>$LINK){
-						$TEMPLATE=str_replace('{{@ CONSTRUCTR_LINK(' . $KEY . ') @}}',$LINK,$TEMPLATE);	
+						$TEMPLATE=str_replace('{{@ CONSTRUCTR_LINK('.$KEY.') @}}',$LINK,$TEMPLATE);	
 					}
 				}
 			}
 
 			if($APP->get('PAGES') && preg_match("/\bSUBNAV_PAGE\b/i", $TEMPLATE)){
-				$SUBNAV_PAGES = '';
+				$SUBNAV_PAGES='';
 				$SUBNAV_PAGES=ConstructrBase::constructrSubnavPages($APP,$REQUEST,$APP->get('DBCON'),$APP->get('CONSTRUCTR_BASE_URL'));
 				$TEMPLATE=str_replace('{{@ SUBNAV_PAGE @}}',$SUBNAV_PAGES,$TEMPLATE);
 			}
 
 			if($APP->get('PAGES') && preg_match("/\bFIRST_LEVEL_NAV\b/i", $TEMPLATE)){
-				$FIRST_LEVEL_NAV = '';
+				$FIRST_LEVEL_NAV='';
 				$FIRST_LEVEL_NAV=ConstructrBase::constructrFirstLevelNav($APP,$REQUEST,$APP->get('DBCON'),$APP->get('CONSTRUCTR_BASE_URL'));
 				$TEMPLATE=str_replace('{{@ FIRST_LEVEL_NAV @}}',$FIRST_LEVEL_NAV,$TEMPLATE);
 			}
 
 			if($APP->get('PAGES') && preg_match("/\bSECOND_LEVEL_NAV\b/i", $TEMPLATE)){
-				$SECOND_LEVEL_NAV = '';
+				$SECOND_LEVEL_NAV='';
 				$SECOND_LEVEL_NAV=ConstructrBase::constructrSecondLevelNav($APP,$REQUEST,$APP->get('DBCON'),$APP->get('CONSTRUCTR_BASE_URL'));
 				$TEMPLATE=str_replace('{{@ SECOND_LEVEL_NAV @}}',$SECOND_LEVEL_NAV,$TEMPLATE);
 			}
 
 			if($APP->get('PAGES') && preg_match("/\bTHIRD_LEVEL_NAV\b/i", $TEMPLATE)){
-				$THIRD_LEVEL_NAV = '';
+				$THIRD_LEVEL_NAV='';
 				$THIRD_LEVEL_NAV=ConstructrBase::constructrThirdLevelNav($APP,$REQUEST,$APP->get('DBCON'),$APP->get('CONSTRUCTR_BASE_URL'));
 				$TEMPLATE=str_replace('{{@ THIRD_LEVEL_NAV @}}',$THIRD_LEVEL_NAV,$TEMPLATE);
 			}
 
-			$APP->set('CONTENT', $APP->get('DBCON')->exec(
+			$APP->set('CONTENT',$APP->get('DBCON')->exec(
                     array('SELECT * FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_visible=:VISIBILITY AND constructr_content_tpl_id_mapping=:NULLER ORDER BY constructr_content_order ASC;'),
                     array(
                         array(
@@ -184,7 +184,7 @@
 			$REPLACR=array($APP->get('CONSTRUCTR_BASE_URL'),$PAGE_ID,$PAGE_TEMPLATE,$PAGE_NAME,$PAGE_CONTENT_RAW,$PAGE_CONTENT_HTML,$PAGE_CSS,$PAGE_JS,$NAVIGATION,$PAGE_TITLE,$PAGE_DESCRIPTION,$PAGE_KEYWORDS);
 			$TEMPLATE=str_replace($SEARCHR,$REPLACR,$TEMPLATE);
 
-			$APP->set('MAPPING_CONTENT', $APP->get('DBCON')->exec(
+			$APP->set('MAPPING_CONTENT',$APP->get('DBCON')->exec(
                     array('SELECT * FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_visible=:VISIBILITY AND constructr_content_tpl_id_mapping!=:NULLER ORDER BY constructr_content_order ASC;'),
                     array(
                         array(
@@ -215,7 +215,7 @@
 						foreach($APP->get('MAPPING_CONTENT') AS $KEY=>$MAPPING_CONTENT){
 							if(!isset($MAPPERS[$MAPPING_CONTENT['constructr_content_tpl_id_mapping']]) || $MAPPERS[$MAPPING_CONTENT['constructr_content_tpl_id_mapping']]==''){
 								$MAPPERS[$MAPPING_CONTENT['constructr_content_tpl_id_mapping']]=$MAPPING_CONTENT['constructr_content_content_html'];	
-							} else {
+							}else{
 								$MAPPERS[$MAPPING_CONTENT['constructr_content_tpl_id_mapping']]=$MAPPERS[$MAPPING_CONTENT['constructr_content_tpl_id_mapping']].$MAPPING_CONTENT['constructr_content_content_html'];	
 							}
 						}
@@ -278,7 +278,7 @@
 	    }
 	);
 
-	$APP->set('ONERROR',function ($APP){
+	$APP->set('ONERROR',function($APP){
         while (ob_get_level()){
             ob_end_clean();
         }

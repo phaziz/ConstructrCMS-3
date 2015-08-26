@@ -70,79 +70,113 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
+			$APP->set('ORIGIN_NEEDLE','');
+
             if (isset($_GET['new'])){$APP->set('NEW',$_GET['new']);} else {$APP->set('NEW','');}
             if (isset($_GET['delete'])){$APP->set('DELETE',$_GET['delete']);} else {$APP->set('DELETE','');}
 
-            $H=opendir($APP->get('UPLOADS'));
-			$PAGINATION_FILES = array();
-			$i=0;
+			$APP->set('PAGINATION_FILES',array());
+			$PAGINATION_FILES=array();
 
-            while($FILE=readdir($H)){
-                if($FILE!='.' && $FILE!='..'){
-					$FT=strtolower( strrchr( $FILE,'.' ) );
-					if($FT=='.jpg' || $FT=='.jpeg' || $FT=='.gif' || $FT=='.png' || $FT=='.svg'){
-						$PAGINATION_FILES[$i] = $FILE.'#true';
-					} else {
-						$PAGINATION_FILES[$i] = $FILE.'#false';
-					}
-                    $i++;
-                }
-            }
+			if($APP->get('GET.needle')){
+				$APP->set('FILES_COUNTR',0);
+				$APP->set('ORIGIN_NEEDLE',$APP->get('GET.needle'));
+				$NEEDLES=explode(' ',strtolower($APP->get('GET.needle')));
+	            $H=opendir($APP->get('UPLOADS'));
+				$i=0;
 
-            closedir($H);
-            uksort($PAGINATION_FILES,"strnatcmp");
+	            while($FILE=readdir($H)){
+	                if($FILE!='.' && $FILE!='..'){
+						foreach($NEEDLES AS $NEEDLE){
+							if(strpos(strtolower($FILE),$NEEDLE)!==false){
+								$FT=strtolower(strrchr( $FILE,'.' ));
+								if($FT=='.jpg' || $FT=='.jpeg' || $FT=='.gif' || $FT=='.png' || $FT=='.svg'){
+									$PAGINATION_FILES[$i]=$FILE.'#true';
+								} else {
+									$PAGINATION_FILES[$i]=$FILE.'#false';
+								}
+			                    $i++;
+							}
+						}
+	                }
+	            }
 
-			$APP->set('SHOW_PAGINATION','false');
-			$APP->set('PAGINATION_FILES',$PAGINATION_FILES);
-			$ALL_FILES=$PAGINATION_FILES;
-			$APP->set('FILES_COUNTR',0);
-			$APP->set('FILES_COUNTR',(count($PAGINATION_FILES)));
-			$OFFSET = $APP->get('PARAMS.offset');
+				$APP->set('FILES_COUNTR',count($PAGINATION_FILES));
+				$APP->set('SHOW_PAGINATION','false');
+				$APP->set('PAGINATION_FILES',$PAGINATION_FILES);
 
-			if(!isset($OFFSET) || $OFFSET==0){
-				$OFFSET = $APP->get('UPLOADS_LIST_PAGINATION');
-			}
+				echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_uploads.html','text/html');
+			} else {
+	            $H=opendir($APP->get('UPLOADS'));
+				$i=0;
+	
+	            while($FILE=readdir($H)){
+	                if($FILE!='.' && $FILE!='..'){
+						$FT=strtolower(strrchr( $FILE,'.' ));
+						if($FT=='.jpg' || $FT=='.jpeg' || $FT=='.gif' || $FT=='.png' || $FT=='.svg'){
+							$PAGINATION_FILES[$i] = $FILE.'#true';
+						} else {
+							$PAGINATION_FILES[$i] = $FILE.'#false';
+						}
+	                    $i++;
+	                }
+	            }
 
-			$APP->set('OFFSET',$OFFSET);
-			$APP->set('PAGINATION',0);
-			$APP->set('PAGINATION_STRING','');
-			$PAGINATION=ceil($APP->get('FILES_COUNTR')/$APP->get('UPLOADS_LIST_PAGINATION'));
-			$APP->set('PAGINATION',$PAGINATION);
+	            closedir($H);
+	            uksort($PAGINATION_FILES,"strnatcmp");
 
-			if($PAGINATION > 1){
-				$APP->set('SHOW_PAGINATION','true');
-				$PAGINATION_STRING = '<ul class="pagination">';
+				$APP->set('SHOW_PAGINATION','false');
+				$APP->set('PAGINATION_FILES',$PAGINATION_FILES);
+				$ALL_FILES=$PAGINATION_FILES;
+				$APP->set('FILES_COUNTR',0);
+				$APP->set('FILES_COUNTR',(count($PAGINATION_FILES)));
+				$OFFSET = $APP->get('PARAMS.offset');
 
-				for($i=1;$i <= $PAGINATION;$i++){
-					if($APP->get('OFFSET')==($i*$APP->get('UPLOADS_LIST_PAGINATION'))){
-						$PAGINATION_STRING.='<li class="active"><a href="'.$APP->get('CONSTRUCTR_BASE_URL').'/constructr/uploads/'.($i*$APP->get('UPLOADS_LIST_PAGINATION')).'">'.$i.'</a></li>';
-					} else {
-						$PAGINATION_STRING.='<li class="waves-effect"><a href="'.$APP->get('CONSTRUCTR_BASE_URL').'/constructr/uploads/'.($i*$APP->get('UPLOADS_LIST_PAGINATION')).'">'.$i.'</a></li>';	
-					}
+				if(!isset($OFFSET) || $OFFSET==0){
+					$OFFSET = $APP->get('UPLOADS_LIST_PAGINATION');
 				}
 
-				$PAGINATION_STRING.='</ul>';
-				$APP->set('PAGINATION_STRING',$PAGINATION_STRING);
-				$START=$APP->get('OFFSET')-$APP->get('UPLOADS_LIST_PAGINATION');
-				$END=$APP->get('OFFSET');
-				$TEMP_PAGINATION_FILES = $PAGINATION_FILES;
-				$PAGINATION_FILES = array();
+				$APP->set('OFFSET',$OFFSET);
+				$APP->set('PAGINATION',0);
+				$APP->set('PAGINATION_STRING','');
+				$PAGINATION=ceil($APP->get('FILES_COUNTR')/$APP->get('UPLOADS_LIST_PAGINATION'));
+				$APP->set('PAGINATION',$PAGINATION);
 
-				foreach($TEMP_PAGINATION_FILES AS $KEY=>$VALUE){
-					if($KEY>=$START && $KEY<$END){
-						$FT=strtolower(strrchr( $VALUE,'.'));
-						if($FT=='.jpg' || $FT=='.jpeg' || $FT=='.gif' || $FT=='.png' || $FT=='.svg'){
-							$PAGINATION_FILES[$KEY]=$VALUE;
+				if($PAGINATION > 1){
+					$APP->set('SHOW_PAGINATION','true');
+					$PAGINATION_STRING = '<ul class="pagination">';
+
+					for($i=1;$i <= $PAGINATION;$i++){
+						if($APP->get('OFFSET')==($i*$APP->get('UPLOADS_LIST_PAGINATION'))){
+							$PAGINATION_STRING.='<li class="active"><a href="'.$APP->get('CONSTRUCTR_BASE_URL').'/constructr/uploads/'.($i*$APP->get('UPLOADS_LIST_PAGINATION')).'">'.$i.'</a></li>';
 						} else {
-							$PAGINATION_FILES[$KEY]=$VALUE;
+							$PAGINATION_STRING.='<li class="waves-effect"><a href="'.$APP->get('CONSTRUCTR_BASE_URL').'/constructr/uploads/'.($i*$APP->get('UPLOADS_LIST_PAGINATION')).'">'.$i.'</a></li>';	
 						}
 					}
+
+					$PAGINATION_STRING.='</ul>';
+					$APP->set('PAGINATION_STRING',$PAGINATION_STRING);
+					$START=$APP->get('OFFSET')-$APP->get('UPLOADS_LIST_PAGINATION');
+					$END=$APP->get('OFFSET');
+					$TEMP_PAGINATION_FILES = $PAGINATION_FILES;
+					$PAGINATION_FILES = array();
+
+					foreach($TEMP_PAGINATION_FILES AS $KEY=>$VALUE){
+						if($KEY>=$START && $KEY<$END){
+							$FT=strtolower(strrchr( $VALUE,'.'));
+							if($FT=='.jpg' || $FT=='.jpeg' || $FT=='.gif' || $FT=='.png' || $FT=='.svg'){
+								$PAGINATION_FILES[$KEY]=$VALUE;
+							} else {
+								$PAGINATION_FILES[$KEY]=$VALUE;
+							}
+						}
+					}
+
+					$APP->set('PAGINATION_FILES',$PAGINATION_FILES);
 				}
 
-				$APP->set('PAGINATION_FILES',$PAGINATION_FILES);
+				echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_uploads.html','text/html');
 			}
-
-            echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_uploads.html','text/html');
         }
 
         public function uploads_delete_file($APP)

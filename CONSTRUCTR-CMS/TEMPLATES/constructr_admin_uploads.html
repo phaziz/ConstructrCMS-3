@@ -35,8 +35,21 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 		</div>
 	</div>
 	<div class="row">
-		<div class="col s12">
+		<div class="col s6">
 			<input type="checkbox" id="pix" checked="checked" /> <label for="pix">Bilder</label>&#160;&#160;&#160;<input type="checkbox" id="files" checked="checked" /> <label for="files">Dateien</label>
+		</div>
+		<div class="col s6">
+			<form action="{{ @CONSTRUCTR_BASE_URL }}/constructr/uploads" method="get" enctype="application/x-www-form-urlencoded">
+				<div class="row">
+					<div class="input-field col s6">
+						<input placeholder="Suchbegriff(e) eingeben mit ENTER best&auml;tigen" name="needle" id="needle" type="text" value="{{ @ORIGIN_NEEDLE }}" required="required">
+						<check if="{{ @ORIGIN_NEEDLE }} != ''">
+							<true><label for="needle">Suche [<a href="{{ @CONSTRUCTR_BASE_URL }}/constructr/uploads">Suche zur&uuml;cksetzen</a>] :</label></true>
+							<false><label for="needle">Suche:</label></false>
+						</check>
+					</div>
+				</div>
+			</form>
 		</div>
 	</div>
 	<check if="{{ @PAGINATION_FILES }}">
@@ -71,7 +84,7 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 			                <td class="center-align"><nobr>
 			                	<a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#false','',str_replace('#true','',@PAGINATION_FILE)) }}" target="_blank" data-position="left" data-delay="25" data-tooltip="Vorschau in neuem Fenster" class="tooltipped"><i class="material-icons">open_in_new</i></a>
 			                	&#160;
-			                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/delete/{{ @PAGINATION_FILE }}" data-position="left" data-delay="25" data-tooltip="Datei l&ouml;schen" class="deleter tooltipped"><i class="material-icons">delete</i></a>
+			                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/delete/{{ str_replace('#false','',str_replace('#true','',@PAGINATION_FILE)) }}" data-position="left" data-delay="25" data-tooltip="Datei l&ouml;schen" class="deleter tooltipped"><i class="material-icons">delete</i></a>
 			                </nobr></td>
 			            </tr>
 			        </repeat>
@@ -94,6 +107,7 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/js/vex.combined.min.js"></script>
 	<script>
 		$(function(){
+			$('#needle').select().focus();
 			$('.materialboxed').materialbox();
 			$(".button-collapse").sideNav();
 			$('#pix').bind('click',function(){

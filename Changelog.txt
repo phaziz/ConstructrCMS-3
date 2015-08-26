@@ -1,5 +1,6 @@
 CHANGELOG
 
+- 2015-08-26 Uploads Searchengine
 - 2015-08-26 Markdown Improvement for Image Dimension's via Code: ![IMAGE_NAME](IMAGE_LOCATION "IMAGE_NAME" "HEIGHT" "WIDTH")
 - 2015-08-25 Bugfixes, UI-improvements, New ConstructrSmartTag {{@ CONSTRUCTR_LINK( (int) PAGE_ID ) @}}
 	- Creates a textlink to page with page-id "PAGE_ID"
