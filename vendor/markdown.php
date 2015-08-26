@@ -343,6 +343,15 @@ class Markdown extends Prefab {
 	protected function _img($str) {
 		$self=$this;
 		return preg_replace_callback(
+		'/!(?:\[(.+?)\])?\h*\(<?(.*?)>?(?:\h*"(.*?)"\h*)?\)?(?:\h*"(.*?)"\h*)?\)?(?:\h*"(.*?)"\h*)?\)/', function($expr) use($self){
+			return '<img src="'.$expr[2].'"'.(empty($expr[1])?'':(' alt="'.$self->esc($expr[1]).'"')).(empty($expr[3])?'':(' title="'.$self->esc($expr[3]).'"')).(' style="height:'.(empty($expr[4])?'auto':($self->esc($expr[4]).'px')).';width:'.(empty($expr[5])?'auto':($self->esc($expr[5]).'px')).'"').'>';
+		},$str);
+	}
+
+/*
+	protected function _img($str) {
+		$self=$this;
+		return preg_replace_callback(
 			'/!(?:\[(.+?)\])?\h*\(<?(.*?)>?(?:\h*"(.*?)"\h*)?\)/',
 			function($expr) use($self) {
 				return '<img src="'.$expr[2].'"'.
@@ -356,6 +365,7 @@ class Markdown extends Prefab {
 			$str
 		);
 	}
+*/
 
 	/**
 	*	Process anchor span

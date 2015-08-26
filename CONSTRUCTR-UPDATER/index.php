@@ -9,8 +9,8 @@
 	define('DATABASE_PASSWORD',$CONSTRUCTR_CONFIG['DATABASE_PASSWORD']);
 
 	header('Location: ' . $CONSTRUCTR_CONFIG['CONSTRUCTR_BASE_URL'] . '/constructr');
-
-/*
+ 
+ /*
     try{
 
         $DBCON=new PDO('mysql:host='.DATABASE_HOSTNAME.';dbname='.DATABASE_DATABASE, DATABASE_USERNAME, DATABASE_PASSWORD, array(PDO::ATTR_PERSISTENT => true));

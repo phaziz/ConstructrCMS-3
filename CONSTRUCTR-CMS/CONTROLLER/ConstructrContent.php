@@ -445,10 +445,8 @@
 
             $PAGE_ID=filter_var($APP->get('PARAMS.page_id'),FILTER_SANITIZE_NUMBER_INT);
             $APP->set('PAGE_ID',$PAGE_ID);
-
             $CONTENT_ID=filter_var($APP->get('PARAMS.content_id'),FILTER_SANITIZE_NUMBER_INT);
             $APP->set('CONTENT_ID',$CONTENT_ID);
-
             $EDIT_CONTENT_RAW=$APP->get('POST.edit_content_raw');
 			$EDIT_CONTENT_HTML=\Markdown::instance()->convert($EDIT_CONTENT_RAW);
 			$EDIT_CONTENT_MAPPING=$APP->get('POST.edit_content_mapping');
