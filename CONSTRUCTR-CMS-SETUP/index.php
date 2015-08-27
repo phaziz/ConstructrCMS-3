@@ -38,7 +38,7 @@ if (isset($_POST['setup'])) {
 $NL = "\n";
 $_CONFIG_FILE_CONTENT = '
 {
-"CONSTRUCTR_VERSION":"3.0 / 2015-08-26",
+"CONSTRUCTR_VERSION":"3.0 / 2015-08-27",
 "DATABASE_HOSTNAME":"'.$_POST['db_host'].'",
 "DATABASE_DATABASE":"'.$_POST['db_database'].'",
 "DATABASE_PORT":3306,
@@ -252,7 +252,7 @@ ALTER TABLE `constructr_user_rights`
 							$CURRENT_URL = getCurrentUrl();
 
 						?>
-						<input class="form-control" type="text" name="base_url" id="base_url" value="<?php echo $CURRENT_URL; ?>" size="50" required="required" placeholder="Basis-URL der Installation">
+						<input class="form-control" type="url" name="base_url" id="base_url" value="<?php echo $CURRENT_URL; ?>" size="50" required="required" placeholder="Basis-URL der Installation">
 						<small><span class="helpBlock" class="help-block">Die Basis-URL für das künftige Frontend deiner ConstructrCMS-Installation.</span></small>
 						<br><br><br>
 					</div>

@@ -118,8 +118,8 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 				$.fn.extend({
 					insertAtCaret: function(myValue){
 						var obj;
-						if( typeof this[0].name !='undefined' ) obj = this[0]; 
-						else obj = this;
+						if(typeof this[0].name !='undefined') obj=this[0]; 
+						else obj=this;
 
 						if (navigator.appName == 'Microsoft Internet Explorer'){
 							obj.focus();
@@ -139,10 +139,24 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 					}
 				});
 			})(jQuery);
+			;OriginHeight=function(IMAGE){
+				var imgObj=new Image();
+				var cH=imgObj.src=IMAGE;
+				var H=imgObj.height;
+				return H;
+			}
+			;OriginWidth=function(IMAGE){
+				var imgObj=new Image();
+				var cH=imgObj.src=IMAGE;
+				var H=imgObj.width;
+				return H;
+			}
 			$('.inserter').bind('click', function(){
-				var FILE = $( this).attr( 'id' );
+				var FILE = $(this).attr( 'id' );
 				var BASE_URL = "{{ @CONSTRUCTR_BASE_URL }}";
-				var MARKDOWN = '![' + FILE + '](' + BASE_URL + '/UPLOADS/' + FILE + ' "' + FILE + '")';
+				var H = OriginHeight(BASE_URL+'/UPLOADS/'+FILE);
+				var W = OriginWidth(BASE_URL+'/UPLOADS/'+FILE);
+				var MARKDOWN = '![' + FILE + '](' + BASE_URL + '/UPLOADS/' + FILE + ' "' + FILE + '" "'+H+'" "'+W+'")';
 				$('#uploads').closeModal();
 				$('#new_content_raw').insertAtCaret(MARKDOWN);
 				return false;

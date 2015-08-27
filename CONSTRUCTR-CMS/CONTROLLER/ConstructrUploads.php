@@ -86,7 +86,7 @@
 				$i=0;
 
 	            while($FILE=readdir($H)){
-	                if($FILE!='.' && $FILE!='..'){
+	                if($FILE!='.' && $FILE!='..' && $FILE!='index.php' && $FILE!='.empty_file'){
 						foreach($NEEDLES AS $NEEDLE){
 							if(strpos(strtolower($FILE),$NEEDLE)!==false){
 								$FT=strtolower(strrchr( $FILE,'.' ));
@@ -111,7 +111,7 @@
 				$i=0;
 	
 	            while($FILE=readdir($H)){
-	                if($FILE!='.' && $FILE!='..'){
+	                if($FILE!='.' && $FILE!='..' && $FILE!='index.php' && $FILE!='.empty_file'){
 						$FT=strtolower(strrchr( $FILE,'.' ));
 						if($FT=='.jpg' || $FT=='.jpeg' || $FT=='.gif' || $FT=='.png' || $FT=='.svg'){
 							$PAGINATION_FILES[$i] = $FILE.'#true';
@@ -163,11 +163,13 @@
 
 					foreach($TEMP_PAGINATION_FILES AS $KEY=>$VALUE){
 						if($KEY>=$START && $KEY<$END){
-							$FT=strtolower(strrchr( $VALUE,'.'));
-							if($FT=='.jpg' || $FT=='.jpeg' || $FT=='.gif' || $FT=='.png' || $FT=='.svg'){
-								$PAGINATION_FILES[$KEY]=$VALUE;
-							} else {
-								$PAGINATION_FILES[$KEY]=$VALUE;
+							if($VALUE!='.' && $VALUE!='..' && $VALUE!='index.php' && $VALUE!='.empty_file'){
+								$FT=strtolower(strrchr( $VALUE,'.'));
+								if($FT=='.jpg' || $FT=='.jpeg' || $FT=='.gif' || $FT=='.png' || $FT=='.svg'){
+									$PAGINATION_FILES[$KEY]=$VALUE;
+								} else {
+									$PAGINATION_FILES[$KEY]=$VALUE;
+								}
 							}
 						}
 					}

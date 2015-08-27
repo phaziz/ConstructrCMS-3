@@ -433,7 +433,6 @@
         public function login_error($APP)
         {
             $APP->get('CONSTRUCTR_LOG')->write('LOGIN_ERROR!');
-
             $APP->clear('SESSION.post_username');
 			$APP->clear('SESSION.username');
             $APP->clear('SESSION.password');

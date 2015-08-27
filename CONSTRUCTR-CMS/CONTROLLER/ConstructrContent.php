@@ -172,7 +172,7 @@
 			$i=0;
 
             while($FILE=readdir($H)){
-                if($FILE!='.' && $FILE!='..'){
+                if($FILE!='.' && $FILE!='..' && $FILE!='.empty_file' && $FILE!='index.php'){
 					$FT=strtolower(strrchr($FILE,'.'));
 
 					if($FT=='.jpg' || $FT=='.jpeg' || $FT=='.gif' || $FT=='.png' || $FT=='.svg'){
@@ -374,7 +374,7 @@
 			$i=0;
 
             while($FILE=readdir($H)){
-                if($FILE!='.' && $FILE!='..'){
+                if($FILE!='.' && $FILE!='..' && $FILE!='.empty_file' && $FILE!='index.php'){
 					$FT=strtolower(strrchr($FILE,'.'));
 
 					if($FT=='.jpg' || $FT=='.jpeg' || $FT=='.gif' || $FT=='.png' || $FT=='.svg'){

@@ -17,9 +17,20 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 </head>
 <body>
 	<include href="{{ @NAVIGATION }}" />
+	<form action="{{ @CONSTRUCTR_BASE_URL }}/constructr/uploads" method="get" enctype="application/x-www-form-urlencoded">
+		<div class="row">
+			<div class="input-field col s12">
+				<input placeholder="Suchbegriff(e) getrennt durch Leerstellen eingeben und die Suche mit ENTER best&auml;tigen" name="needle" id="needle" type="text" value="{{ @ORIGIN_NEEDLE }}" required="required">
+				<check if="{{ @ORIGIN_NEEDLE }} != ''">
+					<true><label for="needle">Suche [<a href="{{ @CONSTRUCTR_BASE_URL }}/constructr/uploads">Suche zur&uuml;cksetzen</a>] :</label></true>
+					<false><label for="needle">Suche:</label></false>
+				</check>
+			</div>
+		</div>
+	</form>
     <div class="row">
         <div class="col s12">
-            <p><strong>{{ @FILES_COUNTR }} Uploads</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/new" class="waves-effect waves-light btn">Neuer Upload +</a></p>
+            <p><strong>{{ @FILES_COUNTR }} Uploads</strong>&#160;&#160;&#160;<input type="checkbox" id="pix" checked="checked" /> <label for="pix">Bilder</label>&#160;&#160;&#160;<input type="checkbox" id="files" checked="checked" /> <label for="files">Dateien</label>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/new" class="waves-effect waves-light btn">Neuer Upload +</a></p>
             <check if="{{ @NEW }} == 'success'">
 				<div class="card-panel green darken-3 white-text">Die Datei wurde erfolgreich hochgeladen!</div>
             </check>
@@ -34,27 +45,9 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
             </check>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col s6">
-			<input type="checkbox" id="pix" checked="checked" /> <label for="pix">Bilder</label>&#160;&#160;&#160;<input type="checkbox" id="files" checked="checked" /> <label for="files">Dateien</label>
-		</div>
-		<div class="col s6">
-			<form action="{{ @CONSTRUCTR_BASE_URL }}/constructr/uploads" method="get" enctype="application/x-www-form-urlencoded">
-				<div class="row">
-					<div class="input-field col s6">
-						<input placeholder="Suchbegriff(e) eingeben mit ENTER best&auml;tigen" name="needle" id="needle" type="text" value="{{ @ORIGIN_NEEDLE }}" required="required">
-						<check if="{{ @ORIGIN_NEEDLE }} != ''">
-							<true><label for="needle">Suche [<a href="{{ @CONSTRUCTR_BASE_URL }}/constructr/uploads">Suche zur&uuml;cksetzen</a>] :</label></true>
-							<false><label for="needle">Suche:</label></false>
-						</check>
-					</div>
-				</div>
-			</form>
-		</div>
-	</div>
 	<check if="{{ @PAGINATION_FILES }}">
 		<true>
-		    <table class="bordered responsive-table hoverable" onmouseout="javascript:$('.tooltipped').tooltip('remove');">
+		    <table class="bordered hoverable" onmouseout="javascript:$('.tooltipped').tooltip('remove');">
 		        <thead>
 		            <tr>
 		            <th data-field="Dateiname">Datei/Vorschau</th>
@@ -74,7 +67,7 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 		            	</check>
 			            	<check if="{{ strrchr(@PAGINATION_FILE,'#') }} == '#true'">
 			            		<true>
-			            			<td><img class="materialboxed" src="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#true','',@PAGINATION_FILE) }}" alt="{{ str_replace('#true','',@PAGINATION_FILE) }}" title="{{ str_replace('#true','',@PAGINATION_FILE) }}"></td>		
+			            			<td><img class="materialboxed" src="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#true','',@PAGINATION_FILE) }}" alt="{{ str_replace('#true','',@PAGINATION_FILE) }}" title="{{ str_replace('#true','',@PAGINATION_FILE) }}" style="margin-left: 25px;"></td>		
 			            		</true>
 			            		<false>
 			            			<td><a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#false','',@PAGINATION_FILE) }}" target="_blank" class="tooltipped" data-position="right" data-delay="25" data-tooltip="Vorschau">{{ str_replace('#false','',@PAGINATION_FILE) }}</a></td>

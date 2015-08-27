@@ -108,6 +108,17 @@
 			nav ul li a:hover{
 				color:blue;
 			}
+			footer{
+				font-family:'Helvetica Neue', sans-serif;
+				font-size:12px;
+				text-align:center;
+			}
+			footer a:link,footer a:active,footer a:visited{
+				text-decoration:none;
+			}
+			a:hover{
+				color:#ff0020;
+			}
 		</style>
 	</head>
 	<body>
@@ -123,7 +134,6 @@
 					<li>{{@ CONSTRUCTR_LINK(3) @}}</li>
 					<li>{{@ CONSTRUCTR_LINK(5) @}}</li>
 					<li>{{@ CONSTRUCTR_LINK(6) @}}</li>
-					<li>{{@ CONSTRUCTR_LINK(7) @}}</li>
 				</ul>
 			</nav>
 
@@ -132,21 +142,22 @@
 			</header><!-- // EOF HEADER-->
 
 			<section class="top">
-				{{@ CONSTRUCTR_MAPPING(TOP) @}}				
+				{{@ CONSTRUCTR_MAPPING(TOP) @}}
 			</section>
 
 			<section class="middle">
-				{{@ CONSTRUCTR_MAPPING(MIDDLE) @}}				
+				{{@ CONSTRUCTR_MAPPING(MIDDLE) @}}
 			</section>
 
 			<section class="bottom">
-				{{@ CONSTRUCTR_MAPPING(BOTTOM) @}}				
+				{{@ CONSTRUCTR_MAPPING(BOTTOM) @}}
 			</section>
 			
 			<footer>
-				{{@ CONSTRUCTR_MAPPING(FOOTER) @}}				
+				<p>
+					<small><a href="http://phaziz.com" target="_blank">phaziz.com</a>&#160;&#160;&#160;|&#160;&#160;&#160;<a href="http://constructr-cms.org" target="_blank">ConstructrCMS</a>&#160;&#160;&#160;|&#160;&#160;&#160;<a href="http://blog.phaziz.com/tag/constructr-cms/" target="_blank">ConstructrCMS Blog</a>&#160;&#160;&#160;|&#160;&#160;&#160;<a href="https://github.com/phaziz/ConstructrCMS-3" target="_blank">ConstructrCMS GitHub</a>&#160;&#160;&#160;|&#160;&#160;&#160;<a href=" https://twitter.com/ConstructrCMS" target="_blank">ConstructrCMS twitter</a></small>
+				</p>
 			</footer>
-
 
 		</div><!-- // EOF .CONTAINER-->
 

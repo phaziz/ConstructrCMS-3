@@ -23,7 +23,7 @@
 	$APP->set('CONSTRUCTR_FE_CACHE', __DIR__.'/CONSTRUCTR-CMS/CACHE/');
 	$APP->set('TEMPLATES',$APP->get('CONSTRUCTR_BASE_URL').'/THEMES/');
 	$APP->set('UPLOADS_LIST_PAGINATION',5);
-	$APP->set('CONSTRUCTR_CACHE',false);
+	$APP->set('CONSTRUCTR_CACHE',true);
 
     try{
     	$APP->set('DBCON',$DBCON=new DB\SQL('mysql:host='.$APP->get('DATABASE_HOSTNAME').';port='.$APP->get('DATABASE_PORT').';dbname='.$APP->get('DATABASE_DATABASE'),$APP->get('DATABASE_USERNAME'),$APP->get('DATABASE_PASSWORD')));
@@ -38,8 +38,8 @@
 		$REQUEST = '';
 	}
 
-    if (strpos($REQUEST, 'constructr')===false){
-		if($APP->get('CONSTRUCTR_CACHE')==true){
+    if (preg_match("/\bconstructr\b/",$REQUEST)!==1){
+		if($APP->get('CONSTRUCTR_CACHE')==1){
 			$UNIQUE=$APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST).'.html';
 
 			if(file_exists($UNIQUE)){
