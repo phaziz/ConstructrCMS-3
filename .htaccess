@@ -26,6 +26,7 @@ RewriteRule .* - [F,L]
 SetEnvIfNoCase User-Agent (<|>|'|&lt;|%0A|%0D|%27|%3C|%3E|%00|href\s) keep_out
 SetEnvIfNoCase User-Agent (archiver|binlar|casper|checkprivacy|clshttp|cmsworldmap|comodo|curl|diavol|dotbot|email|extract|feedfinder|flicky|grab|harvest|httrack|ia_archiver|jakarta|kmccrew|libwww|loader|miner|nikto|nutch|planetwork|purebot|pycurl|python|scan|skygrid|sucker|turnit|vikspider|wget|winhttp|youda|zmeu|zune) keep_out
 <limit GET POST PUT>
+Options -Indexes FollowSymLinks MultiViews
 Order Allow,Deny
 Allow from all
 Deny from env=keep_out
