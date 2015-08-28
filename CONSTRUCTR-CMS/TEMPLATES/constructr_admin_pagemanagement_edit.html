@@ -98,14 +98,15 @@
                 <label for="page_keywords">Schlagworte/Keywords der Seite:</label>
             </div>
             <div class="input-field col s12">
-                <textarea id="page_css" name="page_css" class="materialize-textarea" placeholder="Seitenspezifisches CSS">{{ @PAGE.0.constructr_pages_css }}</textarea>
+                <textarea id="page_css" name="page_css" class="materialize-textarea" placeholder="Seitenspezifisches CSS">{{ @PAGE.0.constructr_pages_css_uncompressed }}</textarea>
                 <label for="page_css">Seitenspezifisches CSS:</label>
             </div>
             <div class="input-field col s12">
-                <textarea id="page_js" name="page_js" class="materialize-textarea" placeholder="Seitenspezifisches Javascript">{{ @PAGE.0.constructr_pages_js }}</textarea>
+                <textarea id="page_js" name="page_js" class="materialize-textarea" placeholder="Seitenspezifisches Javascript">{{ @PAGE.0.constructr_pages_js_uncompressed }}</textarea>
                 <label for="page_js">Seitenspezifisches Javascript:</label>
             </div>
-            <div class="input-field col s12">
+            <div class="input-field col s12 center-align">
+            	<br><br>
                 <button class="btn waves-effect waves-light" type="submit" name="action">Seite speichern</button>
                 <button class="btn waves-effect waves-light red" id="esc" type="submit" name="action">Abbrechen</button>
                 <p><small>Taste <strong>''ESC''</strong> zum abbrechen dr&uuml;cken</small></p>

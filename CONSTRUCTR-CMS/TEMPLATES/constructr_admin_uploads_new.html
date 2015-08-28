@@ -25,8 +25,10 @@
 			    <input type="file" multiple="multiple" name="new_file[]" id="new_file" required="required" placeholder="Datei(en) hinzuf&uuml;gen">
 			</div>
             <div class="input-field col s12" id="preview" style="overflow:hidden;text-align:center;"></div>
-            <div class="input-field col s12">
-                <button class="btn waves-effect waves-light" type="submit" name="action">Datei hochladen</button>
+            <div class="input-field col s12 center-align">
+            	<br><br>
+                <button class="btn waves-effect waves-light" type="submit" name="action">Datei(n) hochladen</button>
+                <button class="btn waves-effect waves-light red" id="esc" type="submit" name="action">Abbrechen</button>
                 <p><small>Taste <strong>''ESC''</strong> zum abbrechen dr&uuml;cken</small></p>
             </div>
         </form>
@@ -36,6 +38,7 @@
     <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/js/materialize.min.js"></script>
     <script>
         $(function(){
+		$('#esc').bind('click',function(){javascript:history.back();});
     	$('#new_file').bind('click', function(){$('#preview').html('');});
 		window.onload=function(){if(window.File&&window.FileList&&window.FileReader){var e=document.getElementById("new_file");e.addEventListener("change",function(e){for(var n=e.target.files,t=document.getElementById("preview"),i=0;i<n.length;i++){var r=n[i];if(r.type.match("image")){var a=new FileReader;a.addEventListener("load",function(e){var n=e.target,i=document.createElement("div");i.innerHTML="<img class='thumbnail' src='"+n.result+"'title='"+n.name+"'/>",t.insertBefore(i,null)}),a.readAsDataURL(r)}}})}else console.log("Your browser does not support File API")};
 		!function(t){var e="undefined"!=typeof t("<input/>")[0].multiple,i=/msie/i.test(navigator.userAgent);t.fn.customFile=function(){return this.each(function(){var n=t(this).addClass("custom-file-upload-hidden"),l=t('<div class="file-upload-wrapper">'),u=t('<input type="text" class="file-upload-input" />'),a=t('<button type="button" class="file-upload-button">Dateien ausw&auml;hlen</button>'),o=t('<label class="file-upload-button" for="'+n[0].id+'">Select a File</label>');n.css({position:"absolute",left:"-9999px"}),l.insertAfter(n).append(n,u,i?o:a),n.attr("tabIndex",-1),a.attr("tabIndex",-1),a.click(function(){n.focus().click()}),n.change(function(){var t,i,l=[];if(e){t=n[0].files;for(var a=0,o=t.length;o>a;a++)l.push(t[a].name);i=l.join(", ")}else i=n.val().split("\\").pop();u.val(i).attr("title",i).focus()}),u.on({blur:function(){n.trigger("blur")},keydown:function(t){if(13===t.which)i||n.trigger("click");else{if(8!==t.which&&46!==t.which)return 9===t.which?void 0:!1;n.replaceWith(n=n.clone(!0)),n.trigger("change"),u.val("")}}})})},e||t(document).on("change","input.customfile",function(){var e=t(this),i="customfile_"+(new Date).getTime(),n=e.parent(),l=n.siblings().find(".file-upload-input").filter(function(){return!this.value}),u=t('<input type="file" id="'+i+'" name="'+e.attr("name")+'"/>');setTimeout(function(){e.val()?l.length||(n.after(u),u.customFile()):(l.parent().remove(),n.appendTo(n.parent()),n.find("input").focus())},1)})}(jQuery),$("input[type=file]").customFile();

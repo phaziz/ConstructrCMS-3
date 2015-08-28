@@ -90,10 +90,10 @@
 									&#160;
 									<check if="{{ @CONTENT.constructr_content_visible }} == 1">
 										<false>
-		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/visibility/on/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''{{ @CONTENT.constructr_content_id }}'' zeigen" class="tooltipped"><i class="material-icons">filter_tilt_shift</i></a>
+		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/visibility/on/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''{{ @CONTENT.constructr_content_id }}'' zeigen" class="tooltipped"><i class="material-icons">visibility_off</i></a>
 										</false>
 										<true>
-											<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/visibility/off/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''{{ @CONTENT.constructr_content_id }}'' verbergen" class="tooltipped"><i class="material-icons">adjust</i></a>
+											<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/visibility/off/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''{{ @CONTENT.constructr_content_id }}'' verbergen" class="tooltipped"><i class="material-icons">visibility</i></a>
 										</true>
 									</check>
 									&#160;

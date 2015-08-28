@@ -248,8 +248,25 @@
             $PAGE_TITLE=filter_var($APP->get('POST.page_title'),FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $PAGE_DESCRIPTION=filter_var($APP->get('POST.page_description'),FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $PAGE_KEYWORDS=filter_var($APP->get('POST.page_keywords'),FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $PAGE_CSS=$APP->get('POST.page_css');
-            $PAGE_JS=$APP->get('POST.page_js');
+
+			if($APP->get('POST.page_css')!=''){
+	            $PAGE_CSS=$APP->get('POST.page_css');
+				$PAGE_CSS=CssMin::minify($APP->get('POST.page_css'));
+				$PAGE_CSS_UNCOMPRESSED=$APP->get('POST.page_css');				
+			} else {
+	            $PAGE_CSS='';
+				$PAGE_CSS_UNCOMPRESSED='';
+			}
+
+			if($APP->get('POST.page_js')!=''){
+	            $PAGE_JS=$APP->get('POST.page_js');
+				$PAGE_JS=JSMin::minify($PAGE_JS);
+				$PAGE_JS_UNCOMPRESSED=$APP->get('POST.page_js');				
+			} else {
+	            $PAGE_JS='';
+				$PAGE_JS_UNCOMPRESSED='';
+			}
+
             $PAGE_VISIBILITY=filter_var($APP->get('POST.page_nav_visible'),FILTER_SANITIZE_NUMBER_INT);
             $SEARCHR=strripos($PAGE_URL,'/');
             $PAGE_ACTIVE=1;
@@ -292,7 +309,7 @@
 			}
 
             $APP->set('UPDATE_PAGE',$APP->get('DBCON')->exec(
-                    array('UPDATE constructr_pages SET constructr_pages_css=:PAGE_CSS,constructr_pages_js=:PAGE_JS,constructr_pages_datetime=:PAGE_DATETIME,constructr_pages_name=:PAGE_NAME,constructr_pages_nav_visible=:PAGE_VISIBILITY,constructr_pages_url=:PAGE_URL,constructr_pages_ext_url=:PAGE_EXT_URL,constructr_pages_template=:PAGE_TEMPLATE,constructr_pages_title=:PAGE_TITLE,constructr_pages_description=:PAGE_DESCRIPTION,constructr_pages_keywords=:PAGE_KEYWORDS,constructr_pages_active=:PAGE_ACTIVE WHERE constructr_pages_id=:PAGE_ID LIMIT 1;'),
+                    array('UPDATE constructr_pages SET constructr_pages_css=:PAGE_CSS,constructr_pages_css_uncompressed=:PAGE_CSS_UNCOMPRESSED,constructr_pages_js=:PAGE_JS,constructr_pages_js_uncompressed=:PAGE_JS_UNCOMPRESSED,constructr_pages_datetime=:PAGE_DATETIME,constructr_pages_name=:PAGE_NAME,constructr_pages_nav_visible=:PAGE_VISIBILITY,constructr_pages_url=:PAGE_URL,constructr_pages_ext_url=:PAGE_EXT_URL,constructr_pages_template=:PAGE_TEMPLATE,constructr_pages_title=:PAGE_TITLE,constructr_pages_description=:PAGE_DESCRIPTION,constructr_pages_keywords=:PAGE_KEYWORDS,constructr_pages_active=:PAGE_ACTIVE WHERE constructr_pages_id=:PAGE_ID LIMIT 1;'),
                     array(
                         array(
                             ':PAGE_ID'=>$PAGE_ID,
@@ -301,7 +318,9 @@
                             ':PAGE_EXT_URL'=>$PAGE_EXT_URL,
                             ':PAGE_TEMPLATE'=>$PAGE_TEMPLATE,
                             ':PAGE_CSS'=>$PAGE_CSS,
+                            ':PAGE_CSS_UNCOMPRESSED'=>$PAGE_CSS_UNCOMPRESSED,
                             ':PAGE_JS'=>$PAGE_JS,
+                            ':PAGE_JS_UNCOMPRESSED'=>$PAGE_JS_UNCOMPRESSED,
                             ':PAGE_TITLE'=>$PAGE_TITLE,
                             ':PAGE_DESCRIPTION'=>$PAGE_DESCRIPTION,
                             ':PAGE_KEYWORDS'=>$PAGE_KEYWORDS,
@@ -399,8 +418,25 @@
             $PAGE_TITLE=filter_var($APP->get('POST.page_title'),FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $PAGE_DESCRIPTION=filter_var($APP->get('POST.page_description'),FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $PAGE_KEYWORDS=filter_var($APP->get('POST.page_keywords'),FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $PAGE_CSS=$APP->get('POST.page_css');
-            $PAGE_JS=$APP->get('POST.page_js');
+
+			if($APP->get('POST.page_css')!=''){
+	            $PAGE_CSS=$APP->get('POST.page_css');
+				$PAGE_CSS=CssMin::minify($APP->get('POST.page_css'));
+				$PAGE_CSS_UNCOMPRESSED=$APP->get('POST.page_css');				
+			} else {
+	            $PAGE_CSS='';
+				$PAGE_CSS_UNCOMPRESSED='';
+			}
+
+			if($APP->get('POST.page_js')!=''){
+	            $PAGE_JS=$APP->get('POST.page_js');
+				$PAGE_JS=JSMin::minify($PAGE_JS);
+				$PAGE_JS_UNCOMPRESSED=$APP->get('POST.page_js');				
+			} else {
+	            $PAGE_JS='';
+				$PAGE_JS_UNCOMPRESSED='';
+			}
+
             $PAGE_VISIBILITY=filter_var($APP->get('POST.page_nav_visible'),FILTER_SANITIZE_NUMBER_INT);
             $SEARCHR=strripos($PAGE_URL,'/');
             $PAGE_ACTIVE=1;
@@ -446,7 +482,7 @@
                 $PAGE_ORDER=$APP->get('RES.0.constructr_pages_order');
 
                 $APP->set('CREATE_PAGE2',$APP->get('DBCON')->exec(
-                        array('INSERT INTO constructr_pages SET constructr_pages_css=:PAGE_CSS,constructr_pages_js=:PAGE_JS,constructr_pages_level=:PAGE_LEVEL,constructr_pages_mother=:PAGE_MOTHER,constructr_pages_order=:PAGE_ORDER,constructr_pages_datetime=:PAGE_DATETIME,constructr_pages_name=:PAGE_NAME,constructr_pages_nav_visible=:PAGE_VISIBILITY,constructr_pages_url=:PAGE_URL,constructr_pages_ext_url=:PAGE_EXT_URL,constructr_pages_template=:PAGE_TEMPLATE,constructr_pages_title=:PAGE_TITLE,constructr_pages_description=:PAGE_DESCRIPTION,constructr_pages_keywords=:PAGE_KEYWORDS,constructr_pages_active=:PAGE_ACTIVE;'),
+                        array('INSERT INTO constructr_pages SET constructr_pages_css=:PAGE_CSS,constructr_pages_css_uncompressed=:PAGE_CSS_UNCOMPRESSED,constructr_pages_js=:PAGE_JS,constructr_pages_js_uncompressed=:PAGE_JS_UNCOMPRESSED,constructr_pages_level=:PAGE_LEVEL,constructr_pages_mother=:PAGE_MOTHER,constructr_pages_order=:PAGE_ORDER,constructr_pages_datetime=:PAGE_DATETIME,constructr_pages_name=:PAGE_NAME,constructr_pages_nav_visible=:PAGE_VISIBILITY,constructr_pages_url=:PAGE_URL,constructr_pages_ext_url=:PAGE_EXT_URL,constructr_pages_template=:PAGE_TEMPLATE,constructr_pages_title=:PAGE_TITLE,constructr_pages_description=:PAGE_DESCRIPTION,constructr_pages_keywords=:PAGE_KEYWORDS,constructr_pages_active=:PAGE_ACTIVE;'),
                         array(
                             array(
                                 ':PAGE_LEVEL'=>$PAGE_LEVEL,
@@ -457,7 +493,9 @@
                                 ':PAGE_EXT_URL'=>$PAGE_EXT_URL,
                                 ':PAGE_TEMPLATE'=>$PAGE_TEMPLATE,
                                 ':PAGE_CSS'=>$PAGE_CSS,
+                                ':PAGE_CSS_UNCOMPRESSED'=>$PAGE_CSS_UNCOMPRESSED,
                                 ':PAGE_JS'=>$PAGE_JS,
+                                ':PAGE_JS_UNCOMPRESSED'=>$PAGE_JS_UNCOMPRESSED,
                                 ':PAGE_TITLE'=>$PAGE_TITLE,
                                 ':PAGE_DESCRIPTION'=>$PAGE_DESCRIPTION,
                                 ':PAGE_KEYWORDS'=>$PAGE_KEYWORDS,
@@ -485,7 +523,7 @@
                 $PAGE_ORDER=($APP->get('RES.0.constructr_pages_order')+1);
 
                 $APP->set('CREATE_PAGE3',$APP->get('DBCON')->exec(
-                        array('INSERT INTO constructr_pages SET constructr_pages_css=:PAGE_CSS,constructr_pages_js=:PAGE_JS,constructr_pages_level=:PAGE_LEVEL,constructr_pages_mother=:PAGE_MOTHER,constructr_pages_order=:PAGE_ORDER,constructr_pages_datetime=:PAGE_DATETIME,constructr_pages_name=:PAGE_NAME,constructr_pages_nav_visible=:PAGE_VISIBILITY,constructr_pages_url=:PAGE_URL,constructr_pages_ext_url=:PAGE_EXT_URL,constructr_pages_template=:PAGE_TEMPLATE,constructr_pages_title=:PAGE_TITLE,constructr_pages_description=:PAGE_DESCRIPTION,constructr_pages_keywords=:PAGE_KEYWORDS,constructr_pages_active=:PAGE_ACTIVE;'),
+                        array('INSERT INTO constructr_pages SET constructr_pages_css=:PAGE_CSS,constructr_pages_css_uncompressed=:PAGE_CSS_UNCOMPRESSED,constructr_pages_js=:PAGE_JS,constructr_pages_js_uncompressed=:PAGE_JS_UNCOMPRESSED,constructr_pages_level=:PAGE_LEVEL,constructr_pages_mother=:PAGE_MOTHER,constructr_pages_order=:PAGE_ORDER,constructr_pages_datetime=:PAGE_DATETIME,constructr_pages_name=:PAGE_NAME,constructr_pages_nav_visible=:PAGE_VISIBILITY,constructr_pages_url=:PAGE_URL,constructr_pages_ext_url=:PAGE_EXT_URL,constructr_pages_template=:PAGE_TEMPLATE,constructr_pages_title=:PAGE_TITLE,constructr_pages_description=:PAGE_DESCRIPTION,constructr_pages_keywords=:PAGE_KEYWORDS,constructr_pages_active=:PAGE_ACTIVE;'),
                         array(
                             array(
                                 ':PAGE_LEVEL'=>$PAGE_LEVEL,
@@ -496,7 +534,9 @@
                                 ':PAGE_EXT_URL'=>$PAGE_EXT_URL,
                                 ':PAGE_TEMPLATE'=>$PAGE_TEMPLATE,
                                 ':PAGE_CSS'=>$PAGE_CSS,
+                                ':PAGE_CSS_UNCOMPRESSED'=>$PAGE_CSS_UNCOMPRESSED,
                                 ':PAGE_JS'=>$PAGE_JS,
+                                ':PAGE_JS_UNCOMPRESSED'=>$PAGE_JS_UNCOMPRESSED,
                                 ':PAGE_TITLE'=>$PAGE_TITLE,
                                 ':PAGE_DESCRIPTION'=>$PAGE_DESCRIPTION,
                                 ':PAGE_KEYWORDS'=>$PAGE_KEYWORDS,
@@ -524,7 +564,7 @@
                 $PAGE_ORDER=($APP->get('RES.0.constructr_pages_order')+1);
 
                 $APP->set('CREATE_PAGE3',$APP->get('DBCON')->exec(
-                        array('INSERT INTO constructr_pages SET constructr_pages_css=:PAGE_CSS,constructr_pages_js=:PAGE_JS,constructr_pages_level=:PAGE_LEVEL,constructr_pages_mother=:PAGE_MOTHER,constructr_pages_order=:PAGE_ORDER,constructr_pages_datetime=:PAGE_DATETIME,constructr_pages_name=:PAGE_NAME,constructr_pages_nav_visible=:PAGE_VISIBILITY,constructr_pages_url=:PAGE_URL,constructr_pages_ext_url=:PAGE_EXT_URL,constructr_pages_template=:PAGE_TEMPLATE,constructr_pages_title=:PAGE_TITLE,constructr_pages_description=:PAGE_DESCRIPTION,constructr_pages_keywords=:PAGE_KEYWORDS,constructr_pages_active=:PAGE_ACTIVE;'),
+                        array('INSERT INTO constructr_pages SET constructr_pages_css=:PAGE_CSS,constructr_pages_css_uncompressed=:PAGE_CSS_UNCOMPRESSED,constructr_pages_js=:PAGE_JS,constructr_pages_js_uncompressed=:PAGE_JS_UNCOMPRESSED,constructr_pages_level=:PAGE_LEVEL,constructr_pages_mother=:PAGE_MOTHER,constructr_pages_order=:PAGE_ORDER,constructr_pages_datetime=:PAGE_DATETIME,constructr_pages_name=:PAGE_NAME,constructr_pages_nav_visible=:PAGE_VISIBILITY,constructr_pages_url=:PAGE_URL,constructr_pages_ext_url=:PAGE_EXT_URL,constructr_pages_template=:PAGE_TEMPLATE,constructr_pages_title=:PAGE_TITLE,constructr_pages_description=:PAGE_DESCRIPTION,constructr_pages_keywords=:PAGE_KEYWORDS,constructr_pages_active=:PAGE_ACTIVE;'),
                         array(
                             array(
                                 ':PAGE_LEVEL'=>$PAGE_LEVEL,
@@ -535,7 +575,9 @@
                                 ':PAGE_EXT_URL'=>$PAGE_EXT_URL,
                                 ':PAGE_TEMPLATE'=>$PAGE_TEMPLATE,
                                 ':PAGE_CSS'=>$PAGE_CSS,
+                                ':PAGE_CSS_UNCOMPRESSED'=>$PAGE_CSS_UNCOMPRESSED,
                                 ':PAGE_JS'=>$PAGE_JS,
+                                ':PAGE_JS_UNCOMPRESSED'=>$PAGE_JS_UNCOMPRESSED,
                                 ':PAGE_TITLE'=>$PAGE_TITLE,
                                 ':PAGE_DESCRIPTION'=>$PAGE_DESCRIPTION,
                                 ':PAGE_KEYWORDS'=>$PAGE_KEYWORDS,
@@ -552,7 +594,7 @@
                 $PAGE_ORDER=($PAGES_COUNTR+1);
 
                 $APP->set('CREATE_PAGE1',$APP->get('DBCON')->exec(
-                        array('INSERT INTO constructr_pages SET constructr_pages_css=:PAGE_CSS,constructr_pages_js=:PAGE_JS,constructr_pages_level=:PAGE_LEVEL,constructr_pages_mother=:PAGE_MOTHER,constructr_pages_order=:PAGE_ORDER,constructr_pages_datetime=:PAGE_DATETIME,constructr_pages_name=:PAGE_NAME,constructr_pages_nav_visible=:PAGE_VISIBILITY,constructr_pages_url=:PAGE_URL,constructr_pages_ext_url=:PAGE_EXT_URL,constructr_pages_template=:PAGE_TEMPLATE,constructr_pages_title=:PAGE_TITLE,constructr_pages_description=:PAGE_DESCRIPTION,constructr_pages_keywords=:PAGE_KEYWORDS,constructr_pages_active=:PAGE_ACTIVE;'),
+                        array('INSERT INTO constructr_pages SET constructr_pages_css=:PAGE_CSS,constructr_pages_css_uncompressed=:PAGE_CSS_UNCOMPRESSED,constructr_pages_js=:PAGE_JS,constructr_pages_js_uncompressed=:PAGE_JS_UNCOMPRESSED,constructr_pages_level=:PAGE_LEVEL,constructr_pages_mother=:PAGE_MOTHER,constructr_pages_order=:PAGE_ORDER,constructr_pages_datetime=:PAGE_DATETIME,constructr_pages_name=:PAGE_NAME,constructr_pages_nav_visible=:PAGE_VISIBILITY,constructr_pages_url=:PAGE_URL,constructr_pages_ext_url=:PAGE_EXT_URL,constructr_pages_template=:PAGE_TEMPLATE,constructr_pages_title=:PAGE_TITLE,constructr_pages_description=:PAGE_DESCRIPTION,constructr_pages_keywords=:PAGE_KEYWORDS,constructr_pages_active=:PAGE_ACTIVE;'),
                         array(
                             array(
                                 ':PAGE_LEVEL'=>$PAGE_LEVEL,
@@ -563,7 +605,9 @@
                                 ':PAGE_EXT_URL'=>$PAGE_EXT_URL,
                                 ':PAGE_TEMPLATE'=>$PAGE_TEMPLATE,
                                 ':PAGE_CSS'=>$PAGE_CSS,
+                                ':PAGE_CSS_UNCOMPRESSED'=>$PAGE_CSS_UNCOMPRESSED,
                                 ':PAGE_JS'=>$PAGE_JS,
+                                ':PAGE_JS_UNCOMPRESSED'=>$PAGE_JS_UNCOMPRESSED,
                                 ':PAGE_TITLE'=>$PAGE_TITLE,
                                 ':PAGE_DESCRIPTION'=>$PAGE_DESCRIPTION,
                                 ':PAGE_KEYWORDS'=>$PAGE_KEYWORDS,

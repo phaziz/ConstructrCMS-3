@@ -20,10 +20,10 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 	<form action="{{ @CONSTRUCTR_BASE_URL }}/constructr/uploads" method="get" enctype="application/x-www-form-urlencoded">
 		<div class="row">
 			<div class="input-field col s12">
+				<i class="material-icons prefix">search</i>
 				<input placeholder="Suchbegriff(e) getrennt durch Leerstellen eingeben und die Suche mit ENTER best&auml;tigen" name="needle" id="needle" type="text" value="{{ @ORIGIN_NEEDLE }}" required="required">
 				<check if="{{ @ORIGIN_NEEDLE }} != ''">
-					<true><label for="needle">Suche [<a href="{{ @CONSTRUCTR_BASE_URL }}/constructr/uploads">Suche zur&uuml;cksetzen</a>] :</label></true>
-					<false><label for="needle">Suche:</label></false>
+					<true><label><a href="{{ @CONSTRUCTR_BASE_URL }}/constructr/uploads">Suche zur&uuml;cksetzen</a></label></true>
 				</check>
 			</div>
 		</div>

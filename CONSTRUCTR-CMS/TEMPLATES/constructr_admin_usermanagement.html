@@ -58,10 +58,10 @@
                                 	&#160;
 									<check if="{{ @USER.constructr_user_active }} == 1">
 										<true>
-											<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/deactivate/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="Benutzer ''{{ @USER.constructr_user_username }}'' deaktivieren" class="tooltipped"><i class="material-icons">adjust</i></a>
+											<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/deactivate/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="Benutzer ''{{ @USER.constructr_user_username }}'' deaktivieren" class="tooltipped"><i class="material-icons">visibility</i></a>
 										</true>
 										<false>
-		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/activate/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="Benutzer ''{{ @USER.constructr_user_username }}'' aktivieren" class="tooltipped"><i class="material-icons">filter_tilt_shift</i></a>
+		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/activate/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="Benutzer ''{{ @USER.constructr_user_username }}'' aktivieren" class="tooltipped"><i class="material-icons">visibility_off</i></a>
 										</false>
 									</check>
                                 	&#160;

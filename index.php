@@ -3,7 +3,6 @@
 	session_start();
 
     $APP=require_once __DIR__.'/vendor/base.php';
-
 	$CONSTRUCTR_CONFIG=file_get_contents(__DIR__.'/CONSTRUCTR-CMS/CONFIG/constructr_config.json');
 	$CONSTRUCTR_CONFIG=json_decode($CONSTRUCTR_CONFIG, true);
 
@@ -18,12 +17,16 @@
 	$APP->set('CONSTRUCTR_BASE_URL',$CONSTRUCTR_CONFIG['CONSTRUCTR_BASE_URL']);
 	$APP->set('CONSTRUCTR_REPLACE_BASE_URL',$CONSTRUCTR_CONFIG['CONSTRUCTR_REPLACE_BASE_URL']);
 	$APP->set('ENCODING','utf-8');
-    $APP->set('AUTOLOAD', __DIR__.'/CONSTRUCTR-CMS/CONTROLLER/');
+    $APP->set('AUTOLOAD','CONSTRUCTR-CMS/CONTROLLER/');
 	$APP->set('CONSTRUCTR_LOG', $CONSTRUCTR_LOG=new \Log('CONSTRUCTR-CMS/LOGFILES/'.date('Y-m-d').'-constructr.txt'));
 	$APP->set('CONSTRUCTR_FE_CACHE', __DIR__.'/CONSTRUCTR-CMS/CACHE/');
 	$APP->set('TEMPLATES',$APP->get('CONSTRUCTR_BASE_URL').'/THEMES/');
 	$APP->set('UPLOADS_LIST_PAGINATION',5);
-	$APP->set('CONSTRUCTR_CACHE',true);
+	$APP->set('CONSTRUCTR_CACHE',1);
+	$APP->set('OUTPUT_COMPRESSION',1);
+	$APP->set('COMPRESSOR_HTML5',0);
+	$APP->set('COMPRESSOR_CSS',1);
+	$APP->set('COMPRESSOR_JS',1);
 
     try{
     	$APP->set('DBCON',$DBCON=new DB\SQL('mysql:host='.$APP->get('DATABASE_HOSTNAME').';port='.$APP->get('DATABASE_PORT').';dbname='.$APP->get('DATABASE_DATABASE'),$APP->get('DATABASE_USERNAME'),$APP->get('DATABASE_PASSWORD')));
@@ -78,8 +81,19 @@
 			$PAGE_ID=$APP->get('ACT_PAGE.0.constructr_pages_id');
 			$PAGE_NAME=$APP->get('ACT_PAGE.0.constructr_pages_name');
 			$PAGE_TEMPLATE=$APP->get('ACT_PAGE.0.constructr_pages_template');
-			$PAGE_CSS=$APP->get('ACT_PAGE.0.constructr_pages_css');
-			$PAGE_JS=$APP->get('ACT_PAGE.0.constructr_pages_js');
+
+			if($APP->get('COMPRESSOR_CSS')==1){
+				$PAGE_CSS=$APP->get('ACT_PAGE.0.constructr_pages_css');	
+			}else{
+				$PAGE_CSS=$APP->get('ACT_PAGE.0.constructr_pages_css_uncompressed');
+			}
+
+			if($APP->get('COMPRESSOR_JS')==1){
+				$PAGE_JS=$APP->get('ACT_PAGE.0.constructr_pages_js');	
+			}else{
+				$PAGE_JS=$APP->get('ACT_PAGE.0.constructr_pages_js_uncompressed');
+			}
+
 			$PAGE_TITLE=$APP->get('ACT_PAGE.0.constructr_pages_title');
 			$PAGE_DESCRIPTION=$APP->get('ACT_PAGE.0.constructr_pages_description');
 			$PAGE_KEYWORDS=$APP->get('ACT_PAGE.0.constructr_pages_keywords');
@@ -239,10 +253,22 @@
 				}
 			}
 
-			$TEMPLATE.="\n<!-- ConstructrCMS Version ".$APP->get("CONSTRUCTR_VERSION")." / http://phaziz.com -->";
+			if($APP->get('OUTPUT_COMPRESSION')==1){
+			    $replace = array('/\>[^\S ]+/s'=>'>','/[^\S ]+\</s'=>'<','/([\t ])+/s'=>' ','/^([\t ])+/m'=>'','/([\t ])+$/m'=>'','~//[a-zA-Z0-9 ]+$~m'=>'','/[\r\n]+([\t ]?[\r\n]+)+/s'=>"\n",'/\>[\r\n\t ]+\</s'=>'><','/}[\r\n\t ]+/s'=>'}','/}[\r\n\t ]+,[\r\n\t ]+/s'=>'},','/\)[\r\n\t ]?{[\r\n\t ]+/s'=>'){','/,[\r\n\t ]?{[\r\n\t ]+/s'=>',{','/\),[\r\n\t ]+/s'=>'),','~([\r\n\t ])?([a-zA-Z0-9]+)="([a-zA-Z0-9_/\\-]+)"([\r\n\t ])?~s'=>'$1$2=$3$4');
+			    $TEMPLATE=preg_replace(array_keys($replace),array_values($replace),$TEMPLATE);
+
+				if($APP->get('COMPRESSOR_HTML5')==1){
+				    $remove=array('</option>','</li>','</dt>','</dd>','</tr>','</th>','</td>');
+				    $TEMPLATE=str_ireplace($remove,'',$TEMPLATE);
+				}
+
+				$TEMPLATE.="\n<!-- ConstructrCMS OutputCompression is active -->";
+			}
+
+			$TEMPLATE.="\n<!-- ConstructrCMS / http://phaziz.com / http://constructr-cms.org -->";
 
 			if($APP->get('CONSTRUCTR_CACHE')==true){
-				@file_put_contents($UNIQUE=$APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST).'.html',$TEMPLATE."\n".'<!-- ConstructrCache '.date('Y-m-d H:i:s').' -->');
+				@file_put_contents($UNIQUE=$APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST).'.html',$TEMPLATE."\n".'<!-- ConstructrCMS cached '.date('Y-m-d H:i:s').' -->');
 			}
 
 			echo $TEMPLATE;

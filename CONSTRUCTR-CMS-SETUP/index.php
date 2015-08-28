@@ -38,7 +38,7 @@ if (isset($_POST['setup'])) {
 $NL = "\n";
 $_CONFIG_FILE_CONTENT = '
 {
-"CONSTRUCTR_VERSION":"3.0 / 2015-08-27",
+"CONSTRUCTR_VERSION":"3.0 / 2015-08-28",
 "DATABASE_HOSTNAME":"'.$_POST['db_host'].'",
 "DATABASE_DATABASE":"'.$_POST['db_database'].'",
 "DATABASE_PORT":3306,
@@ -84,8 +84,8 @@ CREATE TABLE `constructr_content` (
   `constructr_content_visible` int(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `constructr_pages` (
-  `constructr_pages_id` int(255) NOT NULL,
+CREATE TABLE IF NOT EXISTS `constructr_pages` (
+  `constructr_pages_id` int(255) NOT NULL AUTO_INCREMENT,
   `constructr_pages_mother` int(255) NOT NULL DEFAULT '0',
   `constructr_pages_level` int(255) NOT NULL DEFAULT '1',
   `constructr_pages_order` int(255) NOT NULL DEFAULT '0',
@@ -94,15 +94,18 @@ CREATE TABLE `constructr_pages` (
   `constructr_pages_url` varchar(255) NOT NULL DEFAULT '',
   `constructr_pages_ext_url` varchar(255) NOT NULL DEFAULT '',
   `constructr_pages_css` text NOT NULL,
+  `constructr_pages_css_uncompressed` text NOT NULL,
   `constructr_pages_js` text NOT NULL,
+  `constructr_pages_js_uncompressed` text NOT NULL,
   `constructr_pages_template` varchar(255) NOT NULL DEFAULT 'index.php',
   `constructr_pages_title` varchar(255) NOT NULL,
   `constructr_pages_description` text NOT NULL,
   `constructr_pages_keywords` text NOT NULL,
   `constructr_pages_active` int(1) NOT NULL DEFAULT '0',
   `constructr_pages_nav_visible` int(1) NOT NULL DEFAULT '1',
-  `constructr_pages_temp_marker` int(10) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `constructr_pages_temp_marker` int(10) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`constructr_pages_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 CREATE TABLE `constructr_user_rights` (
   `constructr_user_rights_id` int(255) NOT NULL,

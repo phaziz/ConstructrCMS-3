@@ -67,7 +67,7 @@
 				margin-top: 25px;
 				margin-bottom: 25px;
 			}
-			.bottom img{
+			section img{
 				display:block;
 				margin-top: 100px;
 				margin-left:auto;
@@ -151,6 +151,10 @@
 
 			<section class="bottom">
 				{{@ CONSTRUCTR_MAPPING(BOTTOM) @}}
+			</section>
+			
+			<section>
+				{{@ PAGE_CONTENT_HTML @}}
 			</section>
 			
 			<footer>
