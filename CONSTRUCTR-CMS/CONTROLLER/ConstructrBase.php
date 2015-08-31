@@ -2,8 +2,7 @@
 
     class ConstructrBase
     {
-    	public static function constructrLinkGen($APP,$DBCON,$CONSTRUCTR_BASE_URL,$CONSTRUCTR_LINKS,$RETURN=array())
-    	{
+    	public static function constructrLinkGen($APP,$DBCON,$CONSTRUCTR_BASE_URL,$CONSTRUCTR_LINKS,$RETURN=array()){
     		foreach($CONSTRUCTR_LINKS AS $LINK){
 	            $APP->set('TMP_LINK',$DBCON->exec(
 	                    array('SELECT constructr_pages_name,constructr_pages_url,constructr_pages_id FROM constructr_pages WHERE constructr_pages_id=:ID AND constructr_pages_nav_visible=1 LIMIT 1;'),
@@ -19,8 +18,7 @@
 			return $RETURN;
     	}
 
-		public static function constructrNavGenClasses($REQUEST,$BASE_URL,$PAGES,$UL_CLASS,$UL_CLASS_SUB,$LI_CLASS_INACTIVE,$LI_CLASS_ACTIVE,$MOTHER=0)
-		{
+		public static function constructrNavGenClasses($REQUEST,$BASE_URL,$PAGES,$UL_CLASS,$UL_CLASS_SUB,$LI_CLASS_INACTIVE,$LI_CLASS_ACTIVE,$MOTHER=0){
 	        $TREE='';
 
 			if($MOTHER!=0){
@@ -49,8 +47,7 @@
 	        return $TREE;
 		}
 
-		public static function constructrNavGen($BASE_URL,$PAGES,$MOTHER=0)
-		{
+		public static function constructrNavGen($BASE_URL,$PAGES,$MOTHER=0){
 	        $TREE='';
 	        $TREE='<ul>';
 	        for($i=0,$ni=count($PAGES);$i<$ni;$i++){
@@ -66,8 +63,7 @@
 	        return $TREE;
 		}
 
-		public static function constructrFirstLevelNav($APP,$REQUEST,$DBCON,$CONSTRUCTR_BASE_URL,$PAGES_NAV='')
-		{
+		public static function constructrFirstLevelNav($APP,$REQUEST,$DBCON,$CONSTRUCTR_BASE_URL,$PAGES_NAV=''){
             $APP->set('PAGES_NAV',$DBCON->exec(array('SELECT * FROM constructr_pages WHERE constructr_pages_mother=0 AND constructr_pages_nav_visible=1 ORDER BY constructr_pages_order ASC;')));
 
             $APP->set('ACT_MOTHER',$DBCON->exec(
@@ -93,8 +89,7 @@
 			return $PAGES_NAV;
 		}
 
-		public static function constructrSecondLevelNav($APP,$REQUEST,$DBCON,$CONSTRUCTR_BASE_URL,$PAGES_NAV='')
-		{
+		public static function constructrSecondLevelNav($APP,$REQUEST,$DBCON,$CONSTRUCTR_BASE_URL,$PAGES_NAV=''){
             $APP->set('PAGES_NAV',$DBCON->exec(array('SELECT * FROM constructr_pages WHERE constructr_pages_level=2 AND constructr_pages_mother!=0 AND constructr_pages_nav_visible=1 ORDER BY constructr_pages_order ASC;')));
 
             $APP->set('ACT_MOTHER',$DBCON->exec(
@@ -120,8 +115,7 @@
 			return $PAGES_NAV;
 		}
 
-		public static function constructrThirdLevelNav($APP,$REQUEST,$DBCON,$CONSTRUCTR_BASE_URL,$PAGES_NAV = '')
-		{
+		public static function constructrThirdLevelNav($APP,$REQUEST,$DBCON,$CONSTRUCTR_BASE_URL,$PAGES_NAV = ''){
             $APP->set('PAGES_NAV',$DBCON->exec(array('SELECT * FROM constructr_pages WHERE constructr_pages_level=3 AND constructr_pages_mother!=0 AND constructr_pages_nav_visible=1 ORDER BY constructr_pages_order ASC;')));
 
             $APP->set('ACT_MOTHER',$DBCON->exec(
@@ -147,8 +141,7 @@
 			return $PAGES_NAV;
 		}
 
-		public static function constructrSubnavPages($APP,$REQUEST,$DBCON,$CONSTRUCTR_BASE_URL,$SUB_NAV = '')
-		{
+		public static function constructrSubnavPages($APP,$REQUEST,$DBCON,$CONSTRUCTR_BASE_URL,$SUB_NAV = ''){
             $APP->set('ACT_REQUEST',$DBCON->exec(
                     array('SELECT constructr_pages_id,constructr_pages_mother FROM constructr_pages WHERE constructr_pages_nav_visible=1 AND constructr_pages_url=:ACT_URL LIMIT 1;'),
                     array(array(':ACT_URL'=>$REQUEST))
@@ -200,14 +193,12 @@
 			return $SUB_NAV;
 		}
 
-        public function no_rights($APP)
-        {
+        public function no_rights($APP){
         	$APP->set('ACT_VIEW','');
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_no_rights.html','text/html');
         }
 
-        public function checkUserModulRights($MODUL_ID,$USER_RIGHTS,$USER_RIGHTS_COUNTR=0)
-        {
+        public function checkUserModulRights($MODUL_ID,$USER_RIGHTS,$USER_RIGHTS_COUNTR=0){
             foreach ($USER_RIGHTS as $KEY=>$VALUE){
                 if ($KEY==$MODUL_ID && $VALUE==1){
                     $USER_RIGHTS_COUNTR ++;
@@ -217,8 +208,13 @@
             return $USER_RIGHTS_COUNTR;
         }
 
-        public function init($APP)
-        {
+        public function init($APP){
+			if($APP->get('COOKIE.error_login_countr') >= $APP->get('MAX_ERROR_LOGIN')){
+				$NEW_WAITR=(time()+$APP->get('LOGIN_WAITR'));
+				$APP->set('COOKIE.error_waitr',$NEW_WAITR);
+				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-login');
+			}
+
             $CSRF=self::csrf();
             $APP->set('CSRF',$CSRF);
             $APP->set('SESSION.csrf',$CSRF);
@@ -238,88 +234,89 @@
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/index.html','text/html');
         }
 
-        public function login_step_1($APP)
-        {
+        public function login_step_1($APP){
+			if($APP->get('COOKIE.error_login_countr') >= $APP->get('MAX_ERROR_LOGIN')){
+				$NEW_WAITR=(time()+$APP->get('LOGIN_WAITR'));
+				$APP->set('COOKIE.error_waitr',$NEW_WAITR);
+				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-login');
+			}
+
             $POST_CSRF=filter_var($APP->get('POST.csrf'),FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $POST_ADDITIVE=filter_var($APP->get('POST.csrf_additive'),FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $POST_TRIPPLE_ADDITIVE=filter_var($APP->get('POST.csrf_tripple_additive'),FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $POST_USERNAME=trim($APP->get('POST.username'));
 			$EMAIL=$APP->get('POST.email');
 
-            if ($EMAIL!=''){
+            if($EMAIL!=''){
             	$APP->get('CONSTRUCTR_LOG')->write('SPAM LOGIN: '.$EMAIL);
                 die();
             }
 
-            if ($POST_CSRF!=''){
+            if($POST_CSRF!=''){
                 if ($POST_CSRF!=$APP->get('SESSION.csrf')){
                     $APP->get('CONSTRUCTR_LOG')->write('LOGIN FORM CSRF DON\'T MATCH: '.$POST_USERNAME);
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');
                 }
             }
 
-            if ($POST_ADDITIVE!=''){
+            if($POST_ADDITIVE!=''){
                 if ($POST_ADDITIVE!=$APP->get('SESSION.additive')){
                     $APP->get('CONSTRUCTR_LOG')->write('LOGIN FORM ADDITIVE DON\'T MATCH: '.$POST_USERNAME);
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');
                 }
             }
 
-            if ($POST_TRIPPLE_ADDITIVE!=''){
+            if($POST_TRIPPLE_ADDITIVE!=''){
                 if ($POST_TRIPPLE_ADDITIVE!=$APP->get('SESSION.tripple_additive')){
                     $APP->get('CONSTRUCTR_LOG')->write('LOGIN FORM TRIPPLE ADDITIVE DON\'T MATCH: '.$POST_USERNAME);
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');
                 }
             }
 
-            if ($POST_TRIPPLE_ADDITIVE!=$POST_ADDITIVE.$POST_CSRF){
+            if($POST_TRIPPLE_ADDITIVE!=$POST_ADDITIVE.$POST_CSRF){
                 $APP->get('CONSTRUCTR_LOG')->write('LOGIN FORM TRIPPLE ADDITIVE COMPARISON DON\'T MATCH: '.$POST_USERNAME);
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');
             }
 
-            if ($POST_USERNAME!='')
-            {
+            if($POST_USERNAME!=''){
             	$APP->set('SESSION.post_username',$POST_USERNAME);
                 $APP->set('LOGIN_USER',$APP->get('DBCON')->exec(
-                        array('SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME LIMIT 1;'),
+                    array('SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME LIMIT 1;'),
+                    array(
                         array(
-                            array(
-                                ':ACTIVE'=>1,
-                                ':USERNAME'=>$POST_USERNAME
-                            )
+                            ':ACTIVE'=>1,
+                            ':USERNAME'=>$POST_USERNAME
                         )
                     )
-                );
+                ));
 
                 $LOGIN_USER=$APP->get('LOGIN_USER');
 				$OLD_USER_SALT=$APP->get('LOGIN_USER.0.constructr_user_salt');
 
-				if($OLD_USER_SALT == '')
-				{
+				if($OLD_USER_SALT == ''){
 					$OLD_USER_SALT=$APP->get('CONSTRUCTR_USER_SALT');
 				}
 
 				$APP->set('SESSION.OLD_USER_SALT',$OLD_USER_SALT);
 
-                if (count($LOGIN_USER) == 1){
+                if(count($LOGIN_USER) == 1){
                 	$APP->set('SESSION.login_step_1','true');
+					$APP->clear('COOKIE.error_waitr');
+					$APP->clear('COOKIE.error_login_countr');
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-step-2');
-                } else {
+                }else{
                     $APP->set('SESSION.login','false');
                     $APP->get('CONSTRUCTR_LOG')->write('LOGIN USER CREDENTIALS DONT\'T MATCH - USERNAME: '.$POST_USERNAME);
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');
                 }
-            }
-			else
-			{
+            }else{
                 $APP->set('SESSION.login','false');
                 $APP->get('CONSTRUCTR_LOG')->write('LOGIN USER CREDENTIALS DONT\'T MATCH - EMPTY USERNAME');
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');				
 			}
         }
 
-        public function login_step_2($APP)
-        {
+        public function login_step_2($APP){
             $CSRF=self::csrf();
             $APP->set('CSRF',$CSRF);
             $APP->set('SESSION.csrf',$CSRF);
@@ -335,7 +332,7 @@
 			if($APP->get('SESSION.login') == 'true' && $APP->get('SESSION.password')!='' && $APP->get('SESSION.username')!=''){
 				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement');
 			}
-	
+
 			if($APP->get('SESSION.post_username') == ''){
 				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');
 			}
@@ -343,8 +340,7 @@
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/index_step_2.html','text/html');
         }
 
-        public function login_step_2_verify($APP)
-        {
+        public function login_step_2_verify($APP){
             $POST_CSRF=filter_var($APP->get('POST.csrf'),FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $POST_ADDITIVE=filter_var($APP->get('POST.csrf_additive'),FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $POST_TRIPPLE_ADDITIVE=filter_var($APP->get('POST.csrf_tripple_additive'),FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -352,49 +348,48 @@
 			$POST_PASSWORD=crypt(trim($APP->get('POST.password')),$APP->get('SESSION.OLD_USER_SALT'));
 			$EMAIL=$APP->get('POST.email');
 
-            if ($EMAIL!=''){
+            if($EMAIL!=''){
             	$APP->get('CONSTRUCTR_LOG')->write('SPAM LOGIN: '.$EMAIL);
                 die();
             }
 
-            if ($POST_CSRF!=''){
+            if($POST_CSRF!=''){
                 if ($POST_CSRF!=$APP->get('SESSION.csrf')){
                     $APP->get('CONSTRUCTR_LOG')->write('LOGIN FORM CSRF DON\'T MATCH: '.$POST_USERNAME);
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');
                 }
             }
 
-            if ($POST_ADDITIVE!=''){
+            if($POST_ADDITIVE!=''){
                 if ($POST_ADDITIVE!=$APP->get('SESSION.additive')){
                     $APP->get('CONSTRUCTR_LOG')->write('LOGIN FORM ADDITIVE DON\'T MATCH: '.$POST_USERNAME);
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');
                 }
             }
 
-            if ($POST_TRIPPLE_ADDITIVE!=''){
+            if($POST_TRIPPLE_ADDITIVE!=''){
                 if ($POST_TRIPPLE_ADDITIVE!=$APP->get('SESSION.tripple_additive')){
                     $APP->get('CONSTRUCTR_LOG')->write('LOGIN FORM TRIPPLE ADDITIVE DON\'T MATCH: '.$POST_USERNAME);
                     $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');
                 }
             }
 
-            if ($POST_TRIPPLE_ADDITIVE!=$POST_ADDITIVE.$POST_CSRF){
+            if($POST_TRIPPLE_ADDITIVE!=$POST_ADDITIVE.$POST_CSRF){
                 $APP->get('CONSTRUCTR_LOG')->write('LOGIN FORM TRIPPLE ADDITIVE COMPARISON DON\'T MATCH: '.$POST_USERNAME);
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');
             }
 
-            if ($POST_USERNAME !='' && $POST_PASSWORD!=''){
+            if($POST_USERNAME !='' && $POST_PASSWORD!=''){
                 $APP->set('LOGIN_USER',$APP->get('DBCON')->exec(
-                        array('SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;',),
+                    array('SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;',),
+                    array(
                         array(
-                            array(
-                                ':ACTIVE'=>1,
-                                ':USERNAME'=>$POST_USERNAME,
-                                ':PASSWORD'=>$POST_PASSWORD
-                            )
+                            ':ACTIVE'=>1,
+                            ':USERNAME'=>$POST_USERNAME,
+                            ':PASSWORD'=>$POST_PASSWORD
                         )
                     )
-                );
+                ));
 
 	            $APP->clear('SESSION.OLD_USER_SALT');
                 $LOGIN_USER=$APP->get('LOGIN_USER');
@@ -404,19 +399,18 @@
 
               	if ($COUNTR == 1){
                     $APP->set('UPDATE_LOGIN_USER',$APP->get('DBCON')->exec(
-                            array('UPDATE constructr_backenduser SET constructr_user_password=:NEW_PASSWORD_HASH,constructr_user_last_login=:LAST_LOGIN,constructr_user_salt=:NEW_SALT WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;',),
+                        array('UPDATE constructr_backenduser SET constructr_user_password=:NEW_PASSWORD_HASH,constructr_user_last_login=:LAST_LOGIN,constructr_user_salt=:NEW_SALT WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;',),
+                        array(
                             array(
-                                array(
-                                    ':ACTIVE'=>1,
-                                    ':LAST_LOGIN'=>date('Y-m-d H:i:s'),
-                                    ':USERNAME'=>$POST_USERNAME,
-                                    ':PASSWORD'=>$POST_PASSWORD,
-                                    ':NEW_PASSWORD_HASH'=>$NEW_PASSWORD_HASH,
-                                    ':NEW_SALT'=>$NEW_SALT
-                                )
+                                ':ACTIVE'=>1,
+                                ':LAST_LOGIN'=>date('Y-m-d H:i:s'),
+                                ':USERNAME'=>$POST_USERNAME,
+                                ':PASSWORD'=>$POST_PASSWORD,
+                                ':NEW_PASSWORD_HASH'=>$NEW_PASSWORD_HASH,
+                                ':NEW_SALT'=>$NEW_SALT
                             )
                         )
-                    );
+                    ));
 
                     $APP->set('SESSION.login','true');
 					$APP->set('SESSION.username',$POST_USERNAME);
@@ -430,14 +424,28 @@
             }
         }
 
-        public function login_error($APP)
-        {
-            $APP->get('CONSTRUCTR_LOG')->write('LOGIN_ERROR!');
+		public function no_login($APP){
+			echo '<pre>Fehler:</pre>';
+			echo '<pre>&#160;&#160;&#160;&#160;&#160;Kein Login m&ouml;glich bis zum Ablauf von: ' . date('d.m.Y // H:i:s',($APP->get('COOKIE.error_waitr'))) . ' Uhr!</pre>';
+			echo '<pre>&#160;&#160;&#160;&#160;&#160;Laden Sie zum Ablauf der oben genannten Zeit diese Seite neu und Sie können erneut versuchen sich im System anzumelden!</pre>';
+
+			if(time()>$APP->get('COOKIE.error_waitr')){
+				$APP->clear('COOKIE.error_waitr');
+				$APP->clear('COOKIE.error_login_countr');
+				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr');
+			}
+
+			die();
+		}
+
+        public function login_error($APP){
+			$ERROR_COUNTR=($APP->get('COOKIE.error_login_countr')+1);
+			$APP->set('COOKIE.error_login_countr',$ERROR_COUNTR);
+			$APP->get('CONSTRUCTR_LOG')->write('LOGIN_ERROR!');
             $APP->clear('SESSION.post_username');
 			$APP->clear('SESSION.username');
             $APP->clear('SESSION.password');
             $APP->clear('SESSION.login');
-
             $_SESSION=array();
 
             if (ini_get("session.use_cookies")){
@@ -460,11 +468,16 @@
             $APP->set('TRIPPLE_ADDITIVE',$TRIPPLE_ADDITIVE);
             $APP->set('SESSION.tripple_additive',$TRIPPLE_ADDITIVE);
 
+			if($APP->get('COOKIE.error_login_countr') >= $APP->get('MAX_ERROR_LOGIN')){
+				$NEW_WAITR=(time()+$APP->get('LOGIN_WAITR'));
+				$APP->set('COOKIE.error_waitr',$NEW_WAITR);
+				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-login');
+			}
+
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/index_login_error.html','text/html');
         }
 
-	    public function flatten_array($array)
-	    {
+	    public function flatten_array($array){
 	        $flat_array=array();
 	        $size=sizeof($array);
 	        $keys=array_keys($array);
@@ -504,8 +517,7 @@
 	        return self::flatten_array($files);
 	    }
 
-        public function logout($APP)
-        {
+        public function logout($APP){
             $APP->clear('SESSION.post_username');
 			$APP->clear('SESSION.username');
             $APP->clear('SESSION.password');
@@ -524,8 +536,7 @@
             $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/');
         }
 
-        public function retrieve_password($APP)
-        {
+        public function retrieve_password($APP){
             $USERNAME=filter_var($APP->get('PARAMS.username'),FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             if ($USERNAME!=''){
@@ -568,8 +579,7 @@
             }
         }
 
-        public function updated_user_credentials($APP)
-        {
+        public function updated_user_credentials($APP){
             $CSRF=self::csrf();
             $APP->set('CSRF',$CSRF);
 

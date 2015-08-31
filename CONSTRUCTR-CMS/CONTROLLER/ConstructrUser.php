@@ -2,8 +2,7 @@
 
     class ConstructrUser extends ConstructrBase
     {
-        public function beforeRoute($APP)
-        {
+        public function beforeRoute($APP){
         	$APP->set('ACT_VIEW','user');
 
             if($APP->get('SESSION.login')=='true' && $APP->get('SESSION.username')!='' && $APP->get('SESSION.password')!=''){
@@ -51,8 +50,7 @@
             }
         }
 
-        public function user_management($APP)
-        {
+        public function user_management($APP){
 			$APP->set('MODUL_ID',40);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -97,8 +95,7 @@
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_usermanagement.html','text/html');
         }
 
-		public function user_management_activate($APP)
-		{
+		public function user_management_activate($APP){
             $APP->set('MODUL_ID',42);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -122,8 +119,7 @@
 			}
 		}
 
-		public function user_management_deactivate($APP)
-		{
+		public function user_management_deactivate($APP){
             $APP->set('MODUL_ID',42);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -147,8 +143,7 @@
 			}
 		}
 
-		public function user_management_edit_rights($APP)
-		{
+		public function user_management_edit_rights($APP){
             $APP->set('MODUL_ID',44);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -185,8 +180,7 @@
 			echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_usermanagement_edit_rights.html','text/html');
 		}
 
-		public function user_management_update_rights($APP)
-		{
+		public function user_management_update_rights($APP){
 			$APP->set('MODUL_ID',44);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -233,8 +227,7 @@
 			}
 		}
 
-        public function user_management_new($APP)
-        {
+        public function user_management_new($APP){
             $APP->set('MODUL_ID',41);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -256,8 +249,7 @@
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_usermanagement_new.html','text/html');
         }
 
-        public function user_management_new_verify($APP)
-        {
+        public function user_management_new_verify($APP){
             $APP->set('MODUL_ID',41);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -360,8 +352,7 @@
             $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/usermanagement?new=success');
         }
 
-        public function user_management_delete($APP)
-        {
+        public function user_management_delete($APP){
             $APP->set('MODUL_ID',43);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -387,8 +378,7 @@
             $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/usermanagement?delete=success');
         }
 
-        public function user_management_edit($APP)
-        {
+        public function user_management_edit($APP){
             $APP->set('MODUL_ID',42);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -419,8 +409,7 @@
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_usermanagement_edit.html','text/html');
         }
 
-        public function user_management_edit_verify($APP)
-        {
+        public function user_management_edit_verify($APP){
             $APP->set('MODUL_ID',42);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 

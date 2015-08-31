@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Constructr Administration</title>
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/css/constructr.css">
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+img.initialized{max-height:50px;max-width:auto;}
+img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-width: 100%; border: 5px solid #ff0066;}
+</style>
+</head>
+<body>
+	<include href="{{ @NAVIGATION }}" />
+    <div class="row">
+        <div class="col s12">
+            <p><strong>Neuen Inhalt auf Seite <a class="tooltipped" data-position="tpo" data-delay="25" data-tooltip="Seite im Browser zeigen" href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.0.constructr_pages_url }}" target="_blank">''{{ @PAGE.0.constructr_pages_name }}''</a> erstellen</strong> | <a href="#" id="uploadsbtn">Uploads anzeigen</a></p>
+            <p><input type="checkbox" class="vorschau" id="vorschau_aus" /><label for="vorschau_aus">Vorschau aus</label></p>
+        </div>
+    </div>
+    <form name="new_content" id="new_content" action="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/new-before" method="post" enctype="application/x-www-form-urlencoded" class="col s12">
+        <input type="hidden" name="csrf" value="{{ @CSRF }}">
+        <input type="hidden" name="csrf_additive" value="{{ @ADDITIVE }}">
+        <input type="hidden" name="csrf_tripple_additive" value="{{ @TRIPPLE_ADDITIVE }}">
+	    <input type="hidden" name="new_position" value="{{ @NEW_POSITION }}">
+	    <input type="hidden" name="template_file" value="{{ @TEMPLATE_FILE }}">
+        <div class="row">
+	    	<check if="{{ @CONSTRUCTR_TPL_MAPPINGS }}">
+	    		<true>
+	    			<div class="input-field col s12">
+		                <select name="new_content_mapping" id="new_content_mapping">
+		                    <option value="">Bitte w&auml;hlen:</option>
+							<repeat group="{{ @CONSTRUCTR_TPL_MAPPINGS }}" value="{{ @CONSTRUCTR_TPL_MAPPING }}">
+								<option value="{{ @CONSTRUCTR_TPL_MAPPING }}">{{ @CONSTRUCTR_TPL_MAPPING }}</option>
+							</repeat>
+		                </select>
+		                <label for="new_content_mapping">Constructr Mapping:</label>
+	               </div>
+	    		</true>
+	    		<false>
+					<input type="hidden" name="new_content_mapping=" value="">
+	    		</false>
+	    	</check>
+			<br><br>
+	        <div class="input-field col s6" id="entering">
+	            <textarea id="new_content_raw" name="new_content_raw" class="materialize-textarea" autofocus required="required" style="min-height: 300px;max-height: 500px; overflow: auto;"></textarea>
+	            <label for="new_content_raw">Inhalt (Markdown):</label>
+	        </div>
+	        <div class="input-field col s6" id="live-preview" style="min-height:300px;max-height:500px;overflow:auto;padding: 10px 10px 10px 10px;"></div>
+            <div class="input-field col s12 center-align">
+            	<br><br>
+                <button class="btn waves-effect waves-light" type="submit" name="action">Neuen Inhalt speichern</button>
+                <button class="btn waves-effect waves-light red" id="esc" type="submit" name="action">Abbrechen</button>
+                <p><small>[Zeichen: <span id='character-counter' class='counter'></span> | W&ouml;rter: <span id='word-counter' class='counter'></span> | Abs&auml;tze: <span id='paragraph-counter' class='counter'></span>]</small>
+                <p><small>Taste <strong>''ESC''</strong> zum abbrechen dr&uuml;cken</small></p>
+                <p><small>Der eingegebene Text wird beim speichern von <a href="http://en.wikipedia.org/wiki/Markdown" target="_blank">Markdown</a>-Syntax in HTML umgewandelt!</small></p>
+            </div>
+	    </div>
+        </form>
+	<div id="uploads" class="modal bottom-sheet">
+    	<div class="modal-content">
+			<h4>Verf&uuml;gbare Uploads</h4>
+	        <table class="bordered responsive-table hoverable">
+	            <thead>
+	                <tr>
+	                <th data-field="Dateiname">Dateiname</th>
+	                <th data-field="URL">Markdown-Code</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+					<check if="{{ @IMAGES }}">
+						<true>
+			                <repeat group="{{ @IMAGES }}" value="{{ @IMAGE }}">
+				                <tr>
+				                    <td><img class="thumbnail_content" src="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @IMAGE }}" alt="{{ @IMAGE }}" title="{{ @IMAGE }}"></td>
+				                    <td><span class="tooltipped inserter" id="{{ @IMAGE }}" data-position="top" data-delay="25" data-tooltip="Markdown-Code &uuml;bernehmen">![{{ @IMAGE }}]({{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @IMAGE }} "{{ @IMAGE }}")</span></td>
+				                </tr>
+				            </repeat>
+						</true>
+					</check>
+					<check if="{{ @FILES }}">
+						<true>
+			                <repeat group="{{ @FILES }}" value="{{ @FILE }}">
+				                <tr>
+				                    <td>{{ @FILE }}</td>
+				                    <td><span class="tooltipped inserter" id="{{ @FILE }}" data-position="top" data-delay="25" data-tooltip="Markdown-Code &uuml;bernehmen">![{{ @FILE }}]({{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @FILE }} "{{ @FILE }}")</span></td>
+				                </tr>
+				            </repeat>
+						</true>
+					</check>
+	            </tbody>
+	        </table>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="waves-effect waves-green btn-flat modal-action modal-close">schlie&szlig;en</a>
+		</div>
+	</div>
+	<div class="row"><div class="col s12 center-align"><p><small><a href="http://phaziz.com" target="_blank">ConstructrCMS Version {{ @CONSTRUCTR_VERSION }}</small></a></p></div></div>
+    <script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/jquery/jquery-2.1.4.min.js"></script>
+	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/js/materialize.min.js"></script>
+	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/countable/countable.js"></script>
+    <script>
+        $(function() {
+        	$('select').material_select();
+        	$(".button-collapse").sideNav();
+			$('#vorschau_aus').bind('click', function (){
+				if($(this).prop("checked") == true){
+					$('#entering').prop('class','input-field col s12 m12 l12');
+					$('#live-preview').hide();
+				} else {
+					$('#entering').prop('class','input-field col s12 m6 l6');
+					$('#live-preview').show();
+	        	$('#live-preview').html('Vorschau wird generiert...');
+				$('#new_content_raw').bind('keyup', function(){
+					var CONTENT = $('#new_content_raw').val();
+		            if(CONTENT != '') {
+		                $.post("{{ @CONSTRUCTR_BASE_URL}}/constructr/content/live-preview/", { content:CONTENT })
+							.done(function( data ) {
+		                        if(data) {
+									$('#live-preview').html(data);
+		                        }
+	                    	});
+		            }
+				});
+
+				}
+			});
+			;(function ($, undefined){
+				$.fn.extend({
+					insertAtCaret: function(myValue){
+						var obj;
+						if(typeof this[0].name !='undefined') obj=this[0]; 
+						else obj=this;
+
+						if (navigator.appName == 'Microsoft Internet Explorer'){
+							obj.focus();
+							sel = document.selection.createRange();
+							sel.text = myValue;
+							obj.focus();
+						} else {
+							var startPos = obj.selectionStart;
+							var endPos = obj.selectionEnd;
+							var scrollTop = obj.scrollTop;
+							obj.value = obj.value.substring(0, startPos)+myValue+obj.value.substring(endPos,obj.value.length);
+							obj.focus();
+							obj.selectionStart = startPos + myValue.length;
+							obj.selectionEnd = startPos + myValue.length;
+							obj.scrollTop = scrollTop;
+						}
+					}
+				});
+			})(jQuery);
+			;OriginHeight=function(IMAGE){
+				var imgObj=new Image();
+				var cH=imgObj.src=IMAGE;
+				var H=imgObj.height;
+				return H;
+			}
+			;OriginWidth=function(IMAGE){
+				var imgObj=new Image();
+				var cH=imgObj.src=IMAGE;
+				var H=imgObj.width;
+				return H;
+			}
+			$('.inserter').bind('click', function(){
+				var FILE = $(this).attr( 'id' );
+				var BASE_URL = "{{ @CONSTRUCTR_BASE_URL }}";
+				var H = OriginHeight(BASE_URL+'/UPLOADS/'+FILE);
+				var W = OriginWidth(BASE_URL+'/UPLOADS/'+FILE);
+				var MARKDOWN = '![' + FILE + '](' + BASE_URL + '/UPLOADS/' + FILE + ' "' + FILE + '" "'+H+'" "'+W+'")';
+				$('#uploads').closeModal();
+				$('#new_content_raw').insertAtCaret(MARKDOWN);
+				return false;
+			});
+			var area = document.getElementById('new_content_raw');
+			Countable.live(area, function (counter) {
+				document.getElementById('character-counter').innerHTML = counter.characters;
+				document.getElementById('word-counter').innerHTML = counter.words;
+				document.getElementById('paragraph-counter').innerHTML = counter.paragraphs;
+			});
+			$('#uploadsbtn').bind('click', function (e) {
+				e.preventDefault();
+				$('#uploads').openModal({
+					dismissible: true,opacity: .5,in_duration:300,out_duration:100
+      			});
+			});
+        	$('#live-preview').html('Vorschau wird generiert...');
+			$('#new_content_raw').bind('keyup', function(){
+				var CONTENT = $('#new_content_raw').val();
+	            if(CONTENT != '') {
+	                $.post("{{ @CONSTRUCTR_BASE_URL}}/constructr/content/live-preview/", { content:CONTENT })
+						.done(function( data ) {
+	                        if(data) {
+								$('#live-preview').html(data);
+	                        }
+                    	});
+	            }
+			});
+			$('#esc').bind('click',function() {
+			    javascript:history.back();
+			});
+			$(document).keyup(function(e) {
+			    if (e.which === 27) javascript:history.back();
+			});
+            function autoBlinder(){
+                $('.card-panel').fadeOut();
+            }
+            setInterval(autoBlinder,4500);
+        	$('#new_content_raw').focus();
+        });
+    </script>
+</body>
+</html>

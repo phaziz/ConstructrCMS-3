@@ -2,8 +2,7 @@
 
     class ConstructrCMS extends ConstructrBase
     {
-        public function beforeRoute($APP)
-        {
+        public function beforeRoute($APP){
         	$APP->set('ACT_VIEW','pages');
 
             if ($APP->get('SESSION.login')=='true' && $APP->get('SESSION.username')!='' && $APP->get('SESSION.password')!=''){
@@ -51,8 +50,7 @@
             }
         }
 
-        public function admin_init($APP)
-        {
+        public function admin_init($APP){
             $APP->set('MODUL_ID',10);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -115,14 +113,12 @@
 	        return $TREE;
 		}
 
-		public static function get_max_page_level($APP)
-		{
+		public static function get_max_page_level($APP){
             $APP->set('MAX_PAGE_LEVEL',$APP->get('DBCON')->exec(array('SELECT MAX(constructr_pages_level) AS MAX_LEVEL FROM constructr_pages;')));
 			return ($APP->get('MAX_PAGE_LEVEL.0.MAX_LEVEL'));
 		}
 
-        public function page_management($APP)
-        {
+        public function page_management($APP){
             $APP->set('MODUL_ID',30);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -160,8 +156,7 @@
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_pagemanagement.html','text/html');
         }
 
-        public function page_management_edit($APP)
-        {
+        public function page_management_edit($APP){
             $APP->set('MODUL_ID',32);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -197,8 +192,7 @@
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_pagemanagement_edit.html','text/html');
         }
 
-        public function page_management_edit_verify($APP)
-        {
+        public function page_management_edit_verify($APP){
             $APP->set('MODUL_ID',32);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -337,8 +331,7 @@
             $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?edit=success');
         }
 
-        public function page_management_new($APP)
-        {
+        public function page_management_new($APP){
             $APP->set('MODUL_ID',31);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -366,8 +359,7 @@
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_pagemanagement_new.html','text/html');
         }
 
-        public function page_management_new_verify($APP)
-        {
+        public function page_management_new_verify($APP){
             $APP->set('MODUL_ID',31);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -625,8 +617,7 @@
             $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?new=success');
         }
 
-        public function page_management_delete_with_content($APP)
-        {
+        public function page_management_delete_with_content($APP){
             $APP->set('MODUL_ID',33);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -692,8 +683,7 @@
             }
         }
 
-        public function page_management_delete($APP)
-        {
+        public function page_management_delete($APP){
             $APP->set('MODUL_ID',33);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -764,8 +754,7 @@
             }
         }
 
-		public function page_management_change_visibility($APP)
-		{
+		public function page_management_change_visibility($APP){
             $APP->set('MODUL_ID',32);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -807,8 +796,7 @@
 			}
 		}
 
-        public function page_management_move_up($APP)
-        {
+        public function page_management_move_up($APP){
             $APP->set('MODUL_ID',34);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -940,8 +928,7 @@
             $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?move=success');
         }
 
-        public function page_management_move_down($APP)
-        {
+        public function page_management_move_down($APP){
             $APP->set('MODUL_ID',34);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -1073,13 +1060,11 @@
             $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?move=success');
         }
 
-        public function admin_404($APP)
-        {
+        public function admin_404($APP){
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_404.html','text/html');
         }
 
-        public function admin_error($APP)
-        {
+        public function admin_error($APP){
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_error.html','text/html');
         }
 
@@ -1088,8 +1073,7 @@
 			echo self::cleanUrl($MESSY_URL);
 		}
 
-        public function cleanUrl($str)
-        {
+        public function cleanUrl($str){
             $str=str_replace('À','-',$str);
             $str=str_replace('Á','-',$str);
             $str=str_replace('Â','-',$str);
@@ -1178,8 +1162,7 @@
 	        return self::flatten_array($files);
 	    }
 
-	    public function flatten_array($array)
-	    {
+	    public function flatten_array($array){
 	        $flat_array=array();
 	        $size=sizeof($array);
 	        $keys=array_keys($array);

@@ -21,12 +21,15 @@
 	$APP->set('CONSTRUCTR_LOG', $CONSTRUCTR_LOG=new \Log('CONSTRUCTR-CMS/LOGFILES/'.date('Y-m-d').'-constructr.txt'));
 	$APP->set('CONSTRUCTR_FE_CACHE', __DIR__.'/CONSTRUCTR-CMS/CACHE/');
 	$APP->set('TEMPLATES',$APP->get('CONSTRUCTR_BASE_URL').'/THEMES/');
-	$APP->set('UPLOADS_LIST_PAGINATION',5);
-	$APP->set('CONSTRUCTR_CACHE',1);
-	$APP->set('OUTPUT_COMPRESSION',1);
-	$APP->set('COMPRESSOR_HTML5',0);
-	$APP->set('COMPRESSOR_CSS',1);
-	$APP->set('COMPRESSOR_JS',1);
+
+	$APP->set('MAX_ERROR_LOGIN',5); // (integer) // Standard: 5
+	$APP->set('LOGIN_WAITR',600); // (integer) // Standard: 600
+	$APP->set('UPLOADS_LIST_PAGINATION',5); // (integer) // Standard: 5
+	$APP->set('CONSTRUCTR_CACHE',1); // 0 || 1 // Standard: 1
+	$APP->set('OUTPUT_COMPRESSION',1); // 0 || 1 // Standard: 1
+	$APP->set('COMPRESSOR_HTML5',0); // 0 || 1 // Standard: 0
+	$APP->set('COMPRESSOR_CSS',1); // 0 || 1 // Standard: 1
+	$APP->set('COMPRESSOR_JS',1); // 0 || 1 // Standard: 1
 
     try{
     	$APP->set('DBCON',$DBCON=new DB\SQL('mysql:host='.$APP->get('DATABASE_HOSTNAME').';port='.$APP->get('DATABASE_PORT').';dbname='.$APP->get('DATABASE_DATABASE'),$APP->get('DATABASE_USERNAME'),$APP->get('DATABASE_PASSWORD')));

@@ -2,8 +2,7 @@
 
     class ConstructrContent extends ConstructrBase
     {
-        public function beforeRoute($APP)
-        {
+        public function beforeRoute($APP){
         	$APP->set('ACT_VIEW','pages');
 
             if($APP->get('SESSION.login')=='true' && $APP->get('SESSION.username')!='' && $APP->get('SESSION.password')!=''){
@@ -52,8 +51,7 @@
             }
         }
 
-        public function content_init($APP)
-        {
+        public function content_init($APP){
             $APP->set('MODUL_ID',50);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -107,8 +105,383 @@
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_content.html','text/html');
         }
 
-        public function content_new($APP)
-        {
+        public function content_new_before($APP){
+            $APP->set('MODUL_ID',51);
+            $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
+
+            if ($USER_RIGHTS==false){
+                $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
+            }
+
+            $PAGE_ID=filter_var($APP->get('PARAMS.page_id'),FILTER_SANITIZE_NUMBER_INT);
+			$BEFORE_CONTENT_ID=filter_var($APP->get('PARAMS.content_id'),FILTER_SANITIZE_NUMBER_INT);
+
+            $APP->set('PAGE_ID',$PAGE_ID);
+            $APP->set('PAGE',$APP->get('DBCON')->exec(
+                    array('SELECT * FROM constructr_pages WHERE constructr_pages_id=:PAGE_ID LIMIT 1;'),
+                    array(array(':PAGE_ID'=>$PAGE_ID))
+                )
+            );
+
+            $CSRF=parent::csrf();
+            $APP->set('CSRF',$CSRF);
+            $APP->set('SESSION.csrf',$CSRF);
+
+            $ADDITIVE=parent::additive();
+            $APP->set('ADDITIVE',$ADDITIVE);
+            $APP->set('SESSION.additive',$ADDITIVE);
+
+            $TRIPPLE_ADDITIVE=($ADDITIVE.$CSRF);
+            $APP->set('TRIPPLE_ADDITIVE',$TRIPPLE_ADDITIVE);
+            $APP->set('SESSION.tripple_additive',$TRIPPLE_ADDITIVE);
+
+			if($BEFORE_CONTENT_ID==1){
+				$APP->set('NEW_POSITION',1);	
+			}else{
+				$APP->set('NEW_POSITION',($BEFORE_CONTENT_ID-1));
+			}
+
+            $APP->set('TEMPLATE',$APP->get('DBCON')->exec(
+                    array('SELECT constructr_pages_template FROM constructr_pages WHERE constructr_pages_id=:PAGE_ID;'),
+                    array(array(':PAGE_ID'=>$PAGE_ID))
+                )
+            );
+
+			$APP->set('TEMPLATE_FILE',$APP->get('TEMPLATE.0.constructr_pages_template'));
+			$TEMPLATE_TEXT=file_get_contents($APP->get('TEMPLATES').$APP->get('TEMPLATE_FILE'));
+			preg_match_all("/({{@ CONSTRUCTR_MAPPING\()+([\w-])+(\) @}})/",$TEMPLATE_TEXT,$MATCH);
+			$CONSTRUCTR_TPL_MAPPINGS=array();
+
+			if($MATCH[0]){
+				$i=0;
+				foreach($MATCH[0] AS $KEY=>$MATCHR){
+					$CONSTRUCTR_TPL_MAPPINGS[$i]=$MATCHR;
+					$i++;
+				}
+			}
+
+			$APP->set('CONSTRUCTR_TPL_MAPPINGS',$CONSTRUCTR_TPL_MAPPINGS);
+            $H=opendir($APP->get('UPLOADS'));
+
+			$IMAGES=array();
+            $FILES=array();
+			$i=0;
+
+            while($FILE=readdir($H)){
+                if($FILE!='.' && $FILE!='..' && $FILE!='.empty_file' && $FILE!='index.php'){
+					$FT=strtolower(strrchr($FILE,'.'));
+
+					if($FT=='.jpg' || $FT=='.jpeg' || $FT=='.gif' || $FT=='.png' || $FT=='.svg'){
+	                    $IMAGES[$i]=$FILE;
+	                    $i++;
+					} else {
+	                    $FILES[$i]=$FILE;
+	                    $i++;
+					}
+                }
+            }
+
+            closedir($H);
+
+            uksort($IMAGES,"strnatcmp");
+			uksort($FILES,"strnatcmp");
+
+            $APP->set('IMAGES',$IMAGES);
+            $APP->set('FILES',$FILES);
+
+            echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_content_new_before.html','text/html');
+        }
+
+        public function content_new_before_verify($APP){
+            $APP->set('MODUL_ID',51);
+            $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
+
+            if ($USER_RIGHTS==false){
+                $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
+            }
+
+            $PAGE_ID=filter_var($APP->get('PARAMS.page_id'),FILTER_SANITIZE_NUMBER_INT);
+            $APP->set('PAGE_ID',$PAGE_ID);
+
+            $NEW_POSITION=filter_var($APP->get('POST.new_position'),FILTER_SANITIZE_NUMBER_INT);
+            $NEW_CONTENT_RAW=$APP->get('POST.new_content_raw');
+			$NEW_CONTENT_HTML=\Markdown::instance()->convert($NEW_CONTENT_RAW);
+			$NEW_CONTENT_MAPPING=$APP->get('POST.new_content_mapping');
+
+            $POST_CSRF=$APP->get('POST.csrf');
+            $POST_ADDITIVE=$APP->get('POST.csrf_additive');
+            $POST_TRIPPLE_ADDITIVE=$APP->get('POST.csrf_tripple_additive');
+
+            if ($POST_CSRF!=''){
+                if ($POST_CSRF!=$APP->get('SESSION.csrf')){
+                    $APP->get('CONSTRUCTR_LOG')->write('FORM CSRF DON\'T MATCH: '.$POST_USERNAME);
+                    $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
+                }
+            }
+
+            if ($POST_ADDITIVE!=''){
+                if ($POST_ADDITIVE!=$APP->get('SESSION.additive')){
+                    $APP->get('CONSTRUCTR_LOG')->write('FORM ADDITIVE DON\'T MATCH: '.$POST_USERNAME);
+                    $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
+                }
+            }
+
+            if ($POST_TRIPPLE_ADDITIVE!=''){
+                if ($POST_TRIPPLE_ADDITIVE!=$APP->get('SESSION.tripple_additive')){
+                    $APP->get('CONSTRUCTR_LOG')->write('FORM TRIPPLE ADDITIVE DON\'T MATCH: '.$POST_USERNAME);
+                    $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
+                }
+            }
+
+            if ($POST_TRIPPLE_ADDITIVE!=$POST_ADDITIVE.$POST_CSRF){
+                $APP->get('CONSTRUCTR_LOG')->write('FORM TRIPPLE ADDITIVE COMPARISON DON\'T MATCH: '.$POST_USERNAME);
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
+            }
+
+            if ($APP->get('PAGE_ID')!='' && $NEW_POSITION!=''){
+                $APP->get('DBCON')->exec(
+                    array('UPDATE constructr_content SET constructr_content_order=(constructr_content_order+1) WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_order>=:NEW_POSITION;'),
+                    array(
+                        array(
+                            ':PAGE_ID'=>$PAGE_ID,
+                            ':NEW_POSITION'=>$NEW_POSITION
+                        )
+                    )
+                );
+
+				if($NEW_CONTENT_MAPPING!='')
+				{
+	                $APP->set('NEW_CONTENT',$APP->get('DBCON')->exec(
+	                        array('INSERT INTO constructr_content SET constructr_content_page_id=:PAGE_ID,constructr_content_content_raw=:NEW_CONTENT_RAW,constructr_content_content_html=:NEW_CONTENT_HTML,constructr_content_tpl_id_mapping=:NEW_CONTENT_MAPPING,constructr_content_order=:NEW_POSITION;'),
+	                        array(
+	                            array(
+	                                ':PAGE_ID'=>$PAGE_ID,
+	                                ':NEW_CONTENT_RAW'=>$NEW_CONTENT_RAW,
+	                                ':NEW_CONTENT_HTML'=>$NEW_CONTENT_HTML,
+	                                ':NEW_POSITION'=>$NEW_POSITION,
+	                                ':NEW_CONTENT_MAPPING'=>$NEW_CONTENT_MAPPING
+	                            )
+	                        )
+	                    )
+	                );
+				}
+				else
+				{
+	                $APP->set('NEW_CONTENT',$APP->get('DBCON')->exec(
+	                        array('INSERT INTO constructr_content SET constructr_content_page_id=:PAGE_ID,constructr_content_content_raw=:NEW_CONTENT_RAW,constructr_content_content_html=:NEW_CONTENT_HTML,constructr_content_order=:NEW_POSITION;'),
+	                        array(
+	                            array(
+	                                ':PAGE_ID'=>$PAGE_ID,
+	                                ':NEW_CONTENT_RAW'=>$NEW_CONTENT_RAW,
+	                                ':NEW_CONTENT_HTML'=>$NEW_CONTENT_HTML,
+	                                ':NEW_POSITION'=>$NEW_POSITION
+	                            )
+	                        )
+	                    )
+	                );
+				}
+
+				parent::clean_up_cache($APP);
+
+                $APP->set('NEW','success');
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/content/'.$PAGE_ID.'/?new=success');
+            } else {
+                $APP->set('NEW','no-success');
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/content/'.$PAGE_ID.'/?new=no-success');
+            }
+
+            $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/content/'.$PAGE_ID);
+        }
+
+        public function content_new_after($APP){
+            $APP->set('MODUL_ID',51);
+            $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
+
+            if ($USER_RIGHTS==false){
+                $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
+            }
+
+            $PAGE_ID=filter_var($APP->get('PARAMS.page_id'),FILTER_SANITIZE_NUMBER_INT);
+			$AFTER_CONTENT_ID=filter_var($APP->get('PARAMS.content_id'),FILTER_SANITIZE_NUMBER_INT);
+
+            $APP->set('PAGE_ID',$PAGE_ID);
+            $APP->set('PAGE',$APP->get('DBCON')->exec(
+                    array('SELECT * FROM constructr_pages WHERE constructr_pages_id=:PAGE_ID LIMIT 1;'),
+                    array(array(':PAGE_ID'=>$PAGE_ID))
+                )
+            );
+
+            $CSRF=parent::csrf();
+            $APP->set('CSRF',$CSRF);
+            $APP->set('SESSION.csrf',$CSRF);
+
+            $ADDITIVE=parent::additive();
+            $APP->set('ADDITIVE',$ADDITIVE);
+            $APP->set('SESSION.additive',$ADDITIVE);
+
+            $TRIPPLE_ADDITIVE=($ADDITIVE.$CSRF);
+            $APP->set('TRIPPLE_ADDITIVE',$TRIPPLE_ADDITIVE);
+            $APP->set('SESSION.tripple_additive',$TRIPPLE_ADDITIVE);
+
+            $APP->set('NEW_POSITION',($AFTER_CONTENT_ID+1));
+
+            $APP->set('TEMPLATE',$APP->get('DBCON')->exec(
+                    array('SELECT constructr_pages_template FROM constructr_pages WHERE constructr_pages_id=:PAGE_ID;'),
+                    array(array(':PAGE_ID'=>$PAGE_ID))
+                )
+            );
+
+			$APP->set('TEMPLATE_FILE',$APP->get('TEMPLATE.0.constructr_pages_template'));
+			$TEMPLATE_TEXT=file_get_contents($APP->get('TEMPLATES').$APP->get('TEMPLATE_FILE'));
+			preg_match_all("/({{@ CONSTRUCTR_MAPPING\()+([\w-])+(\) @}})/",$TEMPLATE_TEXT,$MATCH);
+			$CONSTRUCTR_TPL_MAPPINGS=array();
+
+			if($MATCH[0]){
+				$i=0;
+				foreach($MATCH[0] AS $KEY=>$MATCHR){
+					$CONSTRUCTR_TPL_MAPPINGS[$i]=$MATCHR;
+					$i++;
+				}
+			}
+
+			$APP->set('CONSTRUCTR_TPL_MAPPINGS',$CONSTRUCTR_TPL_MAPPINGS);
+            $H=opendir($APP->get('UPLOADS'));
+
+			$IMAGES=array();
+            $FILES=array();
+			$i=0;
+
+            while($FILE=readdir($H)){
+                if($FILE!='.' && $FILE!='..' && $FILE!='.empty_file' && $FILE!='index.php'){
+					$FT=strtolower(strrchr($FILE,'.'));
+
+					if($FT=='.jpg' || $FT=='.jpeg' || $FT=='.gif' || $FT=='.png' || $FT=='.svg'){
+	                    $IMAGES[$i]=$FILE;
+	                    $i++;
+					} else {
+	                    $FILES[$i]=$FILE;
+	                    $i++;
+					}
+                }
+            }
+
+            closedir($H);
+
+            uksort($IMAGES,"strnatcmp");
+			uksort($FILES,"strnatcmp");
+
+            $APP->set('IMAGES',$IMAGES);
+            $APP->set('FILES',$FILES);
+
+            echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_content_new_after.html','text/html');
+        }
+
+        public function content_new_after_verify($APP){
+            $APP->set('MODUL_ID',51);
+            $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
+
+            if ($USER_RIGHTS==false){
+                $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
+            }
+
+            $PAGE_ID=filter_var($APP->get('PARAMS.page_id'),FILTER_SANITIZE_NUMBER_INT);
+            $APP->set('PAGE_ID',$PAGE_ID);
+
+            $NEW_POSITION=filter_var($APP->get('POST.new_position'),FILTER_SANITIZE_NUMBER_INT);
+            $NEW_CONTENT_RAW=$APP->get('POST.new_content_raw');
+			$NEW_CONTENT_HTML=\Markdown::instance()->convert($NEW_CONTENT_RAW);
+			$NEW_CONTENT_MAPPING=$APP->get('POST.new_content_mapping');
+
+            $POST_CSRF=$APP->get('POST.csrf');
+            $POST_ADDITIVE=$APP->get('POST.csrf_additive');
+            $POST_TRIPPLE_ADDITIVE=$APP->get('POST.csrf_tripple_additive');
+
+            if ($POST_CSRF!=''){
+                if ($POST_CSRF!=$APP->get('SESSION.csrf')){
+                    $APP->get('CONSTRUCTR_LOG')->write('FORM CSRF DON\'T MATCH: '.$POST_USERNAME);
+                    $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
+                }
+            }
+
+            if ($POST_ADDITIVE!=''){
+                if ($POST_ADDITIVE!=$APP->get('SESSION.additive')){
+                    $APP->get('CONSTRUCTR_LOG')->write('FORM ADDITIVE DON\'T MATCH: '.$POST_USERNAME);
+                    $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
+                }
+            }
+
+            if ($POST_TRIPPLE_ADDITIVE!=''){
+                if ($POST_TRIPPLE_ADDITIVE!=$APP->get('SESSION.tripple_additive')){
+                    $APP->get('CONSTRUCTR_LOG')->write('FORM TRIPPLE ADDITIVE DON\'T MATCH: '.$POST_USERNAME);
+                    $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
+                }
+            }
+
+            if ($POST_TRIPPLE_ADDITIVE!=$POST_ADDITIVE.$POST_CSRF){
+                $APP->get('CONSTRUCTR_LOG')->write('FORM TRIPPLE ADDITIVE COMPARISON DON\'T MATCH: '.$POST_USERNAME);
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
+            }
+
+            if ($APP->get('PAGE_ID')!='' && $NEW_POSITION!=''){
+                $APP->get('DBCON')->exec(
+                    array('UPDATE constructr_content SET constructr_content_order=(constructr_content_order+1) WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_order>=:NEW_POSITION;'),
+                    array(
+                        array(
+                            ':PAGE_ID'=>$PAGE_ID,
+                            ':NEW_POSITION'=>$NEW_POSITION
+                        )
+                    )
+                );
+
+				if($NEW_CONTENT_MAPPING!='')
+				{
+	                $APP->set('NEW_CONTENT',$APP->get('DBCON')->exec(
+	                        array('INSERT INTO constructr_content SET constructr_content_page_id=:PAGE_ID,constructr_content_content_raw=:NEW_CONTENT_RAW,constructr_content_content_html=:NEW_CONTENT_HTML,constructr_content_tpl_id_mapping=:NEW_CONTENT_MAPPING,constructr_content_order=:NEW_POSITION;'),
+	                        array(
+	                            array(
+	                                ':PAGE_ID'=>$PAGE_ID,
+	                                ':NEW_CONTENT_RAW'=>$NEW_CONTENT_RAW,
+	                                ':NEW_CONTENT_HTML'=>$NEW_CONTENT_HTML,
+	                                ':NEW_POSITION'=>$NEW_POSITION,
+	                                ':NEW_CONTENT_MAPPING'=>$NEW_CONTENT_MAPPING
+	                            )
+	                        )
+	                    )
+	                );
+				}
+				else
+				{
+	                $APP->set('NEW_CONTENT',$APP->get('DBCON')->exec(
+	                        array('INSERT INTO constructr_content SET constructr_content_page_id=:PAGE_ID,constructr_content_content_raw=:NEW_CONTENT_RAW,constructr_content_content_html=:NEW_CONTENT_HTML,constructr_content_order=:NEW_POSITION;'),
+	                        array(
+	                            array(
+	                                ':PAGE_ID'=>$PAGE_ID,
+	                                ':NEW_CONTENT_RAW'=>$NEW_CONTENT_RAW,
+	                                ':NEW_CONTENT_HTML'=>$NEW_CONTENT_HTML,
+	                                ':NEW_POSITION'=>$NEW_POSITION
+	                            )
+	                        )
+	                    )
+	                );
+				}
+
+				parent::clean_up_cache($APP);
+
+                $APP->set('NEW','success');
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/content/'.$PAGE_ID.'/?new=success');
+            } else {
+                $APP->set('NEW','no-success');
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/content/'.$PAGE_ID.'/?new=no-success');
+            }
+
+            $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/content/'.$PAGE_ID);
+        }
+
+        public function content_new($APP){
             $APP->set('MODUL_ID',51);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -196,8 +569,7 @@
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_content_new.html','text/html');
         }
 
-        public function content_new_verify($APP)
-        {
+        public function content_new_verify($APP){
             $APP->set('MODUL_ID',51);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -290,19 +662,15 @@
             $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/content/'.$PAGE_ID);
         }
 
-		public function preparse_content_live_preview($APP)
-		{
-			$PARSED_HTML='';
+		public function preparse_content_live_preview($APP,$PARSED_HTML=''){
             $LIVE_CONTENT=$APP->get('POST.content');
-
 			if($LIVE_CONTENT!=''){
 				$PARSED_HTML=\Markdown::instance()->convert($LIVE_CONTENT);
 				echo $PARSED_HTML;	
 			}
 		}
 
-        public function content_edit($APP)
-        {
+        public function content_edit($APP){
             $APP->set('MODUL_ID',52);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -403,8 +771,7 @@
             }
         }
 
-        public function content_edit_verify($APP)
-        {
+        public function content_edit_verify($APP){
             $APP->set('MODUL_ID',52);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -496,8 +863,7 @@
             }
         }
 
-		public function content_change_visibility($APP)
-		{
+		public function content_change_visibility($APP){
             $APP->set('MODUL_ID',52);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -538,8 +904,7 @@
 			}
 		}
 
-        public function content_delete($APP)
-        {
+        public function content_delete($APP){
             $APP->set('MODUL_ID',54);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -608,8 +973,7 @@
             }
         }
 
-        public function content_reorder($APP)
-        {
+        public function content_reorder($APP){
             $APP->set('MODUL_ID',53);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 

@@ -49,6 +49,7 @@
                     <table class="bordered hoverable" onmouseout="javascript:$('.tooltipped').tooltip('remove');">
                         <thead>
                             <tr>
+                            <th data-field="Position" class="center-align">Position</th>
                             <th data-field="Inhalt">Inhalt</th>
                             <th data-field="Vorschau" class="show" style="display:none;">Vorschau</th>
                             <th data-field="Aktionen" class="center-align" style="width:150px">Aktionen</th>
@@ -57,6 +58,9 @@
                         <tbody>
                             <repeat group="{{ @CONTENT }}" value="{{ @CONTENT }}">
                             <tr>
+                            	<td class="center-align">
+                            		<small>{{ @CONTENT.constructr_content_order }}</small>
+                            	</td>
                                 <td class="tooltipped content" data-position="top" data-delay="25" data-tooltip="Doppelklick um Inhalt ''ID {{ @CONTENT.constructr_content_id }}'' zu bearbeiten" id="content_id_@@@{{ @CONTENT.constructr_content_id }}">
                                 	<check if="{{ @CONTENT.constructr_content_tpl_id_mapping }} != ''">
                                 		<true>
@@ -88,6 +92,10 @@
 										</true>
 									</check>
 									&#160;
+                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/new-before/{{ @CONTENT.constructr_content_order }}" data-position="left" data-delay="25" data-tooltip="Neuer Inhalt vor diesem Element (Position {{ @CONTENT.constructr_content_order }})" class="tooltipped"><i class="material-icons">add_circle_outline</i></a>
+									&#160;
+                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/new-after/{{ @CONTENT.constructr_content_order }}" data-position="left" data-delay="25" data-tooltip="Neuer Inhalt nach diesem Element (Position {{ @CONTENT.constructr_content_order }})" class="tooltipped"><i class="material-icons">add_circle</i></a>
+                                	&#160;
 									<check if="{{ @CONTENT.constructr_content_visible }} == 1">
 										<false>
 		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/visibility/on/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="Inhalt ''{{ @CONTENT.constructr_content_id }}'' zeigen" class="tooltipped"><i class="material-icons">visibility_off</i></a>

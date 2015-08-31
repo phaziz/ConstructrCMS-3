@@ -2,8 +2,7 @@
 
     class ConstructrUploads extends ConstructrBase
     {
-        public function beforeRoute($APP)
-        {
+        public function beforeRoute($APP){
         	$APP->set('ACT_VIEW','uploads');
 
             if($APP->get('SESSION.login')=='true' && $APP->get('SESSION.username')!='' && $APP->get('SESSION.password')!=''){
@@ -60,8 +59,7 @@
             }
         }
 
-        public function uploads_init($APP)
-        {
+        public function uploads_init($APP){
             $APP->set('MODUL_ID',60);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -181,8 +179,7 @@
 			}
         }
 
-        public function uploads_delete_file($APP)
-        {
+        public function uploads_delete_file($APP){
             $APP->set('MODUL_ID',62);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -203,8 +200,7 @@
             }
         }
 
-        public function uploads_new($APP)
-        {
+        public function uploads_new($APP){
             $APP->set('MODUL_ID',61);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
@@ -228,8 +224,7 @@
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_uploads_new.html','text/html');
         }
 
-        public function uploads_new_verify($APP)
-        {
+        public function uploads_new_verify($APP){
             $APP->set('MODUL_ID',61);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 

@@ -62,7 +62,10 @@
 			</p>
 		</footer>
 
+		
+
 		<script src="{{@ CONSTRUCTR_BASE_URL @}}/CONSTRUCTR-CMS/ASSETS/jquery/jquery-2.1.4.min.js"></script>
+
 		<script>
 			{{@ PAGE_JS @}}
 		</script>

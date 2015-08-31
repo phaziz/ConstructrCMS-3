@@ -8,6 +8,9 @@
 	define('DATABASE_USERNAME',$CONSTRUCTR_CONFIG['DATABASE_USERNAME']);
 	define('DATABASE_PASSWORD',$CONSTRUCTR_CONFIG['DATABASE_PASSWORD']);
 
+	header('Location: ' . $CONSTRUCTR_CONFIG['CONSTRUCTR_BASE_URL'] . '/constructr');
+
+/*
     try{
         $DBCON=new PDO('mysql:host='.DATABASE_HOSTNAME.';dbname='.DATABASE_DATABASE, DATABASE_USERNAME, DATABASE_PASSWORD, array(PDO::ATTR_PERSISTENT => true));
         $DBCON->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -19,3 +22,5 @@
     } catch (PDOException $e){
     	header('Location: ' . $CONSTRUCTR_CONFIG['CONSTRUCTR_BASE_URL'] . '/constructr?error=true');    
     }
+
+*/
