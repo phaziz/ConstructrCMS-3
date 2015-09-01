@@ -5,8 +5,8 @@
     	public static function constructrLinkGen($APP,$DBCON,$CONSTRUCTR_BASE_URL,$CONSTRUCTR_LINKS,$RETURN=array()){
     		foreach($CONSTRUCTR_LINKS AS $LINK){
 	            $APP->set('TMP_LINK',$DBCON->exec(
-	                    array('SELECT constructr_pages_name,constructr_pages_url,constructr_pages_id FROM constructr_pages WHERE constructr_pages_id=:ID AND constructr_pages_nav_visible=1 LIMIT 1;'),
-	                    array(array(':ID'=>$LINK))
+	                    ['SELECT constructr_pages_name,constructr_pages_url,constructr_pages_id FROM constructr_pages WHERE constructr_pages_id=:ID AND constructr_pages_nav_visible=1 LIMIT 1;'],
+	                    [[':ID'=>$LINK]]
 	                )
 	            );
 
@@ -67,8 +67,8 @@
             $APP->set('PAGES_NAV',$DBCON->exec(array('SELECT * FROM constructr_pages WHERE constructr_pages_mother=0 AND constructr_pages_nav_visible=1 ORDER BY constructr_pages_order ASC;')));
 
             $APP->set('ACT_MOTHER',$DBCON->exec(
-                    array('SELECT constructr_pages_mother FROM constructr_pages WHERE constructr_pages_url=:ACT_URL AND constructr_pages_nav_visible=1 LIMIT 1;'),
-                    array(array(':ACT_URL'=>$REQUEST))
+                    ['SELECT constructr_pages_mother FROM constructr_pages WHERE constructr_pages_url=:ACT_URL AND constructr_pages_nav_visible=1 LIMIT 1;'],
+                    [[':ACT_URL'=>$REQUEST]]
                 )
             );
 
@@ -93,8 +93,8 @@
             $APP->set('PAGES_NAV',$DBCON->exec(array('SELECT * FROM constructr_pages WHERE constructr_pages_level=2 AND constructr_pages_mother!=0 AND constructr_pages_nav_visible=1 ORDER BY constructr_pages_order ASC;')));
 
             $APP->set('ACT_MOTHER',$DBCON->exec(
-                    array('SELECT constructr_pages_mother FROM constructr_pages WHERE constructr_pages_url=:ACT_URL AND constructr_pages_nav_visible=1 LIMIT 1;'),
-                    array(array(':ACT_URL'=>$REQUEST))
+                    ['SELECT constructr_pages_mother FROM constructr_pages WHERE constructr_pages_url=:ACT_URL AND constructr_pages_nav_visible=1 LIMIT 1;'],
+                    [[':ACT_URL'=>$REQUEST]]
                 )
             );
 
@@ -116,11 +116,11 @@
 		}
 
 		public static function constructrThirdLevelNav($APP,$REQUEST,$DBCON,$CONSTRUCTR_BASE_URL,$PAGES_NAV = ''){
-            $APP->set('PAGES_NAV',$DBCON->exec(array('SELECT * FROM constructr_pages WHERE constructr_pages_level=3 AND constructr_pages_mother!=0 AND constructr_pages_nav_visible=1 ORDER BY constructr_pages_order ASC;')));
+            $APP->set('PAGES_NAV',$DBCON->exec(['SELECT * FROM constructr_pages WHERE constructr_pages_level=3 AND constructr_pages_mother!=0 AND constructr_pages_nav_visible=1 ORDER BY constructr_pages_order ASC;']));
 
             $APP->set('ACT_MOTHER',$DBCON->exec(
-                    array('SELECT constructr_pages_mother FROM constructr_pages WHERE constructr_pages_url=:ACT_URL AND constructr_pages_nav_visible=1 LIMIT 1;'),
-                    array(array(':ACT_URL'=>$REQUEST))
+                    ['SELECT constructr_pages_mother FROM constructr_pages WHERE constructr_pages_url=:ACT_URL AND constructr_pages_nav_visible=1 LIMIT 1;'],
+                    [[':ACT_URL'=>$REQUEST]]
                 )
             );
 
@@ -143,15 +143,15 @@
 
 		public static function constructrSubnavPages($APP,$REQUEST,$DBCON,$CONSTRUCTR_BASE_URL,$SUB_NAV = ''){
             $APP->set('ACT_REQUEST',$DBCON->exec(
-                    array('SELECT constructr_pages_id,constructr_pages_mother FROM constructr_pages WHERE constructr_pages_nav_visible=1 AND constructr_pages_url=:ACT_URL LIMIT 1;'),
-                    array(array(':ACT_URL'=>$REQUEST))
+                    ['SELECT constructr_pages_id,constructr_pages_mother FROM constructr_pages WHERE constructr_pages_nav_visible=1 AND constructr_pages_url=:ACT_URL LIMIT 1;'],
+                    [[':ACT_URL'=>$REQUEST]]
                 )
             );
 
 			if($APP->get('ACT_REQUEST')){
 	            $APP->set('SUB_PAGES',$DBCON->exec(
-	                    array('SELECT * FROM constructr_pages WHERE constructr_pages_nav_visible=1 AND constructr_pages_mother=:MOTHER ORDER BY constructr_pages_order ASC;'),
-	                    array(array(':MOTHER'=>$APP->get('ACT_REQUEST.0.constructr_pages_id')))
+	                    ['SELECT * FROM constructr_pages WHERE constructr_pages_nav_visible=1 AND constructr_pages_mother=:MOTHER ORDER BY constructr_pages_order ASC;'],
+	                    [[':MOTHER'=>$APP->get('ACT_REQUEST.0.constructr_pages_id')]]
 	                )
 	            );
 
@@ -170,8 +170,8 @@
 				} else {
 					if($APP->get('ACT_REQUEST.0.constructr_pages_mother') != 0){
 			            $APP->set('SUB_PAGES',$DBCON->exec(
-			                    array('SELECT * FROM constructr_pages WHERE constructr_pages_nav_visible=1 AND constructr_pages_mother=:MOTHER ORDER BY constructr_pages_order ASC;'),
-			                    array(array(':MOTHER'=>$APP->get('ACT_REQUEST.0.constructr_pages_mother')))
+			                    ['SELECT * FROM constructr_pages WHERE constructr_pages_nav_visible=1 AND constructr_pages_mother=:MOTHER ORDER BY constructr_pages_order ASC;'],
+			                    [[':MOTHER'=>$APP->get('ACT_REQUEST.0.constructr_pages_mother')]]
 			                )
 			            );
 
@@ -281,13 +281,8 @@
             if($POST_USERNAME!=''){
             	$APP->set('SESSION.post_username',$POST_USERNAME);
                 $APP->set('LOGIN_USER',$APP->get('DBCON')->exec(
-                    array('SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME LIMIT 1;'),
-                    array(
-                        array(
-                            ':ACTIVE'=>1,
-                            ':USERNAME'=>$POST_USERNAME
-                        )
-                    )
+                    ['SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME LIMIT 1;'],
+                    [[':ACTIVE'=>1,':USERNAME'=>$POST_USERNAME]]
                 ));
 
                 $LOGIN_USER=$APP->get('LOGIN_USER');
@@ -381,14 +376,12 @@
 
             if($POST_USERNAME !='' && $POST_PASSWORD!=''){
                 $APP->set('LOGIN_USER',$APP->get('DBCON')->exec(
-                    array('SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;',),
-                    array(
-                        array(
-                            ':ACTIVE'=>1,
-                            ':USERNAME'=>$POST_USERNAME,
-                            ':PASSWORD'=>$POST_PASSWORD
-                        )
-                    )
+                    ['SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;'],
+                    [[
+                        ':ACTIVE'=>1,
+                        ':USERNAME'=>$POST_USERNAME,
+                        ':PASSWORD'=>$POST_PASSWORD
+                    ]]
                 ));
 
 	            $APP->clear('SESSION.OLD_USER_SALT');
@@ -399,17 +392,15 @@
 
               	if ($COUNTR == 1){
                     $APP->set('UPDATE_LOGIN_USER',$APP->get('DBCON')->exec(
-                        array('UPDATE constructr_backenduser SET constructr_user_password=:NEW_PASSWORD_HASH,constructr_user_last_login=:LAST_LOGIN,constructr_user_salt=:NEW_SALT WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;',),
-                        array(
-                            array(
-                                ':ACTIVE'=>1,
-                                ':LAST_LOGIN'=>date('Y-m-d H:i:s'),
-                                ':USERNAME'=>$POST_USERNAME,
-                                ':PASSWORD'=>$POST_PASSWORD,
-                                ':NEW_PASSWORD_HASH'=>$NEW_PASSWORD_HASH,
-                                ':NEW_SALT'=>$NEW_SALT
-                            )
-                        )
+                        ['UPDATE constructr_backenduser SET constructr_user_password=:NEW_PASSWORD_HASH,constructr_user_last_login=:LAST_LOGIN,constructr_user_salt=:NEW_SALT WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;'],
+                        [[
+                            ':ACTIVE'=>1,
+                            ':LAST_LOGIN'=>date('Y-m-d H:i:s'),
+                            ':USERNAME'=>$POST_USERNAME,
+                            ':PASSWORD'=>$POST_PASSWORD,
+                            ':NEW_PASSWORD_HASH'=>$NEW_PASSWORD_HASH,
+                            ':NEW_SALT'=>$NEW_SALT
+                        ]]
                     ));
 
                     $APP->set('SESSION.login','true');
@@ -446,7 +437,7 @@
 			$APP->clear('SESSION.username');
             $APP->clear('SESSION.password');
             $APP->clear('SESSION.login');
-            $_SESSION=array();
+            $_SESSION=[];
 
             if (ini_get("session.use_cookies")){
                 $params=session_get_cookie_params();
@@ -500,7 +491,7 @@
 	    }
 
 	    public function gffd($dir){
-	        $files=array();
+	        $files=[];
 	        if ($handle=opendir($dir)){
 	            while (false !== ($file=readdir($handle))){
 	                if ($file!="." && $file!=".."){
@@ -523,9 +514,9 @@
             $APP->clear('SESSION.password');
             $APP->clear('SESSION.login');
 
-            $_SESSION=array();
+            $_SESSION=[];
 
-            if (ini_get("session.use_cookies")){
+            if(ini_get("session.use_cookies")){
                 $params=session_get_cookie_params();
                 setcookie(session_name(),'',time() - 42000,$params["path"],$params["domain"],$params["secure"],$params["httponly"]);
             }
@@ -541,8 +532,8 @@
 
             if ($USERNAME!=''){
                 $APP->set('USER_BASE_DATA',$APP->get('DBCON')->exec(
-                        array('SELECT * FROM constructr_backenduser WHERE constructr_user_username=:USERNAME AND constructr_user_active="1" LIMIT 1;',),
-                        array(array(':USERNAME'=>$USERNAME))
+                        ['SELECT * FROM constructr_backenduser WHERE constructr_user_username=:USERNAME AND constructr_user_active="1" LIMIT 1;'],
+                        [[':USERNAME'=>$USERNAME]]
                     )
                 );
 
@@ -556,16 +547,13 @@
                         $NEW_CRYPTED_PASSWORD=crypt($TMP_PASSWORD,$NEW_SALT);
 
                         $APP->set('USER',$APP->get('DBCON')->exec(
-                                array('UPDATE constructr_backenduser SET constructr_user_password=:NEW_CRYPTED_PASSWORD,constructr_user_salt=:NEW_SALT WHERE constructr_user_username=:USERNAME AND constructr_user_active="1" LIMIT 1;',),
-                                array(
-                                    array(
-                                        ':USERNAME'=>$USERNAME,
-                                        ':NEW_CRYPTED_PASSWORD'=>$NEW_CRYPTED_PASSWORD,
-                                        ':NEW_SALT'=>$NEW_SALT
-                                    )
-                                )
-                            )
-                        );
+                            ['UPDATE constructr_backenduser SET constructr_user_password=:NEW_CRYPTED_PASSWORD,constructr_user_salt=:NEW_SALT WHERE constructr_user_username=:USERNAME AND constructr_user_active="1" LIMIT 1;'],
+                            [[
+                                ':USERNAME'=>$USERNAME,
+                                ':NEW_CRYPTED_PASSWORD'=>$NEW_CRYPTED_PASSWORD,
+                                ':NEW_SALT'=>$NEW_SALT
+                            ]]
+                        ));
 
                         mail($APP->get('USER_BASE_DATA.0.constructr_user_email'),'Constructr Password-Reset',date('d.m.Y,H:i').' Uhr //  New password for you: '.$TMP_PASSWORD.' - update as soon as possible! '.$APP->get('CONSTRUCTR_BASE_URL'));
 

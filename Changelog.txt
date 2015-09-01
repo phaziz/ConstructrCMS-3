@@ -1,5 +1,6 @@
 CHANGELOG
 
+- 2015-09-01 PHP 5.4 Min. 
 - 2015-08-31 Limited LoginAttempts
 - 2015-08-28 OutputCompression for HTML, HTML5, CSS and Javascript
 - 2015-08-27 UI-Improvements, updated image upload 

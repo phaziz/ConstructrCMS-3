@@ -1,14 +1,13 @@
 <?php
 
-    if (version_compare(phpversion(), '5.3.0', '<=')) {
-        die('PHP ist kleiner als Version 5.3.0');
+    if (version_compare(phpversion(), '5.4.0', '<=')) {
+        die('Es wird mindestens PHP-Version 5.4.0 ben&ouml;tigt!');
     }
 
     $TEST_CONFIG_FILE = '../CONSTRUCTR-CMS/CONFIG/constructr_config.json';
     fopen($TEST_CONFIG_FILE, 'w+') or die('FILE NOT FOUND ERROR: Please create file: CONSTRUCTR-CMS/CONFIG/constructr_config.json');
 
-    function getCurrentUrl()
-    {
+    function getCurrentUrl(){
         $ACT_URL = ((empty($_SERVER['HTTPS'])) ? 'http://' : 'https://').$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
         $ACT_URL = str_replace('/CONSTRUCTR-CMS-SETUP/', '', $ACT_URL);
 
@@ -20,25 +19,23 @@
     session_start();
     error_reporting(-1);
 
-    function create_guid() {
-        return mt_rand();
-    }
+    function create_guid(){return mt_rand();}
 
-    $NEW_GUID1 = create_guid();
-    $NEW_GUID2 = create_guid();
-    $NEW_GUID3 = create_guid();
-    $NEW_GUID5 = create_guid();
-    $NEW_GUID6 = create_guid();
-    $NEW_GUID7 = create_guid();
-    $NEW_GUID9 = create_guid();
-    $NEW_GUID10 = create_guid();
-    $NEW_GUID11 = create_guid();
+    $NEW_GUID1=create_guid();
+    $NEW_GUID2=create_guid();
+    $NEW_GUID3=create_guid();
+    $NEW_GUID5=create_guid();
+    $NEW_GUID6=create_guid();
+    $NEW_GUID7=create_guid();
+    $NEW_GUID9=create_guid();
+    $NEW_GUID10=create_guid();
+    $NEW_GUID11=create_guid();
 
-if (isset($_POST['setup'])) {
-$NL = "\n";
+if(isset($_POST['setup'])){
+$NL="\n";
 $_CONFIG_FILE_CONTENT = '
 {
-"CONSTRUCTR_VERSION":"3.0 / 2015-08-31",
+"CONSTRUCTR_VERSION":"3.0 / 2015-09-01",
 "DATABASE_HOSTNAME":"'.$_POST['db_host'].'",
 "DATABASE_DATABASE":"'.$_POST['db_database'].'",
 "DATABASE_PORT":3306,

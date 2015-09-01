@@ -33,7 +33,7 @@
 
     try{
     	$APP->set('DBCON',$DBCON=new DB\SQL('mysql:host='.$APP->get('DATABASE_HOSTNAME').';port='.$APP->get('DATABASE_PORT').';dbname='.$APP->get('DATABASE_DATABASE'),$APP->get('DATABASE_USERNAME'),$APP->get('DATABASE_PASSWORD')));
-    } catch (PDOException $e){
+    }catch(PDOException $e){
 		echo 'Setup ConstructrCMS <a href="'.((empty($_SERVER['HTTPS']))?'http://':'https://').$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'].'CONSTRUCTR-CMS-SETUP/">here</a>';
 		die();
     }
@@ -47,7 +47,6 @@
     if (preg_match("/\bconstructr\b/",$REQUEST)!==1){
 		if($APP->get('CONSTRUCTR_CACHE')==1){
 			$UNIQUE=$APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST).'.html';
-
 			if(file_exists($UNIQUE)){
 				$CACHE_OUTPUT=@file_get_contents($APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST).'.html');
 				echo $CACHE_OUTPUT;
@@ -57,16 +56,14 @@
 
 		if($REQUEST=='/' || $REQUEST==''){
 	        $APP->set('ACT_PAGE',$APP->get('DBCON')->exec(
-	                array('SELECT * FROM constructr_pages WHERE constructr_pages_order=:STARTPAGE_ORDER AND constructr_pages_nav_visible=1 LIMIT 1;'),
-	                array(array(':STARTPAGE_ORDER'=>1))
-	            )
-	        );
+                ['SELECT * FROM constructr_pages WHERE constructr_pages_order=:STARTPAGE_ORDER AND constructr_pages_nav_visible=1 LIMIT 1;'],
+                [[':STARTPAGE_ORDER'=>1]]
+            ));
 		}else{
 	        $APP->set('ACT_PAGE',$APP->get('DBCON')->exec(
-	                array('SELECT * FROM constructr_pages WHERE constructr_pages_URL=:REQUEST AND constructr_pages_nav_visible=1 LIMIT 1;'),
-	                array(array(':REQUEST'=>$REQUEST))
-	            )
-	        );
+                ['SELECT * FROM constructr_pages WHERE constructr_pages_URL=:REQUEST AND constructr_pages_nav_visible=1 LIMIT 1;'],
+                [[':REQUEST'=>$REQUEST]]
+            ));
 		}
 
 		$ACT_PAGE_COUNTR=0;
@@ -100,17 +97,15 @@
 			$PAGE_TITLE=$APP->get('ACT_PAGE.0.constructr_pages_title');
 			$PAGE_DESCRIPTION=$APP->get('ACT_PAGE.0.constructr_pages_description');
 			$PAGE_KEYWORDS=$APP->get('ACT_PAGE.0.constructr_pages_keywords');
-			$NAVIGATION='<ul><li><a href="'.$APP->get('CONSTRUCTR_BASE_URL').'">Home</a></li></ul>';
-	        $APP->set('PAGES', $APP->get('DBCON')->exec(array('SELECT * FROM constructr_pages WHERE constructr_pages_nav_visible=1 ORDER BY constructr_pages_order ASC;'),array()));
+			$NAVIGATION='';
+	        $APP->set('PAGES', $APP->get('DBCON')->exec(['SELECT * FROM constructr_pages WHERE constructr_pages_nav_visible=1 ORDER BY constructr_pages_order ASC;']));
 
-			if($APP->get('PAGES')){
-				$NAVIGATION = ConstructrBase::constructrNavGen($APP->get('CONSTRUCTR_BASE_URL'),$APP->get('PAGES'));
- 			}
+			if($APP->get('PAGES')){$NAVIGATION=ConstructrBase::constructrNavGen($APP->get('CONSTRUCTR_BASE_URL'),$APP->get('PAGES'));}
 
 			$TEMPLATE=file_get_contents($APP->get('TEMPLATES').$PAGE_TEMPLATE);
 
 			if($APP->get('PAGES') && preg_match("/\bPAGE_NAVIGATION_UL_LI_CLASSES\b/i", $TEMPLATE)){
-				$CONSTRUCTR_CLASSES_NAV=array();
+				$CONSTRUCTR_CLASSES_NAV=[];
 				preg_match_all("/({{@ PAGE_NAVIGATION_UL_LI_CLASSES\((\n|.)*?\)) @}}/",$TEMPLATE,$MATCH_NAV);
 
 				if($MATCH_NAV[0]){
@@ -129,7 +124,7 @@
 			}
 
 			if($APP->get('PAGES') && preg_match("/\bCONSTRUCTR_LINK\b/i",$TEMPLATE)){
-				$CONSTRUCTR_LINKS=array();
+				$CONSTRUCTR_LINKS=[];
 				preg_match_all("/({{@ CONSTRUCTR_LINK\((\n|.)*?\)) @}}/",$TEMPLATE,$MATCH_LINK);
 
 				if($MATCH_LINK[0]){
@@ -174,16 +169,13 @@
 			}
 
 			$APP->set('CONTENT',$APP->get('DBCON')->exec(
-                    array('SELECT * FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_visible=:VISIBILITY AND constructr_content_tpl_id_mapping=:NULLER ORDER BY constructr_content_order ASC;'),
-                    array(
-                        array(
-                        	':PAGE_ID'=>$PAGE_ID,
-                        	':NULLER'=>'',
-                        	':VISIBILITY'=>1
-                        )
-                    )
-                )
-            );
+                ['SELECT * FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_visible=:VISIBILITY AND constructr_content_tpl_id_mapping=:NULLER ORDER BY constructr_content_order ASC;'],
+                [[
+                	':PAGE_ID'=>$PAGE_ID,
+                	':NULLER'=>'',
+                	':VISIBILITY'=>1
+                ]]
+            ));
 
 			$CONTENT_COUNTR=0;
 			$CONTENT_COUNTR=count($APP->get('CONTENT'));
@@ -197,27 +189,24 @@
 				}
 			}
 
-			$SEARCHR=array('{{@ CONSTRUCTR_BASE_URL @}}','{{@ PAGE_ID @}}','{{@ PAGE_TEMPLATE @}}','{{@ PAGE_NAME @}}','{{@ PAGE_CONTENT_RAW @}}','{{@ PAGE_CONTENT_HTML @}}','{{@ PAGE_CSS @}}','{{@ PAGE_JS @}}','{{@ PAGE_NAVIGATION_UL_LI @}}','{{@ CONSTRUCTR_PAGE_TITLE @}}','{{@ CONSTRUCTR_PAGE_KEYWORDS @}}','{{@ CONSTRUCTR_PAGE_DESCRIPTION @}}');
-			$REPLACR=array($APP->get('CONSTRUCTR_BASE_URL'),$PAGE_ID,$PAGE_TEMPLATE,$PAGE_NAME,$PAGE_CONTENT_RAW,$PAGE_CONTENT_HTML,$PAGE_CSS,$PAGE_JS,$NAVIGATION,$PAGE_TITLE,$PAGE_DESCRIPTION,$PAGE_KEYWORDS);
+			$SEARCHR=['{{@ CONSTRUCTR_BASE_URL @}}','{{@ PAGE_ID @}}','{{@ PAGE_TEMPLATE @}}','{{@ PAGE_NAME @}}','{{@ PAGE_CONTENT_RAW @}}','{{@ PAGE_CONTENT_HTML @}}','{{@ PAGE_CSS @}}','{{@ PAGE_JS @}}','{{@ PAGE_NAVIGATION_UL_LI @}}','{{@ CONSTRUCTR_PAGE_TITLE @}}','{{@ CONSTRUCTR_PAGE_KEYWORDS @}}','{{@ CONSTRUCTR_PAGE_DESCRIPTION @}}'];
+			$REPLACR=[$APP->get('CONSTRUCTR_BASE_URL'),$PAGE_ID,$PAGE_TEMPLATE,$PAGE_NAME,$PAGE_CONTENT_RAW,$PAGE_CONTENT_HTML,$PAGE_CSS,$PAGE_JS,$NAVIGATION,$PAGE_TITLE,$PAGE_DESCRIPTION,$PAGE_KEYWORDS];
 			$TEMPLATE=str_replace($SEARCHR,$REPLACR,$TEMPLATE);
 
 			$APP->set('MAPPING_CONTENT',$APP->get('DBCON')->exec(
-                    array('SELECT * FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_visible=:VISIBILITY AND constructr_content_tpl_id_mapping!=:NULLER ORDER BY constructr_content_order ASC;'),
-                    array(
-                        array(
-                        	':PAGE_ID'=>$PAGE_ID,
-                        	':NULLER'=>'',
-                        	':VISIBILITY'=>1
-                        )
-                    )
-                )
-            );
+                ['SELECT * FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_visible=:VISIBILITY AND constructr_content_tpl_id_mapping!=:NULLER ORDER BY constructr_content_order ASC;'],
+                [[
+                	':PAGE_ID'=>$PAGE_ID,
+                	':NULLER'=>'',
+                	':VISIBILITY'=>1
+                ]]
+            ));
 
-			$CONSTRUCTR_TPL_MAPPINGS=array();
+			$CONSTRUCTR_TPL_MAPPINGS=[];
 
 			if(count($APP->get('MAPPING_CONTENT'))!=0){
 				preg_match_all("/({{@ CONSTRUCTR_MAPPING\()+([\w-])+(\) @}})/",$TEMPLATE,$MATCH);
-				$CONSTRUCTR_TPL_MAPPINGS=array();
+				$CONSTRUCTR_TPL_MAPPINGS=[];
 
 				if($MATCH[0]){
 					$i=0;
@@ -227,7 +216,7 @@
 					}
 
 					if($CONSTRUCTR_TPL_MAPPINGS){
-						$MAPPERS=array();
+						$MAPPERS=[];
 
 						foreach($APP->get('MAPPING_CONTENT') AS $KEY=>$MAPPING_CONTENT){
 							if(!isset($MAPPERS[$MAPPING_CONTENT['constructr_content_tpl_id_mapping']]) || $MAPPERS[$MAPPING_CONTENT['constructr_content_tpl_id_mapping']]==''){
@@ -257,7 +246,7 @@
 			}
 
 			if($APP->get('OUTPUT_COMPRESSION')==1){
-			    $replace = array('/\>[^\S ]+/s'=>'>','/[^\S ]+\</s'=>'<','/([\t ])+/s'=>' ','/^([\t ])+/m'=>'','/([\t ])+$/m'=>'','~//[a-zA-Z0-9 ]+$~m'=>'','/[\r\n]+([\t ]?[\r\n]+)+/s'=>"\n",'/\>[\r\n\t ]+\</s'=>'><','/}[\r\n\t ]+/s'=>'}','/}[\r\n\t ]+,[\r\n\t ]+/s'=>'},','/\)[\r\n\t ]?{[\r\n\t ]+/s'=>'){','/,[\r\n\t ]?{[\r\n\t ]+/s'=>',{','/\),[\r\n\t ]+/s'=>'),','~([\r\n\t ])?([a-zA-Z0-9]+)="([a-zA-Z0-9_/\\-]+)"([\r\n\t ])?~s'=>'$1$2=$3$4');
+			    $replace=['/\>[^\S ]+/s'=>'>','/[^\S ]+\</s'=>'<','/([\t ])+/s'=>' ','/^([\t ])+/m'=>'','/([\t ])+$/m'=>'','~//[a-zA-Z0-9 ]+$~m'=>'','/[\r\n]+([\t ]?[\r\n]+)+/s'=>"\n",'/\>[\r\n\t ]+\</s'=>'><','/}[\r\n\t ]+/s'=>'}','/}[\r\n\t ]+,[\r\n\t ]+/s'=>'},','/\)[\r\n\t ]?{[\r\n\t ]+/s'=>'){','/,[\r\n\t ]?{[\r\n\t ]+/s'=>',{','/\),[\r\n\t ]+/s'=>'),','~([\r\n\t ])?([a-zA-Z0-9]+)="([a-zA-Z0-9_/\\-]+)"([\r\n\t ])?~s'=>'$1$2=$3$4'];
 			    $TEMPLATE=preg_replace(array_keys($replace),array_values($replace),$TEMPLATE);
 
 				if($APP->get('COMPRESSOR_HTML5')==1){
@@ -265,19 +254,17 @@
 				    $TEMPLATE=str_ireplace($remove,'',$TEMPLATE);
 				}
 
-				$TEMPLATE.="\n<!-- ConstructrCMS OutputCompression is active -->";
+				$TEMPLATE.="\n<!--ConstructrCMS OutputCompression is active-->";
 			}
 
-			$TEMPLATE.="\n<!-- ConstructrCMS / http://phaziz.com / http://constructr-cms.org -->";
+			$TEMPLATE.="\n<!--ConstructrCMS | http://phaziz.com | http://constructr-cms.org-->";
 
-			if($APP->get('CONSTRUCTR_CACHE')==true){
-				@file_put_contents($UNIQUE=$APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST).'.html',$TEMPLATE."\n".'<!-- ConstructrCMS cached '.date('Y-m-d H:i:s').' -->');
-			}
+			if($APP->get('CONSTRUCTR_CACHE')==true){@file_put_contents($UNIQUE=$APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST).'.html',$TEMPLATE."\n".'<!--ConstructrCMS cached '.date('Y-m-d H:i:s').'-->');}
 
 			echo $TEMPLATE;
 			die();
 		} else {
-			$APP->get('CONSTRUCTR_LOG')->write('Frontend: 404 -> '.$REQUEST);
+			$APP->get('CONSTRUCTR_LOG')->write('Frontend: 404->'.$REQUEST);
 			$APP->reroute($APP->get('CONSTRUCTR_BASE_URL'));
 		}
 	} else {
@@ -297,16 +284,7 @@
 		$APP->set('ALL_CONSTRUCTR_USER_RIGHTS',$CONSTRUCTR_USER_RIGHTS);
 	}
 
-	$APP->set('levelIndicator',
-	    function($LEVEL,$RET=''){
-			for ($i = 1; $i <= $LEVEL; $i++){
-				$RET .= '&#160;&#160;&#160;';
-			}
-
-			return $RET;
-	    }
-	);
-
+	$APP->set('levelIndicator',function($LEVEL,$RET=''){for ($i=1; $i<=$LEVEL; $i++){$RET.='&#160;&#160;&#160;';}return $RET;});
 	$APP->set('ONERROR',function($APP){
         while (ob_get_level()){
             ob_end_clean();

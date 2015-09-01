@@ -7,30 +7,27 @@
 
             if($APP->get('SESSION.login')=='true' && $APP->get('SESSION.username')!='' && $APP->get('SESSION.password')!=''){
                 $APP->set('LOGIN_USER',$APP->get('DBCON')->exec(
-                        array('SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;'),
-                        array(
-                            array(
-                                ':ACTIVE'=>1,
-                                ':USERNAME'=>$APP->get('SESSION.username'),
-                                ':PASSWORD'=>$APP->get('SESSION.password')
-                            )
-                        )
-                    )
-                );
+                    ['SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;'],
+                    [[
+                        ':ACTIVE'=>1,
+                        ':USERNAME'=>$APP->get('SESSION.username'),
+                        ':PASSWORD'=>$APP->get('SESSION.password')
+                    ]]
+                ));
 
                 $LOGIN_USER=$APP->get('LOGIN_USER');
                 $LOGIN_USER_ID=$APP->get('LOGIN_USER.0.constructr_user_id');
 
                 $APP->set('LOGIN_USER_RIGHTS',$APP->get('DBCON')->exec(
-                        array('SELECT * FROM constructr_user_rights WHERE constructr_user_rights_user=:LOGIN_USER_ID;'),
-                        array(array(':LOGIN_USER_ID'=>$LOGIN_USER_ID))
+                        ['SELECT * FROM constructr_user_rights WHERE constructr_user_rights_user=:LOGIN_USER_ID;'],
+                        [[':LOGIN_USER_ID'=>$LOGIN_USER_ID]]
                     )
                 );
 
                 $ITERATOR=new RecursiveIteratorIterator(new RecursiveArrayIterator($APP->get('LOGIN_USER_RIGHTS')));
 
                 $i=1;
-                $CLEAN_USER_RIGHTS=array();
+                $CLEAN_USER_RIGHTS=[];
 
                 foreach ($ITERATOR as $VALUE){
                     if($i==5){
@@ -73,8 +70,8 @@
             if (isset($_GET['new'])){$APP->set('NEW',$_GET['new']);} else {$APP->set('NEW','');}
             if (isset($_GET['delete'])){$APP->set('DELETE',$_GET['delete']);} else {$APP->set('DELETE','');}
 
-			$APP->set('PAGINATION_FILES',array());
-			$PAGINATION_FILES=array();
+			$APP->set('PAGINATION_FILES',[]);
+			$PAGINATION_FILES=[];
 
 			if($APP->get('GET.needle')){
 				$APP->set('FILES_COUNTR',0);
@@ -157,7 +154,7 @@
 					$START=$APP->get('OFFSET')-$APP->get('UPLOADS_LIST_PAGINATION');
 					$END=$APP->get('OFFSET');
 					$TEMP_PAGINATION_FILES = $PAGINATION_FILES;
-					$PAGINATION_FILES = array();
+					$PAGINATION_FILES=[];
 
 					foreach($TEMP_PAGINATION_FILES AS $KEY=>$VALUE){
 						if($KEY>=$START && $KEY<$END){
