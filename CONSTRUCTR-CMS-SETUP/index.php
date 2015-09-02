@@ -35,7 +35,7 @@ if(isset($_POST['setup'])){
 $NL="\n";
 $_CONFIG_FILE_CONTENT = '
 {
-"CONSTRUCTR_VERSION":"3.0 / 2015-09-01",
+"CONSTRUCTR_VERSION":"3.0 / 2015-09-02",
 "DATABASE_HOSTNAME":"'.$_POST['db_host'].'",
 "DATABASE_DATABASE":"'.$_POST['db_database'].'",
 "DATABASE_PORT":3306,
