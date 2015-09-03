@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{@ CONSTRUCTR_PAGE_TITLE @}}</title>
+        <meta name="keywords" content="{{@ CONSTRUCTR_PAGE_KEYWORDS @}}">
+        <meta name="description" content="{{@ CONSTRUCTR_PAGE_DESCRIPTION @}}">
+        <style>
+            {{@ PAGE_CSS @}}
+
+            html,body{
+                margin:0 0 0 0;
+                padding:0 0 0 0;
+            }
+            .container{
+                padding:25px 25px 25px 25px;
+                margin:0 auto;
+                max-width:98%;
+            }
+            header{
+                text-align:center;
+            }
+            header img{
+                margin:100px auto;
+            }
+
+            #menu{
+                position:absolute;
+                top:25px;
+                left:25px;
+                display:block;
+            }
+            a:link#menu,
+            a:active#menu,
+            a:visited#menu{
+                color:#444;
+                text-decoration:none;
+                font-size:30px;
+            }
+            a:hover#menu{
+                color:#ff0030;
+                text-decoration:none;
+                font-size:30px;
+            }
+            .top{
+                text-align:center;
+            }
+            .top h1{
+                margin-top:100px;
+                margin-bottom:100px;
+                font-family:Georgia,serif;
+                font-style:italic;
+                font-size:2em;
+                font-weight:200;
+            }
+            .middle{
+                font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+                font-weight:200;
+                font-size:1.9em;
+                line-height:1.6em;
+                margin-bottom:50px;
+            }
+            .bottom{
+                font-family:Georgia,serif;
+                font-weight:200;
+                font-size:1.4em;
+                line-height:1.5em;
+            }
+            .bottom p{
+                margin-top:25px;
+                margin-bottom:25px;
+            }
+            section img{
+                display:block;
+                margin-top:100px;
+                margin-left:auto;
+                margin-right:auto;
+                margin-bottom:100px;
+                max-width:90%;
+                height:auto;
+            }
+            nav ul{
+                list-style-type:none;
+                padding:50px 0 0 0;
+                position:absolute;
+                top:0;
+                left:0;
+                z-index:9;
+                background:#fff;
+                margin-top:0;
+                margin-bottom:0;
+                margin-left:auto;
+                margin-right:auto;
+                background:#000;
+                height:100%;
+                width:100%;
+                text-align:center;
+            }
+            nav ul li a:link,
+            nav ul li a:active,
+            nav ul li a:visited{
+                line-height:2.5em;
+                font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+                font-size:1.5em;
+                font-weight:600;
+                text-decoration:none;
+                color:#fff;
+                text-transform:uppercase;
+                font-style:italic;
+            }
+            nav ul li a:hover{
+                color:blue;
+            }
+            footer{
+                font-family:'Helvetica Neue',sans-serif;
+                font-size:12px;
+                text-align:center;
+            }
+            #backgal_container{
+                margin:100px 0 100px 0;
+                padding:25px 25px 25px 25px;
+                background:#000;
+            }
+            #backgal{
+                margin:0 auto;
+                height:800px;
+                width:auto;
+                max-height:1000px;
+                max-width:1200px;
+            }
+            a:link,a:active,a:visited{
+                text-decoration:none;
+                color:#0000ff;
+            }
+            a:hover{
+                text-decoration:underline;
+                color:#0000ff;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="container">
+
+            <a href="" id="menu" title="Click to open menu">&#9776;</a>
+
+            <nav id="menulisting" style="display:none;">
+                <ul>
+                    <li>{{@ CONSTRUCTR_LINK(1) @}}</li>
+                    <li>{{@ CONSTRUCTR_LINK(11) @}}</li>
+                </ul>
+            </nav>
+
+            <header>
+                <a href="{{@ CONSTRUCTR_BASE_URL @}}"><img src="{{@ CONSTRUCTR_BASE_URL @}}/THEMES/ASSETS/phaziz.png" alt="phaziz.com"></a>
+            </header><!-- // EOF HEADER-->
+
+            <section class="top">
+                {{@ CONSTRUCTR_MAPPING(TOP) @}}
+            </section>
+
+        </div><!-- // EOF .CONTAINER-->
+
+            <section id="backgal_container">
+                <section id=backgal></section>
+            </section>
+
+        <div class="container">
+
+            <section class="middle">
+                {{@ CONSTRUCTR_MAPPING(MIDDLE) @}}
+            </section>
+
+            <section class="bottom">
+                {{@ CONSTRUCTR_MAPPING(BOTTOM) @}}
+            </section>
+
+            <section>
+                {{@ PAGE_CONTENT_HTML @}}
+            </section>
+
+            <footer>
+                <p>
+                    <small><a href="http://phaziz.com" target="_blank">phaziz.com</a>&#160;&#160;&#160;|&#160;&#160;&#160;<a href="http://constructr-cms.org" target="_blank">ConstructrCMS</a>&#160;&#160;&#160;|&#160;&#160;&#160;<a href="http://blog.phaziz.com/tag/constructr-cms/" target="_blank">ConstructrCMS Blog</a>&#160;&#160;&#160;|&#160;&#160;&#160;<a href="https://github.com/phaziz/ConstructrCMS-3" target="_blank">ConstructrCMS GitHub</a>&#160;&#160;&#160;|&#160;&#160;&#160;<a href=" https://twitter.com/ConstructrCMS" target="_blank">ConstructrCMS twitter</a></small>
+                </p>
+            </footer>
+
+        </div><!-- // EOF .CONTAINER-->
+
+        <script src="{{@ CONSTRUCTR_BASE_URL @}}/CONSTRUCTR-CMS/ASSETS/jquery/jquery-2.1.4.min.js"></script>
+
+        <script>
+            {{@ PAGE_JS @}}
+
+            $(function(){;(function($,window,undefined){'use strict';$.fn.backstretch=function(images,options){if(images===undefined||images.length===0){$.error("No images were supplied for Backstretch");}if($(window).scrollTop()===0){window.scrollTo(0,0);}return this.each(function(){var $this=$(this),obj=$this.data('backstretch');if(obj){if(typeof images=='string'&&typeof obj[images]=='function'){obj[images](options);return;}options=$.extend(obj.options,options);obj.destroy(true);}obj=new Backstretch(this,images,options);$this.data('backstretch',obj);});};$.backstretch=function(images,options){return $('body').backstretch(images,options).data('backstretch');};$.expr[':'].backstretch=function(elem){return $(elem).data('backstretch')!==undefined;};$.fn.backstretch.defaults={centeredX:true,centeredY:true,duration:5000,fade:0};var styles={wrap:{left:0,top:0,overflow:'hidden',margin:0,padding:0,height:'100%',width:'100%',zIndex:-999999},img:{position:'absolute',display:'none',margin:0,padding:0,border:'none',width:'auto',height:'auto',maxHeight:'none',maxWidth:'none',zIndex:-999999}};var Backstretch=function(container,images,options){this.options=$.extend({},$.fn.backstretch.defaults,options||{});this.images=$.isArray(images)?images:[images];$.each(this.images,function(){$('<img />')[0].src=this;});this.isBody=container===document.body;this.$container=$(container);this.$root=this.isBody?supportsFixedPosition?$(window):$(document):this.$container;var $existing=this.$container.children(".backstretch").first();this.$wrap=$existing.length?$existing:$('<div class=backstretch></div>').css(styles.wrap).appendTo(this.$container);if(!this.isBody){var position=this.$container.css('position'),zIndex=this.$container.css('zIndex');this.$container.css({position:position==='static'?'relative':position,zIndex:zIndex==='auto'?0:zIndex,background:'none'});this.$wrap.css({zIndex:-999998});}this.$wrap.css({position:this.isBody&&supportsFixedPosition?'fixed':'absolute'});this.index=0;this.show(this.index);$(window).on('resize.backstretch',$.proxy(this.resize,this)).on('orientationchange.backstretch',$.proxy(function(){if(this.isBody&&window.pageYOffset===0){window.scrollTo(0,1);this.resize();}},this));};Backstretch.prototype={resize:function(){try{var bgCSS={left:0,top:0},rootWidth=this.isBody?this.$root.width():this.$root.innerWidth(),bgWidth=rootWidth,rootHeight=this.isBody?(window.innerHeight?window.innerHeight:this.$root.height()):this.$root.innerHeight(),bgHeight=bgWidth/this.$img.data('ratio'),bgOffset;if(bgHeight>=rootHeight){bgOffset=(bgHeight-rootHeight)/2;if(this.options.centeredY){bgCSS.top='-'+bgOffset+'px';}}else{bgHeight=rootHeight;bgWidth=bgHeight*this.$img.data('ratio');bgOffset=(bgWidth-rootWidth)/2;if(this.options.centeredX){bgCSS.left='-'+bgOffset+'px';}}this.$wrap.css({width:rootWidth,height:rootHeight}).find('img:not(.deleteable)').css({width:bgWidth,height:bgHeight}).css(bgCSS);}catch(err){}return this;},show:function(newIndex){if(Math.abs(newIndex)>this.images.length-1){return;}var self=this,oldImage=self.$wrap.find('img').addClass('deleteable'),evtOptions={relatedTarget:self.$container[0]};self.$container.trigger($.Event('backstretch.before',evtOptions),[self,newIndex]);this.index=newIndex;clearInterval(self.interval);self.$img=$('<img />').css(styles.img).bind('load',function(e){var imgWidth=this.width||$(e.target).width(),imgHeight=this.height||$(e.target).height();$(this).data('ratio',imgWidth/imgHeight);$(this).fadeIn(self.options.speed||self.options.fade,function(){oldImage.remove();if(!self.paused){self.cycle();}$(['after','show']).each(function(){self.$container.trigger($.Event('backstretch.'+this,evtOptions),[self,newIndex]);});});self.resize();}).appendTo(self.$wrap);self.$img.attr('src',self.images[newIndex]);return self;},next:function(){return this.show(this.index<this.images.length-1?this.index+1:0);},prev:function(){return this.show(this.index===0?this.images.length-1:this.index-1);},pause:function(){this.paused=true;return this;},resume:function(){this.paused=false;this.next();return this;},cycle:function(){if(this.images.length>1){clearInterval(this.interval);this.interval=setInterval($.proxy(function(){if(!this.paused){this.next();}},this),this.options.duration);}return this;},destroy:function(preserveBackground){$(window).off('resize.backstretch orientationchange.backstretch');clearInterval(this.interval);if(!preserveBackground){this.$wrap.remove();}this.$container.removeData('backstretch');}};var supportsFixedPosition=(function(){var ua=navigator.userAgent,platform=navigator.platform,wkmatch=ua.match(/AppleWebKit\/([0-9]+)/),wkversion=!!wkmatch&&wkmatch[1],ffmatch=ua.match(/Fennec\/([0-9]+)/),ffversion=!!ffmatch&&ffmatch[1],operammobilematch=ua.match(/Opera Mobi\/([0-9]+)/),omversion=!!operammobilematch&&operammobilematch[1],iematch=ua.match(/MSIE ([0-9]+)/),ieversion=!!iematch&&iematch[1];return!(((platform.indexOf("iPhone")>-1||platform.indexOf("iPad")>-1||platform.indexOf("iPod")>-1)&&wkversion&&wkversion<534)||(window.operamini&&({}).toString.call(window.operamini)==="[object OperaMini]")||(operammobilematch&&omversion<7458)||(ua.indexOf("Android")>-1&&wkversion&&wkversion<533)||(ffversion&&ffversion<6)||("palmGetResource"in window&&wkversion&&wkversion<534)||(ua.indexOf("MeeGo")>-1&&ua.indexOf("NokiaBrowser/8.5.0")>-1)||(ieversion&&ieversion<=6));}());}(jQuery,window));
+            var IMAGES=[
+            "http://constructr-cms.org/UPLOADS/constructrCMS-1.png",
+            "http://constructr-cms.org/UPLOADS/constructrCMS-2.png",
+            "http://constructr-cms.org/UPLOADS/constructrCMS-3.png",
+            "http://constructr-cms.org/UPLOADS/constructrCMS-4.png",
+            "http://constructr-cms.org/UPLOADS/constructrCMS-5.png"
+            ]
+            $("#backgal").backstretch(IMAGES);
+            $('#menu').bind('click',function(e){if(!$('#menulisting').is(':visible') === true){$('#menulisting').show();}return false;});
+            });
+        </script>
+
+    </body>
+</html>

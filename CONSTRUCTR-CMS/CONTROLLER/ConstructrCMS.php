@@ -98,7 +98,7 @@
 		public static function constructrNavGen($BASE_URL,$PAGES,$MOTHER=0){
 	        $TREE='';
 	        $TREE='<ul class="area-dragable" id="draggables">';
-	        for($i=0,$ni=count($PAGES); $i < $ni; $i++){
+	        for($i=0,$ni=count($PAGES);$i<$ni;$i++){
 	            if($PAGES[$i]['constructr_pages_mother']==$MOTHER){
 	                $TREE.='<li class="dragger" draggable="true" data-page-id="'.$PAGES[$i]['constructr_pages_id'].'" data-page-level="'.$PAGES[$i]['constructr_pages_level'].'" data-page-mother="'.$PAGES[$i]['constructr_pages_mother'].'">';
 	                $TREE.=$PAGES[$i]['constructr_pages_name'];
@@ -113,7 +113,7 @@
 
 		public static function get_max_page_level($APP){
             $APP->set('MAX_PAGE_LEVEL',$APP->get('DBCON')->exec(array('SELECT MAX(constructr_pages_level) AS MAX_LEVEL FROM constructr_pages;')));
-			return ($APP->get('MAX_PAGE_LEVEL.0.MAX_LEVEL'));
+			return $APP->get('MAX_PAGE_LEVEL.0.MAX_LEVEL');
 		}
 
         public function page_management($APP){
@@ -280,9 +280,7 @@
                 )
             );
 
-            $URL_EXISTS_COUNTR=count($APP->get('URL_EXISTS'));
-
-            if ($URL_EXISTS_COUNTR > 1){
+            if (count($APP->get('URL_EXISTS'))>1){
                 $APP->set('EDIT','no-success');
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?edit=no-success-url');
             }
@@ -442,9 +440,7 @@
                 )
             );
 
-            $URL_EXISTS_COUNTR=count($APP->get('URL_EXISTS'));
-
-            if ($URL_EXISTS_COUNTR!=0){
+            if (count($APP->get('URL_EXISTS'))!=0){
                 $APP->set('NEW','no-success');
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?new=no-success-url');
             }
@@ -628,19 +624,19 @@
                 )
             );
 
-            if (count($APP->get('GET_DELETE_PAGE'))==1){
+            if(count($APP->get('GET_DELETE_PAGE'))==1){
                 $DELETER_PAGE_ORDER=$APP->get('GET_DELETE_PAGE.0.constructr_pages_order');
-            } else {
+            }else{
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?delete=no-success');
 				die();
             }
 
-            if ($DELETER_PAGE_ORDER==1){
+            if($DELETER_PAGE_ORDER==1){
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?delete=no-success-is-homepage');
 				die();
             }
 
-            if ($MOTHER_COUNTR==0 && $DELETER_PAGE_ORDER!=1){
+            if($MOTHER_COUNTR==0 && $DELETER_PAGE_ORDER!=1){
                 $APP->set('DELETE_PAGE',$APP->get('DBCON')->exec(
                         ['DELETE FROM constructr_pages WHERE constructr_pages_id=:DELETE_PAGE_ID LIMIT 1;'],
                         [[':DELETE_PAGE_ID'=>$DELETE_PAGE_ID]]
@@ -670,7 +666,7 @@
             $APP->set('MODUL_ID',33);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
 
-            if ($USER_RIGHTS==false){
+            if($USER_RIGHTS==false){
                 $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
@@ -699,7 +695,7 @@
                 )
             );
 
-            if (count($APP->get('GET_DELETE_PAGE'))==1){
+            if(count($APP->get('GET_DELETE_PAGE'))==1){
                 $DELETER_PAGE_ORDER=$APP->get('GET_DELETE_PAGE.0.constructr_pages_order');
             } else {
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?delete=no-success');

@@ -549,12 +549,11 @@
 
             $PAGE_ID=filter_var($APP->get('PARAMS.page_id'),FILTER_SANITIZE_NUMBER_INT);
             $APP->set('PAGE_ID',$PAGE_ID);
-
             $NEW_POSITION=filter_var($APP->get('POST.new_position'),FILTER_SANITIZE_NUMBER_INT);
             $NEW_CONTENT_RAW=$APP->get('POST.new_content_raw');
 			$NEW_CONTENT_HTML=\Markdown::instance()->convert($NEW_CONTENT_RAW);
+			//$NEW_CONTENT_HTML = MarkdownExtra::defaultTransform($NEW_CONTENT_RAW);
 			$NEW_CONTENT_MAPPING=$APP->get('POST.new_content_mapping');
-
             $POST_CSRF=$APP->get('POST.csrf');
             $POST_ADDITIVE=$APP->get('POST.csrf_additive');
             $POST_TRIPPLE_ADDITIVE=$APP->get('POST.csrf_tripple_additive');

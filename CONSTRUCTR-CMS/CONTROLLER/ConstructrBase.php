@@ -2,7 +2,7 @@
 
     class ConstructrBase
     {
-    	public static function constructrLinkGen($APP,$DBCON,$CONSTRUCTR_BASE_URL,$CONSTRUCTR_LINKS,$RETURN=array()){
+    	public static function constructrLinkGen($APP,$DBCON,$CONSTRUCTR_BASE_URL,$CONSTRUCTR_LINKS,$RETURN=[]){
     		foreach($CONSTRUCTR_LINKS AS $LINK){
 	            $APP->set('TMP_LINK',$DBCON->exec(
 	                    ['SELECT constructr_pages_name,constructr_pages_url,constructr_pages_id FROM constructr_pages WHERE constructr_pages_id=:ID AND constructr_pages_nav_visible=1 LIMIT 1;'],
@@ -77,9 +77,9 @@
 
 				foreach($APP->get('PAGES_NAV') AS $PAGE){
 					if($REQUEST == $PAGE['constructr_pages_url'] || $APP->get('ACT_MOTHER.0.constructr_pages_mother') == $PAGE['constructr_pages_id']){
-						$PAGES_NAV.='<li class="active"><a href="' . $CONSTRUCTR_BASE_URL . '/' . $PAGE['constructr_pages_url'] . '">' . $PAGE['constructr_pages_name'] . '</a></li>';
+						$PAGES_NAV.='<li class="active"><a href="'.$CONSTRUCTR_BASE_URL.'/'.$PAGE['constructr_pages_url'].'">'.$PAGE['constructr_pages_name'].'</a></li>';
 					} else {
-						$PAGES_NAV.='<li class="inactive"><a href="' . $CONSTRUCTR_BASE_URL . '/' . $PAGE['constructr_pages_url'] . '">' . $PAGE['constructr_pages_name'] . '</a></li>';
+						$PAGES_NAV.='<li class="inactive"><a href="'.$CONSTRUCTR_BASE_URL.'/'.$PAGE['constructr_pages_url'].'">'.$PAGE['constructr_pages_name'].'</a></li>';
 					}
 				}
 
@@ -102,10 +102,10 @@
 				$PAGES_NAV.='<ul class="pagesnav">';
 
 				foreach($APP->get('PAGES_NAV') AS $PAGE){
-					if($REQUEST == $PAGE['constructr_pages_url'] || $APP->get('ACT_MOTHER.0.constructr_pages_mother') == $PAGE['constructr_pages_id']){
-						$PAGES_NAV.='<li class="active"><a href="' . $CONSTRUCTR_BASE_URL . '/' . $PAGE['constructr_pages_url'] . '">' . $PAGE['constructr_pages_name'] . '</a></li>';
+					if($REQUEST==$PAGE['constructr_pages_url'] || $APP->get('ACT_MOTHER.0.constructr_pages_mother')==$PAGE['constructr_pages_id']){
+						$PAGES_NAV.='<li class="active"><a href="'.$CONSTRUCTR_BASE_URL.'/'.$PAGE['constructr_pages_url'].'">'.$PAGE['constructr_pages_name'].'</a></li>';
 					} else {
-						$PAGES_NAV.='<li class="inactive"><a href="' . $CONSTRUCTR_BASE_URL . '/' . $PAGE['constructr_pages_url'] . '">' . $PAGE['constructr_pages_name'] . '</a></li>';
+						$PAGES_NAV.='<li class="inactive"><a href="'.$CONSTRUCTR_BASE_URL.'/'.$PAGE['constructr_pages_url'].'">'.$PAGE['constructr_pages_name'].'</a></li>';
 					}
 				}
 
@@ -115,7 +115,7 @@
 			return $PAGES_NAV;
 		}
 
-		public static function constructrThirdLevelNav($APP,$REQUEST,$DBCON,$CONSTRUCTR_BASE_URL,$PAGES_NAV = ''){
+		public static function constructrThirdLevelNav($APP,$REQUEST,$DBCON,$CONSTRUCTR_BASE_URL,$PAGES_NAV=''){
             $APP->set('PAGES_NAV',$DBCON->exec(['SELECT * FROM constructr_pages WHERE constructr_pages_level=3 AND constructr_pages_mother!=0 AND constructr_pages_nav_visible=1 ORDER BY constructr_pages_order ASC;']));
 
             $APP->set('ACT_MOTHER',$DBCON->exec(
@@ -128,10 +128,10 @@
 				$PAGES_NAV.='<ul class="pagesnav">';
 
 				foreach($APP->get('PAGES_NAV') AS $PAGE){
-					if($REQUEST == $PAGE['constructr_pages_url'] || $APP->get('ACT_MOTHER.0.constructr_pages_mother') == $PAGE['constructr_pages_id']){
-						$PAGES_NAV.='<li class="active"><a href="' . $CONSTRUCTR_BASE_URL . '/' . $PAGE['constructr_pages_url'] . '">' . $PAGE['constructr_pages_name'] . '</a></li>';
+					if($REQUEST==$PAGE['constructr_pages_url'] || $APP->get('ACT_MOTHER.0.constructr_pages_mother')==$PAGE['constructr_pages_id']){
+						$PAGES_NAV.='<li class="active"><a href="'.$CONSTRUCTR_BASE_URL.'/'.$PAGE['constructr_pages_url'].'">'.$PAGE['constructr_pages_name'].'</a></li>';
 					} else {
-						$PAGES_NAV.='<li class="inactive"><a href="' . $CONSTRUCTR_BASE_URL . '/' . $PAGE['constructr_pages_url'] . '">' . $PAGE['constructr_pages_name'] . '</a></li>';
+						$PAGES_NAV.='<li class="inactive"><a href="'.$CONSTRUCTR_BASE_URL.'/'.$PAGE['constructr_pages_url'].'">'.$PAGE['constructr_pages_name'].'</a></li>';
 					}
 				}
 
@@ -141,7 +141,7 @@
 			return $PAGES_NAV;
 		}
 
-		public static function constructrSubnavPages($APP,$REQUEST,$DBCON,$CONSTRUCTR_BASE_URL,$SUB_NAV = ''){
+		public static function constructrSubnavPages($APP,$REQUEST,$DBCON,$CONSTRUCTR_BASE_URL,$SUB_NAV=''){
             $APP->set('ACT_REQUEST',$DBCON->exec(
                     ['SELECT constructr_pages_id,constructr_pages_mother FROM constructr_pages WHERE constructr_pages_nav_visible=1 AND constructr_pages_url=:ACT_URL LIMIT 1;'],
                     [[':ACT_URL'=>$REQUEST]]
@@ -159,16 +159,16 @@
 					$SUB_NAV.='<ul class="subnav">';
 
 					foreach($APP->get('SUB_PAGES') AS $PAGE){
-						if($REQUEST == $PAGE['constructr_pages_url']){
-							$SUB_NAV.='<li class="active"><a href="' . $CONSTRUCTR_BASE_URL . '/' . $PAGE['constructr_pages_url'] . '">' . $PAGE['constructr_pages_name'] . '</a></li>';
+						if($REQUEST==$PAGE['constructr_pages_url']){
+							$SUB_NAV.='<li class="active"><a href="'.$CONSTRUCTR_BASE_URL.'/'.$PAGE['constructr_pages_url'].'">'.$PAGE['constructr_pages_name'].'</a></li>';
 						} else {
-							$SUB_NAV.='<li class="inactive"><a href="' . $CONSTRUCTR_BASE_URL . '/' . $PAGE['constructr_pages_url'] . '">' . $PAGE['constructr_pages_name'] . '</a></li>';
+							$SUB_NAV.='<li class="inactive"><a href="'.$CONSTRUCTR_BASE_URL.'/'.$PAGE['constructr_pages_url'].'">'.$PAGE['constructr_pages_name'].'</a></li>';
 						}
 					}
 
 					$SUB_NAV.='</ul>';
 				} else {
-					if($APP->get('ACT_REQUEST.0.constructr_pages_mother') != 0){
+					if($APP->get('ACT_REQUEST.0.constructr_pages_mother')!=0){
 			            $APP->set('SUB_PAGES',$DBCON->exec(
 			                    ['SELECT * FROM constructr_pages WHERE constructr_pages_nav_visible=1 AND constructr_pages_mother=:MOTHER ORDER BY constructr_pages_order ASC;'],
 			                    [[':MOTHER'=>$APP->get('ACT_REQUEST.0.constructr_pages_mother')]]
@@ -178,10 +178,10 @@
 						$SUB_NAV.='<ul class="subnav">';
 
 						foreach($APP->get('SUB_PAGES') AS $PAGE){
-							if($REQUEST == $PAGE['constructr_pages_url']){
-								$SUB_NAV.='<li class="active"><a href="' . $CONSTRUCTR_BASE_URL . '/' . $PAGE['constructr_pages_url'] . '">' . $PAGE['constructr_pages_name'] . '</a></li>';
+							if($REQUEST==$PAGE['constructr_pages_url']){
+								$SUB_NAV.='<li class="active"><a href="'.$CONSTRUCTR_BASE_URL.'/'.$PAGE['constructr_pages_url'].'">'.$PAGE['constructr_pages_name'].'</a></li>';
 							} else {
-								$SUB_NAV.='<li class="inactive"><a href="' . $CONSTRUCTR_BASE_URL . '/' . $PAGE['constructr_pages_url'] . '">' . $PAGE['constructr_pages_name'] . '</a></li>';
+								$SUB_NAV.='<li class="inactive"><a href="'.$CONSTRUCTR_BASE_URL.'/'.$PAGE['constructr_pages_url'].'">'.$PAGE['constructr_pages_name'].'</a></li>';
 							}
 						}
 
@@ -209,7 +209,7 @@
         }
 
         public function init($APP){
-			if($APP->get('COOKIE.error_login_countr') >= $APP->get('MAX_ERROR_LOGIN')){
+			if($APP->get('COOKIE.error_login_countr')>=$APP->get('MAX_ERROR_LOGIN')){
 				$NEW_WAITR=(time()+$APP->get('LOGIN_WAITR'));
 				$APP->set('COOKIE.error_waitr',$NEW_WAITR);
 				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-login');
@@ -227,7 +227,7 @@
             $APP->set('TRIPPLE_ADDITIVE',$TRIPPLE_ADDITIVE);
             $APP->set('SESSION.tripple_additive',$TRIPPLE_ADDITIVE);
 
-			if($APP->get('SESSION.login') == 'true' && $APP->get('SESSION.password')!='' && $APP->get('SESSION.username')!=''){
+			if($APP->get('SESSION.login')=='true' && $APP->get('SESSION.password')!='' && $APP->get('SESSION.username')!=''){
 				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement');
 			}
 
@@ -235,7 +235,7 @@
         }
 
         public function login_step_1($APP){
-			if($APP->get('COOKIE.error_login_countr') >= $APP->get('MAX_ERROR_LOGIN')){
+			if($APP->get('COOKIE.error_login_countr')>=$APP->get('MAX_ERROR_LOGIN')){
 				$NEW_WAITR=(time()+$APP->get('LOGIN_WAITR'));
 				$APP->set('COOKIE.error_waitr',$NEW_WAITR);
 				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-login');
@@ -288,13 +288,13 @@
                 $LOGIN_USER=$APP->get('LOGIN_USER');
 				$OLD_USER_SALT=$APP->get('LOGIN_USER.0.constructr_user_salt');
 
-				if($OLD_USER_SALT == ''){
+				if($OLD_USER_SALT==''){
 					$OLD_USER_SALT=$APP->get('CONSTRUCTR_USER_SALT');
 				}
 
 				$APP->set('SESSION.OLD_USER_SALT',$OLD_USER_SALT);
 
-                if(count($LOGIN_USER) == 1){
+                if(count($LOGIN_USER)==1){
                 	$APP->set('SESSION.login_step_1','true');
 					$APP->clear('COOKIE.error_waitr');
 					$APP->clear('COOKIE.error_login_countr');
@@ -324,11 +324,11 @@
             $APP->set('TRIPPLE_ADDITIVE',$TRIPPLE_ADDITIVE);
             $APP->set('SESSION.tripple_additive',$TRIPPLE_ADDITIVE);
 
-			if($APP->get('SESSION.login') == 'true' && $APP->get('SESSION.password')!='' && $APP->get('SESSION.username')!=''){
+			if($APP->get('SESSION.login')=='true' && $APP->get('SESSION.password')!='' && $APP->get('SESSION.username')!=''){
 				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement');
 			}
 
-			if($APP->get('SESSION.post_username') == ''){
+			if($APP->get('SESSION.post_username')==''){
 				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');
 			}
 
@@ -374,7 +374,7 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/login-error');
             }
 
-            if($POST_USERNAME !='' && $POST_PASSWORD!=''){
+            if($POST_USERNAME!='' && $POST_PASSWORD!=''){
                 $APP->set('LOGIN_USER',$APP->get('DBCON')->exec(
                     ['SELECT * FROM constructr_backenduser WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;'],
                     [[
@@ -390,7 +390,7 @@
 				$NEW_SALT='$2a$10$'.strtr(base64_encode(mcrypt_create_iv(50,MCRYPT_DEV_URANDOM)),'+','.').'$';
 				$NEW_PASSWORD_HASH=crypt($APP->get('POST.password'),$NEW_SALT);
 
-              	if ($COUNTR == 1){
+              	if ($COUNTR==1){
                     $APP->set('UPDATE_LOGIN_USER',$APP->get('DBCON')->exec(
                         ['UPDATE constructr_backenduser SET constructr_user_password=:NEW_PASSWORD_HASH,constructr_user_last_login=:LAST_LOGIN,constructr_user_salt=:NEW_SALT WHERE constructr_user_active=:ACTIVE AND constructr_user_username=:USERNAME AND constructr_user_password=:PASSWORD LIMIT 1;'],
                         [[
@@ -417,7 +417,7 @@
 
 		public function no_login($APP){
 			echo '<pre>Fehler:</pre>';
-			echo '<pre>&#160;&#160;&#160;&#160;&#160;Kein Login m&ouml;glich bis zum Ablauf von: ' . date('d.m.Y // H:i:s',($APP->get('COOKIE.error_waitr'))) . ' Uhr!</pre>';
+			echo '<pre>&#160;&#160;&#160;&#160;&#160;Kein Login m&ouml;glich bis zum Ablauf von: '.date('d.m.Y // H:i:s',($APP->get('COOKIE.error_waitr'))).' Uhr!</pre>';
 			echo '<pre>&#160;&#160;&#160;&#160;&#160;Laden Sie zum Ablauf der oben genannten Zeit diese Seite neu und Sie können erneut versuchen sich im System anzumelden!</pre>';
 
 			if(time()>$APP->get('COOKIE.error_waitr')){
@@ -441,7 +441,7 @@
 
             if (ini_get("session.use_cookies")){
                 $params=session_get_cookie_params();
-                setcookie(session_name(),'',time() - 42000,$params["path"],$params["domain"],$params["secure"],$params["httponly"]);
+                setcookie(session_name(),'',time()-42000,$params["path"],$params["domain"],$params["secure"],$params["httponly"]);
             }
 
             session_destroy();
@@ -474,7 +474,8 @@
 	        $keys=array_keys($array);
 
 	        for ($x=0; $x < $size; $x++){
-	            $element=$array[$keys[$x]]; if (is_array($element)){
+	            $element=$array[$keys[$x]]; 
+	            if(is_array($element)){
 	    			$results=self::flatten_array($element);
 					$sr=sizeof($results);
 	    			$sk=array_keys($results);
@@ -539,7 +540,7 @@
 
                 $USER=$APP->get('USER_BASE_DATA');
 
-                if (count($USER) == 1) {
+                if (count($USER) == 1){
                     $TMP_PASSWORD=self::csrf();
 
                     if ($TMP_PASSWORD!=''){
@@ -584,19 +585,16 @@
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/updated-user-credentials.html','text/html');
         }
 
-        public static function additive($LENGTH=10,$CHARS='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz')
-        {
+        public static function additive($LENGTH=10,$CHARS='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'){
             for($S='',$CL=strlen($CHARS)-1,$i=0;$i<$LENGTH;$S.=$CHARS[mt_rand(0,$CL)],++$i);
             return $S;
         }
 
-        public static function csrf()
-        {
+        public static function csrf(){
             return mt_rand().time();
         }
 		
-        public static function clean_up_cache($APP)
-        {
+        public static function clean_up_cache($APP){
 			if(@is_dir($APP->get('CONSTRUCTR_FE_CACHE'))) {
 				if ($H=@opendir($APP->get('CONSTRUCTR_FE_CACHE'))) {
 					while(($F=@readdir($H))!==false) {
