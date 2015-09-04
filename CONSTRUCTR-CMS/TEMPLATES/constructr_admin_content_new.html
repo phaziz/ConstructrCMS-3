@@ -17,7 +17,7 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 	<include href="{{ @NAVIGATION }}" />
     <div class="row">
         <div class="col s12">
-            <p><strong>Neuen Inhalt auf Seite <a class="tooltipped" data-position="tpo" data-delay="25" data-tooltip="Seite im Browser zeigen" href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.0.constructr_pages_url }}" target="_blank">''{{ @PAGE.0.constructr_pages_name }}''</a> erstellen</strong> | <a href="#" id="uploadsbtn">Uploads anzeigen</a></p>
+            <p><strong>Neuen Inhalt auf Seite <a class="tooltipped" data-position="tpo" data-delay="25" data-tooltip="Seite im Browser zeigen" href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.0.constructr_pages_url }}" target="_blank">''{{ @PAGE.0.constructr_pages_name }}''</a> erstellen</strong> | <a href="#" id="uploadsbtn">Uploads</a> oder <a href="#" id="pagesbtn">Seiten</a> anzeigen</p>
             <p><input type="checkbox" class="vorschau" id="vorschau_aus" /><label for="vorschau_aus">Vorschau aus</label></p>
         </div>
     </div>
@@ -56,13 +56,41 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
                 <button class="btn waves-effect waves-light red" id="esc" type="submit" name="action">Abbrechen</button>
                 <p><small>[Zeichen: <span id='character-counter' class='counter'></span> | W&ouml;rter: <span id='word-counter' class='counter'></span> | Abs&auml;tze: <span id='paragraph-counter' class='counter'></span>]</small>
                 <p><small>Taste <strong>''ESC''</strong> zum abbrechen dr&uuml;cken</small></p>
-                <p><small>Der eingegebene Text wird beim speichern von <a href="http://en.wikipedia.org/wiki/Markdown" target="_blank">Markdown</a>-Syntax in HTML umgewandelt!</small></p>
+                <p><small>Dieser Inhalt wird beim speichern von <a href="http://en.wikipedia.org/wiki/Markdown" target="_blank">Markdown</a>/<a href="https://michelf.ca/projects/php-markdown/extra/" target="_blank">Markdown-Extra</a>-Syntax in HTML umgewandelt!</small></p>
             </div>
 	    </div>
-        </form>
+    </form>
+	<div id="pages" class="modal bottom-sheet">
+    	<div class="modal-content">
+			<strong>Verf&uuml;gbare Seiten</strong>
+	        <table class="bordered responsive-table hoverable">
+	            <thead>
+	                <tr>
+	                <th data-field="Dateiname">Seite</th>
+	                <th data-field="Markdown-Code">Markdown-Code</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+					<check if="{{ @PAGES }}">
+						<true>
+			                <repeat group="{{ @PAGES }}" value="{{ @PAGE }}">
+				                <tr>
+				                    <td>{{ @PAGE.constructr_pages_name }}</td>
+				                    <td><span class="tooltipped inserter_pages" data-page-name="{{ @PAGE.constructr_pages_name }}" data-page-url="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.constructr_pages_url }}" data-position="top" data-delay="25" data-tooltip="Markdown-Code &uuml;bernehmen">[{{ @PAGE.constructr_pages_name }}]({{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.constructr_pages_url }} "{{ @PAGE.constructr_pages_name }}"){#PAGE_LINK_ID .PAGE_LINK_CLASS}</span></td>
+				                </tr>
+				            </repeat>
+						</true>
+					</check>
+	            </tbody>
+	        </table>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="waves-effect waves-green btn-flat modal-action modal-close">schlie&szlig;en</a>
+		</div>
+	</div>
 	<div id="uploads" class="modal bottom-sheet">
     	<div class="modal-content">
-			<h4>Verf&uuml;gbare Uploads</h4>
+			<strong>Verf&uuml;gbare Uploads</strong>
 	        <table class="bordered responsive-table hoverable">
 	            <thead>
 	                <tr>
@@ -139,13 +167,15 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 				});
 			})(jQuery);
         	$('#galbuilder').bind('click',function(){
+        		var i=1;
 				$('.gal').each(function() {
 					var BASE_URL = "{{ @CONSTRUCTR_BASE_URL }}";
 					var MARKDOWN = '';
 					if($(this).prop("checked")==true){
-						var H = OriginHeight(BASE_URL+'/UPLOADS/'+$(this).data('img'));
-						var W = OriginWidth(BASE_URL+'/UPLOADS/'+$(this).data('img'));
-						MARKDOWN += '![' + $(this).data('img') + '](' + BASE_URL + '/UPLOADS/' + $(this).data('img') + ' "' + $(this).data('img') + '" "'+H+'" "'+W+'")';
+						//var H = OriginHeight(BASE_URL+'/UPLOADS/'+$(this).data('img'));
+						//var W = OriginWidth(BASE_URL+'/UPLOADS/'+$(this).data('img'));
+						MARKDOWN += '![' + $(this).data('img') + '](' + BASE_URL + '/UPLOADS/' + $(this).data('img') + ' "' + $(this).data('img') + '"){#IMAGE_ID_'+i+' .IMAGE_GALLERY_CLASS}';
+						i++;
 						$('#uploads').closeModal();
 						$('#new_content_raw').insertGallery(MARKDOWN);
 					}
@@ -212,6 +242,14 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 				var H=imgObj.width;
 				return H;
 			}
+			$('.inserter_pages').bind('click', function(){
+				var PAGE_NAME = $(this).data('page-name');
+				var PAGE_URL = $(this).data('page-url');
+				var MARKDOWN='['+PAGE_NAME+']('+PAGE_URL+' "'+PAGE_NAME+'"){#PAGE_LINK_ID .PAGE_LINK_CLASS}';
+				$('#pages').closeModal();
+				$('#new_content_raw').insertAtCaret(MARKDOWN);
+				return false;
+			});
 			$('.file_inserter').bind('click', function(){
 				var FILE = $(this).attr( 'id' );
 				var BASE_URL = "{{ @CONSTRUCTR_BASE_URL }}";
@@ -225,9 +263,7 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 			$('.inserter').bind('click', function(){
 				var FILE = $(this).attr( 'id' );
 				var BASE_URL = "{{ @CONSTRUCTR_BASE_URL }}";
-				var H = OriginHeight(BASE_URL+'/UPLOADS/'+FILE);
-				var W = OriginWidth(BASE_URL+'/UPLOADS/'+FILE);
-				var MARKDOWN = '![' + FILE + '](' + BASE_URL + '/UPLOADS/' + FILE + ' "' + FILE + '" "'+H+'" "'+W+'")';
+				var MARKDOWN = '![' + FILE + '](' + BASE_URL + '/UPLOADS/' + FILE + ' "' + FILE + '"){#IMAGE_ID .IMAGE_CLASS}';
 				$('#uploads').closeModal();
 				$('#new_content_raw').insertAtCaret(MARKDOWN);
 				return false;
@@ -237,6 +273,12 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 				document.getElementById('character-counter').innerHTML = counter.characters;
 				document.getElementById('word-counter').innerHTML = counter.words;
 				document.getElementById('paragraph-counter').innerHTML = counter.paragraphs;
+			});
+			$('#pagesbtn').bind('click', function (e) {
+				e.preventDefault();
+				$('#pages').openModal({
+					dismissible: true,opacity: .5,in_duration:300,out_duration:100
+      			});
 			});
 			$('#uploadsbtn').bind('click', function (e) {
 				e.preventDefault();

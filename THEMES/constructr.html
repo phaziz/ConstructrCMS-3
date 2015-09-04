@@ -9,7 +9,6 @@
         <meta name="description" content="{{@ CONSTRUCTR_PAGE_DESCRIPTION @}}">
         <style>
             {{@ PAGE_CSS @}}
-
             html,body{
                 margin:0 0 0 0;
                 padding:0 0 0 0;
@@ -138,6 +137,32 @@
                 text-decoration:underline;
                 color:#0000ff;
             }
+			.IMAGE_GALLERY_CLASS{
+				float: left;
+				max-height:300px !important;
+				max-width:auto !important;
+				border: 1px solid #000 !important;
+				margin-right: 25px;
+			}
+			.clearfix{
+				margin: 0 auto !important;
+				margin-left: auto !important;
+				max-width: 100%;
+				text-align:center !important;
+			}
+			.clearfix:before,
+			.clearfix:after {
+			    content:"";
+			    display:table;
+			}
+			.clearfix:after {
+			    clear:both;
+			}
+			.clearfix {
+			    zoom:1; /* For IE 6/7 (trigger hasLayout) */
+			}
+
+            
         </style>
     </head>
     <body>
@@ -149,7 +174,15 @@
             <nav id="menulisting" style="display:none;">
                 <ul>
                     <li>{{@ CONSTRUCTR_LINK(1) @}}</li>
-                    <li>{{@ CONSTRUCTR_LINK(11) @}}</li>
+                    <li>{{@ CONSTRUCTR_LINK(2) @}}</li>
+                    <li>{{@ CONSTRUCTR_LINK(3) @}}</li>
+                    <li>{{@ CONSTRUCTR_LINK(4) @}}</li>
+                    <li>{{@ CONSTRUCTR_LINK(5) @}}</li>
+                    <li>{{@ CONSTRUCTR_LINK(6) @}}</li>
+                    <li>{{@ CONSTRUCTR_LINK(7) @}}</li>
+                    <li>{{@ CONSTRUCTR_LINK(8) @}}</li>
+                    <li>{{@ CONSTRUCTR_LINK(9) @}}</li>
+                    <li>{{@ CONSTRUCTR_LINK(10) @}}</li>
                 </ul>
             </nav>
 

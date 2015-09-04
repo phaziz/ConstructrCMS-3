@@ -183,6 +183,8 @@
             $APP->set('IMAGES',$IMAGES);
             $APP->set('FILES',$FILES);
 
+            $APP->set('PAGES',$APP->get('DBCON')->exec(['SELECT * FROM constructr_pages WHERE constructr_pages_active=1 AND constructr_pages_nav_visible=1 ORDER BY constructr_pages_order ASC;']));
+
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_content_new_before.html','text/html');
         }
 
@@ -200,7 +202,7 @@
 
             $NEW_POSITION=filter_var($APP->get('POST.new_position'),FILTER_SANITIZE_NUMBER_INT);
             $NEW_CONTENT_RAW=$APP->get('POST.new_content_raw');
-			$NEW_CONTENT_HTML=\Markdown::instance()->convert($NEW_CONTENT_RAW);
+			$NEW_CONTENT_HTML=MarkdownExtra::defaultTransform($NEW_CONTENT_RAW);
 			$NEW_CONTENT_MAPPING=$APP->get('POST.new_content_mapping');
 
             $POST_CSRF=$APP->get('POST.csrf');
@@ -358,6 +360,8 @@
 
             $APP->set('IMAGES',$IMAGES);
             $APP->set('FILES',$FILES);
+            
+            $APP->set('PAGES',$APP->get('DBCON')->exec(['SELECT * FROM constructr_pages WHERE constructr_pages_active=1 AND constructr_pages_nav_visible=1 ORDER BY constructr_pages_order ASC;']));
 
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_content_new_after.html','text/html');
         }
@@ -376,7 +380,7 @@
 
             $NEW_POSITION=filter_var($APP->get('POST.new_position'),FILTER_SANITIZE_NUMBER_INT);
             $NEW_CONTENT_RAW=$APP->get('POST.new_content_raw');
-			$NEW_CONTENT_HTML=\Markdown::instance()->convert($NEW_CONTENT_RAW);
+			$NEW_CONTENT_HTML=MarkdownExtra::defaultTransform($NEW_CONTENT_RAW);
 			$NEW_CONTENT_MAPPING=$APP->get('POST.new_content_mapping');
 
             $POST_CSRF=$APP->get('POST.csrf');
@@ -535,6 +539,8 @@
             $APP->set('IMAGES',$IMAGES);
             $APP->set('FILES',$FILES);
 
+            $APP->set('PAGES',$APP->get('DBCON')->exec(['SELECT * FROM constructr_pages WHERE constructr_pages_active=1 AND constructr_pages_nav_visible=1 ORDER BY constructr_pages_order ASC;']));
+
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_content_new.html','text/html');
         }
 
@@ -551,8 +557,7 @@
             $APP->set('PAGE_ID',$PAGE_ID);
             $NEW_POSITION=filter_var($APP->get('POST.new_position'),FILTER_SANITIZE_NUMBER_INT);
             $NEW_CONTENT_RAW=$APP->get('POST.new_content_raw');
-			$NEW_CONTENT_HTML=\Markdown::instance()->convert($NEW_CONTENT_RAW);
-			//$NEW_CONTENT_HTML = MarkdownExtra::defaultTransform($NEW_CONTENT_RAW);
+			$NEW_CONTENT_HTML=MarkdownExtra::defaultTransform($NEW_CONTENT_RAW);
 			$NEW_CONTENT_MAPPING=$APP->get('POST.new_content_mapping');
             $POST_CSRF=$APP->get('POST.csrf');
             $POST_ADDITIVE=$APP->get('POST.csrf_additive');
@@ -623,7 +628,7 @@
 		public function preparse_content_live_preview($APP,$PARSED_HTML=''){
             $LIVE_CONTENT=$APP->get('POST.content');
 			if($LIVE_CONTENT!=''){
-				$PARSED_HTML=\Markdown::instance()->convert($LIVE_CONTENT);
+				$PARSED_HTML=MarkdownExtra::defaultTransform($LIVE_CONTENT);
 				echo $PARSED_HTML;	
 			}
 		}
@@ -715,6 +720,8 @@
             $APP->set('IMAGES',$IMAGES);
             $APP->set('FILES',$FILES);
 
+			$APP->set('PAGES',$APP->get('DBCON')->exec(['SELECT * FROM constructr_pages WHERE constructr_pages_active=1 AND constructr_pages_nav_visible=1 ORDER BY constructr_pages_order ASC;']));
+
             if ($APP->get('CONTENT_COUNTR')==1){
                 echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_content_edit.html','text/html');
             } else {
@@ -767,7 +774,7 @@
             $CONTENT_ID=filter_var($APP->get('PARAMS.content_id'),FILTER_SANITIZE_NUMBER_INT);
             $APP->set('CONTENT_ID',$CONTENT_ID);
             $EDIT_CONTENT_RAW=$APP->get('POST.edit_content_raw');
-			$EDIT_CONTENT_HTML=\Markdown::instance()->convert($EDIT_CONTENT_RAW);
+			$EDIT_CONTENT_HTML=MarkdownExtra::defaultTransform($EDIT_CONTENT_RAW);
 			$EDIT_CONTENT_MAPPING=$APP->get('POST.edit_content_mapping');
 
             if ($PAGE_ID!='' && $CONTENT_ID!=''){
