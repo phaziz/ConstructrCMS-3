@@ -35,7 +35,7 @@ if(isset($_POST['setup'])){
 $NL="\n";
 $_CONFIG_FILE_CONTENT = '
 {
-"CONSTRUCTR_VERSION":"3.0 / 2015-09-03",
+"CONSTRUCTR_VERSION":"3.0 / 2015-08-31",
 "DATABASE_HOSTNAME":"'.$_POST['db_host'].'",
 "DATABASE_DATABASE":"'.$_POST['db_database'].'",
 "DATABASE_PORT":3306,
@@ -58,27 +58,29 @@ $_CONFIG_FILE_CONTENT = '
         $DBCON->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $QUERY = "
 CREATE TABLE `constructr_backenduser` (
-  `constructr_user_id` int(25) NOT NULL,
+  `constructr_user_id` int(25) NOT NULL AUTO_INCREMENT,
   `constructr_user_username` varchar(255) NOT NULL,
   `constructr_user_password` varchar(255) NOT NULL,
   `constructr_user_salt` varchar(255) NOT NULL DEFAULT '',
   `constructr_user_factor` varchar(255) NOT NULL,
   `constructr_user_email` varchar(255) NOT NULL,
   `constructr_user_last_login` datetime NOT NULL,
-  `constructr_user_active` int(1) NOT NULL
+  `constructr_user_active` int(1) NOT NULL,
+  UNIQUE KEY `constructr_user_id` (`constructr_user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `constructr_backenduser` (`constructr_user_id`, `constructr_user_username`, `constructr_user_password`, `constructr_user_factor`, `constructr_user_email`, `constructr_user_last_login`, `constructr_user_active`) VALUES
 (1, :USERNAME, :PASSWORD, '', :EMAIL, :LAST_LOGIN, 1);
 
 CREATE TABLE `constructr_content` (
-  `constructr_content_id` int(255) NOT NULL,
+  `constructr_content_id` int(255) NOT NULL AUTO_INCREMENT,
   `constructr_content_page_id` int(255) NOT NULL,
   `constructr_content_content_raw` text NOT NULL,
   `constructr_content_content_html` text NOT NULL,
   `constructr_content_tpl_id_mapping` varchar(255) DEFAULT '',
   `constructr_content_order` int(255) NOT NULL DEFAULT '0',
-  `constructr_content_visible` int(1) NOT NULL DEFAULT '1'
+  `constructr_content_visible` int(1) NOT NULL DEFAULT '1',
+  UNIQUE KEY `constructr_content_id` (`constructr_content_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `constructr_pages` (
@@ -101,14 +103,15 @@ CREATE TABLE IF NOT EXISTS `constructr_pages` (
   `constructr_pages_active` int(1) NOT NULL DEFAULT '0',
   `constructr_pages_nav_visible` int(1) NOT NULL DEFAULT '1',
   `constructr_pages_temp_marker` int(10) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`constructr_pages_id`)
+  UNIQUE KEY `constructr_pages_id` (`constructr_pages_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 CREATE TABLE `constructr_user_rights` (
-  `constructr_user_rights_id` int(255) NOT NULL,
+  `constructr_user_rights_id` int(255) NOT NULL AUTO_INCREMENT,
   `constructr_user_rights_user` int(255) NOT NULL DEFAULT '0',
   `constructr_user_rights_key` int(255) NOT NULL DEFAULT '0',
-  `constructr_user_rights_value` int(255) NOT NULL DEFAULT '0'
+  `constructr_user_rights_value` int(255) NOT NULL DEFAULT '0',
+  UNIQUE KEY `constructr_user_rights_id` (`constructr_user_rights_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=666 DEFAULT CHARSET=utf8;
 
 INSERT INTO `constructr_user_rights` (`constructr_user_rights_id`, `constructr_user_rights_user`, `constructr_user_rights_key`, `constructr_user_rights_value`) VALUES
@@ -134,33 +137,6 @@ INSERT INTO `constructr_user_rights` (`constructr_user_rights_id`, `constructr_u
 (20, 1, 60, 1),
 (21, 1, 61, 1),
 (22, 1, 62, 1);
-
-ALTER TABLE `constructr_backenduser`
-  ADD PRIMARY KEY (`constructr_user_id`),
-  ADD UNIQUE KEY `constructr_user_id` (`constructr_user_id`);
-
-ALTER TABLE `constructr_content`
-  ADD PRIMARY KEY (`constructr_content_id`),
-  ADD UNIQUE KEY `constructr_content_id` (`constructr_content_id`);
-
-ALTER TABLE `constructr_pages`
-  ADD PRIMARY KEY (`constructr_pages_id`);
-
-ALTER TABLE `constructr_user_rights`
-  ADD PRIMARY KEY (`constructr_user_rights_id`),
-  ADD UNIQUE KEY `constructr_user_rights_id` (`constructr_user_rights_id`);
-
-ALTER TABLE `constructr_backenduser`
-  MODIFY `constructr_user_id` int(25) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
-
-ALTER TABLE `constructr_content`
-  MODIFY `constructr_content_id` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
-
-ALTER TABLE `constructr_pages`
-  MODIFY `constructr_pages_id` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
-
-ALTER TABLE `constructr_user_rights`
-  MODIFY `constructr_user_rights_id` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 ";
 
         $STMT = $DBCON->prepare($QUERY);
