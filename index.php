@@ -25,9 +25,9 @@
     $APP->set('MAX_ERROR_LOGIN',5); // (integer) // Standard: 5
     $APP->set('LOGIN_WAITR',600); // (integer) // Standard: 600
     $APP->set('UPLOADS_LIST_PAGINATION',5); // (integer) // Standard: 5
-    $APP->set('CONSTRUCTR_CACHE',0); // 0 || 1 // Standard: 1
+    $APP->set('CONSTRUCTR_CACHE',1); // 0 || 1 // Standard: 1
     $APP->set('OUTPUT_COMPRESSION',1); // 0 || 1 // Standard: 1
-    $APP->set('COMPRESSOR_HTML5',1); // 0 || 1 // Standard: 0
+    $APP->set('COMPRESSOR_HTML5',0); // 0 || 1 // Standard: 0
     $APP->set('COMPRESSOR_CSS',1); // 0 || 1 // Standard: 1
     $APP->set('COMPRESSOR_JS',1); // 0 || 1 // Standard: 1
 
