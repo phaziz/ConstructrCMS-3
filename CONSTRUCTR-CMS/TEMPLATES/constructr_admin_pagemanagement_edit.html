@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Constructr Administration</title>
+<title>{{ @LANG115 }}</title>
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/css/constructr.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -13,7 +13,7 @@
 	<include href="{{ @NAVIGATION }}" />
     <div class="row">
         <div class="col s12">
-            <p><strong>Seite "{{ @PAGE.0.constructr_pages_name }}" bearbeiten</strong></p>
+            <p><strong>{{ @LANG116 }}"{{ @PAGE.0.constructr_pages_name }}"{{ @LANG117 }}</strong></p>
         </div>
     </div>
     <div class="row">
@@ -24,32 +24,32 @@
             <input type="hidden" name="edit_page" id="edit_page" value="{{ @PAGE.0.constructr_pages_id }}">
             <input type="hidden" name="old_template" id="old_template" value="{{ @PAGE.0.constructr_pages_template }}">
             <div class="input-field col s12">
-                <input type="text" id="page_name" name="page_name" length="100" value="{{ @PAGE.0.constructr_pages_name }}" placeholder="Name der Seite" required="required" autofocus="autofocus">
-                <label for="page_name">Name der Seite:</label>
+                <input type="text" id="page_name" name="page_name" length="100" value="{{ @PAGE.0.constructr_pages_name }}" placeholder="{{ @LANG118 }}" required="required" autofocus="autofocus">
+                <label for="page_name">{{ @LANG118 }}:</label>
             </div>
             <check if="{{ @PAGE.0.constructr_pages_order }} == 1">
             	<true>
 		            <div class="input-field col s12">
-		                <input type="text" id="page_url" name="page_url" length="100" value="{{ @PAGE.0.constructr_pages_url }}" placeholder="URL der Seite" maxlength="100" onblur="javascript:cleanUpMess();">
-		                <label for="page_url">URL der Seite:</label>
+		                <input type="text" id="page_url" name="page_url" length="100" value="{{ @PAGE.0.constructr_pages_url }}" placeholder="{{ @LANG119 }}" maxlength="100" onblur="javascript:cleanUpMess();">
+		                <label for="page_url">{{ @LANG119 }}:</label>
 		            </div>
 				</true>
 				<false>
 		            <div class="input-field col s12">
-		                <input type="text" id="page_url" name="page_url" length="100" value="{{ @PAGE.0.constructr_pages_url }}" placeholder="URL der Seite" required="required" maxlength="100" onblur="javascript:cleanUpMess();">
-		                <label for="page_url">URL der Seite:</label>
+		                <input type="text" id="page_url" name="page_url" length="100" value="{{ @PAGE.0.constructr_pages_url }}" placeholder="{{ @LANG120 }}" required="required" maxlength="100" onblur="javascript:cleanUpMess();">
+		                <label for="page_url">{{ @LANG120 }}:</label>
 		            </div>
 				</false>
             </check>
             <div class="input-field col s12">
-                <input type="url" id="page_ext_url" name="page_ext_url" length="100" value="{{ @PAGE.0.constructr_pages_ext_url }}" placeholder="Externe URL der Seite" maxlength="100">
-                <label for="page_url">externe Weiterleitung der Seite zu URL:</label>
+                <input type="url" id="page_ext_url" name="page_ext_url" length="100" value="{{ @PAGE.0.constructr_pages_ext_url }}" placeholder="{{ @LANG121 }}" maxlength="100">
+                <label for="page_url">{{ @LANG121 }}:</label>
             </div>
             <check if="{{ count(@TEMPLATES) }} != 0">
                 <true>
                     <div class="input-field col s12">
                         <select name="page_template" id="page_template" required="required">
-                            <option value="">Bitte w&auml;hlen:</option>
+                            <option value="">{{ @LANG122 }}:</option>
                             <repeat group="{{ @TEMPLATES }}" value="{{ @TEMPLATE }}">
                             	<check if="{{ @PAGE.0.constructr_pages_template }} == {{ @TEMPLATE }}">
                             		<true>
@@ -61,7 +61,7 @@
                         		</check>
                         	</repeat>
                         </select>
-                        <label for="page_template">Template der Seite:</label>
+                        <label for="page_template">{{ @LANG123 }}:</label>
                     </div>
                 </true>
                 <false>
@@ -70,46 +70,46 @@
             </check>
             <div class="input-field col s12">
                 <select name="page_nav_visible" id="page_nav_visible" required="required">
-                    <option value="">Bitte w&auml;hlen:</option>
+                    <option value="">{{ @LANG124 }}:</option>
                 	<check if="{{ @PAGE.0.constructr_pages_nav_visible }} == 1">
                 		<true>
-                			<option value="1" selected="selected">Seite ist sichtbar in Navigation</option>
+                			<option value="1" selected="selected">{{ @LANG125 }}</option>
                 		</true>
                 		<false>
-                			<option value="0" selected="selected">Seite ist unsichtbar in Navigation</option>
+                			<option value="0" selected="selected">{{ @LANG126 }}</option>
                 		</false>
             		</check>
                     <option value="">- - -</option>
-                    <option value="1">Seite ist sichtbar in Navigation</option>
-                    <option value="0">Seite ist unsichtbar in Navigation</option>
+                    <option value="1">{{ @LANG125 }}</option>
+                    <option value="0">{{ @LANG126 }}</option>
                 </select>
-                <label for="page_nav_visible">Sichtbarkeit in Navigation der Seite:</label>
+                <label for="page_nav_visible">{{ @LANG127 }}:</label>
             </div>
             <div class="input-field col s12">
-                <input type="text" id="page_title" name="page_title" length="55" value="{{ @PAGE.0.constructr_pages_title }}" placeholder="Titel der Seite" required="required">
-                <label for="page_title">Titel der Seite:</label>
+                <input type="text" id="page_title" name="page_title" length="55" value="{{ @PAGE.0.constructr_pages_title }}" placeholder="{{ @LANG128 }}" required="required">
+                <label for="page_title">{{ @LANG128 }}:</label>
             </div>
             <div class="input-field col s12">
-                <input type="text" id="page_description" name="page_description" length="156" value="{{ @PAGE.0.constructr_pages_description }}" placeholder="Beschreibung der Seite" required="required">
-                <label for="page_description">Beschreibung der Seite:</label>
+                <input type="text" id="page_description" name="page_description" length="156" value="{{ @PAGE.0.constructr_pages_description }}" placeholder="{{ @LANG129 }}" required="required">
+                <label for="page_description">{{ @LANG129 }}:</label>
             </div>
             <div class="input-field col s12">
-                <input type="text" id="page_keywords" name="page_keywords" length="250" value="{{ @PAGE.0.constructr_pages_keywords }}" placeholder="Schlagworte/Keywords der Seite" required="required">
-                <label for="page_keywords">Schlagworte/Keywords der Seite:</label>
+                <input type="text" id="page_keywords" name="page_keywords" length="250" value="{{ @PAGE.0.constructr_pages_keywords }}" placeholder="{{ @LANG130 }}" required="required">
+                <label for="page_keywords">{{ @LANG130 }}:</label>
             </div>
             <div class="input-field col s12">
-                <textarea id="page_css" name="page_css" class="materialize-textarea" placeholder="Seitenspezifisches CSS">{{ @PAGE.0.constructr_pages_css_uncompressed }}</textarea>
-                <label for="page_css">Seitenspezifisches CSS:</label>
+                <textarea id="page_css" name="page_css" class="materialize-textarea" placeholder="{{ @LANG131 }}">{{ @PAGE.0.constructr_pages_css_uncompressed }}</textarea>
+                <label for="page_css">{{ @LANG131 }}:</label>
             </div>
             <div class="input-field col s12">
-                <textarea id="page_js" name="page_js" class="materialize-textarea" placeholder="Seitenspezifisches Javascript">{{ @PAGE.0.constructr_pages_js_uncompressed }}</textarea>
-                <label for="page_js">Seitenspezifisches Javascript:</label>
+                <textarea id="page_js" name="page_js" class="materialize-textarea" placeholder="{{ @LANG132 }}">{{ @PAGE.0.constructr_pages_js_uncompressed }}</textarea>
+                <label for="page_js">{{ @LANG132 }}:</label>
             </div>
             <div class="input-field col s12 center-align">
             	<br><br>
-                <button class="btn waves-effect waves-light" type="submit" name="action">Seite speichern</button>
-                <button class="btn waves-effect waves-light red" id="esc" type="submit" name="action">Abbrechen</button>
-                <p><small>Taste <strong>''ESC''</strong> zum abbrechen dr&uuml;cken</small></p>
+                <button class="btn waves-effect waves-light" type="submit" name="action">{{ @LANG133 }}</button>
+                <button class="btn waves-effect waves-light red" id="esc" type="submit" name="action">{{ @LANG134 }}</button>
+                <p><small>{{ @LANG135 }}</small></p>
             </div>
         </form>
     </div>
@@ -162,10 +162,10 @@
                         if(data != '') {
 							$('#page_url').val(CLEAN_URL);
                         } else {
-				            vex.dialog.buttons.YES.text = 'Okay';
+				            vex.dialog.buttons.YES.text = '{{ @LANGG2 }}';
 				            vex.dialog.alert({
 				                className: 'vex-theme-wireframe',
-				                message: '<h5>Achtung:</h5>Ups... Es ist ein Fehler aufgetreten...: ' + data,
+				                message: '<h5>{{ @LANGG3 }}:</h5>{{ @LANGG4 }}: ' + data,
 				            });
                         }
 					});

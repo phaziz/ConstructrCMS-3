@@ -25,11 +25,13 @@
     $APP->set('MAX_ERROR_LOGIN',5); // (integer) // Standard: 5
     $APP->set('LOGIN_WAITR',600); // (integer) // Standard: 600
     $APP->set('UPLOADS_LIST_PAGINATION',5); // (integer) // Standard: 5
-    $APP->set('CONSTRUCTR_CACHE',1); // 0 || 1 // Standard: 1
+    $APP->set('CONSTRUCTR_CACHE',0); // 0 || 1 // Standard: 1
     $APP->set('OUTPUT_COMPRESSION',1); // 0 || 1 // Standard: 1
-    $APP->set('COMPRESSOR_HTML5',0); // 0 || 1 // Standard: 0
+    $APP->set('COMPRESSOR_HTML5',1); // 0 || 1 // Standard: 0
     $APP->set('COMPRESSOR_CSS',1); // 0 || 1 // Standard: 1
     $APP->set('COMPRESSOR_JS',1); // 0 || 1 // Standard: 1
+
+    $APP->set('CONSTRUCTR_BACKEND_LANGUAGE','de'); // de || en // Standard: de
 
     try{
         $APP->set('DBCON',$DBCON=new DB\SQL('mysql:host='.$APP->get('DATABASE_HOSTNAME').';port='.$APP->get('DATABASE_PORT').';dbname='.$APP->get('DATABASE_DATABASE'),$APP->get('DATABASE_USERNAME'),$APP->get('DATABASE_PASSWORD')));
@@ -268,9 +270,15 @@
             $APP->reroute($APP->get('CONSTRUCTR_BASE_URL'));
         }
     } else {
-        if(!$APP->get('SESSION.login') || $APP->get('SESSION.login')=='false'){
-            $APP->set('SESSION.login','false');
-            $APP->set('SESSION.username','');
+		require_once __DIR__.'/CONSTRUCTR-CMS/LANG/'.$APP->get('CONSTRUCTR_BACKEND_LANGUAGE').'.php';
+
+		foreach($CONSTRUCTR_LANG as $KEY => $SLANG){
+			$APP->set('LANG'.$KEY,$SLANG);
+		}
+
+        if(!$APP->get('COOKIE.login') || $APP->get('COOKIE.login')=='false'){
+            $APP->set('COOKIE.login','false');
+            $APP->set('COOKIE.username','');
         }
 
         $APP->set('NAVIGATION','./CONSTRUCTR-CMS/TEMPLATES/constructr_navigation.html');

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Constructr Login</title>
+<title>{{ @LANG9 }}</title>
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/css/constructr.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex.css">
@@ -12,25 +12,25 @@
 </head>
 <body>
 	<div class="container" style="margin-top:150px;">
-		<h5>Bitte Benutzername eingeben</h5>
+		<h5>{{ @LANG0 }}</h5>
 		<div class="row form-row">
 			<form name="login" id="login" action="{{ @CONSTRUCTR_BASE_URL}}/constructr/login" method="post" enctype="application/x-www-form-urlencoded" class="col s12">
 				<input type="hidden" name="csrf" value="{{ @CSRF }}">
 				<input type="hidden" name="csrf_additive" value="{{ @ADDITIVE }}">
 				<input type="hidden" name="csrf_tripple_additive" value="{{ @TRIPPLE_ADDITIVE }}">
 				<div class="input-field col s12">
-					<input type="text" id="username" name="username" value="" placeholder="Benutzername" required="required" autofocus="autofocus">
-					<label>Benutzername:</label>
+					<input type="text" id="username" name="username" value="" placeholder="{{ @LANG1 }}" required="required" autofocus="autofocus">
+					<label>{{ @LANG1 }}:</label>
 				</div>
 				<div class="input-field col s12 ghost">
-					<input type="text" id="email" name="email" value="" placeholder="eMail">
-					<label>eMail:</label>
+					<input type="text" id="email" name="email" value="" placeholder="{{ @LANG2 }}">
+					<label>{{ @LANG2 }}:</label>
 				</div>
 				<div class="input-field col s6">
-					<button class="btn waves-effect waves-light" type="submit" name="action">&#160;&#160;&#160;Login Schritt 1 von 2&#160;&#160;&#160;</button>
+					<button class="btn waves-effect waves-light" type="submit" name="action">&#160;&#160;&#160;{{ @LANG3 }}&#160;&#160;&#160;</button>
 				</div>
 				<div class="input-field col s6">
-					<p class="right-align"><small><a id="retrieve_password" href="#">Passwort vergessen?</a></small></p>
+					<p class="right-align"><small><a id="retrieve_password" href="#">{{ @LANG4 }}</a></small></p>
 				</div>
 			</form>
 		</div>
@@ -46,18 +46,18 @@
 				var A=$('#username').val();
 				if(typeof A==='undefined' || A=='') {
 					$('#username').focus();
-	                vex.dialog.buttons.YES.text='Okay';
+	                vex.dialog.buttons.YES.text='{{ @LANGG2 }}';
 	                vex.dialog.alert({
 	                    className:'vex-theme-wireframe',
-	                    message:'<h5>Achtung:</h5>Bitte das Feld Benutzername ausf&uuml;llen!',
+	                    message:'<h5>{{ @LANG5 }}:</h5>{{ @LANG6 }}',
 	                });
 					return false;
 				} else {
-	                vex.dialog.buttons.YES.text='Ja';
-	                vex.dialog.buttons.NO.text='Abbrechen';
+	                vex.dialog.buttons.YES.text='{{ @LANGG0 }}';
+	                vex.dialog.buttons.NO.text='{{ @LANGG1 }}';
 	                vex.dialog.confirm({
 	                    className:'vex-theme-wireframe',
-	                    message:'<h5>Achtung:</h5>M&ouml;chten Sie wirklich das Passwort f&uuml;r Benutzer '+A+' zur&uuml;cksetzen?',
+	                    message:'<h5>{{ @LANG5 }}:</h5>{{ @LANG7 }} "'+A+'" {{ @LANG8 }}',
 	                    callback:function(value){
 	                        if(value==true){
 	                            $(location).attr('href','{{ @CONSTRUCTR_BASE_URL}}/constructr/retrieve-password/'+A);

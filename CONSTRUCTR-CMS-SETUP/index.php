@@ -1,7 +1,7 @@
 <?php
 
     if (version_compare(phpversion(), '5.4.0', '<=')) {
-        die('Es wird mindestens PHP-Version 5.4.0 ben&ouml;tigt!');
+        die('Es wird mindestens PHP-Version 5.4.0 ben&ouml;tigt! / PHP 5.4.0 required!');
     }
 
     $TEST_CONFIG_FILE = '../CONSTRUCTR-CMS/CONFIG/constructr_config.json';
@@ -35,7 +35,7 @@ if(isset($_POST['setup'])){
 $NL="\n";
 $_CONFIG_FILE_CONTENT = '
 {
-"CONSTRUCTR_VERSION":"3.0 / 2015-09-10",
+"CONSTRUCTR_VERSION":"3.0 / 2015-09-15",
 "DATABASE_HOSTNAME":"'.$_POST['db_host'].'",
 "DATABASE_DATABASE":"'.$_POST['db_database'].'",
 "DATABASE_PORT":3306,
@@ -159,10 +159,8 @@ INSERT INTO `constructr_user_rights` (`constructr_user_rights_id`, `constructr_u
 <!DOCTYPE html>
 	<html>
 	<head>
-	    <title>Constructr CMS Installation</title>
+	    <title>ConstructrCMS Setup</title>
 	    <meta charset="UTF-8">
-	    <meta name="description" content="Installation von Constructr CMS">
-	    <meta name="keywords" content="Constructr CMS, phaziz.com, Christian Becher">
 	    <link rel="stylesheet" href="<?php echo getCurrentUrl(); ?>/CONSTRUCTR-CMS/ASSETS/css/constructr.css">
 	    <link rel="stylesheet" href="<?php echo getCurrentUrl(); ?>/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
 	    <style>
@@ -179,7 +177,7 @@ INSERT INTO `constructr_user_rights` (`constructr_user_rights_id`, `constructr_u
 				<div class="row">
 					<div class="col-md-12" style="text-align:center;">
 				  		<h1>ConstructrCMS</h1>
-				  		<h3>Installation</h3>
+				  		<h3>Setup and installation</h3>
 					</div>
 				</div>
 				<br><br>
@@ -189,92 +187,92 @@ INSERT INTO `constructr_user_rights` (`constructr_user_rights_id`, `constructr_u
 				<input type="hidden" name="salt2" id="salt2" value="<?php echo $NEW_GUID5.$NEW_GUID6.$NEW_GUID7; ?>" required="required">
 				<input type="hidden" name="salt3" id="salt3" value="<?php echo $NEW_GUID9.$NEW_GUID10.$NEW_GUID11; ?>" required="required">
 				<div class="form-group">
-					<label for="db_host" class="col-sm-2 control-label">Datenbank-Host:</label>
+					<label for="db_host" class="col-sm-2 control-label">Datenbank-Host/Database-Host:</label>
 					<div class="col-sm-10">
-						<input class="form-control" type="text" name="db_host" id="db_host" size="50" required="required" value="localhost" autofocus placeholder="Host der Datenbank">
-						<small><span class="helpBlock" class="help-block">Zum Beispiel: <em><strong>localhost</strong></em></span></small>
+						<input class="form-control" type="text" name="db_host" id="db_host" size="50" required="required" value="localhost" autofocus placeholder="Host der Datenbank/Database-Host">
+						<small><span class="helpBlock" class="help-block">Zum Beispiel/For example: <em><strong>localhost</strong></em></span></small>
 						<br><br><br>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="db_database" class="col-sm-2 control-label">Datenbank-Name:</label>
+					<label for="db_database" class="col-sm-2 control-label">Datenbank-Name/Database-name:</label>
 					<div class="col-sm-10">
-						<input class="form-control" type="text" name="db_database" id="db_database" size="50" required="required" placeholder="Name der Datenbank">
-						<small><span class="helpBlock" class="help-block">Der Name der vorhandenen Datenbank - zum Beispiel: <em><strong>constructrcms</strong></em></span></small>
+						<input class="form-control" type="text" name="db_database" id="db_database" size="50" required="required" placeholder="Name der Datenbank/Database-name">
+						<small><span class="helpBlock" class="help-block">Zum Beispiel/For example: <em><strong>constructrcms</strong></em></span></small>
 						<br><br><br>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="db_user" class="col-sm-2 control-label">Datenbank-Benutzer:</label>
+					<label for="db_user" class="col-sm-2 control-label">Datenbank-Benutzer/Database-username:</label>
 					<div class="col-sm-10">
-						<input class="form-control" type="text" name="db_user" id="db_user" size="50" required="required" placeholder="Datenbank-Benutzername">
-						<small><span class="helpBlock" class="help-block">Der Name des vorhandenen Benutzers für die Datenbank.</span></small>
+						<input class="form-control" type="text" name="db_user" id="db_user" size="50" required="required" placeholder="Datenbank-Benutzername/Database-username">
+						<small><span class="helpBlock" class="help-block">Der Name des vorhandenen Benutzers für die Datenbank / Database-username.</span></small>
 						<br><br><br>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="db_password" class="col-sm-2 control-label">Datenbank-Passwort:</label>
+					<label for="db_password" class="col-sm-2 control-label">Datenbank-Passwort/Database-password:</label>
 					<div class="col-sm-10">
-						<input class="form-control" type="text" name="db_password" id="db_password" size="50" required="required" placeholder="Datenbank-Passwort">
-						<small><span class="helpBlock" class="help-block">Das Passwort des vorhandenen Benutzers für die Datenbank.</span></small>
+						<input class="form-control" type="text" name="db_password" id="db_password" size="50" required="required" placeholder="Datenbank-Passwort/Database-password">
+						<small><span class="helpBlock" class="help-block">Das Passwort des vorhandenen Benutzers für die Datenbank / Database-password</span></small>
 						<br><br><br>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="base_url" class="col-sm-2 control-label">Basis-URL:</label>
+					<label for="base_url" class="col-sm-2 control-label">Basis-URL/Base-Url:</label>
 					<div class="col-sm-10">
 						<?php
 
 							$CURRENT_URL = getCurrentUrl();
 
 						?>
-						<input class="form-control" type="url" name="base_url" id="base_url" value="<?php echo $CURRENT_URL; ?>" size="50" required="required" placeholder="Basis-URL der Installation">
-						<small><span class="helpBlock" class="help-block">Die Basis-URL für das künftige Frontend deiner ConstructrCMS-Installation.</span></small>
+						<input class="form-control" type="url" name="base_url" id="base_url" value="<?php echo $CURRENT_URL; ?>" size="50" required="required" placeholder="Basis-URL der Installation/Base-Url off installation">
+						<small><span class="helpBlock" class="help-block">Die Basis-URL für das künftige Frontend deiner ConstructrCMS-Installation. / BaseUrl for the ConstructrCMS frontend.</span></small>
 						<br><br><br>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="admin_username" class="col-sm-2 control-label">Administrator-Benutzername:</label>
+					<label for="admin_username" class="col-sm-2 control-label">Administrator-Benutzername/Administrative username:</label>
 					<div class="col-sm-10">
-						<input class="form-control" type="text" name="admin_username" id="admin_username" value="" size="50" required="required" placeholder="Benutzername Administrator Account">
-						<small><span class="helpBlock" class="help-block">Der gewünschte Benutzername für das Backend von deinem ConstructrCMS.</span></small>
+						<input class="form-control" type="text" name="admin_username" id="admin_username" value="" size="50" required="required" placeholder="Benutzername / Administrator Account">
+						<small><span class="helpBlock" class="help-block">Der gewünschte Benutzername für das Backend von deinem ConstructrCMS. / Your desired username.</span></small>
 						<br><br><br>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="admin_password" class="col-sm-2 control-label">Administrator-Passwort:</label>
+					<label for="admin_password" class="col-sm-2 control-label">Administrator-Passwort / Administrative password:</label>
 					<div class="col-sm-10">
-						<input class="form-control" type="text" name="admin_password" id="admin_password" value="" size="50" required="required" placeholder="Passwort Administrator Account">
+						<input class="form-control" type="text" name="admin_password" id="admin_password" value="" size="50" required="required" placeholder="Passwort Administrator Account / Administrative Password">
 						<small><span class="helpBlock" class="help-block">Das gewünschte Passwort für das Backend von deinem ConstructrCMS.</span></small>
 						<br><br><br>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="admin_email" class="col-sm-2 control-label">Administrator-eMail:</label>
+					<label for="admin_email" class="col-sm-2 control-label">Administrator-eMail / Administrative eMail:</label>
 					<div class="col-sm-10">
-						<input class="form-control" type="email" name="admin_email" id="admin_email" value="" size="50" required="required" placeholder="eMail Administrator Account">
-						<small><span class="helpBlock" class="help-block">Die gewünschte eMail-Adresse für das Administrator-Account.</span></small>
+						<input class="form-control" type="email" name="admin_email" id="admin_email" value="" size="50" required="required" placeholder="eMail Administrator Account / Administrative eMail">
+						<small><span class="helpBlock" class="help-block">Die gewünschte eMail-Adresse für das Administrator-Account. / Your personal eMail.</span></small>
 						<br><br><br>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="admin_email" class="col-sm-2 control-label">eMail Kontaktformulare:</label>
+					<label for="admin_email" class="col-sm-2 control-label">eMail Kontaktformulare / Main contact eMail-Address:</label>
 					<div class="col-sm-10">
-						<input class="form-control" type="email" name="contact_email" id="contact_email" value="" size="50" required="required" placeholder="eMail Kontaktformulare">
-						<small><span class="helpBlock" class="help-block">Die gewünschte eMail-Adresse für Kontaktformulare.</span></small>
+						<input class="form-control" type="email" name="contact_email" id="contact_email" value="" size="50" required="required" placeholder="eMail Kontaktformulare / Main contact eMail-Address">
+						<small><span class="helpBlock" class="help-block">Die gewünschte eMail-Adresse für Kontaktformulare. / Main contact eMail-Address for forms.</span></small>
 						<br><br><br>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12" style="text-align:center;">
-					  	<input class="btn btn-primary btn-lg" type="submit" value="ConstructrCMS installieren">
+					  	<input class="btn btn-primary btn-lg" type="submit" value="ConstructrCMS installieren / Setup ConstructrCMS">
 					</div>
 				</div>
 				</form>
 				<br><br><br><br>
 				<div class="row">
 					<div class="col-md-12" style="text-align:center;">
-				  		<p><small>ConstructrCMS von <a href="http://phaziz.com">phaziz.com</a></small></p>
+				  		<p><small>ConstructrCMS | <a href="http://phaziz.com">phaziz.com</a></small></p>
 					</div>
 				</div>
 			</div>

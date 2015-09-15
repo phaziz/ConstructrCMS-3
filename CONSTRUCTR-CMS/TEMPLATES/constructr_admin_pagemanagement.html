@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Constructr Administration</title>
+<title>{{ @LANG38 }}</title>
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/css/constructr.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/materialize/css/materialize.min.css">
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/vex/css/vex.css">
@@ -17,85 +17,85 @@
         <div class="col s12">
             <check if="{{ count(@PAGES) != 0 }}">
                 <true>
-                    <p><strong>{{ count(@PAGES) }} Seiten vorhanden</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/new" class="waves-effect waves-light btn">Neue Seite +</a></p>
+                    <p><strong>{{ count(@PAGES) }} {{ @LANG39 }}</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/new" class="waves-effect waves-light btn">{{ @LANG40 }} +</a></p>
                     <check if="{{ @EDIT }} =='success'">
-						<div class="card-panel green darken-3 white-text">Die Seite wurde erfolgreich bearbeitet!</div>
+						<div class="card-panel green darken-3 white-text">{{ @LANG41 }}</div>
                     </check>
                     <check if="{{ @EDIT }} == 'no-success'">
-						<div class="card-panel red darken-3 white-text">Die Seite wurde leider nicht aktualisiert!</div>
+						<div class="card-panel red darken-3 white-text">{{ @LANG42 }}</div>
                     </check>
                     <check if="{{ @EDIT }} == 'no-success-visibility-homepage'">
-						<div class="card-panel red darken-3 white-text">Sichtbarkeit konnte nicht editiert werden - dies ist die Startseite!</div>
+						<div class="card-panel red darken-3 white-text">{{ @LANG43 }}</div>
                     </check>                    
                     <check if="{{ @EDIT }} == 'no-success-url'">
-						<div class="card-panel red darken-3 white-text">Die Seite konnte nicht editiert werden - URL bereits vorhanden!</div>
+						<div class="card-panel red darken-3 white-text">{{ @LANG44 }}</div>
                     </check>
                     <check if="{{ @EDIT }} == 'no-success-cnstrctr'">
-						<div class="card-panel red darken-3 white-text">Die Seite konnte nicht editiert werden - constructr ist eine gesch&uuml;tze URL f&uuml;r die Administration!</div>
+						<div class="card-panel red darken-3 white-text">{{ @LANG45 }}</div>
                     </check>
                     <check if="{{ @NEW }} == 'success'">
-						<div class="card-panel green darken-3 white-text">Die Seite wurde erfolgreich erstellt!</div>
+						<div class="card-panel green darken-3 white-text">{{ @LANG46 }}</div>
                     </check>
                     <check if="{{ @NEW }} == 'no-success'">
-						<div class="card-panel red darken-3 white-text">Die Seite konnte leider nicht erstellt werden!</div>
+						<div class="card-panel red darken-3 white-text">{{ @LANG47 }}</div>
                     </check>
                     <check if="{{ @NEW }} == 'no-success-url'">
-						<div class="card-panel red darken-3 white-text">Die Seite konnte nicht erstellt werden - URL bereits vorhanden!</div>
+						<div class="card-panel red darken-3 white-text">{{ @LANG48 }}</div>
                     </check>
                     <check if="{{ @NEW }} == 'no-success-cnstrctr'">
-						<div class="card-panel red darken-3 white-text">Die Seite konnte nicht erstellt werden - constructr ist eine gesch&uuml;tze URL f&uuml;r die Administration!</div>
+						<div class="card-panel red darken-3 white-text">{{ @LANG49 }}</div>
                     </check>
                     <check if="{{ @DELETE }} == 'success'">
-						<div class="card-panel green darken-3 white-text">Die Seite wurde erfolgreich gel&ouml;scht!</div>
+						<div class="card-panel green darken-3 white-text">{{ @LANG50 }}</div>
                     </check>
                     <check if="{{ @DELETE }} == 'no-success'">
-						<div class="card-panel red darken-3 white-text">Die Seite konnte leider nicht gel&ouml;scht werden!</div>
+						<div class="card-panel red darken-3 white-text">{{ @LANG51 }}</div>
                     </check>
                     <check if="{{ @DELETE }} == 'no-success-content-available'">
-						<div class="card-panel red darken-3 white-text">Die Seite konnte leider nicht gel&ouml;scht werden - Es sind noch Inhalte vorhanden!</div>
+						<div class="card-panel red darken-3 white-text">{{ @LANG52 }}</div>
                     </check>
                     <check if="{{ @DELETE }} == 'no-success-is-homepage'">
-						<div class="card-panel red darken-3 white-text">Die Seite konnte leider nicht gel&ouml;scht werden - Es ist die Startseite!</div>
+						<div class="card-panel red darken-3 white-text">{{ @LANG53 }}</div>
                     </check>
                     <check if="{{ @MOVE }} == 'success'">
-						<div class="card-panel green darken-3 white-text">Die Seite wurde erfolgreich verschoben!</div>
+						<div class="card-panel green darken-3 white-text">{{ @LANG54 }}</div>
                     </check>
                     <check if="{{ @MOVE }} == 'no-success'">
-						<div class="card-panel red darken-3 white-text">Die Seite konnte leider nicht verschoben werden!</div>
+						<div class="card-panel red darken-3 white-text">{{ @LANG55 }}</div>
                     </check>
                     <check if="{{ @MOVE }} == 'no-success-homepage'">
-						<div class="card-panel red darken-3 white-text">Die Seite konnte leider nicht verschoben werden - Startseite darf nicht &uuml;berschrieben werden!</div>
+						<div class="card-panel red darken-3 white-text">{{ @LANG56 }}</div>
                     </check>                    
                     <table class="bordered hoverable" onmouseout="javascript:$('.tooltipped').tooltip('remove');">
                         <thead>
                             <tr>
-                            <th data-field="Name">Name</th>
-                            <th data-field="Name">ID</th>
-                            <th data-field="URL">URL/Webadresse</th>
-                            <th data-field="Template">Template</th>
-                            <th data-field="Aktionen" class="center-align" style="width:250px;">Aktionen</th>
+                            <th data-field="Name">{{ @LANG57 }}</th>
+                            <th data-field="Name">{{ @LANG58 }}</th>
+                            <th data-field="URL">{{ @LANG59 }}</th>
+                            <th data-field="Template">{{ @LANG60 }}</th>
+                            <th data-field="Aktionen" class="center-align" style="width:250px;">{{ @LANG61 }}</th>
                             </tr>
                         </thead>
                         <tbody>
                             <repeat group="{{ @PAGES }}" value="{{ @PAGE }}">
                             <tr id="page_id_{{ @PAGE.constructr_pages_id }}">
-                                <td class="tooltipped pages" data-position="right" data-delay="25" data-tooltip="Doppelklick um Seite ''ID {{ @PAGE.constructr_pages_id }}'' zu bearbeiten" id="page_id_@@@{{ @PAGE.constructr_pages_id }}">
+                                <td class="tooltipped pages" data-position="right" data-delay="25" data-tooltip="{{ @LANG62 }}''ID {{ @PAGE.constructr_pages_id }}''{{ @LANG63 }}" id="page_id_@@@{{ @PAGE.constructr_pages_id }}">
                                     <check if="{{ @PAGE.constructr_pages_level }} > 1">
                                         <true>
                                             {{ @levelIndicator(@PAGE.constructr_pages_level) }}
                                         </true>
                                     </check>
-                                    <a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE.constructr_pages_id }}" data-position="right" data-delay="25" data-tooltip="Inhalte von Seite ''{{ @PAGE.constructr_pages_name }}'' bearbeiten" class="tooltipped">{{ @PAGE.constructr_pages_name }}</a>
+                                    <a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE.constructr_pages_id }}" data-position="right" data-delay="25" data-tooltip="{{ @LANG64 }}''{{ @PAGE.constructr_pages_name }}''{{ @LANG65 }}" class="tooltipped">{{ @PAGE.constructr_pages_name }}</a>
                                 </td>
                             	<td><small>{{ @PAGE.constructr_pages_id }}</small></td>
-                                <td><a href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.constructr_pages_url }}" target="_blank" data-position="top" data-delay="25" data-tooltip="Vorschau von Seite ''{{ @PAGE.constructr_pages_name }}''" class="tooltipped"><small>{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.constructr_pages_url }}</small></a>
+                                <td><a href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.constructr_pages_url }}" target="_blank" data-position="top" data-delay="25" data-tooltip="{{ @LANG66 }}''{{ @PAGE.constructr_pages_name }}''" class="tooltipped"><small>{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.constructr_pages_url }}</small></a>
                                 </td>
                                 <td><small>{{ @PAGE.constructr_pages_template }}</small></td>
                                 <td class="center-align"><nobr>
 									<check if="{{ @PAGE.constructr_pages_order }} == 1">
 										<false>
 		                                	&#160;
-		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/move-up/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="Seite ''{{ @PAGE.constructr_pages_name }}'' nach oben verschieben" class="tooltipped"><i class="material-icons">arrow_drop_up</i></a>
+		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/move-up/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG67 }}''{{ @PAGE.constructr_pages_name }}''{{ @LANG68 }}" class="tooltipped"><i class="material-icons">arrow_drop_up</i></a>
 										</false>
 										<true>
 											&#160;&#160;&#160;&#160;&#160;&#160;&#160;
@@ -104,31 +104,31 @@
 									<check if="{{ @PAGE.constructr_pages_order }} == {{ count(@PAGES) }}">
 										<false>
 		                                	&#160;
-		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/move-down/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="Seite ''{{ @PAGE.constructr_pages_name }}'' nach unten verschieben" class="tooltipped"><i class="material-icons">arrow_drop_down</i></a>
+		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/move-down/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG62 }}''{{ @PAGE.constructr_pages_name }}''{{ @LANG70 }}" class="tooltipped"><i class="material-icons">arrow_drop_down</i></a>
 										</false>
 										<true>
 											&#160;&#160;&#160;&#160;&#160;&#160;&#160;
 										</true>
 									</check>
 									&#160;
-									<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="Inhalte von Seite ''{{ @PAGE.constructr_pages_name }}'' bearbeiten" class="tooltipped"><i class="material-icons">format_align_justify</i></a>
+									<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG71 }}''{{ @PAGE.constructr_pages_name }}''{{ @LANG72 }}" class="tooltipped"><i class="material-icons">format_align_justify</i></a>
                                 	&#160;
-                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/edit/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="Seite ''{{ @PAGE.constructr_pages_name }}'' bearbeiten" class="tooltipped"><i class="material-icons">mode_edit</i></a>
+                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/edit/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG73 }}''{{ @PAGE.constructr_pages_name }}''{{ @LANG74 }}" class="tooltipped"><i class="material-icons">mode_edit</i></a>
                                 	&#160;
 									<check if="{{ @PAGE.constructr_pages_nav_visible }} == 1">
 										<false>
-		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/visibility/on/{{ @PAGE.constructr_pages_id }}/{{ @PAGE.constructr_pages_order }}" data-position="left" data-delay="25" data-tooltip="Seite ''{{ @PAGE.constructr_pages_name }}'' in Navigation zeigen" class="tooltipped"><i class="material-icons">visibility_off</i></a>
+		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/visibility/on/{{ @PAGE.constructr_pages_id }}/{{ @PAGE.constructr_pages_order }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG75 }}''{{ @PAGE.constructr_pages_name }}''{{ @LANG76 }}" class="tooltipped"><i class="material-icons">visibility_off</i></a>
 										</false>
 										<true>
-											<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/visibility/off/{{ @PAGE.constructr_pages_id }}/{{ @PAGE.constructr_pages_order }}" data-position="left" data-delay="25" data-tooltip="Seite ''{{ @PAGE.constructr_pages_name }}'' in Navigation verbergen" class="tooltipped"><i class="material-icons">visibility</i></a>
+											<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/visibility/off/{{ @PAGE.constructr_pages_id }}/{{ @PAGE.constructr_pages_order }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG77 }}''{{ @PAGE.constructr_pages_name }}''{{ @LANG78 }}" class="tooltipped"><i class="material-icons">visibility</i></a>
 										</true>
 									</check>
 									&#160;
-                                	<a href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.constructr_pages_url }}" target="_blank" data-position="left" data-delay="25" data-tooltip="Vorschau von Seite ''{{ @PAGE.constructr_pages_name }}''" class="tooltipped"><i class="material-icons">open_in_new</i></a>
+                                	<a href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.constructr_pages_url }}" target="_blank" data-position="left" data-delay="25" data-tooltip="{{ @LANG79 }}''{{ @PAGE.constructr_pages_name }}''" class="tooltipped"><i class="material-icons">open_in_new</i></a>
                                 	&#160;
-                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/delete/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="Seite ''{{ @PAGE.constructr_pages_name }}'' l&ouml;schen" class="deleter tooltipped"><i class="material-icons">delete</i></a>
+                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/delete/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG80 }}''{{ @PAGE.constructr_pages_name }}''{{ @LANG81 }}" class="deleter tooltipped"><i class="material-icons">delete</i></a>
                                 	&#160;
-                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/deletewithcontent/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="Seite ''{{ @PAGE.constructr_pages_name }}'' inklusive Inhalte l&ouml;schen" class="deleterC tooltipped"><i class="material-icons">cancel</i></a>
+                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/deletewithcontent/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG82 }}''{{ @PAGE.constructr_pages_name }}''{{ @LANG83 }}" class="deleterC tooltipped"><i class="material-icons">cancel</i></a>
                                 </nobr></td>
                             </tr>
                         </repeat>
@@ -136,7 +136,7 @@
                     </table>
                 </true>
                 <false>
-                    <p><strong>{{ count(@PAGES) }} Seiten vorhanden</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/new" class="waves-effect waves-light btn">Neue Seite +</a></p>
+                    <p><strong>{{ count(@PAGES) }} {{ @LANG84 }}</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/new" class="waves-effect waves-light btn">{{ @LANG85 }} +</a></p>
                 </false>
             </check>
         </div>
@@ -157,11 +157,11 @@
             $('.deleterC').click(function(e) {
 				e.preventDefault();
 	            var U=$(this).attr('href');
-	            vex.dialog.buttons.YES.text='Ja';
-	            vex.dialog.buttons.NO.text='Abbrechen';
+	            vex.dialog.buttons.YES.text='{{ @LANGG0 }}';
+	            vex.dialog.buttons.NO.text='{{ @LANGG1 }}';
 	            vex.dialog.confirm({
 	                className:'vex-theme-wireframe',
-	                message:'<h5>Achtung:</h5>M&ouml;chten Sie diese Seite wirklich inklusive aller Inhalte l&ouml;schen?',
+	                message:'<h5>{{ @LANG88 }}:</h5>{{ @LANG86 }}',
 	                callback:function(value){
 	                    if(value==true){
 	                        $(location).attr('href',U);
@@ -174,11 +174,11 @@
             $('.deleter').click(function(e){
 				e.preventDefault();
 	            var U=$(this).attr('href');
-	            vex.dialog.buttons.YES.text='Ja';
-	            vex.dialog.buttons.NO.text='Abbrechen';
+	            vex.dialog.buttons.YES.text='{{ @LANGG0 }}';
+	            vex.dialog.buttons.NO.text='{{ @LANGG1 }}';
 	            vex.dialog.confirm({
 	                className:'vex-theme-wireframe',
-	                message:'<h5>Achtung:</h5>M&ouml;chten Sie diese Seite wirklich l&ouml;schen?',
+	                message:'<h5>{{ @LANG88 }}:</h5>{{ @LANG87 }}',
 	                callback:function(value){
 	                    if(value==true){
 	                        $(location).attr('href',U);
