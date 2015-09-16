@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+    	<!--/*
+
+    	 Please update THEMES/ASSETS/slippry/dist/slippry.css and
+    	 change the URLs for the included image links for control 
+    	 graphics of the slippry sliderin line:
+
+    	 	- 105 / class .sy-box.sy-loading
+    	 	- 237 / class .sy-controls li a:after
+
+    	 */-->
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{@ CONSTRUCTR_PAGE_TITLE @}}</title>
+        <meta name="keywords" content="{{@ CONSTRUCTR_PAGE_KEYWORDS @}}">
+        <meta name="description" content="{{@ CONSTRUCTR_PAGE_DESCRIPTION @}}">
+        <style>
+
+        	{{@ PAGE_CSS @}}
+
+	    	/*
+	
+	    	 Copy the following CSS into your site specific css to be compressed by ConstructrCMS
+	
+	    	 */
+
+			/*COPY START*/
+
+            html, body{
+            	margin:0 0 0 0;
+            	padding:0 0 0 0;
+            }
+            #slider{
+            	display:block;
+            	margin-left:auto;
+            	margin-right:auto;
+            	max-width:100%;
+            	overflow:hidden;
+            	margin-top:100px;
+            	margin-bottom:100px;
+            }
+            .sy-caption{
+            	font-family:'Helvetica Neue', Arial, sans-serif;
+            	font-size:1.0em;
+            	font-weight:200;
+            }
+            #slippry li p{
+            	margin:0 0 0 0;
+            	padding:0 0 0 0;
+            	text-align:center;
+            }
+            #logo img{
+            	display:block;
+            	margin-left:auto;
+            	margin-right:auto;
+            	margin-top:150px;
+            	margin-bottom:150px;
+            }
+            #content{
+            	margin-top:100px;
+            	margin-bottom:100px;
+            	max-width:1200px;
+            	display:block;
+            	margin-left:auto;
+            	margin-right:auto;
+            	font-family:'Helvetica Neue', Arial, Verdana, sans-serif;
+            	font-size: 1.3em;
+            	font-weight:200;
+            }
+            #footer{
+            	margin-top:100px;
+            	margin-bottom:100px;
+            	max-width:1200px;
+            	display:block;
+            	margin-left:auto;
+            	margin-right:auto;
+            	font-family:'Helvetica Neue', Arial, Verdana, sans-serif;
+            	font-size: 0.8em;
+            	font-weight:200;
+            	text-align:center;
+            }
+           /*FEEL FREE TO ADD YOUR PERSONAL CSS-CODE*/
+
+           /*COPY END - after this you can remove the above CSS code*/
+
+        </style>
+		<link rel="stylesheet" href="{{@ CONSTRUCTR_BASE_URL @}}/THEMES/ASSETS/slippry/dist/slippry.css" />
+    </head>
+    <body>
+
+		<div id="logo">
+			<img src="{{@ CONSTRUCTR_BASE_URL @}}/THEMES/ASSETS/phaziz.png" alt="phaziz" />
+		</div>
+
+		<div id="slider">
+			<ul id="slippry">
+				<li>
+					{{@ CONSTRUCTR_MAPPING(SCHLIDER_1) @}}
+				</li>
+				<li>
+					{{@ CONSTRUCTR_MAPPING(SCHLIDER_2) @}}
+				</li>
+				<li>
+					{{@ CONSTRUCTR_MAPPING(SCHLIDER_3) @}}
+				</li>
+			</ul>
+		</div>
+
+		<!--/*FEEL FREE TO ADD YOUR PERSONAL HTML-CODE AND MORE CONSTRUCTRCMS SMART TAGS*/-->
+
+		<div id="content">
+			{{@ PAGE_CONTENT_HTML @}}
+		</div>
+		
+		<div id="footer">
+			Proudly built with <a href="http://constructr-cms.org" target="_blank">ConstructrCMS</a> - A new Content Management System by <a href="http://phaziz.com" target="_blank">phaziz.com</a>! 
+		</div>
+
+        <script src="{{@ CONSTRUCTR_BASE_URL @}}/CONSTRUCTR-CMS/ASSETS/jquery/jquery-2.1.4.min.js"></script>		
+		<script src="{{@ CONSTRUCTR_BASE_URL @}}/THEMES/ASSETS/slippry/dist/slippry.min.js"></script>
+        <script>
+
+        	$(function(){
+        		{{@ PAGE_JS @}};
+        		
+		    	/*
+		
+		    	 Copy the following JS into your site specific javascript to be compressed by ConstructrCMS
+		
+		    	 */
+
+        		/*COPY START*/
+        		/*FEEL FREE TO ADD YOUR PERSONAL JS-CODE*/
+				jQuery('#slippry').slippry({
+					auto:true,
+					adaptiveHeight:true,
+					loop:true,
+					responsive:true,
+					preload:'visible',
+					pager:true,
+					controls:false,
+					transition:'vertical',
+					continuous:true,
+					useCSS:true,
+					autoHover:true
+				})
+				/*COPY END - after this you can remove the above code*/
+				
+				
+        	});
+        </script>
+
+    </body>
+</html>

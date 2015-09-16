@@ -1,5 +1,6 @@
 CHANGELOG
 
+- 2015-09-16 Slippry Slider-Theme
 - 2015-09-15 Multi-language backend (de || en)
 - 2015-09-10 BugFix, Templates
 - 2015-09-04 Markdown-Extra and content link-generator
