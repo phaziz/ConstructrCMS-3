@@ -1,5 +1,6 @@
 CHANGELOG
 
+- 2015-09-18 Compressed and merged backend CSS- and JS-files
 - 2015-09-16 Slippry Slider-Theme
 - 2015-09-15 Multi-language backend (de || en)
 - 2015-09-10 BugFix, Templates
