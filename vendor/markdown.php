@@ -10,7 +10,13 @@
 	terms of the GNU General Public License as published by the Free Software
 	Foundation, either version 3 of the License, or later.
 
-	Please see the LICENSE file for more information.
+	Fat-Free Framework is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+	General Public License for more details.
+
+	You should have received a copy of the GNU General Public License along
+	with Fat-Free Framework.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
@@ -343,15 +349,6 @@ class Markdown extends Prefab {
 	protected function _img($str) {
 		$self=$this;
 		return preg_replace_callback(
-		'/!(?:\[(.+?)\])?\h*\(<?(.*?)>?(?:\h*"(.*?)"\h*)?\)?(?:\h*"(.*?)"\h*)?\)?(?:\h*"(.*?)"\h*)?\)/', function($expr) use($self){
-			return '<img src="'.$expr[2].'"'.(empty($expr[1])?'':(' alt="'.$self->esc($expr[1]).'"')).(empty($expr[3])?'':(' title="'.$self->esc($expr[3]).'"')).(' style="height:'.(empty($expr[4])?'auto':($self->esc($expr[4]).'px')).';width:'.(empty($expr[5])?'auto':($self->esc($expr[5]).'px')).'"').'>';
-		},$str);
-	}
-
-/*
-	protected function _img($str) {
-		$self=$this;
-		return preg_replace_callback(
 			'/!(?:\[(.+?)\])?\h*\(<?(.*?)>?(?:\h*"(.*?)"\h*)?\)/',
 			function($expr) use($self) {
 				return '<img src="'.$expr[2].'"'.
@@ -365,7 +362,6 @@ class Markdown extends Prefab {
 			$str
 		);
 	}
-*/
 
 	/**
 	*	Process anchor span
