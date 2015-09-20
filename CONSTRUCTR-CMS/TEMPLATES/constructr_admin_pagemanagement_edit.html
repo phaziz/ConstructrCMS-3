@@ -12,7 +12,7 @@
 	<include href="{{ @NAVIGATION }}" />
     <div class="row">
         <div class="col s12">
-            <p><strong>{{ @LANG116 }}"{{ @PAGE.0.constructr_pages_name }}"{{ @LANG117 }}</strong></p>
+            <p><strong>{{ @LANG116 }}"{{ html_entity_decode(@PAGE.0.constructr_pages_name) }}"{{ @LANG117 }}</strong></p>
         </div>
     </div>
     <div class="row">
@@ -23,7 +23,7 @@
             <input type="hidden" name="edit_page" id="edit_page" value="{{ @PAGE.0.constructr_pages_id }}">
             <input type="hidden" name="old_template" id="old_template" value="{{ @PAGE.0.constructr_pages_template }}">
             <div class="input-field col s12">
-                <input type="text" id="page_name" name="page_name" length="100" value="{{ @PAGE.0.constructr_pages_name }}" placeholder="{{ @LANG118 }}" required="required" autofocus="autofocus">
+                <input type="text" id="page_name" name="page_name" length="100" value="{{ html_entity_decode(@PAGE.0.constructr_pages_name) }}" placeholder="{{ @LANG118 }}" required="required" autofocus="autofocus">
                 <label for="page_name">{{ @LANG118 }}:</label>
             </div>
             <check if="{{ @PAGE.0.constructr_pages_order }} == 1">
@@ -85,15 +85,15 @@
                 <label for="page_nav_visible">{{ @LANG127 }}:</label>
             </div>
             <div class="input-field col s12">
-                <input type="text" id="page_title" name="page_title" length="55" value="{{ @PAGE.0.constructr_pages_title }}" placeholder="{{ @LANG128 }}" required="required">
+                <input type="text" id="page_title" name="page_title" length="55" value="{{ html_entity_decode(@PAGE.0.constructr_pages_title) }}" placeholder="{{ @LANG128 }}" required="required">
                 <label for="page_title">{{ @LANG128 }}:</label>
             </div>
             <div class="input-field col s12">
-                <input type="text" id="page_description" name="page_description" length="156" value="{{ @PAGE.0.constructr_pages_description }}" placeholder="{{ @LANG129 }}" required="required">
+                <input type="text" id="page_description" name="page_description" length="156" value="{{ html_entity_decode(@PAGE.0.constructr_pages_description) }}" placeholder="{{ @LANG129 }}" required="required">
                 <label for="page_description">{{ @LANG129 }}:</label>
             </div>
             <div class="input-field col s12">
-                <input type="text" id="page_keywords" name="page_keywords" length="250" value="{{ @PAGE.0.constructr_pages_keywords }}" placeholder="{{ @LANG130 }}" required="required">
+                <input type="text" id="page_keywords" name="page_keywords" length="250" value="{{ html_entity_decode(@PAGE.0.constructr_pages_keywords) }}" placeholder="{{ @LANG130 }}" required="required">
                 <label for="page_keywords">{{ @LANG130 }}:</label>
             </div>
             <div class="input-field col s12">
