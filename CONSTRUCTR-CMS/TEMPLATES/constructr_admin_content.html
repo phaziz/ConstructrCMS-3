@@ -14,7 +14,7 @@
         <div class="col s12">
             <check if="{{ @CONTENT_COUNTR }} != 0">
                 <true>
-                    <p><strong>{{ @CONTENT_COUNTR }} {{ @LANG224 }} <a class="tooltipped" data-position="tpo" data-delay="25" data-tooltip="{{ @LANG225 }}" href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.0.constructr_pages_url }}" target="_blank">''{{ @PAGE.0.constructr_pages_name }}''</a> {{ @LANG226 }}</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/new" class="waves-effect waves-light btn">{{ @LANG227 }} +</a></p>
+                    <p><strong>{{ @CONTENT_COUNTR }} {{ @LANG224 }} <a class="tooltipped" data-position="tpo" data-delay="25" data-tooltip="{{ @LANG225 }}" href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.0.constructr_pages_url }}" target="_blank">''{{ html_entity_decode(@PAGE.0.constructr_pages_name) }}''</a> {{ @LANG226 }}</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/new" class="waves-effect waves-light btn">{{ @LANG227 }} +</a></p>
                     <check if="{{ @EDIT }} == 'success'">
 						<div class="card-panel green darken-3 white-text">{{ @LANG228 }}</div>
                     </check>
@@ -112,7 +112,7 @@
                     </table>
                 </true>
                 <false>
-					<p><strong>0 {{ @LANG257 }} <a class="tooltipped" data-position="tpo" data-delay="25" data-tooltip="{{ @LANG258 }}" href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.0.constructr_pages_url }}" target="_blank">''{{ @PAGE.0.constructr_pages_name }}''</a> {{ @LANG259 }}</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/new" class="waves-effect waves-light btn">{{ @LANG260 }} +</a></p>
+					<p><strong>0 {{ @LANG257 }} <a class="tooltipped" data-position="tpo" data-delay="25" data-tooltip="{{ @LANG258 }}" href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.0.constructr_pages_url }}" target="_blank">''{{ html_entity_decode(@PAGE.0.constructr_pages_name) }}''</a> {{ @LANG259 }}</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/new" class="waves-effect waves-light btn">{{ @LANG260 }} +</a></p>
                 </false>
             </check>
             <p><small>{{ @LANG261 }}</small></p>
