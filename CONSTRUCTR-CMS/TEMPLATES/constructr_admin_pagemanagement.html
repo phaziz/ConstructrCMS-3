@@ -82,17 +82,17 @@
                                             {{ @levelIndicator(@PAGE.constructr_pages_level) }}
                                         </true>
                                     </check>
-                                    <a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE.constructr_pages_id }}" data-position="right" data-delay="25" data-tooltip="{{ @LANG64 }}''{{ @PAGE.constructr_pages_name }}''{{ @LANG65 }}" class="tooltipped">{{ @PAGE.constructr_pages_name }}</a>
+                                    <a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE.constructr_pages_id }}" data-position="right" data-delay="25" data-tooltip="{{ @LANG64 }}''{{ html_entity_decode(@PAGE.constructr_pages_name) }}''{{ @LANG65 }}" class="tooltipped">{{ html_entity_decode(@PAGE.constructr_pages_name) }}</a>
                                 </td>
                             	<td><small>{{ @PAGE.constructr_pages_id }}</small></td>
-                                <td><a href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.constructr_pages_url }}" target="_blank" data-position="top" data-delay="25" data-tooltip="{{ @LANG66 }}''{{ @PAGE.constructr_pages_name }}''" class="tooltipped"><small>{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.constructr_pages_url }}</small></a>
+                                <td><a href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.constructr_pages_url }}" target="_blank" data-position="top" data-delay="25" data-tooltip="{{ @LANG66 }}''{{ html_entity_decode(@PAGE.constructr_pages_name) }}''" class="tooltipped"><small>{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.constructr_pages_url }}</small></a>
                                 </td>
                                 <td><small>{{ @PAGE.constructr_pages_template }}</small></td>
                                 <td class="center-align"><nobr>
 									<check if="{{ @PAGE.constructr_pages_order }} == 1">
 										<false>
 		                                	&#160;
-		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/move-up/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG67 }}''{{ @PAGE.constructr_pages_name }}''{{ @LANG68 }}" class="tooltipped"><i class="material-icons">arrow_drop_up</i></a>
+		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/move-up/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG67 }}''{{ html_entity_decode(@PAGE.constructr_pages_name) }}''{{ @LANG68 }}" class="tooltipped"><i class="material-icons">arrow_drop_up</i></a>
 										</false>
 										<true>
 											&#160;&#160;&#160;&#160;&#160;&#160;&#160;
@@ -101,31 +101,31 @@
 									<check if="{{ @PAGE.constructr_pages_order }} == {{ count(@PAGES) }}">
 										<false>
 		                                	&#160;
-		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/move-down/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG62 }}''{{ @PAGE.constructr_pages_name }}''{{ @LANG70 }}" class="tooltipped"><i class="material-icons">arrow_drop_down</i></a>
+		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/move-down/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG62 }}''{{ html_entity_decode(@PAGE.constructr_pages_name) }}''{{ @LANG70 }}" class="tooltipped"><i class="material-icons">arrow_drop_down</i></a>
 										</false>
 										<true>
 											&#160;&#160;&#160;&#160;&#160;&#160;&#160;
 										</true>
 									</check>
 									&#160;
-									<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG71 }}''{{ @PAGE.constructr_pages_name }}''{{ @LANG72 }}" class="tooltipped"><i class="material-icons">format_align_justify</i></a>
+									<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG71 }}''{{ html_entity_decode(@PAGE.constructr_pages_name) }}''{{ @LANG72 }}" class="tooltipped"><i class="material-icons">format_align_justify</i></a>
                                 	&#160;
-                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/edit/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG73 }}''{{ @PAGE.constructr_pages_name }}''{{ @LANG74 }}" class="tooltipped"><i class="material-icons">mode_edit</i></a>
+                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/edit/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG73 }}''{{ html_entity_decode(@PAGE.constructr_pages_name) }}''{{ @LANG74 }}" class="tooltipped"><i class="material-icons">mode_edit</i></a>
                                 	&#160;
 									<check if="{{ @PAGE.constructr_pages_nav_visible }} == 1">
 										<false>
-		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/visibility/on/{{ @PAGE.constructr_pages_id }}/{{ @PAGE.constructr_pages_order }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG75 }}''{{ @PAGE.constructr_pages_name }}''{{ @LANG76 }}" class="tooltipped"><i class="material-icons">visibility_off</i></a>
+		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/visibility/on/{{ @PAGE.constructr_pages_id }}/{{ @PAGE.constructr_pages_order }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG75 }}''{{ html_entity_decode(@PAGE.constructr_pages_name) }}''{{ @LANG76 }}" class="tooltipped"><i class="material-icons">visibility_off</i></a>
 										</false>
 										<true>
-											<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/visibility/off/{{ @PAGE.constructr_pages_id }}/{{ @PAGE.constructr_pages_order }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG77 }}''{{ @PAGE.constructr_pages_name }}''{{ @LANG78 }}" class="tooltipped"><i class="material-icons">visibility</i></a>
+											<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/visibility/off/{{ @PAGE.constructr_pages_id }}/{{ @PAGE.constructr_pages_order }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG77 }}''{{ html_entity_decode(@PAGE.constructr_pages_name) }}''{{ @LANG78 }}" class="tooltipped"><i class="material-icons">visibility</i></a>
 										</true>
 									</check>
 									&#160;
-                                	<a href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.constructr_pages_url }}" target="_blank" data-position="left" data-delay="25" data-tooltip="{{ @LANG79 }}''{{ @PAGE.constructr_pages_name }}''" class="tooltipped"><i class="material-icons">open_in_new</i></a>
+                                	<a href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.constructr_pages_url }}" target="_blank" data-position="left" data-delay="25" data-tooltip="{{ @LANG79 }}''{{ html_entity_decode(@PAGE.constructr_pages_name) }}''" class="tooltipped"><i class="material-icons">open_in_new</i></a>
                                 	&#160;
-                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/delete/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG80 }}''{{ @PAGE.constructr_pages_name }}''{{ @LANG81 }}" class="deleter tooltipped"><i class="material-icons">delete</i></a>
+                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/delete/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG80 }}''{{ html_entity_decode(@PAGE.constructr_pages_name) }}''{{ @LANG81 }}" class="deleter tooltipped"><i class="material-icons">delete</i></a>
                                 	&#160;
-                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/deletewithcontent/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG82 }}''{{ @PAGE.constructr_pages_name }}''{{ @LANG83 }}" class="deleterC tooltipped"><i class="material-icons">cancel</i></a>
+                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/deletewithcontent/{{ @PAGE.constructr_pages_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG82 }}''{{ html_entity_decode(@PAGE.constructr_pages_name) }}''{{ @LANG83 }}" class="deleterC tooltipped"><i class="material-icons">cancel</i></a>
                                 </nobr></td>
                             </tr>
                         </repeat>
