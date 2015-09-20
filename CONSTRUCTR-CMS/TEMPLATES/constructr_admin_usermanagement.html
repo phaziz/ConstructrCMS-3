@@ -45,24 +45,24 @@
                             <repeat group="{{ @USER }}" value="{{ @USER }}">
                             <tr>
                                 <td class="tooltipped users" data-position="right" data-delay="25" data-tooltip="{{ @LANG175 }}''ID {{ @USER.constructr_user_id }}''{{ @LANG176 }}" id="user_id_@@@{{ @USER.constructr_user_id }}">
-                                    {{ @USER.constructr_user_username }}
+                                    {{ html_entity_decode(@USER.constructr_user_username) }}
                                 </td>
                                 <td><small><a class="tooltipped" data-position="top" data-delay="25" data-tooltip="{{ @LANG177 }}" href="mailto:{{ @USER.constructr_user_email }}">{{ @USER.constructr_user_email }}</a></small></td>
                                 <td class="center-align">
-                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/edit/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG178 }}''{{ @USER.constructr_user_username }}''{{ @LANG179 }}" class="tooltipped"><i class="material-icons">mode_edit</i></a>
+                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/edit/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG178 }}''{{ html_entity_decode(@USER.constructr_user_username) }}''{{ @LANG179 }}" class="tooltipped"><i class="material-icons">mode_edit</i></a>
                                 	&#160;
-                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/edit-rights/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG180 }}''{{ @USER.constructr_user_username }}''{{ @LANG181 }}" class="tooltipped"><i class="material-icons">security</i></a>
+                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/edit-rights/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG180 }}''{{ html_entity_decode(@USER.constructr_user_username) }}''{{ @LANG181 }}" class="tooltipped"><i class="material-icons">security</i></a>
                                 	&#160;
 									<check if="{{ @USER.constructr_user_active }} == 1">
 										<true>
-											<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/deactivate/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG182 }}''{{ @USER.constructr_user_username }}''{{ @LANG183 }}" class="tooltipped"><i class="material-icons">visibility</i></a>
+											<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/deactivate/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG182 }}''{{ html_entity_decode(@USER.constructr_user_username) }}''{{ @LANG183 }}" class="tooltipped"><i class="material-icons">visibility</i></a>
 										</true>
 										<false>
-		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/activate/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG184 }}''{{ @USER.constructr_user_username }}''{{ @LANG185 }}" class="tooltipped"><i class="material-icons">visibility_off</i></a>
+		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/activate/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG184 }}''{{ html_entity_decode(@USER.constructr_user_username) }}''{{ @LANG185 }}" class="tooltipped"><i class="material-icons">visibility_off</i></a>
 										</false>
 									</check>
                                 	&#160;
-                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/delete/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG186 }}''{{ @USER.constructr_user_username }}''{{ @LANG187 }}" class="deleter tooltipped"><i class="material-icons">delete</i></a>
+                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/delete/{{ @USER.constructr_user_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG186 }}''{{ html_entity_decode(@USER.constructr_user_username) }}''{{ @LANG187 }}" class="deleter tooltipped"><i class="material-icons">delete</i></a>
                                 </td>
                             </tr>
                         </repeat>
