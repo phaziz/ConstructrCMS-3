@@ -24,11 +24,11 @@
 		            <input type="hidden" name="csrf_tripple_additive" value="{{ @TRIPPLE_ADDITIVE }}">
 		            <input type="hidden" name="user_id" value="{{ @USER.0.constructr_user_id }}">
 		            <div class="input-field col s12">
-		                <input type="text" id="user_name" name="user_name" value="{{ @USER.0.constructr_user_username }}" placeholder="{{ @LANG204 }}" required="required" autofocus="autofocus">
+		                <input type="text" id="user_name" name="user_name" value="{{ html_entity_decode(@USER.0.constructr_user_username) }}" placeholder="{{ @LANG204 }}" required="required" autofocus="autofocus">
 		                <label for="user_name">{{ @LANG204 }}:</label>
 		            </div>
 		            <div class="input-field col s12">
-		                <input type="email" id="user_email" name="user_email" value="{{ @USER.0.constructr_user_email }}" placeholder="{{ @LANG205 }}" required="required">
+		                <input type="email" id="user_email" name="user_email" value="{{ html_entity_decode(@USER.0.constructr_user_email) }}" placeholder="{{ @LANG205 }}" required="required">
 		                <label for="user_email">{{ @LANG205 }}:</label>
 		            </div>
 		            <div class="input-field col s12">
