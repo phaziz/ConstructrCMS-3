@@ -16,7 +16,7 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 	<include href="{{ @NAVIGATION }}" />
     <div class="row">
         <div class="col s12 m12 l12">
-            <p><strong>{{ @LANG298 }} <a class="tooltipped" data-position="tpo" data-delay="25" data-tooltip="{{ @LANG300 }}" href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.0.constructr_pages_url }}" target="_blank">''{{ @PAGE.0.constructr_pages_name }}''</a> {{ @LANG299 }}</strong> | <a href="#" id="uploadsbtn">{{ @LANG302 }}</a> {{ @LANG303 }} <a href="#" id="pagesbtn">{{ @LANG304 }}</a> {{ @LANG305 }}</p>
+            <p><strong>{{ @LANG298 }} <a class="tooltipped" data-position="tpo" data-delay="25" data-tooltip="{{ @LANG300 }}" href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.0.constructr_pages_url }}" target="_blank">''{{ html_entity_decode(@PAGE.0.constructr_pages_name) }}''</a> {{ @LANG299 }}</strong> | <a href="#" id="uploadsbtn">{{ @LANG302 }}</a> {{ @LANG303 }} <a href="#" id="pagesbtn">{{ @LANG304 }}</a> {{ @LANG305 }}</p>
             <p><input type="checkbox" class="vorschau" id="vorschau_aus" /><label for="vorschau_aus">{{ @LANG306 }}</label></p>
         </div>
     </div>
