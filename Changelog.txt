@@ -1,5 +1,6 @@
 CHANGELOG
 
+- 2015-10-06 Added Syncscroll to Content-Preview-Areas
 - 2015-09-20 Backend bugfix
 - 2015-09-18 Compressed and merged backend CSS- and JS-files
 - 2015-09-16 Slippry Slider-Theme

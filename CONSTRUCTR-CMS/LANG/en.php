@@ -134,7 +134,7 @@
 		111 => 'Additional page Javascript',
 		112 => 'Save new page',
 		113 => 'Stop',
-		114 => 'Press key "ESC" to stop the actual action',
+		114 => 'Press key "ESC" to return to previous view',
 		// SEITE BEARBEITEN
 		115 => 'Edit page - Constructr Administration',
 		116 => 'Page ',
@@ -156,7 +156,7 @@
 		132 => 'Addition page Javascript',
 		133 => 'Save page',
 		134 => 'Stop',
-		135 => 'Press key "ESC" to stop the actual action',
+		135 => 'Press key "ESC" to return to previous view',
 		// UPLOADS
 		136 => 'Uplaods - Constructr Administration',
 		137 => 'Needle(s) seperated by space-character - start searching hitting ENTER-key',
@@ -181,7 +181,7 @@
 		155 => 'Add file(s)',
 		156 => 'Uplaod file(s)',
 		157 => 'Stop',
-		158 => 'Press key "ESC" to stop the actual action',
+		158 => 'Press key "ESC" to return to previous view',
 		// KEINE RECHTE
 		159 => 'No user-right found for this action - Constructr Administration',
 		160 => 'No user-right found for this action!',
@@ -226,7 +226,7 @@
 		196 => 'Retype the above password',
 		197 => 'Save user',
 		198 => 'Stop',
-		199 => 'Press key "ESC" to stop the actual action',
+		199 => 'Press key "ESC" to return to previous view',
 		200 => 'Please insert all information in the above user-form!',
 		201 => 'Password and password-retype are not the same!',
 		// Benutzer editieren
@@ -238,7 +238,7 @@
 		207 => 'Password retype',
 		208 => 'Save user',
 		209 => 'Stop',
-		210 => 'Press key "ESC" to stop the actual action',
+		210 => 'Press key "ESC" to return to previous view',
 		211 => 'An error occured!',
 		212 => 'Please insert all information in the above form!',
 		213 => 'Password and password-retype are not the same!',
@@ -291,7 +291,7 @@
 		258 => 'Show page on new browser tab',
 		259 => 'Content-elements',
 		260 => 'New content',
-		261 => 'Press key "ESC" to stop the actual action',
+		261 => 'Press key "ESC" to return to previous view',
 		262 => 'Realy delete this content-element?',
 		// Neuer Inhalt / davor / danach
 		263 => 'New content-element - Constructr Administration',
@@ -307,7 +307,7 @@
 		273 => 'Content (Markdown)',
 		274 => 'Save content',
 		275 => 'Stop',
-		276 => 'Press key "ESC" to stop the actual action',
+		276 => 'Press key "ESC" to return to previous view',
 		277 => 'This content will be transformed from ',
 		278 => 'Markdown',
 		279 => 'Markdown-Extra',
@@ -366,5 +366,5 @@
 		331 => 'Insert Markdown-Code',
 		332 => 'Insert Pictures',
 		333 => 'close',
-		334 => 'Press key "ESC" to stop the actual action',
+		334 => 'Press key "ESC" to return to previous view',
 	];

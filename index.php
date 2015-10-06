@@ -30,7 +30,7 @@
     $APP->set('COMPRESSOR_HTML5',0); // 0 || 1 // (bool) // Standard: 0
     $APP->set('COMPRESSOR_CSS',1); // 0 || 1 // (bool) // Standard: 1
     $APP->set('COMPRESSOR_JS',1); // 0 || 1 // (bool) // Standard: 1
-    $APP->set('CONSTRUCTR_BACKEND_LANGUAGE','de'); // de || en // (char) // Standard: de
+    $APP->set('CONSTRUCTR_BACKEND_LANGUAGE','en'); // de || en // (char) // Standard: en
 
     try{
         $APP->set('DBCON',$DBCON=new DB\SQL('mysql:host='.$APP->get('DATABASE_HOSTNAME').';port='.$APP->get('DATABASE_PORT').';dbname='.$APP->get('DATABASE_DATABASE'),$APP->get('DATABASE_USERNAME'),$APP->get('DATABASE_PASSWORD')));

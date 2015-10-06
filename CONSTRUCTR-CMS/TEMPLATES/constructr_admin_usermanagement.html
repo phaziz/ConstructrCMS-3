@@ -45,7 +45,7 @@
                             <repeat group="{{ @USER }}" value="{{ @USER }}">
                             <tr>
                                 <td class="tooltipped users" data-position="right" data-delay="25" data-tooltip="{{ @LANG175 }}''ID {{ @USER.constructr_user_id }}''{{ @LANG176 }}" id="user_id_@@@{{ @USER.constructr_user_id }}">
-                                    {{ html_entity_decode(@USER.constructr_user_username) }}
+                                    <small>{{ html_entity_decode(@USER.constructr_user_username) }}</small>
                                 </td>
                                 <td><small><a class="tooltipped" data-position="top" data-delay="25" data-tooltip="{{ @LANG177 }}" href="mailto:{{ @USER.constructr_user_email }}">{{ @USER.constructr_user_email }}</a></small></td>
                                 <td class="center-align">

@@ -45,10 +45,10 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 	    	</check>
 			<br><br>
 	        <div class="input-field col s6" id="entering">
-	            <textarea id="new_content_raw" name="new_content_raw" class="materialize-textarea" autofocus required="required" style="min-height: 300px;max-height: 500px; overflow: auto;"></textarea>
+	            <textarea id="new_content_raw" name="new_content_raw" class="materialize-textarea syncscroll" autofocus required="required" style="min-height: 300px;max-height: 500px; overflow: auto;"></textarea>
 	            <label for="new_content_raw">{{ @LANG273 }}:</label>
 	        </div>
-	        <div class="input-field col s6" id="live-preview" style="min-height:300px;max-height:500px;overflow:auto;padding: 10px 10px 10px 10px;"></div>
+	        <div class="input-field col s6 syncscroll" id="live-preview" name="new_content_raw" style="min-height:300px;max-height:500px;overflow:auto;padding: 10px 10px 10px 10px;"></div>
             <div class="input-field col s12 center-align">
             	<br><br>
                 <button class="btn waves-effect waves-light" type="submit" name="action">{{ @LANG274 }}</button>
@@ -137,6 +137,7 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 	</div>
 	<div class="row"><div class="col s12 center-align"><p><small><a href="http://constructr-cms.org" target="_blank">ConstructrCMS Version {{ @CONSTRUCTR_VERSION }}</small></a></p></div></div>
 	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/js/constructr_js_merged.min.js"></script>
+	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/syncscroll/syncscroll.js"></script>
     <script>
         $(function() {
 			(function ($, undefined){
