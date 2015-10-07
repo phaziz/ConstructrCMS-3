@@ -236,7 +236,7 @@
                         ':NEW_CONTENT_RAW'=>$COPIED_CONTENT_RAW,
                         ':NEW_CONTENT_HTML'=>$COPIED_CONTENT_HTML,
                         ':NEW_POSITION'=>99999,
-                        ':NEW_CONTENT_MAPPING'=>$COPIED_CONTENT_MAPPING,
+                        ':NEW_CONTENT_MAPPING'=>'',
                         ':VISIBILITY'=>0,
                     ]]
                 ));
