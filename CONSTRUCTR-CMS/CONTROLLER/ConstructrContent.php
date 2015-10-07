@@ -65,6 +65,18 @@
                 [[':PAGE_ID'=>$PAGE_ID]]
             ));
 
+            if(isset($_GET['copy'])){
+                $APP->set('COPY',$_GET['copy']);
+            } else {
+                $APP->set('COPY','');
+            }
+
+            if(isset($_GET['paste'])){
+                $APP->set('PASTE',$_GET['paste']);
+            } else {
+                $APP->set('PASTE','');
+            }
+
             if(isset($_GET['edit'])){
                 $APP->set('EDIT',$_GET['edit']);
             } else {
@@ -186,6 +198,105 @@
             $APP->set('PAGES',$APP->get('DBCON')->exec(['SELECT * FROM constructr_pages WHERE constructr_pages_active=1 AND constructr_pages_nav_visible=1 ORDER BY constructr_pages_order ASC;']));
 
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_content_new_before.html','text/html');
+        }
+
+        public function content_copy($APP){
+            $APP->set('MODUL_ID',51);
+            $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
+
+            if ($USER_RIGHTS==false){
+                $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
+            }
+
+            $PAGE_ID=filter_var($APP->get('PARAMS.page_id'),FILTER_SANITIZE_NUMBER_INT);
+			$CONTENT_ID=filter_var($APP->get('PARAMS.content_id'),FILTER_SANITIZE_NUMBER_INT);
+
+			if ($PAGE_ID!='' && $CONTENT_ID!=''){
+	            $APP->get('DBCON')->exec(
+	                ['DELETE FROM constructr_content WHERE constructr_content_page_id="99999" AND constructr_content_order="99999";']
+	            );
+
+	            $APP->set('CC',$APP->get('DBCON')->exec(
+	                ['SELECT * FROM constructr_content WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_id=:CONTENT_ID LIMIT 1;'],
+	                [[
+	                    ':PAGE_ID'=>$PAGE_ID,
+	                    ':CONTENT_ID'=>$CONTENT_ID
+	                ]]
+	            ));
+
+				$COPIED_CONTENT_RAW = $APP->get('CC.0.constructr_content_content_raw');
+				$COPIED_CONTENT_HTML = $APP->get('CC.0.constructr_content_content_html');
+				$COPIED_CONTENT_MAPPING = $APP->get('CC.0.constructr_content_tpl_id_mapping');
+
+                $APP->set('INSERTER_COPIED_CONTENT',$APP->get('DBCON')->exec(
+                    ['INSERT INTO constructr_content SET constructr_content_visible=:VISIBILITY,constructr_content_page_id=:PAGE_ID,constructr_content_content_raw=:NEW_CONTENT_RAW,constructr_content_content_html=:NEW_CONTENT_HTML,constructr_content_tpl_id_mapping=:NEW_CONTENT_MAPPING,constructr_content_order=:NEW_POSITION;'],
+                    [[
+                        ':PAGE_ID'=>99999,
+                        ':NEW_CONTENT_RAW'=>$COPIED_CONTENT_RAW,
+                        ':NEW_CONTENT_HTML'=>$COPIED_CONTENT_HTML,
+                        ':NEW_POSITION'=>99999,
+                        ':NEW_CONTENT_MAPPING'=>$COPIED_CONTENT_MAPPING,
+                        ':VISIBILITY'=>0,
+                    ]]
+                ));
+
+				$APP->set('COPY','success');
+				$APP->set('SESSION.clipboard','true');
+				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/content/'.$PAGE_ID.'?copy=success&clipboard=true');
+			}else{
+				$APP->set('COPY','ERROR');
+				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/content/'.$PAGE_ID.'?copy=no-success');
+			}
+        }
+
+        public function content_paste($APP){
+            $APP->set('MODUL_ID',51);
+            $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
+
+            if ($USER_RIGHTS==false){
+                $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
+            }
+
+            $PAGE_ID=filter_var($APP->get('PARAMS.page_id'),FILTER_SANITIZE_NUMBER_INT);
+			$CONTENT_ID=filter_var($APP->get('PARAMS.content_id'),FILTER_SANITIZE_NUMBER_INT);
+
+			if ($PAGE_ID!='' && $CONTENT_ID!=''){
+	            $APP->set('COPY_AFTER',$APP->get('DBCON')->exec(
+	                ['SELECT * FROM constructr_content WHERE constructr_content_id=:CONTENT_ID LIMIT 1;'],
+	                [[
+	                    ':CONTENT_ID'=>$CONTENT_ID
+	                ]]
+	            ));
+
+				$NEW_POSITION=$APP->get('COPY_AFTER.0.constructr_content_order');
+
+	            $APP->set('COPY_AFTER_UPDATE',$APP->get('DBCON')->exec(
+	                ['UPDATE constructr_content SET constructr_content_order=(constructr_content_order+1) WHERE constructr_content_page_id=:PAGE_ID AND constructr_content_order>:NEW_POSITION;'],
+	                [[
+	                    ':PAGE_ID'=>$PAGE_ID,
+	                    ':NEW_POSITION'=>$NEW_POSITION
+	                ]]
+	            ));
+
+				$NEW_POSITION=($NEW_POSITION+1);
+
+                $APP->set('UPDATE_AFTER_UPDATE',$APP->get('DBCON')->exec(
+                    ['UPDATE constructr_content SET constructr_content_order=:NEW_POSITION, constructr_content_page_id=:PAGE_ID, constructr_content_visible=1 WHERE constructr_content_page_id=99999 AND constructr_content_order=99999 LIMIT 1;'],
+                    [[
+                        ':PAGE_ID'=>$PAGE_ID,
+                        ':NEW_POSITION'=>$NEW_POSITION
+                    ]]
+                ));
+
+				$APP->set('SESSION.clipboard','false');
+				$APP->set('PASTE','success');
+				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/content/'.$PAGE_ID.'?paste=success&clipboard=false');
+			}else{
+				$APP->set('PASTE','ERROR');
+				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/content/'.$PAGE_ID.'?paste=no-success&clipboard=false');
+			}
         }
 
         public function content_new_before_verify($APP){

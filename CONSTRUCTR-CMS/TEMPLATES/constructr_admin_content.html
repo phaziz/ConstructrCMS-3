@@ -15,6 +15,18 @@
             <check if="{{ @CONTENT_COUNTR }} != 0">
                 <true>
                     <p><strong>{{ @CONTENT_COUNTR }} {{ @LANG224 }} <a class="tooltipped" data-position="tpo" data-delay="25" data-tooltip="{{ @LANG225 }}" href="{{ @CONSTRUCTR_BASE_URL }}/{{ @PAGE.0.constructr_pages_url }}" target="_blank">''{{ html_entity_decode(@PAGE.0.constructr_pages_name) }}''</a> {{ @LANG226 }}</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/new" class="waves-effect waves-light btn">{{ @LANG227 }} +</a></p>
+                    <check if="{{ @COPY }} == 'success'">
+						<div class="card-panel green darken-3 white-text">{{ @LANG336 }}</div>
+                    </check>
+                    <check if="{{ @COPY }} == 'no-success'">
+						<div class="card-panel red darken-3 white-text">{{ @LANG340 }}</div>
+                    </check>
+                    <check if="{{ @PASTE }} == 'success'">
+						<div class="card-panel green darken-3 white-text">{{ @LANG341 }}</div>
+                    </check>
+                    <check if="{{ @PASTE }} == 'no-success'">
+						<div class="card-panel red darken-3 white-text">{{ @LANG342 }}</div>
+                    </check>
                     <check if="{{ @EDIT }} == 'success'">
 						<div class="card-panel green darken-3 white-text">{{ @LANG228 }}</div>
                     </check>
@@ -92,6 +104,14 @@
                                 	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/new-before/{{ @CONTENT.constructr_content_order }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG247 }} {{ @CONTENT.constructr_content_order }}" class="tooltipped"><i class="material-icons">add_circle_outline</i></a>
 									&#160;
                                 	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/new-after/{{ @CONTENT.constructr_content_order }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG248 }} {{ @CONTENT.constructr_content_order }}" class="tooltipped"><i class="material-icons">add_circle</i></a>
+                                	&#160;
+                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/copy/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG338 }}" class="tooltipped"><i class="material-icons">content_copy</i></a>
+									<check if="{{ @SESSION.clipboard}} == 'true'">
+										<true>
+		                                	&#160;
+		                                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/content/{{ @PAGE_ID }}/paste/{{ @CONTENT.constructr_content_id }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG339 }}" class="tooltipped"><i class="material-icons">content_paste</i></a>
+										</true>
+									</check>
                                 	&#160;
 									<check if="{{ @CONTENT.constructr_content_visible }} == 1">
 										<false>

@@ -367,4 +367,13 @@
 		332 => 'Insert Pictures',
 		333 => 'close',
 		334 => 'Press key "ESC" to return to previous view',
+		// Zwischenablage
+		335 => 'Copy Content-Element to clipboard!',
+		336 => 'Successfully copied!',
+		337 => 'Press Ctrl+C to copy!',
+		338 => 'Copy Content-Element!',
+		339 => 'Paste Content-Element after this position!',
+		340 => 'Error: Not successfully copied!',
+		341 => 'Pasted successfully!',
+		342 => 'Error: Not successfully pasted!'
 	];

@@ -3,24 +3,25 @@ Constructr CMS 3.0
 
 ConstructrCMS (<a href="http://constructr-cms.org">http://constructr-cms.org</a>) based on FatFree-Framework, Materialize CSS, MySQL/PDO, jQuery/Javascript and Passion!
 
-That's it for now (Version 3.0 / 2015-10-06):
+That's it for now (Version 3.0 / 2015-10-07):
 
-	- FrontEndCache-System (automatic, File based)
+	- FrontEndCache-System (automatic, file based)
 	- FrontEnd OutputCompression (HTML, HTML5, CSS & JS)
-	- Page-Management
-	- Create, edit, re-order/order, activate/deactivate and delete Pages
-	- Page specific CSS- and JS-Content and Metadata
-	- Improved Markdown (MarkdownExtra) Content-Management with Live-Preview and Syncscroll
-	- Create, edit, re-order/order, activate/deavtivate and delete Content-Elements
-	- ContactForm Handling via ConstructrPostmaster
-	- EASY HTML-Templates with ConstructrSmartTag's
-	- Asset-Management (Uploads / multiple Uploads) with Filter and Live-Preview and Lightbox and Pagination
-	- Add, edit, delete, Uploads
-	- User Management
-	- Create, edit, delete User-Accounts
-	- User Rights-Management 
-	- Activate/Deactivate UserRights
-	- 2-Step Login
-	- Limited LoginAttempt's
-	- User Password resetting
-	- Multi-Language backend (DE | EN)
+	- Page-management
+	- Create, edit, re-order/order, activate/deactivate and delete pages
+	- Page specific CSS- and JS-content and metadata
+	- Improved Markdown (MarkdownExtra) content-management with live-preview
+	- Cross-page content-clipboard
+	- Create, edit, re-order/order, activate/deavtivate and delete content-elements
+	- ContactForm handling via ConstructrPostmaster
+	- EASY HTML-templates with ConstructrSmartTag's
+	- Asset-Management (uploads / multiple Uploads) with filter and live-preview and lightbox / pagination
+	- Add, edit, delete uploads
+	- User-management
+	- Create, edit, delete user-accounts
+	- User-rights-management 
+	- Activate/deactivate user-rights
+	- 2-Step login
+	- Limited login-attempt's
+	- User-password-resetting
+	- Multi-language backend (DE | EN)

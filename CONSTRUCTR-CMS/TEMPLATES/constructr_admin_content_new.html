@@ -53,6 +53,7 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
             	<br><br>
                 <button class="btn waves-effect waves-light" type="submit" name="action">{{ @LANG274 }}</button>
                 <button class="btn waves-effect waves-light red" id="esc" type="submit" name="action">{{ @LANG275 }}</button>
+                <button class="tooltipped btn waves-effect waves-light" data-position="top" data-delay="25" data-tooltip="{{ @LANG335 }}" type="button" name="copy" id="copy" data-clipboard-target="#new_content_raw" data-clipboard-action="copy"><i class="material-icons">content_copy</i></button>
                 <p><small>[{{ @LANG313 }}: <span id='character-counter' class='counter'></span> | {{ @LANG314 }}: <span id='word-counter' class='counter'></span> | {{ @LANG315 }}: <span id='paragraph-counter' class='counter'></span>]</small>
                 <p><small>{{ @LANG276 }}</small></p>
                 <p><small>{{ @LANG277 }} <a href="http://en.wikipedia.org/wiki/Markdown" target="_blank">{{ @LANG278 }}</a>/<a href="https://michelf.ca/projects/php-markdown/extra/" target="_blank">{{ @LANG279 }}</a>{{ @LANG280 }}</small></p>
@@ -138,8 +139,24 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 	<div class="row"><div class="col s12 center-align"><p><small><a href="http://constructr-cms.org" target="_blank">ConstructrCMS Version {{ @CONSTRUCTR_VERSION }}</small></a></p></div></div>
 	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/js/constructr_js_merged.min.js"></script>
 	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/syncscroll/syncscroll.js"></script>
+	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/clipboard/clipboard.min.js"></script>
     <script>
         $(function() {
+        	var clipboard = new Clipboard('#copy');
+			clipboard.on('success', function(e) {
+                vex.dialog.buttons.YES.text='{{ @LANGG2 }}';
+                vex.dialog.alert({
+                    className:'vex-theme-wireframe',
+                    message:'<h5>{{ @LANG336 }}</h5>',
+                });
+			});
+			clipboard.on('error', function(e) {
+                vex.dialog.buttons.YES.text='{{ @LANGG2 }}';
+                vex.dialog.alert({
+                    className:'vex-theme-wireframe',
+                    message:'<h5>{{ @LANG337 }}</h5>',
+                });
+			});
 			(function ($, undefined){
 				$.fn.extend({
 					insertGallery: function(myValue){

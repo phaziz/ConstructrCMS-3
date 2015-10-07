@@ -41,6 +41,8 @@ $APP->route('GET  /constructr/content/@page_id/edit/@content_id [sync]','Constru
 $APP->route('POST /constructr/content/@page_id/edit/@content_id [sync]','ConstructrContent->content_edit_verify');
 $APP->route('GET  /constructr/content/@page_id/delete/@content_id [sync]','ConstructrContent->content_delete');
 $APP->route('GET  /constructr/content/@page_id/reorder/@method/@content_id [sync]','ConstructrContent->content_reorder');
+$APP->route('GET  /constructr/content/@page_id/copy/@content_id [sync]','ConstructrContent->content_copy');
+$APP->route('GET  /constructr/content/@page_id/paste/@content_id [sync]','ConstructrContent->content_paste');
 $APP->route('POST /constructr/content/live-preview/ [ajax]','ConstructrContent->preparse_content_live_preview');
 $APP->route('GET  /constructr/content/@page_id/visibility/@what/@content_id [sync]','ConstructrContent->content_change_visibility');
 $APP->route('GET  /constructr/usermanagement [sync]','ConstructrUser->user_management');

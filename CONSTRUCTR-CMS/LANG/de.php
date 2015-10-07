@@ -367,4 +367,13 @@
 		332 => 'Bilder übernehmen',
 		333 => 'schließen',
 		334 => 'Taste "ESC" zum abbrechen drücken',
+		// Zwischenablage
+		335 => 'Inhalt in Zwischenablage kopieren!',
+		336 => 'Erfolgreiches kopieren in Zwischenablage!',
+		337 => 'Fehler: Browser wird nicht unterstützt!',
+		338 => 'Inhalt in Zwischenablage kopieren!',
+		339 => 'Zwischenablage einfügen!',
+		340 => 'Fehler beim einfügen!',
+		341 => 'Einfügen war erfolgreich!',
+		342 => 'Fehler beim einfügen!'
 	];

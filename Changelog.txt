@@ -1,5 +1,7 @@
 CHANGELOG
 
+- 2015-10-07 Cross-Page copy and paste Content-Elements.
+	- Clipboard.JS integration in Content-Views (EDIT / NEW / NEW BEFORE / NEW AFTER)
 - 2015-10-06 Added Syncscroll to Content-Preview-Areas
 - 2015-09-20 Backend bugfix
 - 2015-09-18 Compressed and merged backend CSS- and JS-files
