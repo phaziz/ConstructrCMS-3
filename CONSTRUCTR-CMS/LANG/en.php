@@ -375,5 +375,7 @@
 		339 => 'Paste Content-Element after this position!',
 		340 => 'Error: Not successfully copied!',
 		341 => 'Pasted successfully!',
-		342 => 'Error: Not successfully pasted!'
+		342 => 'Error: Not successfully pasted!',
+		// Suche Uploads
+		343 => 'Reset search'
 	];

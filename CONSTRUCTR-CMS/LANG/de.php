@@ -375,5 +375,7 @@
 		339 => 'Zwischenablage einfügen!',
 		340 => 'Fehler beim einfügen!',
 		341 => 'Einfügen war erfolgreich!',
-		342 => 'Fehler beim einfügen!'
+		342 => 'Fehler beim einfügen!',
+		// Suche Uploads
+		343 => 'Suche zurücksetzen'
 	];
