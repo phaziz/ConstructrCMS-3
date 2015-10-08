@@ -8,8 +8,7 @@
 <link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/css/constructr_css_merged.min.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
-img.initialized{max-height:50px;max-width:auto;}
-img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-width: 100%; border: 5px solid #fff;}
+img.intense{max-height:50px;max-width:auto;}
 </style>
 </head>
 <body>
@@ -64,7 +63,7 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 		            	</check>
 			            	<check if="{{ strrchr(@PAGINATION_FILE,'#') }} == '#true'">
 			            		<true>
-			            			<td><img class="materialboxed" src="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#true','',@PAGINATION_FILE) }}" alt="{{ str_replace('#true','',@PAGINATION_FILE) }}" title="{{ str_replace('#true','',@PAGINATION_FILE) }}"></td>		
+			            			<td><img class="intense" src="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#true','',@PAGINATION_FILE) }}" alt="{{ str_replace('#true','',@PAGINATION_FILE) }}" title="{{ str_replace('#true','',@PAGINATION_FILE) }}"></td>
 			            		</true>
 			            		<false>
 			            			<td><a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#false','',@PAGINATION_FILE) }}" target="_blank" class="tooltipped" data-position="right" data-delay="25" data-tooltip="{{ @LANG149 }}">{{ str_replace('#false','',@PAGINATION_FILE) }}</a></td>
@@ -93,8 +92,11 @@ img.active{margin: 0 auto; height: 100%; max-height: 100%; width: 100%; max-widt
 	</check>
 	<div class="row"><div class="col s12 center-align"><p><small><a href="http://constructr-cms.org" target="_blank">ConstructrCMS Version {{ @CONSTRUCTR_VERSION }}</small></a></p></div></div>
 	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/js/constructr_js_merged.min.js"></script>
+	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/intense-images/intense.min.js"></script>
 	<script>
 		$(function(){
+			var PIX=document.querySelectorAll('.intense');
+			Intense(PIX);
 			$('#needle').select().focus();
 			$('.materialboxed').materialbox();
 			$(".button-collapse").sideNav();
