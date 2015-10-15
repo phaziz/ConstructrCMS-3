@@ -14,7 +14,7 @@
         <div class="col s12">
             <check if="{{ @USER_COUNTR != 0 }}">
                 <true>
-                    <p><strong>{{ @USER_COUNTR }} {{ @LANG164 }}</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/new" class="waves-effect waves-light btn">{{ @LANG165 }} +</a></p>
+                    <p><strong>{{ @USER_COUNTR }} {{ @LANG164 }}</strong>&#160;|&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/new" class="waves-effect waves-light">{{ @LANG165 }} +</a></p>
                     <check if="{{ @EDIT }} == 'success'">
 						<div class="card-panel green darken-3 white-text">{{ @LANG166 }}</div>
                     </check>
@@ -70,7 +70,7 @@
                     </table>
                 </true>
                 <false>
-                    <p><strong>{{ @LANG190 }}</strong>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/new" class="waves-effect waves-light btn">{{ @LANG188 }} +</a></p>
+                    <p><strong>{{ @USER_COUNTR }} {{ @LANG164 }}</strong>&#160;|&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/usermanagement/new" class="waves-effect waves-light">{{ @LANG165 }} +</a></p>
                 </false>
             </check>
         </div>

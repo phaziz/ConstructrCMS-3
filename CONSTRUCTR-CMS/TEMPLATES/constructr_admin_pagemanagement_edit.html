@@ -116,6 +116,7 @@
 	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/js/constructr_js_merged.min.js"></script>
     <script>
         $(function() {
+        	setTimeout(function(){$('#page_name').select();},10);
         	$(".button-collapse").sideNav();
 			$(document).keyup(function(e) {
 			    if (e.which === 27) javascript:history.back();

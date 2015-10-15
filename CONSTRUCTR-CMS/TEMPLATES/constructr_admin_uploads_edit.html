@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ @LANG136 }}</title>
+<link rel="stylesheet" href="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/css/constructr_css_merged.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+img#preview{max-height:250px;max-width:auto;}
+</style>
+</head>
+<body>
+	<include href="{{ @NAVIGATION }}" />
+    <div class="row">
+        <div class="col s12">
+            <p><strong>{{ @LANG345 }} {{ @FILE_TO_EDIT }} {{ @LANG346 }} | <a href="" id="esc">{{ @LANG348 }}</a></strong></p>
+            <check if="{{ @EDIT }} == 'success'">
+				<div class="card-panel green darken-3 white-text">{{ @LANG352 }}</div>
+            </check>
+            <check if="{{ @EDIT }} == 'no-success'">
+				<div class="card-panel red darken-3 white-text">{{ @LANG353 }}</div>
+            </check>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col s12">
+        	<select name="special" id="special">
+        		<option value="" selected="selected">{{ @LANG355 }}</option>
+        		<option value="origin">{{ @LANG366 }}</option>
+        		<option value="invert">{{ @LANG356 }}</option>
+        		<option value="grayscale">{{ @LANG357 }}</option>
+        		<option value="emboss">{{ @LANG358 }}</option>
+        		<option value="sepia">{{ @LANG359 }}</option>
+        		<option value="hflip">{{ @LANG360 }}</option>
+        		<option value="vflip">{{ @LANG361 }}</option>
+        		<option value="pixelate">{{ @LANG362 }}</option>
+        		<option value="rotate90">{{ @LANG363 }}</option>
+        		<option value="rotate180">{{ @LANG364 }}</option>
+        		<option value="rotate270">{{ @LANG365 }}</option>
+        	</select>
+			<div class="progress" id="progress" style="display:none;">
+				<div class="indeterminate"></div>
+			</div>
+		</div>
+	</div>
+	<check if="{{ @FILE_TO_EDIT }}">
+		<true>
+			<div>
+				<check if="{{ @IS_IMAGE }} == 'true'">
+					<true>
+					    <div class="row">
+					    	<center><small>{{ @LANG354 }}</small></center>
+					    	<center><img id="preview" src="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @FILE_TO_EDIT }}" alt="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @FILE_TO_EDIT }}" title="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @FILE_TO_EDIT }}"></center>
+					    	<br><br>
+					        <form name="edit_file_form" id="edit_file_form" action="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/edit" method="post" enctype="application/x-www-form-urlencoded" class="col s12">
+					            <input type="hidden" name="csrf" value="{{ @CSRF }}">
+					            <input type="hidden" name="csrf_additive" value="{{ @ADDITIVE }}">
+					            <input type="hidden" name="csrf_tripple_additive" value="{{ @TRIPPLE_ADDITIVE }}">
+					            <input type="hidden" name="edit_file" id="edit_file" value="{{ @FILE_TO_EDIT }}">
+					            <input type="hidden" name="edit_file_origin_filename" id="edit_file_origin_filename" value="{{ @FILE_TO_EDIT_FILENAME }}">
+					            <input type="hidden" name="edit_file_origin_extension" id="edit_file_origin_extension" value="{{ @FILE_TO_EDIT_EXTENSION }}">
+					            <input type="hidden" name="image-effect" id="image-effect" value="">
+					            <div class="input-field col s12">
+					                <input type="text" id="edit_file_name_new" name="edit_file_name_new" length="50" value="{{ html_entity_decode(@FILE_TO_EDIT_FILENAME) }}" placeholder="{{ @LANG349 }}" required="required" autofocus="autofocus" onblur="javascript:cleanUpMess();">
+					                <label for="edit_file_name">{{ @LANG349 }}:</label>
+					            </div>
+					            <div class="input-field col s12 center-align">
+					            	<br><br>
+					                <button class="btn waves-effect waves-light" type="submit" name="action">{{ @LANG350 }}</button>
+					                <button class="btn waves-effect waves-light red" id="esc2">{{ @LANG351 }}</button>
+					                <p><small>{{ @LANG135 }}</small></p>
+					            </div>
+				           </form>
+						</div>
+					</true>
+					<false>
+						<div class="row">
+							<center>{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ @FILE_TO_EDIT }}</center>
+					    	<br><br>
+					        <form name="edit_file_form" id="edit_file_form" action="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/edit" method="post" enctype="application/x-www-form-urlencoded" class="col s12">
+					            <input type="hidden" name="csrf" value="{{ @CSRF }}">
+					            <input type="hidden" name="csrf_additive" value="{{ @ADDITIVE }}">
+					            <input type="hidden" name="csrf_tripple_additive" value="{{ @TRIPPLE_ADDITIVE }}">
+					            <input type="hidden" name="edit_file" id="edit_file" value="{{ @FILE_TO_EDIT }}">
+					            <input type="hidden" name="edit_file_origin_filename" id="edit_file_origin_filename" value="{{ @FILE_TO_EDIT_FILENAME }}">
+					            <input type="hidden" name="edit_file_origin_extension" id="edit_file_origin_extension" value="{{ @FILE_TO_EDIT_EXTENSION }}">
+					            <div class="input-field col s12">
+					                <input type="text" id="edit_file_name_new" name="edit_file_name_new" length="50" value="{{ html_entity_decode(@FILE_TO_EDIT_FILENAME) }}" placeholder="{{ @LANG349 }}" required="required" autofocus="autofocus" onblur="javascript:cleanUpMess();">
+					                <label for="edit_file_name">{{ @LANG349 }}:</label>
+					            </div>
+					            <div class="input-field col s12 center-align">
+					            	<br><br>
+					                <button class="btn waves-effect waves-light" type="submit" name="action">{{ @LANG350 }}</button>
+					                <button class="btn waves-effect waves-light red" id="esc2">{{ @LANG351 }}</button>
+					                <p><small>{{ @LANG135 }}</small></p>
+					            </div>
+				           </form>
+						</div>
+					</false>
+				</check>
+			</div>
+		</true>
+		<false>
+			<div>
+				<p>{{ @LANG347 }}</p>
+			</div>
+		</false>
+	</check>
+	<div class="row"><div class="col s12 center-align"><p><small><a href="http://constructr-cms.org" target="_blank">ConstructrCMS Version {{ @CONSTRUCTR_VERSION }}</small></a></p></div></div>
+	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/js/constructr_js_merged.min.js"></script>
+	<script>
+		$(function(){
+			$('#special').bind('change', function(){
+				$('#progress').fadeIn();
+				var FILE = $('#edit_file').val();
+				var PREVIEW = $('#edit_file').val();
+				var SPECIAL = $('#special').val();
+                $.post("{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/special", {f:FILE,p:'false',e:SPECIAL})
+              	.done(function( data ){
+                    if(data != '') {
+                    	$('#preview').prop('src', data);
+                    	if(SPECIAL == 'origin'){
+                    		$('#image-effect').val('');
+                    	} else {
+                    		$('#image-effect').val(data);
+                    	}
+                    } else {
+			            vex.dialog.buttons.YES.text = '{{ @LANGG2 }}';
+			            vex.dialog.alert({
+			                className: 'vex-theme-wireframe',
+			                message: '<h5>{{ @LANGG3 }}:</h5>{{ @LANGG4 }}: ' + data,
+			            });
+                    }
+				});
+				$('#progress').fadeOut();
+			});
+			setTimeout(function(){$('#edit_file_name_new').select();},10);
+			$('select').material_select();
+            cleanUpMess = function(){
+        		var URL = $('#edit_file_name_new').val();
+                var CLEAN_NAME='';
+                for (i=0; i<URL.length; i++) {
+                    var ACT_CHAR=URL.charAt(i);
+                    if (ACT_CHAR==' ') {
+                        ACT_CHAR='-';
+                    }
+                    if (ACT_CHAR == 'ä' || ACT_CHAR == 'Ä') {
+                        ACT_CHAR = 'ae';
+                    }
+                    if (ACT_CHAR == 'ü' || ACT_CHAR == 'Ü') {
+                        ACT_CHAR = 'ue';
+                    }
+                    if (ACT_CHAR == 'ö' || ACT_CHAR == 'Ö') {
+                        ACT_CHAR = 'oe';
+                    }
+                    if (ACT_CHAR == 'ß') {
+                        ACT_CHAR = 'ss';
+                    }
+                    if (ACT_CHAR == '!' || ACT_CHAR == '"'  || ACT_CHAR == "'" || ACT_CHAR == '§' || ACT_CHAR == '%' || ACT_CHAR == '$' || ACT_CHAR == '&' || ACT_CHAR == '(' || ACT_CHAR == ')' || ACT_CHAR == '=' || ACT_CHAR == '?' || ACT_CHAR == '`' || ACT_CHAR == '*' || ACT_CHAR == '+' || ACT_CHAR == '#' || ACT_CHAR == ',' || ACT_CHAR == '.' || ACT_CHAR == ';' || ACT_CHAR == ':' || ACT_CHAR == '<' || ACT_CHAR == '>' || ACT_CHAR == '@') {
+                        ACT_CHAR = '-';
+                    }
+                    ACT_CHAR = ACT_CHAR;
+                    CLEAN_NAME += ACT_CHAR;
+                }
+	            if(CLEAN_NAME != '') {
+	                $.post("{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/cleaner", { messy_name:CLEAN_NAME })
+                  	.done(function( data ) {
+                        if(data != '') {
+							$('#edit_file_name_new').val(CLEAN_NAME);
+                        } else {
+				            vex.dialog.buttons.YES.text = '{{ @LANGG2 }}';
+				            vex.dialog.alert({
+				                className: 'vex-theme-wireframe',
+				                message: '<h5>{{ @LANGG3 }}:</h5>{{ @LANGG4 }}: ' + data,
+				            });
+                        }
+					});
+	            }
+            }
+			$(document).keyup(function(e) {
+			    if (e.which === 27) javascript:history.back();
+			});
+			$('#esc,#esc2').bind('click',function(){
+			    javascript:history.back();
+			});
+            function autoBlinder(){
+                $('.card-panel').fadeOut();
+            }
+            setInterval(autoBlinder,4500);
+		});
+	</script>
+</body>
+</html>

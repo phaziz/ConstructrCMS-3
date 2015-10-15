@@ -56,6 +56,7 @@
 	<script src="{{ @CONSTRUCTR_BASE_URL}}/CONSTRUCTR-CMS/ASSETS/js/constructr_js_merged.min.js"></script>
     <script>
         $(function(){
+        	setTimeout(function(){$('#user_name').select();},10);
         	$(".button-collapse").sideNav();
 			$('#esc').bind('click',function(){
 			    javascript:history.back();

@@ -69,6 +69,7 @@
 
             if (isset($_GET['new'])){$APP->set('NEW',$_GET['new']);} else {$APP->set('NEW','');}
             if (isset($_GET['delete'])){$APP->set('DELETE',$_GET['delete']);} else {$APP->set('DELETE','');}
+			if (isset($_GET['edit'])){$APP->set('EDIT',$_GET['edit']);} else {$APP->set('EDIT','');}
 
 			$APP->set('PAGINATION_FILES',[]);
 			$PAGINATION_FILES=[];
@@ -81,7 +82,7 @@
 				$i=0;
 
 	            while($FILE=readdir($H)){
-	                if($FILE!='.' && $FILE!='..' && $FILE!='index.php' && $FILE!='.empty_file'){
+	                if($FILE!='.' && $FILE!='..' && $FILE!='index.php' && $FILE!='.empty_file' && $FILE!='TMP'){
 						foreach($NEEDLES AS $NEEDLE){
 							if(strpos(strtolower($FILE),$NEEDLE)!==false){
 								$FT=strtolower(strrchr( $FILE,'.' ));
@@ -106,7 +107,7 @@
 				$i=0;
 	
 	            while($FILE=readdir($H)){
-	                if($FILE!='.' && $FILE!='..' && $FILE!='index.php' && $FILE!='.empty_file'){
+	                if($FILE!='.' && $FILE!='..' && $FILE!='index.php' && $FILE!='.empty_file' && $FILE!='TMP'){
 						$FT=strtolower(strrchr( $FILE,'.' ));
 						if($FT=='.jpg' || $FT=='.jpeg' || $FT=='.gif' || $FT=='.png' || $FT=='.svg'){
 							$PAGINATION_FILES[$i] = $FILE.'#true';
@@ -158,7 +159,7 @@
 
 					foreach($TEMP_PAGINATION_FILES AS $KEY=>$VALUE){
 						if($KEY>=$START && $KEY<$END){
-							if($VALUE!='.' && $VALUE!='..' && $VALUE!='index.php' && $VALUE!='.empty_file'){
+							if($VALUE!='.' && $VALUE!='..' && $VALUE!='index.php' && $VALUE!='.empty_file' && $FILE!='TMP'){
 								$FT=strtolower(strrchr( $VALUE,'.'));
 								if($FT=='.jpg' || $FT=='.jpeg' || $FT=='.gif' || $FT=='.png' || $FT=='.svg'){
 									$PAGINATION_FILES[$KEY]=$VALUE;
@@ -175,6 +176,203 @@
 				echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_uploads.html','text/html');
 			}
         }
+
+        public function uploads_edit_file($APP){
+            $APP->set('MODUL_ID',60);
+            $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
+
+            if ($USER_RIGHTS==false){
+                $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
+            }
+
+			if(isset($_GET['edit'])){$APP->set('EDIT',$_GET['edit']);}else{$APP->set('EDIT','');}
+
+			$APP->set('FILE_TO_EDIT',$APP->get('PARAMS.file'));
+			@chmod($APP->get('UPLOADS').$APP->get('FILE_TO_EDIT'),0777);
+			$PATH_PARTS= pathinfo($APP->get('UPLOADS').$APP->get('FILE_TO_EDIT'));
+			$APP->set('FILE_TO_EDIT_EXTENSION',strtolower($PATH_PARTS['extension']));
+			$APP->set('FILE_TO_EDIT_FILENAME',$PATH_PARTS['filename']);
+
+			if($APP->get('FILE_TO_EDIT_EXTENSION') == 'jpg' || $APP->get('FILE_TO_EDIT_EXTENSION') == 'jpeg' || $APP->get('FILE_TO_EDIT_EXTENSION') == 'gif' || $APP->get('FILE_TO_EDIT_EXTENSION') == 'png'|| $APP->get('FILE_TO_EDIT_EXTENSION') == 'svg'){
+				$APP->set('IS_IMAGE','true');
+			} else {
+				$APP->set('IS_IMAGE','false');
+			}
+
+            $CSRF=parent::csrf();
+            $APP->set('CSRF',$CSRF);
+            $APP->set('SESSION.csrf',$CSRF);
+
+            $ADDITIVE=parent::additive();
+            $APP->set('ADDITIVE',$ADDITIVE);
+            $APP->set('SESSION.additive',$ADDITIVE);
+
+            $TRIPPLE_ADDITIVE=($ADDITIVE.$CSRF);
+            $APP->set('TRIPPLE_ADDITIVE',$TRIPPLE_ADDITIVE);
+            $APP->set('SESSION.tripple_additive',$TRIPPLE_ADDITIVE);
+
+            echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_admin_uploads_edit.html','text/html');
+        }
+
+		public function uploads_edit_file_verify($APP){
+            $APP->set('MODUL_ID',60);
+            $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
+
+            if ($USER_RIGHTS==false){
+                $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
+            }
+
+            $FILE_TO_EDIT=$APP->get('POST.edit_file');
+			$FILE_TO_EDIT_NAME=$APP->get('POST.edit_file_origin_filename');
+			$FILE_TO_EDIT_NEW_NAME=$APP->get('POST.edit_file_name_new');
+			$FILE_TO_EDIT_NEW_NAME=self::icleanName($FILE_TO_EDIT_NEW_NAME);
+			$FILE_TO_EDIT_EXTENSION=$APP->get('POST.edit_file_origin_extension');
+			$PROCESS_FILTER = '';
+
+			if($FILE_TO_EDIT_EXTENSION=='jpg'){
+				$PROCESS_FILTER='jpeg';
+			} else if($FILE_TO_EDIT_EXTENSION=='gif'){
+				$PROCESS_FILTER='gif';
+			} else if($FILE_TO_EDIT_EXTENSION=='png'){
+				$PROCESS_FILTER='png';
+			} else if($FILE_TO_EDIT_EXTENSION=='wbmp'){
+				$PROCESS_FILTER='wbmp';
+			}
+
+			$SPECIAL_EFFECT = $APP->get('POST.image-effect');
+
+			if($FILE_TO_EDIT == '' || $FILE_TO_EDIT_NAME == '' || $FILE_TO_EDIT_NEW_NAME == '' || $FILE_TO_EDIT_EXTENSION == ''){
+                $APP->set('EDIT','no-success');
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/uploads/?edit=no-success');
+			}
+
+            $POST_CSRF=$APP->get('POST.csrf');
+            $POST_ADDITIVE=$APP->get('POST.csrf_additive');
+            $POST_TRIPPLE_ADDITIVE=$APP->get('POST.csrf_tripple_additive');
+
+            if ($POST_CSRF!=''){
+                if ($POST_CSRF!=$APP->get('SESSION.csrf')){
+                    $APP->get('CONSTRUCTR_LOG')->write('FORM CSRF DON\'T MATCH: '.$POST_USERNAME);
+                    $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
+                }
+            }
+
+            if ($POST_ADDITIVE!=''){
+                if ($POST_ADDITIVE!=$APP->get('SESSION.additive')){
+                    $APP->get('CONSTRUCTR_LOG')->write('FORM ADDITIVE DON\'T MATCH: '.$POST_USERNAME);
+                    $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
+                }
+            }
+
+            if ($POST_TRIPPLE_ADDITIVE!=''){
+                if ($POST_TRIPPLE_ADDITIVE!=$APP->get('SESSION.tripple_additive')){
+                    $APP->get('CONSTRUCTR_LOG')->write('FORM TRIPPLE ADDITIVE DON\'T MATCH: '.$POST_USERNAME);
+                    $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
+                }
+            }
+
+            if ($POST_TRIPPLE_ADDITIVE!=$POST_ADDITIVE.$POST_CSRF){
+                $APP->get('CONSTRUCTR_LOG')->write('FORM TRIPPLE ADDITIVE COMPARISON DON\'T MATCH: '.$POST_USERNAME);
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/logout');
+            }
+
+			@sleep(1);
+			$RET=false;
+			$RET=@rename($APP->get('UPLOADS').$FILE_TO_EDIT,$APP->get('UPLOADS').$FILE_TO_EDIT_NEW_NAME.'.'.$FILE_TO_EDIT_EXTENSION);
+
+			if($SPECIAL_EFFECT!=''){
+				$MASTER_FILE=$APP->get('UPLOADS').$FILE_TO_EDIT;				
+				$COPY_FILE=$APP->get('UPLOADS').$FILE_TO_EDIT_NEW_NAME.'-COPY-'.date('Y-m-d-h-i-s').'.'.$FILE_TO_EDIT_EXTENSION;
+				copy($MASTER_FILE,$COPY_FILE);
+				chmod($COPY_FILE,0777);
+				$EFFECT_COPY_IMAGE=file_get_contents($SPECIAL_EFFECT);
+				file_put_contents($COPY_FILE, $EFFECT_COPY_IMAGE);
+			}
+
+            $H=opendir($APP->get('UPLOADS').'TMP/');
+
+            while($FILE=readdir($H)){
+				@unlink($APP->get('UPLOADS').'TMP/'.$FILE);
+            }
+
+			if($RET==true){
+				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/uploads?edit=success');
+			}else{
+				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/uploads?edit=no-success');	
+			}
+		}
+		public function image_special($APP){
+			$FILE=$APP->get('POST.f');
+			$PREVIEW=$APP->get('POST.p');
+			$SPECIALE=$APP->get('POST.e');
+			$PATH_PARTS=pathinfo($APP->get('UPLOADS').$FILE);
+			$APP->set('FILE_EXTENSION',strtolower($PATH_PARTS['extension']));
+			$APP->set('FILE_FILENAME',$PATH_PARTS['filename']);
+			$PROCESS_FILTER='';
+			
+			if($APP->get('FILE_EXTENSION')=='jpg'){
+				$PROCESS_FILTER='jpeg';
+			} else if($APP->get('FILE_EXTENSION')=='gif'){
+				$PROCESS_FILTER='gif';
+			} else if($APP->get('FILE_EXTENSION')=='png'){
+				$PROCESS_FILTER='png';
+			} else if($APP->get('FILE_EXTENSION')=='wbmp'){
+				$PROCESS_FILTER='wbmp';
+			}
+
+			if($APP->get('FILE_EXTENSION')=='png' || $APP->get('FILE_EXTENSION')=='jpg' || $APP->get('FILE_EXTENSION')=='jpeg' || $APP->get('FILE_EXTENSION')=='gif' || $APP->get('FILE_EXTENSION')=='wbmp'){
+				$img=new Image($FILE,false,$APP->get('UPLOADS'));
+
+				if($PREVIEW=='true'){
+					$img->resize(200,200,false,false);	
+				}
+
+				switch ($SPECIALE)
+				{
+					case 'invert':
+						$img->invert();
+						break;
+					case 'grayscale':
+						$img->grayscale();
+						break;
+					case 'emboss':
+						$img->emboss();
+						break;
+					case 'sepia':
+						$img->sepia();
+						break;
+					case 'pixelate':
+						$img->pixelate(10);
+						break;
+					case 'rotate90':
+						$img->rotate(-90);
+						break;
+					case 'rotate180':
+						$img->rotate(-180);
+						break;
+					case 'rotate270':
+						$img->rotate(-270);
+						break;
+					case 'hflip':
+						$img->hflip();
+						break;
+					case 'vflip':
+						$img->vflip();
+						break;
+					case 'origin':
+						echo $APP->get('CONSTRUCTR_BASE_URL').'/UPLOADS/' . $FILE;
+						die();
+						break;
+				}
+
+				$img->save();
+				$TS=time();
+				@file_put_contents($APP->get('UPLOADS').'TMP/'.$TS.'.png',$img->dump($PROCESS_FILTER));
+				echo $APP->get('CONSTRUCTR_BASE_URL').'/UPLOADS/TMP/'.$TS.'.png';
+			}
+		}
 
         public function uploads_delete_file($APP){
             $APP->set('MODUL_ID',62);
@@ -278,6 +476,79 @@
 
             $APP->set('NEW','success');
             $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/uploads/?new=success');
+        }
 
+		public function cleanName($APP){
+			$MESSY_NAME=$APP->get('POST.messy_name');
+			echo self::icleanName($MESSY_NAME);
+		}
+
+        public function icleanName($str){
+            $str=str_replace('À','-',$str);
+            $str=str_replace('Á','-',$str);
+            $str=str_replace('Â','-',$str);
+            $str=str_replace('Ã','-',$str);
+            $str=str_replace('Ä','-',$str);
+            $str=str_replace('Å','-',$str);
+            $str=str_replace('Æ','-',$str);
+            $str=str_replace('Ç','-',$str);
+            $str=str_replace('È','-',$str);
+            $str=str_replace('É','-',$str);
+            $str=str_replace('Ê','-',$str);
+            $str=str_replace('Ë','-',$str);
+            $str=str_replace('Ì','-',$str);
+            $str=str_replace('Í','-',$str);
+            $str=str_replace('Î','-',$str);
+            $str=str_replace('Ï','-',$str);
+            $str=str_replace('Ð','-',$str);
+            $str=str_replace('Ñ','-',$str);
+            $str=str_replace('Ò','-',$str);
+            $str=str_replace('Ó','-',$str);
+            $str=str_replace('Ô','-',$str);
+            $str=str_replace('Õ','-',$str);
+            $str=str_replace('Ö','-',$str);
+            $str=str_replace('×','-',$str);
+            $str=str_replace('Ø','-',$str);
+            $str=str_replace('Ù','-',$str);
+            $str=str_replace('Ú','-',$str);
+            $str=str_replace('Û','-',$str);
+            $str=str_replace('Ü','-',$str);
+            $str=str_replace('Ý','-',$str);
+            $str=str_replace('Þ','-',$str);
+            $str=str_replace('ß','-',$str);
+            $str=str_replace('à','-',$str);
+            $str=str_replace('á','-',$str);
+            $str=str_replace('â','-',$str);
+            $str=str_replace('ã','-',$str);
+            $str=str_replace('ä','-',$str);
+            $str=str_replace('å','-',$str);
+            $str=str_replace('æ','-',$str);
+            $str=str_replace('ç','-',$str);
+            $str=str_replace('è','-',$str);
+            $str=str_replace('é','-',$str);
+            $str=str_replace('ê','-',$str);
+            $str=str_replace('ë','-',$str);
+            $str=str_replace('ì','-',$str);
+            $str=str_replace('í','-',$str);
+            $str=str_replace('î','-',$str);
+            $str=str_replace('ï','-',$str);
+            $str=str_replace('ð','-',$str);
+            $str=str_replace('ñ','-',$str);
+            $str=str_replace('ò','-',$str);
+            $str=str_replace('ó','-',$str);
+            $str=str_replace('ô','-',$str);
+            $str=str_replace('õ','-',$str);
+            $str=str_replace('ö','-',$str);
+            $str=str_replace('÷','-',$str);
+            $str=str_replace('ø','-',$str);
+            $str=str_replace('ù','-',$str);
+            $str=str_replace('ú','-',$str);
+            $str=str_replace('û','-',$str);
+            $str=str_replace('ü','-',$str);
+            $str=str_replace('ý','-',$str);
+            $str=str_replace('þ','-',$str);
+            $str=str_replace('ÿ','-',$str);
+			$str=str_replace(' ','_',$str);
+            return $str;
         }
     }

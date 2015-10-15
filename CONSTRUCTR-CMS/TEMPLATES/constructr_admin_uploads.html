@@ -26,7 +26,7 @@ img.intense{max-height:50px;max-width:auto;}
 	</form>
     <div class="row">
         <div class="col s12">
-            <p><strong>{{ @FILES_COUNTR }} {{ @LANG138 }}</strong>&#160;&#160;&#160;<input type="checkbox" id="pix" checked="checked" /> <label for="pix">{{ @LANG139 }}</label>&#160;&#160;&#160;<input type="checkbox" id="files" checked="checked" /> <label for="files">{{ @LANG140 }}</label>&#160;&#160;&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/new" class="waves-effect waves-light btn">{{ @LANG141 }} +</a></p>
+            <p><strong>{{ @FILES_COUNTR }} {{ @LANG138 }}</strong>&#160;|&#160;<input type="checkbox" id="pix" checked="checked" /> <label for="pix">{{ @LANG139 }}</label>&#160;&#160;&#160;<input type="checkbox" id="files" checked="checked" /> <label for="files">{{ @LANG140 }}</label>&#160;|&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/new" class="waves-effect waves-light">{{ @LANG141 }} +</a></p>
             <check if="{{ @NEW }} == 'success'">
 				<div class="card-panel green darken-3 white-text">{{ @LANG142 }}</div>
             </check>
@@ -38,6 +38,12 @@ img.intense{max-height:50px;max-width:auto;}
             </check>
             <check if="{{ @DELETE }} == 'no-success'">
 				<div class="card-panel red darken-3 white-text">{{ @LANG145 }}</div>
+            </check>
+            <check if="{{ @EDIT }} == 'success'">
+				<div class="card-panel green darken-3 white-text">{{ @LANG352 }}</div>
+            </check>
+            <check if="{{ @EDIT }} == 'no-success'">
+				<div class="card-panel red darken-3 white-text">{{ @LANG353 }}</div>
             </check>
 		</div>
 	</div>
@@ -71,6 +77,8 @@ img.intense{max-height:50px;max-width:auto;}
 			            	</check>
 			                <td><small>{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#false','',str_replace('#true','',@PAGINATION_FILE)) }}</small></td>
 			                <td class="center-align"><nobr>
+			                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/edit/{{ str_replace('#false','',str_replace('#true','',@PAGINATION_FILE)) }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG344 }}" class="tooltipped"><i class="material-icons">mode_edit</i></a>
+			                	&#160;
 			                	<a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#false','',str_replace('#true','',@PAGINATION_FILE)) }}" target="_blank" data-position="left" data-delay="25" data-tooltip="{{ @LANG150 }}" class="tooltipped"><i class="material-icons">open_in_new</i></a>
 			                	&#160;
 			                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/delete/{{ str_replace('#false','',str_replace('#true','',@PAGINATION_FILE)) }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG151 }}" class="deleter tooltipped"><i class="material-icons">delete</i></a>

@@ -1,5 +1,6 @@
 CHANGELOG
 
+- 2015-10-15 Various Image Functions (rename, invert, grayscale, emboss, sepia, hflip, vflip and rotate)
 - 2015-10-08 Bugfix UploadsSearchr
 	- Included TimHolmanns Intense Images (https://github.com/tholman/intense-images)
 - 2015-10-07 Cross-Page copy and paste Content-Elements.
