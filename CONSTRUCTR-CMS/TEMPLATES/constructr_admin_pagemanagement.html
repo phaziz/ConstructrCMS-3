@@ -14,7 +14,10 @@
         <div class="col s12">
             <check if="{{ count(@PAGES) != 0 }}">
                 <true>
-                    <p><strong>{{ count(@PAGES) }} {{ @LANG39 }}</strong>&#160;|&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/new" class="waves-effect waves-light">{{ @LANG40 }} +</a></p>
+                    <p><strong>{{ count(@PAGES) }} {{ @LANG39 }}</strong>&#160;|&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/mr-cleaner">{{ @LANG368 }}</a>&#160;|&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/new" class="waves-effect waves-light">{{ @LANG40 }} +</a></p>
+                    <check if="{{ @MRCLEANER }} =='success'">
+						<div class="card-panel green darken-3 white-text">{{ @LANG367 }}</div>
+                    </check>
                     <check if="{{ @EDIT }} =='success'">
 						<div class="card-panel green darken-3 white-text">{{ @LANG41 }}</div>
                     </check>
@@ -147,7 +150,7 @@
                     </table>
                 </true>
                 <false>
-                    <p><strong>{{ count(@PAGES) }} {{ @LANG84 }}</strong>&#160;|&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/new" class="waves-effect waves-light">{{ @LANG40 }} +</a></p>
+                    <p><strong>{{ count(@PAGES) }} {{ @LANG39 }}</strong>&#160;|&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/mr-cleaner">{{ @LANG368 }}</a>&#160;|&#160;<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/pagemanagement/new" class="waves-effect waves-light">{{ @LANG40 }} +</a></p>
                 </false>
             </check>
         </div>

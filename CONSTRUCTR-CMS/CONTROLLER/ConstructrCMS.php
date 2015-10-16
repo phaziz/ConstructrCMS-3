@@ -125,6 +125,12 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
+            if(isset($_GET['mrcleaner'])){
+                $APP->set('MRCLEANER',$_GET['mrcleaner']);
+            } else {
+                $APP->set('MRCLEANER','');
+            }
+
             if(isset($_GET['edit'])){
                 $APP->set('EDIT',$_GET['edit']);
             } else {
@@ -1001,6 +1007,11 @@
 
             $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?move=success');
         }
+
+		public function mrCleaner($APP){
+			parent::clean_up_cache($APP);
+			$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/pagemanagement?mrcleaner=success');
+		}
 
         public function admin_404($APP){
             echo Template::instance()->render('CONSTRUCTR-CMS/TEMPLATES/constructr_404.html','text/html');

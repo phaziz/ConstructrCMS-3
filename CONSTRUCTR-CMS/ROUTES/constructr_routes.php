@@ -34,6 +34,7 @@ $APP->route('GET  /constructr/pagemanagement/move-down/@page_id [sync]','Constru
 $APP->route('GET  /constructr/pagemanagement/content/@page_id [sync]','ConstructrCMS->page_management_move_down');
 $APP->route('GET  /constructr/pagemanagement/visibility/@what/@page_id/@page_order [sync]','ConstructrCMS->page_management_change_visibility');
 $APP->route('POST /constructr/pagemanagement/slug [ajax]','ConstructrCMS->page_management_make_slug');
+$APP->route('GET  /constructr/pagemanagement/mr-cleaner [sync]','ConstructrCMS->mrCleaner');
 $APP->route('GET  /constructr/content/@page_id [sync]','ConstructrContent->content_init');
 $APP->route('GET  /constructr/content/@page_id/new [sync]','ConstructrContent->content_new');
 $APP->route('POST /constructr/content/@page_id/new [sync]','ConstructrContent->content_new_verify');

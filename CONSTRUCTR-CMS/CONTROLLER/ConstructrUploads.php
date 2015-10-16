@@ -200,6 +200,19 @@
 				$APP->set('IS_IMAGE','false');
 			}
 
+			$APP->set('IMAGE_WIDTH',0);
+			$APP->set('IMAGE_HEIGHT',0);
+			$IMAGE_WIDTH=0;
+			$IMAGE_HEIGHT=0;
+
+			if($APP->get('FILE_TO_EDIT_EXTENSION')=='png' || $APP->get('FILE_TO_EDIT_EXTENSION')=='jpg' || $APP->get('FILE_TO_EDIT_EXTENSION')=='jpeg' || $APP->get('FILE_TO_EDIT_EXTENSION')=='gif' || $APP->get('FILE_TO_EDIT_EXTENSION')=='wbmp'){
+				$img=new Image($APP->get('FILE_TO_EDIT'),false,$APP->get('UPLOADS'));
+				$IMAGE_WIDTH=$img->width();
+				$IMAGE_HEIGHT=$img->height();
+				$APP->set('IMAGE_WIDTH',$IMAGE_WIDTH);
+				$APP->set('IMAGE_HEIGHT',$IMAGE_HEIGHT);
+			}
+
             $CSRF=parent::csrf();
             $APP->set('CSRF',$CSRF);
             $APP->set('SESSION.csrf',$CSRF);
@@ -307,6 +320,8 @@
 			$FILE=$APP->get('POST.f');
 			$PREVIEW=$APP->get('POST.p');
 			$SPECIALE=$APP->get('POST.e');
+			$HEIGHT=$APP->get('POST.h');
+			$WIDTH=$APP->get('POST.w');
 			$PATH_PARTS=pathinfo($APP->get('UPLOADS').$FILE);
 			$APP->set('FILE_EXTENSION',strtolower($PATH_PARTS['extension']));
 			$APP->set('FILE_FILENAME',$PATH_PARTS['filename']);
@@ -324,13 +339,16 @@
 
 			if($APP->get('FILE_EXTENSION')=='png' || $APP->get('FILE_EXTENSION')=='jpg' || $APP->get('FILE_EXTENSION')=='jpeg' || $APP->get('FILE_EXTENSION')=='gif' || $APP->get('FILE_EXTENSION')=='wbmp'){
 				$img=new Image($FILE,false,$APP->get('UPLOADS'));
+				$IMAGE_WIDTH=0;
+				$IMAGE_HEIGHT=0;
+				$IMAGE_WIDTH=$img->width();
+				$IMAGE_HEIGHT=$img->height();
 
-				if($PREVIEW=='true'){
-					$img->resize(200,200,false,false);	
+				if($HEIGHT && $WIDTH && $HEIGHT != $IMAGE_HEIGHT && $WIDTH != $IMAGE_WIDTH){
+					$img->resize($WIDTH,$HEIGHT,false,false);
 				}
 
-				switch ($SPECIALE)
-				{
+				switch ($SPECIALE){
 					case 'invert':
 						$img->invert();
 						break;
