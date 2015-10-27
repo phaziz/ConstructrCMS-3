@@ -20,6 +20,7 @@
     $APP->set('AUTOLOAD','CONSTRUCTR-CMS/CONTROLLER/');
     $APP->set('CONSTRUCTR_LOG', $CONSTRUCTR_LOG=new \Log('CONSTRUCTR-CMS/LOGFILES/'.date('Y-m-d').'-constructr.txt'));
     $APP->set('CONSTRUCTR_FE_CACHE', __DIR__.'/CONSTRUCTR-CMS/CACHE/');
+	$APP->set('CONSTRUCTR_BE_CACHE', __DIR__.'/tmp');
     $APP->set('TEMPLATES',$APP->get('CONSTRUCTR_BASE_URL').'/THEMES/');
 
     $APP->set('MAX_ERROR_LOGIN',5); // (integer) // Standard: 5
@@ -255,12 +256,12 @@
                     $TEMPLATE=str_ireplace($remove,'',$TEMPLATE);
                 }
 
-                $TEMPLATE.="\n<!--ConstructrCMS OutputCompression is active-->";
+                $TEMPLATE.="\n<!-- ConstructrCMS | OutputCompression is active -->";
             }
 
-            $TEMPLATE.="\n<!--ConstructrCMS | http://phaziz.com | http://constructr-cms.org-->";
+            $TEMPLATE.="\n<!-- ConstructrCMS | http://phaziz.com | http://constructr-cms.org -->";
 
-            if($APP->get('CONSTRUCTR_CACHE')==true){@file_put_contents($UNIQUE=$APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST).'.html',$TEMPLATE."\n".'<!--ConstructrCMS cached '.date('Y-m-d H:i:s').'-->');}
+            if($APP->get('CONSTRUCTR_CACHE')==true){@file_put_contents($UNIQUE=$APP->get('CONSTRUCTR_FE_CACHE').md5($REQUEST).'.html',$TEMPLATE."\n".'<!-- ConstructrCMS | cached file '.date('Y-m-d H:i:s').' -->');}
 
             echo $TEMPLATE;
             die();

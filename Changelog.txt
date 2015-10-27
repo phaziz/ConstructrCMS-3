@@ -1,5 +1,6 @@
 CHANGELOG
 
+- 2015-10-27 Improved caching (Frontend and Backend)
 - 2015-10-16 FeClearCache Function (Pagemanagement View)
 	- ImageResize Function (Edit ImageUpload-View) 
 - 2015-10-15 Various Image Functions (rename, invert, grayscale, emboss, sepia, hflip, vflip and rotate)

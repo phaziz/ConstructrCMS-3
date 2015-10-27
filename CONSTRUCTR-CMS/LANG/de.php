@@ -403,7 +403,7 @@
 		365 => '- Datei mit 270-Grad-Rotation speichern',
 		366 => '- Originaldatei wieder herstellen - Effekte entfernen',
 		// MrCleaner
-		367 => 'Alle Caches wurden erfolgreich geleert!',
+		367 => 'Alle Caches wurden erfolgreich geleert (Administration und Internetseiten)!',
 		368 => 'Alle Caches leeren',
 		// Bildbearbeitung
 		369 => 'Höhe',

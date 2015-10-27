@@ -593,11 +593,24 @@
         public static function csrf(){
             return mt_rand().time();
         }
-		
+
+		public static function deleteDirectory($dir){
+			if(!file_exists($dir)) return true;
+			if(!is_dir($dir)||is_link($dir)) return unlink($dir);
+			foreach(scandir($dir) as $item){
+	            if($item=='.'||$item=='..') continue;
+	            if(!self::deleteDirectory($dir.'/'.$item)){
+	                chmod($dir.'/'.$item,0777);
+	                if(!self::deleteDirectory($dir.'/'.$item)) return false; 
+	            };
+	        }
+			return rmdir($dir);
+		}
+
         public static function clean_up_cache($APP){
-			if(@is_dir($APP->get('CONSTRUCTR_FE_CACHE'))) {
-				if ($H=@opendir($APP->get('CONSTRUCTR_FE_CACHE'))) {
-					while(($F=@readdir($H))!==false) {
+			if(@is_dir($APP->get('CONSTRUCTR_FE_CACHE'))){
+				if ($H=@opendir($APP->get('CONSTRUCTR_FE_CACHE'))){
+					while(($F=@readdir($H))!==false){
 						if ($F!='.' && $F!='..' && $F!='.empty_file'){
 							@unlink($APP->get('CONSTRUCTR_FE_CACHE').$F);
 						}
@@ -605,5 +618,6 @@
 					@closedir($H);
 				}
 			}
+			self::deleteDirectory($APP->get('CONSTRUCTR_BE_CACHE'));
         }
     }

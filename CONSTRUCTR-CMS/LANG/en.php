@@ -403,8 +403,8 @@
 		365 => '- Save as rotated (270°) image',
 		366 => '- Return to original image file and remove effects',
 		// MrCleaner
-		367 => 'All cached files are deleted successfully!',
-		368 => 'Clear cached files',
+		367 => 'All cached files are deleted successfully (frontend + backend)!',
+		368 => 'Clear all cached files',
 		// Bildbearbeitung
 		369 => 'Height',
 		370 => 'Width',

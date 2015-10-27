@@ -3,12 +3,13 @@ Constructr CMS 3.0
 
 ConstructrCMS (<a href="http://constructr-cms.org">http://constructr-cms.org</a>) based on FatFree-Framework, Materialize CSS, MySQL/PDO, jQuery/Javascript and Passion!
 
-That's it for now (Version 3.0 / 2015-10-16):
+That's it for now (Version 3.0 / 2015-10-27):
 
 	- Image editing/filter Functions
-	- Clear FrointEnd Cache's
-	- FrontEndCache-System (automatic, file based)
-	- FrontEnd OutputCompression (HTML, HTML5, CSS & JS)
+	- Clear FrontendCache's
+	- FrontendCache-System (automatic, file based)
+	- Frontend OutputCompression (HTML, HTML5, CSS & JS)
+	- Backend Cache-System
 	- Page-management
 	- Create, edit, re-order/order, activate/deactivate and delete pages
 	- Page specific CSS- and JS-content and metadata

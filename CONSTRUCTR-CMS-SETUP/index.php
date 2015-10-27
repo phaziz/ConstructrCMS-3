@@ -1,7 +1,7 @@
 <?php
 
     if (version_compare(phpversion(), '5.4.0', '<=')) {
-        die('Es wird mindestens PHP-Version 5.4.0 ben&ouml;tigt!');
+        die('Es wird mindestens PHP-Version 5.4.0 ben&ouml;tigt! / Minimum PHP-Version must be 5.4.0!');
     }
 
     $TEST_CONFIG_FILE = '../CONSTRUCTR-CMS/CONFIG/constructr_config.json';
@@ -35,7 +35,7 @@ if(isset($_POST['setup'])){
 $NL="\n";
 $_CONFIG_FILE_CONTENT = '
 {
-"CONSTRUCTR_VERSION":"3.0 / 2015-10-16",
+"CONSTRUCTR_VERSION":"3.0 / 2015-10-27",
 "DATABASE_HOSTNAME":"'.$_POST['db_host'].'",
 "DATABASE_DATABASE":"'.$_POST['db_database'].'",
 "DATABASE_PORT":3306,
