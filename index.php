@@ -23,6 +23,7 @@
 	$APP->set('CONSTRUCTR_BE_CACHE', __DIR__.'/tmp');
     $APP->set('TEMPLATES',$APP->get('CONSTRUCTR_BASE_URL').'/THEMES/');
 
+	$APP->set('CONSTRUCTR_DEACTIVATE_BACKEND',false); // (bool) // true || false // Standard: false
     $APP->set('MAX_ERROR_LOGIN',5); // (integer) // Standard: 5
     $APP->set('LOGIN_WAITR',600); // (integer) // Standard: 600
     $APP->set('UPLOADS_LIST_PAGINATION',5); // (integer) // Standard: 5
@@ -270,6 +271,10 @@
             $APP->reroute($APP->get('CONSTRUCTR_BASE_URL'));
         }
     } else {
+		if($APP->get('CONSTRUCTR_DEACTIVATE_BACKEND') == true){
+			die('Constructr Backend deactivated...');
+		}
+
 		require_once __DIR__.'/CONSTRUCTR-CMS/LANG/'.$APP->get('CONSTRUCTR_BACKEND_LANGUAGE').'.php';
 
 		foreach($CONSTRUCTR_LANG as $KEY => $SLANG){

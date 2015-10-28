@@ -1,5 +1,6 @@
 CHANGELOG
 
+- 2015-10-28 Deactivate ConstructrCMS-Backend wie ROOT/index.php option
 - 2015-10-27 Improved caching (Frontend and Backend)
 - 2015-10-16 FeClearCache Function (Pagemanagement View)
 	- ImageResize Function (Edit ImageUpload-View) 
