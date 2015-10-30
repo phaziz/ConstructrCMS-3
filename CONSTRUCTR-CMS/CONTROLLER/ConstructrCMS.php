@@ -48,6 +48,61 @@
             }
         }
 
+		/*TreeView of ConstructrPages*/
+        public function tree_view($APP){
+            $APP->set('MODUL_ID',10);
+            $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));
+
+            if ($USER_RIGHTS==false){
+                $APP->get('CONSTRUCTR_LOG')->write('User '.$APP->get('SESSION.username').' missing USER-RIGHTS for modul '.$APP->get('MODUL_ID'));
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
+            }
+
+            $APP->set('PAGES',$APP->get('DBCON')->exec(array('SELECT * FROM constructr_pages ORDER BY constructr_pages_order ASC;')));
+
+			echo '<pre>';
+			var_dump($APP->get('PAGES'));
+			echo '</pre><hr>';
+
+			$arrayCategories = array();
+
+			foreach($APP->get('PAGES') as $PAGE){ 
+ 				$arrayCategories[$PAGE['constructr_pages_id']] = array("parent_id" => $PAGE['constructr_pages_mother'], "name" => $PAGE['constructr_pages_name']);   
+  			}
+
+			echo '<pre>';
+			var_dump($arrayCategories);
+			echo '</pre><hr>';
+
+			$TREE_MENU = self::createTreeView($arrayCategories, 0);
+			
+			echo '<style>
+			img{border:none}input,select,textarea,th,td{font-size:1em}ol.tree{padding:0 0 0 30px;width:300px}li{position:relative;margin-left:-15px;list-style:none}li.file{margin-left:-1px!important}li.file a{background:url(document.png) 0 0 no-repeat;color:#fff;padding-left:21px;text-decoration:none;display:block}li.file a[href *= .pdf]{background:url(document.png) 0 0 no-repeat}li.file a[href *= .html]{background:url(document.png) 0 0 no-repeat}li.file a[href $= .css]{background:url(document.png) 0 0 no-repeat}li.file a[href $= .js]{background:url(document.png) 0 0 no-repeat}li input{position:absolute;left:0;margin-left:0;opacity:0;z-index:2;cursor:pointer;height:1em;width:1em;top:0}li input + ol{background:url(toggle-small-expand.png) 40px 0 no-repeat;margin:-.938em 0 0 -44px;height:1em}li input + ol > li{display:none;margin-left:-14px!important;padding-left:1px}li label{background:url(folder-horizontal.png) 15px 1px no-repeat;cursor:pointer;display:block;padding-left:37px}li input:checked + ol{background:url(toggle-small.png) 40px 5px no-repeat;margin:-1.25em 0 0 -44px;padding:1.563em 0 0 80px;height:auto}li input:checked + ol > li{display:block;margin:0 0 .125em}li input:checked + ol > li:last-child{margin:0 0 .063em}
+			</style>';
+			
+			echo '<div id="content" class="general-style1">';
+			echo $TREE_MENU;
+			echo '</div>';
+
+			die();
+        }
+
+		static public function createTreeView($array, $currentParent, $currLevel = 0, $prevLevel = -1) {
+			foreach ($array as $categoryId => $category){
+				if ($currentParent == $category['parent_id']){
+				    if ($currLevel > $prevLevel) echo " <ol class='tree'> ";
+				    if ($currLevel == $prevLevel) echo " </li> ";
+				    	echo '<li> <label for="subfolder2">'.$category['name'].'</label> <input type="checkbox" name="subfolder2"/>';
+				    if ($currLevel > $prevLevel) { $prevLevel = $currLevel; }
+				    	$currLevel++; 
+				    	self::createTreeView ($array, $categoryId, $currLevel, $prevLevel);
+				    	$currLevel--;
+			    }
+			}
+			if ($currLevel == $prevLevel) echo " </li>  </ol> ";
+		}
+		/*TreeView of ConstructrPages*/
+
         public function admin_init($APP){
             $APP->set('MODUL_ID',10);
             $USER_RIGHTS=parent::checkUserModulRights($APP->get('MODUL_ID'),$APP->get('LOGIN_USER_RIGHTS'));

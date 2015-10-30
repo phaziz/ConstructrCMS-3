@@ -22,6 +22,7 @@ $APP->route('GET  /constructr/uploads/edit/@file [sync]','ConstructrUploads->upl
 $APP->route('POST /constructr/uploads/edit [sync]','ConstructrUploads->uploads_edit_file_verify');
 $APP->route('POST /constructr/uploads/cleaner [ajax]','ConstructrUploads->cleanName');
 $APP->route('POST /constructr/uploads/special [ajax]','ConstructrUploads->image_special');
+//$APP->route('GET  /constructr/pagemanagement/tree-view [sync]','ConstructrCMS->tree_view');
 $APP->route('GET  /constructr/pagemanagement [sync]','ConstructrCMS->page_management');
 $APP->route('GET  /constructr/pagemanagement/new [sync]','ConstructrCMS->page_management_new');
 $APP->route('POST /constructr/pagemanagement/new [sync]','ConstructrCMS->page_management_new_verify');
