@@ -126,6 +126,7 @@
 				$ALL_FILES=$PAGINATION_FILES;
 				$APP->set('FILES_COUNTR',0);
 				$APP->set('FILES_COUNTR',(count($PAGINATION_FILES)));
+				$OFFSET = 0;
 				$OFFSET = $APP->get('PARAMS.offset');
 
 				if(!isset($OFFSET) || $OFFSET==0){
@@ -189,6 +190,7 @@
 			if(isset($_GET['edit'])){$APP->set('EDIT',$_GET['edit']);}else{$APP->set('EDIT','');}
 
 			$APP->set('FILE_TO_EDIT',$APP->get('PARAMS.file'));
+			$APP->set('OFFSET',$APP->get('PARAMS.offset'));
 			@chmod($APP->get('UPLOADS').$APP->get('FILE_TO_EDIT'),0777);
 			$PATH_PARTS= pathinfo($APP->get('UPLOADS').$APP->get('FILE_TO_EDIT'));
 			$APP->set('FILE_TO_EDIT_EXTENSION',strtolower($PATH_PARTS['extension']));
@@ -237,6 +239,8 @@
                 $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/no-rights');
             }
 
+			$OFFSET=0;
+			$OFFSET=$APP->get('POST.offset');
             $FILE_TO_EDIT=$APP->get('POST.edit_file');
 			$FILE_TO_EDIT_NAME=$APP->get('POST.edit_file_origin_filename');
 			$FILE_TO_EDIT_NEW_NAME=$APP->get('POST.edit_file_name_new');
@@ -258,7 +262,7 @@
 
 			if($FILE_TO_EDIT == '' || $FILE_TO_EDIT_NAME == '' || $FILE_TO_EDIT_NEW_NAME == '' || $FILE_TO_EDIT_EXTENSION == ''){
                 $APP->set('EDIT','no-success');
-                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/uploads/?edit=no-success');
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/uploads/'.$OFFSET.'?edit=no-success');
 			}
 
             $POST_CSRF=$APP->get('POST.csrf');
@@ -311,9 +315,9 @@
             }
 
 			if($RET==true){
-				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/uploads?edit=success');
+				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/uploads/'.$OFFSET.'?edit=success');
 			}else{
-				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/uploads?edit=no-success');	
+				$APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/uploads/'.$OFFSET.'?edit=no-success');	
 			}
 		}
 		public function image_special($APP){
@@ -402,14 +406,16 @@
             }
 
             $DELETE_FILE=$APP->get('PARAMS.file');
+			$OFFSET=$APP->get('PARAMS.offset');
+
             @chmod($APP->get('UPLOADS').$DELETE_FILE,0777);
 
             if (@unlink($APP->get('UPLOADS').$DELETE_FILE)){
                 $APP->set('DELETE','success');
-                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/uploads/?delete=success');
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/uploads/'.$OFFSET.'?delete=success');
             } else {
                 $APP->set('DELETE','success');
-                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/uploads/?delete=success');
+                $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/constructr/uploads/'.$OFFSET.'?delete=success');
             }
         }
 

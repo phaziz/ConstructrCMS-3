@@ -75,6 +75,7 @@ img#preview{max-height:250px;max-width:auto;}
 					            <input type="hidden" name="edit_file_origin_filename" id="edit_file_origin_filename" value="{{ @FILE_TO_EDIT_FILENAME }}">
 					            <input type="hidden" name="edit_file_origin_extension" id="edit_file_origin_extension" value="{{ @FILE_TO_EDIT_EXTENSION }}">
 					            <input type="hidden" name="image-effect" id="image-effect" value="">
+					            <input type="hidden" name="offset" id="offset" value="{{ @OFFSET }} ">
 					            <div class="input-field col s12">
 					                <input type="text" id="edit_file_name_new" name="edit_file_name_new" length="50" value="{{ html_entity_decode(@FILE_TO_EDIT_FILENAME) }}" placeholder="{{ @LANG349 }}" required="required" autofocus="autofocus" onblur="javascript:cleanUpMess();">
 					                <label for="edit_file_name">{{ @LANG349 }}:</label>

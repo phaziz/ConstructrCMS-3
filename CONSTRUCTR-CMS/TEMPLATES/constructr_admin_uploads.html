@@ -78,11 +78,11 @@ img.intense:hover{cursor:zoom-in;}
 			            	</check>
 			                <td><small>{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#false','',str_replace('#true','',@PAGINATION_FILE)) }}</small></td>
 			                <td class="center-align"><nobr>
-			                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/edit/{{ str_replace('#false','',str_replace('#true','',@PAGINATION_FILE)) }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG344 }}" class="tooltipped"><i class="material-icons">mode_edit</i></a>
+			                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/edit/{{ @OFFSET }}/{{ str_replace('#false','',str_replace('#true','',@PAGINATION_FILE)) }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG344 }}" class="tooltipped"><i class="material-icons">mode_edit</i></a>
 			                	&#160;
 			                	<a href="{{ @CONSTRUCTR_BASE_URL }}/UPLOADS/{{ str_replace('#false','',str_replace('#true','',@PAGINATION_FILE)) }}" target="_blank" data-position="left" data-delay="25" data-tooltip="{{ @LANG150 }}" class="tooltipped"><i class="material-icons">open_in_new</i></a>
 			                	&#160;
-			                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/delete/{{ str_replace('#false','',str_replace('#true','',@PAGINATION_FILE)) }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG151 }}" class="deleter tooltipped"><i class="material-icons">delete</i></a>
+			                	<a href="{{ @CONSTRUCTR_BASE_URL}}/constructr/uploads/delete/{{ @OFFSET }}/{{ str_replace('#false','',str_replace('#true','',@PAGINATION_FILE)) }}" data-position="left" data-delay="25" data-tooltip="{{ @LANG151 }}" class="deleter tooltipped"><i class="material-icons">delete</i></a>
 			                </nobr></td>
 			            </tr>
 			        </repeat>
