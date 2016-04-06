@@ -1,4 +1,5 @@
 CHANGELOG
+- 2016-04-06 Bugfixing ConstructrBase Class
 - 2016-01-12 Jquery Update and new merged JavaScript File
 - 2016-01-06 Redirect to Offset Page after deleting, oder editing a MediaFile
 - 2015-10-30 PoC TreeView of pages
