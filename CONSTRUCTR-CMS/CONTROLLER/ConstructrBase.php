@@ -523,7 +523,6 @@
             }
 
             session_destroy();
-            session_regenerate_id(true);
 
             $APP->reroute($APP->get('CONSTRUCTR_BASE_URL').'/');
         }
