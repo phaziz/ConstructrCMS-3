@@ -3,7 +3,7 @@
 	$CONSTRUCTR_LANG = [
 		// NAVIGATION
 		'N0' => 'Pages',
-		'N1' => 'Uplaods',
+		'N1' => 'Uploads',
 		'N2' => 'User',
 		'N3' => ' logout?',
 		'N4' => 'Logout?',
@@ -158,8 +158,8 @@
 		134 => 'Cancel',
 		135 => 'Press key "ESC" to return to previous view',
 		// UPLOADS
-		136 => 'Uplaods - Constructr Administration',
-		137 => 'Needle(s) seperated by space-character - start searching hitting ENTER-key',
+		136 => 'Uploads - Constructr Administration',
+		137 => 'Needle(s) seperated by space-character - hit ENTER-key for search',
 		138 => 'Uploads',
 		139 => 'Pictures',
 		140 => 'Files',
