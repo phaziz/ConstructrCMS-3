@@ -6,7 +6,7 @@ RedirectMatch 403 (?i)(\=\\\'|\=\\%27|/\\\'/?)\.
 RedirectMatch 403 (?i)/(author\-panel|submit\-articles)/?$
 RedirectMatch 403 (?i)(\,|//|\)\+|/\,/|\{0\}|\(/\(|\.\.|\+\+\+|\||\\\"\\\")
 RedirectMatch 403 (?i)/uploads/([0-9]+)/([0-9]+)/(cache|cached|wp-opt|wp-supercache)\.php
-RedirectMatch 403 (?i)\.(asp|bash|cfg|cgi|dll|exe|git|hg|ini|jsp|log|mdb|out|svn|swp|tar|rar|rdf|well)
+RedirectMatch 403 (?i)\.(json|asp|bash|cfg|cgi|dll|exe|git|hg|ini|jsp|log|mdb|out|svn|swp|tar|rar|rdf|well)
 RedirectMatch 403 (?i)/(^$|1|addlink|btn_hover|contact?|dkscsearch|dompdf|easyboard|ezooms|formvars|fotter|fpw|i|imagemanager|index1|install|iprober|legacy\-comments|join|js\-scraper|mapcms|mobiquo|phpinfo|phpspy|pingserver|playing|postgres|product|register|scraper|shell|signup|single\-default|t|sqlpatch|test|textboxes.css|thumb|timthumb|topper|tz|ucp_profile|visit|webring.docs|webshell|wp\-lenks|wp\-links|wp\-plugin|wp\-signup|wpcima|zboard|zzr)\.php
 RedirectMatch 403 (?i)/(\=|\$\&|\_mm|administrator|auth|bytest|cachedyou|cgi\-|cvs|config\.|crossdomain\.xml|dbscripts|e107|etc/passwd|function\.array\-rand|function\.parse\-url|livecalendar|localhost|makefile|muieblackcat|release\-notes|rnd|sitecore|tapatalk|wwwroot)
 RedirectMatch 403 (?i)(\$\(this\)\.attr|\&pws\=0|\&t\=|\&title\=|\%7BshopURL\%7Dimages|\_vti\_|\(null\)|$itemURL|ask/data/ask|com\_crop|document\)\.ready\(fu|echo.*kae|eval\(|fckeditor\.htm|function.parse|function\(\)|gifamp|hilton.ch|index.php\&amp\;quot|jfbswww|monstermmorpg|msnbot\.htm|netdefender/hui|phpMyAdmin/config|proc/self|skin/zero_vote|/spaw2?|text/javascript|this.options)
